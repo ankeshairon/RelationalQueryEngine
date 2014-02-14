@@ -3,7 +3,11 @@
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/lib/jsqlparser.jar!/" />
     </CLASSES>
-    <JAVADOC />
-    <SOURCES />
+    <JAVADOC>
+      <root url="http://jsqlparser.sourceforge.net/docs/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/lib/jsqlparser-0.8.0-sources.jar!/" />
+    </SOURCES>
   </library>
 </component>
