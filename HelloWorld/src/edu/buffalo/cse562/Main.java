@@ -8,5 +8,6 @@ public class Main {
 
         //TODO may be add args check for --data. Have posted a question on piazza regarding this https://piazza.com/class/ho3bfjiiv3b1by?cid=88
         new RelationalQueryEngine(args[1], args[2]).invoke();
+        
     }
 }
