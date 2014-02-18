@@ -1,6 +1,7 @@
 package edu.buffalo.cse562.invoker;
 
-import edu.buffalo.cse562.parser.StatementVisitorImpl;
+import edu.buffalo.cse562.parser.datavisitors.StatementDataVisitorImpl;
+import edu.buffalo.cse562.queryparser.TreeMaker;
 import net.sf.jsqlparser.parser.CCJSqlParser;
 import net.sf.jsqlparser.parser.ParseException;
 import net.sf.jsqlparser.statement.Statement;
@@ -24,9 +25,15 @@ public class RelationalQueryEngine {
         try {
             Statement sqlStatement;
             String result;
-
+            //todo add multiple sql files
             CCJSqlParser sqlParser = new CCJSqlParser(new FileReader(new File(sqlQueryFileName)));
-            StatementVisitorImpl statementEvaluator = new StatementVisitorImpl(dataFolderName);
+
+            TreeMaker operatorStack = new TreeMaker();
+            operatorStack.create();
+
+
+            //data extraction
+            StatementDataVisitorImpl statementEvaluator = new StatementDataVisitorImpl(dataFolderName);
 
             while ((sqlStatement = sqlParser.Statement()) != null) {
                 sqlStatement.accept(statementEvaluator);

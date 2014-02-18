@@ -1,4 +1,4 @@
-package edu.buffalo.cse562.parser;
+package edu.buffalo.cse562.parser.datavisitors;
 
 import edu.buffalo.cse562.datagrabber.DataGrabber;
 import edu.buffalo.cse562.parser.defaultimpl.AbstractSelectVisitor;
@@ -9,11 +9,11 @@ import net.sf.jsqlparser.statement.select.SelectItem;
 
 import java.util.List;
 
-public class SelectVisitorImpl extends AbstractSelectVisitor {
+public class SelectDataVisitorImpl extends AbstractSelectVisitor {
     private String result;
     private DataGrabber dataGrabber;
 
-    public SelectVisitorImpl(DataGrabber dataGrabber) {
+    public SelectDataVisitorImpl(DataGrabber dataGrabber) {
         this.dataGrabber = dataGrabber;
     }
 
@@ -23,6 +23,7 @@ public class SelectVisitorImpl extends AbstractSelectVisitor {
 
     @Override
     public void visit(PlainSelect plainSelect) {
+
         List<SelectItem> selectItems = plainSelect.getSelectItems();
         FromItem fromItem = plainSelect.getFromItem();
         Expression whereCondition = plainSelect.getWhere();

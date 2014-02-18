@@ -1,6 +1,6 @@
 package edu.buffalo.cse562.datagrabber;
 
-import edu.buffalo.cse562.parser.ExpressionVisitorImpl;
+import edu.buffalo.cse562.parser.datavisitors.ExpressionDataVisitorImpl;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.select.FromItem;
@@ -32,7 +32,7 @@ public class DataGrabber {
         List<Integer> indicesOfDataToPull = calculateIndicesOfDataToPull(fromItem, selectItems);
 
         //TODO implement where clause & perhaps come up with a better place to do this
-        ExpressionVisitorImpl expressionEvaluator = getExpressionEvaluator(whereCondition);
+        ExpressionDataVisitorImpl expressionEvaluator = getExpressionEvaluator(whereCondition);
 
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(dataFileName)));
@@ -50,8 +50,8 @@ public class DataGrabber {
         return results.toString();
     }
 
-    private ExpressionVisitorImpl getExpressionEvaluator(Expression whereCondition) {
-        ExpressionVisitorImpl expressionEvaluator = new ExpressionVisitorImpl();
+    private ExpressionDataVisitorImpl getExpressionEvaluator(Expression whereCondition) {
+        ExpressionDataVisitorImpl expressionEvaluator = new ExpressionDataVisitorImpl();
         whereCondition.accept(expressionEvaluator);
         return expressionEvaluator;
     }

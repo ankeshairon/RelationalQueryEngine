@@ -1,10 +1,10 @@
-package edu.buffalo.cse562.parser;
+package edu.buffalo.cse562.parser.datavisitors;
 
 import edu.buffalo.cse562.parser.defaultimpl.AbstractExpressionVisitor;
 import net.sf.jsqlparser.expression.operators.relational.GreaterThan;
 import net.sf.jsqlparser.expression.operators.relational.GreaterThanEquals;
 
-public class ExpressionVisitorImpl extends AbstractExpressionVisitor {
+public class ExpressionDataVisitorImpl extends AbstractExpressionVisitor {
 
     @Override
     public void visit(GreaterThanEquals gte) {

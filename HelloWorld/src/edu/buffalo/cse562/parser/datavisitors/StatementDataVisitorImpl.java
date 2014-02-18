@@ -1,4 +1,4 @@
-package edu.buffalo.cse562.parser;
+package edu.buffalo.cse562.parser.datavisitors;
 
 
 import edu.buffalo.cse562.datagrabber.DataGrabber;
@@ -9,12 +9,12 @@ import net.sf.jsqlparser.statement.select.Select;
 
 import java.util.ArrayList;
 
-public class StatementVisitorImpl extends AbstractStatementVisitor {
+public class StatementDataVisitorImpl extends AbstractStatementVisitor {
 
     private String result;
     private DataGrabber dataGrabber;
 
-    public StatementVisitorImpl(String dataFolder) {
+    public StatementDataVisitorImpl(String dataFolder) {
         dataGrabber = new DataGrabber(dataFolder);
     }
 
@@ -24,7 +24,7 @@ public class StatementVisitorImpl extends AbstractStatementVisitor {
 
     @Override
     public void visit(Select selectTypeQuery) {
-        SelectVisitorImpl selectVisitor = new SelectVisitorImpl(dataGrabber);
+        SelectDataVisitorImpl selectVisitor = new SelectDataVisitorImpl(dataGrabber);
         selectTypeQuery.getSelectBody().accept(selectVisitor);
         result = selectVisitor.getResult();
     }
