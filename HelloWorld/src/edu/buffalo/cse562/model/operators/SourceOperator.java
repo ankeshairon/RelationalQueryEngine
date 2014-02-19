@@ -1,6 +1,8 @@
 /*Author - Ankesh Airon
-ankeshai@buffalo.edu
-Person no - 50096547
+ *ankeshai@buffalo.edu
+ *Person no - 50096547
+ *
+ *Co-Author - Dev Bharadwaj
 */
 package edu.buffalo.cse562.model.operators;
 
@@ -8,26 +10,23 @@ import net.sf.jsqlparser.expression.Expression;
 
 import java.util.List;
 
-public class SourceOperator implements Operator {
-    private List<String> tableName;
-    private Expression whereCondition;
+import edu.buffalo.cse562.model.operatorabstract.LeafOperator;
 
+public class SourceOperator extends LeafOperator {
+    private List<String> tableName;
 
     public void setTableName(List<String> tableName) {
         this.tableName = tableName;
     }
 
-    public void setWhereCondition(Expression whereCondition) {
-        this.whereCondition = whereCondition;
+
+    @Override
+    public void dataIn() {
+
     }
 
     @Override
-    public void readOneTuple() {
-
-    }
-
-    @Override
-    public void resetStream() {
+    public void dataOut() {
 
     }
 }

@@ -1,17 +1,29 @@
 /*Author - Ankesh Airon
-ankeshai@buffalo.edu
-Person no - 50096547
+ *ankeshai@buffalo.edu
+ *Person no - 50096547
+ *
+ *Co-Author: Dev Bharadwaj
 */
 package edu.buffalo.cse562.model.operators;
 
-public class SelectionOperator implements Operator {
+import edu.buffalo.cse562.model.operatorabstract.UnaryOperator;
+import net.sf.jsqlparser.expression.Expression;
+
+public class SelectionOperator extends UnaryOperator {
+	
+	private Expression whereCondition;
+	
+	public void setWhereCondition(Expression whereCondition) {
+		this.whereCondition = whereCondition;
+	}
+	
     @Override
-    public void readOneTuple() {
+    public void dataIn() {
 
     }
 
     @Override
-    public void resetStream() {
+    public void dataOut() {
 
     }
 }
