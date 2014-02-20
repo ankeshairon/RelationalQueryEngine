@@ -15,17 +15,12 @@ import edu.buffalo.cse562.queryparser.TreeMaker;
 import net.sf.jsqlparser.statement.select.PlainSelect;
 
 public class SelectDataVisitorImpl extends AbstractSelectVisitor {
-    private String result;
     private DataGrabber dataGrabber;
     private TreeMaker operatorStack;
 
     public SelectDataVisitorImpl(DataGrabber dataGrabber, TreeMaker operatorStack) {
         this.dataGrabber = dataGrabber;
         this.operatorStack = operatorStack;
-    }
-
-    public String getResult() {
-        return result;
     }
 
     @Override

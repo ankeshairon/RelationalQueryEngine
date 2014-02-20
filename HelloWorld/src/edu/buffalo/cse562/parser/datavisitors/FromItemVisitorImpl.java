@@ -5,7 +5,7 @@
  */
 package edu.buffalo.cse562.parser.datavisitors;
 
-import edu.buffalo.cse562.model.data.ResultSet;
+import edu.buffalo.cse562.model.operators.FromOperator;
 import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.select.FromItemVisitor;
 import net.sf.jsqlparser.statement.select.SubJoin;
@@ -13,16 +13,15 @@ import net.sf.jsqlparser.statement.select.SubSelect;
 
 public class FromItemVisitorImpl implements FromItemVisitor {
 
-    ResultSet resultSet;
+    private FromOperator fromOperator;
 
-
-    public ResultSet getResultSet() {
-        return resultSet;
+    public FromItemVisitorImpl(FromOperator fromOperator) {
+        this.fromOperator = fromOperator;
     }
 
     @Override
-    public void visit(Table arg0) {
-        // read from table.dat file and assign to ResultSet
+    public void visit(Table table) {
+        fromOperator.setSourceTableName(table.getName());
     }
 
     @Override

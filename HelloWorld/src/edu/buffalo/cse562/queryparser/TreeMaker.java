@@ -7,12 +7,10 @@
 
 package edu.buffalo.cse562.queryparser;
 
+import edu.buffalo.cse562.datagrabber.DataGrabber;
 import edu.buffalo.cse562.model.data.ResultSet;
 import edu.buffalo.cse562.model.operatorabstract.Operator;
-import edu.buffalo.cse562.model.operators.JoinOperator;
-import edu.buffalo.cse562.model.operators.OrderByOperator;
-import edu.buffalo.cse562.model.operators.ProjectionOperator;
-import edu.buffalo.cse562.model.operators.SelectionOperator;
+import edu.buffalo.cse562.model.operators.*;
 import edu.buffalo.cse562.parser.datavisitors.FromItemVisitorImpl;
 import edu.buffalo.cse562.parser.datavisitors.OrderByVisitorImpl;
 import edu.buffalo.cse562.parser.datavisitors.SelectItemVisitorImpl;
@@ -26,19 +24,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TreeMaker {
-    private ArrayList<Operator> rAOperatorList;
+    private ArrayList<Operator> operatorList;
     private ResultSet resultSet;
+    private DataGrabber dataGrabber;
 
-    public TreeMaker(ResultSet resultSet) {
-        this.resultSet = resultSet;
-        this.rAOperatorList = new ArrayList<>();
+    public TreeMaker(DataGrabber dataGrabber) {
+        this.dataGrabber = dataGrabber;
+        this.operatorList = new ArrayList<>();
     }
 
     public void makeTree(PlainSelect plainSelect) {
         addSourceOperator(plainSelect);
         addWhereOperator(plainSelect);
         addProjectOperator(plainSelect);
-        addOrderbyOperator(plainSelect);
+        addOrderByOperator(plainSelect);
         addGroupbyOperator(plainSelect);
     }
 
@@ -50,9 +49,13 @@ public class TreeMaker {
     private List orderByElements;*/
 
     public void addSourceOperator(PlainSelect plainSelect) {
-        FromItemVisitorImpl fromItemVisitor = new FromItemVisitorImpl();
+        FromOperator fromOperator = new FromOperator(dataGrabber);
+
+        FromItemVisitorImpl fromItemVisitor = new FromItemVisitorImpl(fromOperator);
         plainSelect.getFromItem().accept(fromItemVisitor);
-        resultSet = fromItemVisitor.getResultSet();
+
+        fromOperator.dataIn(null);
+        resultSet = fromOperator.dataOut();
 
         List<Join> joins = plainSelect.getJoins();
         if (joins != null) {
@@ -70,41 +73,36 @@ public class TreeMaker {
         if (plainSelect.getWhere() != null) {
             SelectionOperator selectOperator = new SelectionOperator();
             selectOperator.setWhereCondition(plainSelect.getWhere());
-            this.rAOperatorList.add(selectOperator);
+            this.operatorList.add(selectOperator);
         }
     }
 
     public void addProjectOperator(PlainSelect plainSelect) {
         ProjectionOperator projectionOperator = new ProjectionOperator();
         List<SelectItem> selectItems = plainSelect.getSelectItems();
-        SelectItemVisitorImpl selectItemVisitorImpl;
+        SelectItemVisitorImpl selectItemVisitorImpl = new SelectItemVisitorImpl(projectionOperator);
 
         for (SelectItem item : selectItems) {
-            selectItemVisitorImpl = new SelectItemVisitorImpl();
             item.accept(selectItemVisitorImpl);
-
-            /*if (selectItemVisitorImpl.getIfAllColumns() == 1) {
-                // projectionOperator.getDataForAllColumns();
-            } else if (selectItemVisitorImpl.getAllTableColumns() != null) {
-                // get string of specified columns
-            } else if (selectItemVisitorImpl.getExpression() != null) {
-                // get expression and evaluate it
-                // An expression as in "SELECT expr1 AS EXPR", get alias and expression
-            }*/
         }
-        this.rAOperatorList.add(new ProjectionOperator());
+        operatorList.add(projectionOperator);
     }
 
-    public void addOrderbyOperator(PlainSelect plainSelect) {
+    public void addOrderByOperator(PlainSelect plainSelect) {
         OrderByVisitorImpl orderByVisitorImpl;
         ArrayList<Expression> orderByExpression = new ArrayList<>();
         List<OrderByElement> orderByElements = plainSelect.getOrderByElements();
-        for (OrderByElement e : orderByElements) {
+
+        if (orderByElements == null || orderByElements.isEmpty()) {
+            return;
+        }
+
+        for (OrderByElement orderByElement : orderByElements) {
             orderByVisitorImpl = new OrderByVisitorImpl();
-            e.accept(orderByVisitorImpl);
+            orderByElement.accept(orderByVisitorImpl);
             orderByExpression.add(orderByVisitorImpl.getExpression());
         }
-        this.rAOperatorList.add(new OrderByOperator(orderByExpression));
+        operatorList.add(new OrderByOperator(orderByExpression));
     }
 
     public void addGroupbyOperator(PlainSelect plainSelect) {
@@ -119,7 +117,7 @@ public class TreeMaker {
     }
 
 /*    public ResultSet execute(ResultSet resultSet) {
-        for (Operator Ops : this.rAOperatorList) {
+        for (Operator Ops : this.operatorList) {
     		Ops.dataIn(resultSet);
     		resultSet = Ops.dataOut();
     	}

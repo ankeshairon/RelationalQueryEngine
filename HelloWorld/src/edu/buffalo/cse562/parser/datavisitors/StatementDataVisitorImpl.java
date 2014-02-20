@@ -12,24 +12,18 @@ import java.util.ArrayList;
 
 public class StatementDataVisitorImpl extends AbstractStatementVisitor {
 
-    private String result;
     private DataGrabber dataGrabber;
     private TreeMaker operatorStack;
 
-    public StatementDataVisitorImpl(String dataFolder, TreeMaker operatorStack) {
+    public StatementDataVisitorImpl(DataGrabber dataGrabber, TreeMaker operatorStack) {
+        this.dataGrabber = dataGrabber;
         this.operatorStack = operatorStack;
-        dataGrabber = new DataGrabber(dataFolder);
-    }
-
-    public String getResult() {
-        return result;
     }
 
     @Override
     public void visit(Select selectTypeQuery) {
         SelectDataVisitorImpl selectVisitor = new SelectDataVisitorImpl(dataGrabber, operatorStack);
         selectTypeQuery.getSelectBody().accept(selectVisitor);
-        result = selectVisitor.getResult();
     }
 
     @Override

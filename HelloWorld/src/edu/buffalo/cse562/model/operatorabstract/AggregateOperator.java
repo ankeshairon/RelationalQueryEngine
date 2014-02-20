@@ -13,8 +13,13 @@ package edu.buffalo.cse562.model.operatorabstract;
 
 
 import edu.buffalo.cse562.model.data.ResultSet;
+import net.sf.jsqlparser.expression.Expression;
 
 public class AggregateOperator implements UnaryOperator {
+
+    public AggregateOperator(Expression aggregationExpression) {
+
+    }
 
     @Override
     public void dataIn(ResultSet data) {

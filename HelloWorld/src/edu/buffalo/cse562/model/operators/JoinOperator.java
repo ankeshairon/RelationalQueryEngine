@@ -12,7 +12,7 @@ import net.sf.jsqlparser.statement.select.Join;
 
 public class JoinOperator implements BinaryOperator {
 
-    ResultSet data;
+    ResultSet resultSet;
     private Join join;
 
     public JoinOperator(Join join) {
@@ -23,13 +23,13 @@ public class JoinOperator implements BinaryOperator {
 
     @Override
     public void dataIn(ResultSet data) {
-        this.data = data;
+        this.resultSet = data;
     }
 
     @Override
     public ResultSet dataOut() {
-        // todo actually Join the damn data -> Check the type of join and extract condition if not natural join
+        // todo actually Join the damn resultSet -> Check the type of join and extract condition if not natural join
 
-        return data;
+        return resultSet;
     }
 }

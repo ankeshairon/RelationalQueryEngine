@@ -1,6 +1,6 @@
 package edu.buffalo.cse562.invoker;
 
-import edu.buffalo.cse562.model.data.ResultSet;
+import edu.buffalo.cse562.datagrabber.DataGrabber;
 import edu.buffalo.cse562.parser.datavisitors.StatementDataVisitorImpl;
 import edu.buffalo.cse562.queryparser.TreeMaker;
 import net.sf.jsqlparser.parser.CCJSqlParser;
@@ -27,20 +27,17 @@ public class RelationalQueryEngine {
             Statement sqlStatement;
             String result;
             //todo add multiple sql files
+
+            DataGrabber dataGrabber = new DataGrabber(dataFolderName);
             CCJSqlParser sqlParser = new CCJSqlParser(new FileReader(new File(sqlQueryFileName)));
-            
-            ResultSet resultSetData = new ResultSet();
-			TreeMaker operatorStack = new TreeMaker(resultSetData);
+
+            TreeMaker operatorStack = new TreeMaker(dataGrabber);
 
             //data extraction
-            StatementDataVisitorImpl statementEvaluator = new StatementDataVisitorImpl(dataFolderName, operatorStack);
+            StatementDataVisitorImpl statementEvaluator = new StatementDataVisitorImpl(dataGrabber, operatorStack);
 
             while ((sqlStatement = sqlParser.Statement()) != null) {
                 sqlStatement.accept(statementEvaluator);
-
-                if ((result = statementEvaluator.getResult()) != null) {
-                    System.out.println(result);
-                }
             }
         } catch (FileNotFoundException e) {
             System.out.println("Unable to find file : " + sqlQueryFileName);
