@@ -107,7 +107,7 @@ public class DataGrabber {
             String[] dataWords;
 
             while ((line = reader.readLine()) != null) {
-                dataWords = line.split("|");
+                dataWords = line.split("\\|");
                 Tuple tuple = new Tuple();
 
                 for (String dataWord : dataWords) {
