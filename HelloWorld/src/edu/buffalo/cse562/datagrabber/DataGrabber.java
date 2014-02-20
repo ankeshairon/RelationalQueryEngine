@@ -1,5 +1,6 @@
 package edu.buffalo.cse562.datagrabber;
 
+import edu.buffalo.cse562.model.data.*;
 import edu.buffalo.cse562.parser.datavisitors.ExpressionDataVisitorImpl;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.schema.Table;
@@ -84,5 +85,39 @@ public class DataGrabber {
 
     private String getTableName(FromItem fromItem) {
         return ((Table) fromItem).getName();
+    }
+    
+    /*
+     * Author: Subhendu Saha
+     * This method takes tablename as parameter 
+     * and returns the raw in-memory data to caller
+     */
+    public ResultSet getResultSet(String tableName){
+    	ArrayList<String> schema = tables.get(tableName);
+    	ArrayList<Tuple> tuples = new ArrayList<Tuple>();
+    	try{
+    		File dataFile = new File(dataFolder + tableName + ".dat");
+    		BufferedReader reader = new BufferedReader(new FileReader(dataFile));
+    		String line;
+    		String[] tokens;
+    		
+    		while((line=reader.readLine())!=null){
+    			tokens = line.split("|");
+    			Tuple tuple = new Tuple();
+    			
+    			for(String token:tokens){
+    				tuple.fields.add(token);
+    			}
+    			tuples.add(tuple);
+    		}
+    		ResultSet rs = new ResultSet(schema,tuples);
+        	
+    		reader.close();
+    		return rs;
+    	}
+    	catch(IOException e){	
+    		e.printStackTrace();
+    	}
+    	return null;
     }
 }

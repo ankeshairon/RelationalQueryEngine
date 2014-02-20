@@ -28,9 +28,9 @@ public class RelationalQueryEngine {
             String result;
             //todo add multiple sql files
             CCJSqlParser sqlParser = new CCJSqlParser(new FileReader(new File(sqlQueryFileName)));
-
+            
             ResultSet resultSetData = new ResultSet();
-            TreeMaker operatorStack = new TreeMaker(resultSetData);
+			TreeMaker operatorStack = new TreeMaker(resultSetData);
 
             //data extraction
             StatementDataVisitorImpl statementEvaluator = new StatementDataVisitorImpl(dataFolderName, operatorStack);

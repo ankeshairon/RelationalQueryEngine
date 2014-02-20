@@ -1,5 +1,18 @@
+/*
+ * Author: Subhendu Saha
+ * ResultSet class defined
+ */
+
 package edu.buffalo.cse562.model.data;
 
-public class ResultSet {
+import java.util.*;
 
+public class ResultSet {
+	public ArrayList<String> schema;
+	public ArrayList<Tuple> tuples;
+	
+	public ResultSet(ArrayList<String> a,ArrayList<Tuple> b){
+		schema = a;
+		tuples = b;
+	}
 }
