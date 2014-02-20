@@ -16,7 +16,7 @@
 
 package edu.buffalo.cse562.model.operatorabstract;
 
-import edu.buffalo.cse562.mock.Datum;
+import edu.buffalo.cse562.model.data.Datum;
 
 public interface Operator {
 

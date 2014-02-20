@@ -1,6 +1,6 @@
 package edu.buffalo.cse562.model.operators;
 
-import edu.buffalo.cse562.mock.Datum;
+import edu.buffalo.cse562.model.data.Datum;
 import edu.buffalo.cse562.model.operatorabstract.LeafOperator;
 
 public class SourceOperator extends LeafOperator {
