@@ -16,10 +16,12 @@
 
 package edu.buffalo.cse562.model.operatorabstract;
 
-public interface Operator {
-	
-    public void dataIn();
+import edu.buffalo.cse562.mock.Datum;
 
-    public void dataOut();
+public interface Operator {
+
+    public void dataIn(Datum data);
+
+    public Datum dataOut();
 
 }

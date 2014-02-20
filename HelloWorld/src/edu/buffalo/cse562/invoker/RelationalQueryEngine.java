@@ -1,5 +1,6 @@
 package edu.buffalo.cse562.invoker;
 
+import edu.buffalo.cse562.mock.Datum;
 import edu.buffalo.cse562.parser.datavisitors.StatementDataVisitorImpl;
 import edu.buffalo.cse562.queryparser.TreeMaker;
 import net.sf.jsqlparser.parser.CCJSqlParser;
@@ -28,13 +29,11 @@ public class RelationalQueryEngine {
             //todo add multiple sql files
             CCJSqlParser sqlParser = new CCJSqlParser(new FileReader(new File(sqlQueryFileName)));
 
-            /* Create TreeMaker at PlainSelect  */
-            //TreeMaker operatorStack = new TreeMaker();
-            //operatorStack.create();
-
+            Datum resultSetData = new Datum();
+            TreeMaker operatorStack = new TreeMaker(resultSetData);
 
             //data extraction
-            StatementDataVisitorImpl statementEvaluator = new StatementDataVisitorImpl(dataFolderName);
+            StatementDataVisitorImpl statementEvaluator = new StatementDataVisitorImpl(dataFolderName, operatorStack);
 
             while ((sqlStatement = sqlParser.Statement()) != null) {
                 sqlStatement.accept(statementEvaluator);
