@@ -7,45 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list id="8f1a133d-1531-49c4-be57-1cf67645d473" name="Default" comment="" />
-    <list default="true" id="65df4483-c907-483f-9920-e0918ff4b5dd" name="Current_changes" comment="Simple from flow working. Run using">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/sqlFiles/1.sql" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/sqlFiles/10.sql" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/sqlFiles/11.sql" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/sqlFiles/12.sql" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/sqlFiles/13.sql" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/sqlFiles/14.sql" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/sqlFiles/15.sql" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/sqlFiles/16.sql" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/sqlFiles/17.sql" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/sqlFiles/18.sql" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/sqlFiles/19.sql" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/sqlFiles/2.sql" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/sqlFiles/20.sql" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/sqlFiles/21.sql" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/sqlFiles/22.sql" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/sqlFiles/3.sql" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/sqlFiles/4.sql" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/sqlFiles/5.sql" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/sqlFiles/6.sql" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/sqlFiles/7.sql" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/sqlFiles/8.sql" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/sqlFiles/9.sql" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/FromOperator.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/sqlFiles/test.sql" />
-      <change type="DELETED" beforePath="E:\softwares_n_studies\GitRepository\HelloWorld\src\edu\buffalo\cse562\model\operators\SourceOperator.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operatorabstract/AggregateOperator.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operatorabstract/AggregateOperator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/datagrabber/DataGrabber.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/datagrabber/DataGrabber.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/parser/datavisitors/FromItemVisitorImpl.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/parser/datavisitors/FromItemVisitorImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/JoinOperator.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/JoinOperator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/parser/datavisitors/OrderByVisitorImpl.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/parser/datavisitors/OrderByVisitorImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/ProjectionOperator.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/ProjectionOperator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/invoker/RelationalQueryEngine.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/invoker/RelationalQueryEngine.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/data/ResultSet.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/data/ResultSet.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/parser/datavisitors/SelectDataVisitorImpl.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/parser/datavisitors/SelectDataVisitorImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/parser/datavisitors/SelectItemVisitorImpl.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/parser/datavisitors/SelectItemVisitorImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/parser/datavisitors/StatementDataVisitorImpl.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/parser/datavisitors/StatementDataVisitorImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/queryparser/TreeMaker.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/queryparser/TreeMaker.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/data/Tuple.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/data/Tuple.java" />
+    <list default="true" id="65df4483-c907-483f-9920-e0918ff4b5dd" name="Current_changes" comment="Simple &quot;from&quot; flow working. Run using test.sql. Add System.out.println() to view results">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="HelloWorld.iws" />
@@ -152,8 +114,14 @@
           <provider selected="true" editor-type-id="text-editor">
             <state line="36" column="0" selection-start="1471" selection-end="1471" vertical-scroll-proportion="0.0" vertical-offset="82" max-vertical-offset="782">
               <folding>
-                <element signature="e#1510#1511#0" expanded="true" />
-                <element signature="e#1534#1535#0" expanded="true" />
+                <element signature="e#0#2212#0" expanded="false" />
+                <element signature="imports" expanded="false" />
+                <element signature="e#1581#1582#0" expanded="false" />
+                <element signature="e#1605#1606#0" expanded="false" />
+                <element signature="e#2087#2088#0" expanded="false" />
+                <element signature="e#2114#2115#0" expanded="false" />
+                <element signature="e#2167#2168#0" expanded="false" />
+                <element signature="e#2208#2209#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -248,9 +216,9 @@
       <file leaf-file-name="ResultSet.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/data/ResultSet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="21" selection-start="382" selection-end="382" vertical-scroll-proportion="0.0" vertical-offset="17" max-vertical-offset="629">
+            <state line="19" column="21" selection-start="417" selection-end="417" vertical-scroll-proportion="0.0" vertical-offset="34" max-vertical-offset="646">
               <folding>
-                <element signature="e#0#544#0" expanded="true" />
+                <element signature="e#0#606#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -293,7 +261,22 @@
         <entry file="jar://$PROJECT_DIR$/lib/jsqlparser-0.8.0-sources.jar!/net/sf/jsqlparser/schema/Table.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="87" column="0" selection-start="2357" selection-end="2357" vertical-scroll-proportion="0.0" vertical-offset="762" max-vertical-offset="1173">
-              <folding />
+              <folding>
+                <element signature="e#0#2553#0" expanded="false" />
+                <element signature="imports" expanded="false" />
+                <element signature="e#1693#1694#0" expanded="false" />
+                <element signature="e#1711#1712#0" expanded="false" />
+                <element signature="e#1745#1746#0" expanded="false" />
+                <element signature="e#1769#1770#0" expanded="false" />
+                <element signature="e#1808#1809#0" expanded="false" />
+                <element signature="e#1828#1829#0" expanded="false" />
+                <element signature="e#1873#1874#0" expanded="false" />
+                <element signature="e#1899#1900#0" expanded="false" />
+                <element signature="e#1928#1929#0" expanded="false" />
+                <element signature="e#1947#1948#0" expanded="false" />
+                <element signature="e#1987#1988#0" expanded="false" />
+                <element signature="e#2008#2009#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -318,7 +301,7 @@
       <file leaf-file-name="Tuple.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/data/Tuple.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="29" selection-start="108" selection-end="108" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="289">
+            <state line="5" column="29" selection-start="116" selection-end="116" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="289">
               <folding />
             </state>
           </provider>
@@ -1059,7 +1042,7 @@
       <workItem from="1392838192911" duration="51000" />
       <workItem from="1392838272052" duration="18943000" />
       <workItem from="1392870055429" duration="2509000" />
-      <workItem from="1392872623458" duration="5576000" />
+      <workItem from="1392872623458" duration="6033000" />
     </task>
     <task id="LOCAL-00001" summary="Git testing">
       <created>1392091354753</created>
@@ -1093,11 +1076,15 @@
       <created>1392869678131</created>
       <updated>1392869678131</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Simple &quot;from&quot; flow working. Run using test.sql. Add System.out.println() to view results">
+      <created>1392886229582</created>
+      <updated>1392886229582</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="89681000" />
+    <option name="totallyTimeSpent" value="90138000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1191,7 +1178,8 @@
     <MESSAGE value="Renaming to resultset" />
     <MESSAGE value="From Ankesh" />
     <MESSAGE value="Cleaned code" />
-    <option name="LAST_COMMIT_MESSAGE" value="Cleaned code" />
+    <MESSAGE value="Simple &quot;from&quot; flow working. Run using test.sql. Add System.out.println() to view results" />
+    <option name="LAST_COMMIT_MESSAGE" value="Simple &quot;from&quot; flow working. Run using test.sql. Add System.out.println() to view results" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
@@ -1480,13 +1468,28 @@
     <entry file="jar://$PROJECT_DIR$/lib/jsqlparser-0.8.0-sources.jar!/net/sf/jsqlparser/schema/Table.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="87" column="0" selection-start="2357" selection-end="2357" vertical-scroll-proportion="0.0" vertical-offset="762" max-vertical-offset="1173">
-          <folding />
+          <folding>
+            <element signature="e#0#2553#0" expanded="false" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#1693#1694#0" expanded="false" />
+            <element signature="e#1711#1712#0" expanded="false" />
+            <element signature="e#1745#1746#0" expanded="false" />
+            <element signature="e#1769#1770#0" expanded="false" />
+            <element signature="e#1808#1809#0" expanded="false" />
+            <element signature="e#1828#1829#0" expanded="false" />
+            <element signature="e#1873#1874#0" expanded="false" />
+            <element signature="e#1899#1900#0" expanded="false" />
+            <element signature="e#1928#1929#0" expanded="false" />
+            <element signature="e#1947#1948#0" expanded="false" />
+            <element signature="e#1987#1988#0" expanded="false" />
+            <element signature="e#2008#2009#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/data/Tuple.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="29" selection-start="108" selection-end="108" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="289">
+        <state line="5" column="29" selection-start="116" selection-end="116" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="289">
           <folding />
         </state>
       </provider>
@@ -1543,8 +1546,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="36" column="0" selection-start="1471" selection-end="1471" vertical-scroll-proportion="0.0" vertical-offset="82" max-vertical-offset="782">
           <folding>
-            <element signature="e#1510#1511#0" expanded="true" />
-            <element signature="e#1534#1535#0" expanded="true" />
+            <element signature="e#0#2212#0" expanded="false" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#1581#1582#0" expanded="false" />
+            <element signature="e#1605#1606#0" expanded="false" />
+            <element signature="e#2087#2088#0" expanded="false" />
+            <element signature="e#2114#2115#0" expanded="false" />
+            <element signature="e#2167#2168#0" expanded="false" />
+            <element signature="e#2208#2209#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1565,9 +1574,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/data/ResultSet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="21" selection-start="382" selection-end="382" vertical-scroll-proportion="0.0" vertical-offset="17" max-vertical-offset="629">
+        <state line="19" column="21" selection-start="417" selection-end="417" vertical-scroll-proportion="0.0" vertical-offset="34" max-vertical-offset="646">
           <folding>
-            <element signature="e#0#544#0" expanded="true" />
+            <element signature="e#0#606#0" expanded="true" />
           </folding>
         </state>
       </provider>
