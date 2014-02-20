@@ -83,7 +83,7 @@ public class TreeMaker {
             selectItemVisitorImpl = new SelectItemVisitorImpl();
             item.accept(selectItemVisitorImpl);
             if (selectItemVisitorImpl.getIfAllColumns() == 1) {
-//                projectionOperator.getDataForAllColumns();
+            	// projectionOperator.getDataForAllColumns();
             } else if (selectItemVisitorImpl.getAllTableColumns() != null) {
                 // get string of specified columns
             } else if (selectItemVisitorImpl.getExpression() != null) {
