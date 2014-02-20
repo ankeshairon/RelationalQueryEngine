@@ -6,7 +6,7 @@
 */
 package edu.buffalo.cse562.model.operators;
 
-import edu.buffalo.cse562.mock.Datum;
+import edu.buffalo.cse562.model.data.Datum;
 import edu.buffalo.cse562.model.operatorabstract.AggregateOperator;
 import edu.buffalo.cse562.model.operatorabstract.UnaryOperator;
 
@@ -28,10 +28,15 @@ public class ProjectionOperator extends UnaryOperator  {
 
     @Override
     public Datum dataOut() {
-        //if column names & aggregates is null, it shud return data for all columns
-        //if aggregates is empty, apply them to the list of data
-        //
-        return super.dataOut();
+        if (aggregates == null && columnNames == null) {
+            return getDataForAllColumns();
+        } else if (aggregates == null)
+
+            //if column names & aggregates is null, it shud return data for all columns
+            //if only aggregates is empty, then get data for specified columns
+            //if only column names is empty, return data based on aggregates
+            //if none are empty, return selected columns with the aggregates
+            return super.dataOut();
 
     }
 

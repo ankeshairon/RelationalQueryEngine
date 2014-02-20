@@ -5,7 +5,7 @@
  */
 package edu.buffalo.cse562.parser.datavisitors;
 
-import edu.buffalo.cse562.mock.Datum;
+import edu.buffalo.cse562.model.data.Datum;
 import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.select.FromItemVisitor;
 import net.sf.jsqlparser.statement.select.SubJoin;

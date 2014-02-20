@@ -7,7 +7,7 @@
 
 package edu.buffalo.cse562.queryparser;
 
-import edu.buffalo.cse562.mock.Datum;
+import edu.buffalo.cse562.model.data.Datum;
 import edu.buffalo.cse562.model.operatorabstract.Operator;
 import edu.buffalo.cse562.model.operators.JoinOperator;
 import edu.buffalo.cse562.model.operators.OrderByOperator;
@@ -75,7 +75,7 @@ public class TreeMaker {
     }
 
     public void addProjectOperator(PlainSelect plainSelect) {
-        ProjectionOperator projectionOperator = new ProjectionOperator(null);
+        ProjectionOperator projectionOperator;
         List<SelectItem> selectItem = plainSelect.getSelectItems();
 
         SelectItemVisitorImpl selectItemVisitorImpl;
@@ -91,7 +91,7 @@ public class TreeMaker {
                 // An expression as in "SELECT expr1 AS EXPR", get alias and expression
             }
         }
-        this.rAOperatorList.add(new ProjectionOperator(null));
+        this.rAOperatorList.add(new ProjectionOperator());
     }
 
     public void addOrderbyOperator(PlainSelect plainSelect) {

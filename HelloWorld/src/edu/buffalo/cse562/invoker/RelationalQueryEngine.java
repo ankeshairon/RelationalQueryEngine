@@ -1,6 +1,6 @@
 package edu.buffalo.cse562.invoker;
 
-import edu.buffalo.cse562.mock.Datum;
+import edu.buffalo.cse562.model.data.Datum;
 import edu.buffalo.cse562.parser.datavisitors.StatementDataVisitorImpl;
 import edu.buffalo.cse562.queryparser.TreeMaker;
 import net.sf.jsqlparser.parser.CCJSqlParser;
