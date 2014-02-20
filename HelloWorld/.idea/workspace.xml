@@ -8,20 +8,9 @@
   <component name="ChangeListManager">
     <list id="8f1a133d-1531-49c4-be57-1cf67645d473" name="Default" comment="" />
     <list default="true" id="65df4483-c907-483f-9920-e0918ff4b5dd" name="Current_changes" comment="From Ankesh">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operatorabstract/AggregateOperator.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operatorabstract/AggregateOperator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operatorabstract/BinaryOperator.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operatorabstract/BinaryOperator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/parser/datavisitors/FromItemVisitorImpl.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/parser/datavisitors/FromItemVisitorImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/GroupByOperator.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/GroupByOperator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/JoinOperator.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/JoinOperator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operatorabstract/LeafOperator.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operatorabstract/LeafOperator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operatorabstract/Operator.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operatorabstract/Operator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/OrderByOperator.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/OrderByOperator.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/data/ResultSet.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/ProjectionOperator.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/ProjectionOperator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/invoker/RelationalQueryEngine.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/invoker/RelationalQueryEngine.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/SelectionOperator.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/SelectionOperator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/SourceOperator.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/SourceOperator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/queryparser/TreeMaker.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/queryparser/TreeMaker.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operatorabstract/UnaryOperator.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operatorabstract/UnaryOperator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="HelloWorld.iws" />
@@ -106,16 +95,16 @@
       <file leaf-file-name="RelationalQueryEngine.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/invoker/RelationalQueryEngine.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="29" selection-start="1149" selection-end="1149" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="799">
+            <state line="35" column="29" selection-start="1161" selection-end="1161" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="799">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Datum.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/data/Datum.java">
+      <file leaf-file-name="ResultSet.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/data/ResultSet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="0" selection-start="61" selection-end="61" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="187">
+            <state line="2" column="22" selection-start="62" selection-end="62" vertical-scroll-proportion="0.13438736" vertical-offset="0" max-vertical-offset="253">
               <folding />
             </state>
           </provider>
@@ -157,12 +146,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TreeMaker.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="TreeMaker.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/queryparser/TreeMaker.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="90" column="19" selection-start="3481" selection-end="3481" vertical-scroll-proportion="1.4150198" vertical-offset="1172" max-vertical-offset="2278">
+            <state line="77" column="20" selection-start="2824" selection-end="2824" vertical-scroll-proportion="0.0" vertical-offset="1172" max-vertical-offset="2278">
               <folding>
-                <element signature="e#0#4842#0" expanded="true" />
+                <element signature="e#0#4908#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ProjectionOperator.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/ProjectionOperator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="56" column="22" selection-start="1428" selection-end="1428" vertical-scroll-proportion="0.0" vertical-offset="323" max-vertical-offset="1054">
+              <folding>
                 <element signature="imports" expanded="true" />
               </folding>
             </state>
@@ -172,19 +172,8 @@
       <file leaf-file-name="OrderByOperator.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/OrderByOperator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="0" selection-start="523" selection-end="523" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="476">
+            <state line="20" column="0" selection-start="531" selection-end="531" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="476">
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ProjectionOperator.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/ProjectionOperator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="38" selection-start="862" selection-end="862" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="748">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -192,7 +181,7 @@
       <file leaf-file-name="AggregateOperator.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operatorabstract/AggregateOperator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="8" selection-start="233" selection-end="233" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="425">
+            <state line="16" column="8" selection-start="237" selection-end="237" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="425">
               <folding />
             </state>
           </provider>
@@ -240,12 +229,12 @@
       <file leaf-file-name="SelectionOperator.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/SelectionOperator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="13" selection-start="318" selection-end="318" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="612">
+            <state line="12" column="13" selection-start="322" selection-end="322" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="612">
               <folding>
-                <element signature="e#0#673#0" expanded="true" />
+                <element signature="e#0#685#0" expanded="true" />
                 <element signature="imports" expanded="true" />
-                <element signature="e#458#459#0" expanded="true" />
-                <element signature="e#501#502#0" expanded="true" />
+                <element signature="e#462#463#0" expanded="true" />
+                <element signature="e#505#506#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -254,7 +243,7 @@
       <file leaf-file-name="UnaryOperator.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operatorabstract/UnaryOperator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="40" selection-start="267" selection-end="267" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="425">
+            <state line="14" column="40" selection-start="271" selection-end="271" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="425">
               <folding />
             </state>
           </provider>
@@ -299,7 +288,7 @@
       <file leaf-file-name="JoinOperator.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/JoinOperator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="21" selection-start="342" selection-end="342" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="629">
+            <state line="12" column="21" selection-start="346" selection-end="346" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="629">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -310,7 +299,7 @@
       <file leaf-file-name="BinaryOperator.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operatorabstract/BinaryOperator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="24" selection-start="290" selection-end="295" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="459">
+            <state line="17" column="23" selection-start="294" selection-end="303" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="459">
               <folding />
             </state>
           </provider>
@@ -319,9 +308,9 @@
       <file leaf-file-name="Operator.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operatorabstract/Operator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="0" selection-start="1011" selection-end="1011" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="561">
+            <state line="23" column="0" selection-start="1019" selection-end="1019" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="561">
               <folding>
-                <element signature="e#0#1043#0" expanded="true" />
+                <element signature="e#0#1055#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -330,12 +319,12 @@
       <file leaf-file-name="FromItemVisitorImpl.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/parser/datavisitors/FromItemVisitorImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="13" selection-start="448" selection-end="448" vertical-scroll-proportion="0.0" vertical-offset="17" max-vertical-offset="799">
+            <state line="13" column="13" selection-start="452" selection-end="452" vertical-scroll-proportion="0.0" vertical-offset="17" max-vertical-offset="799">
               <folding>
-                <element signature="e#0#963#0" expanded="true" />
+                <element signature="e#0#999#0" expanded="true" />
                 <element signature="imports" expanded="true" />
-                <element signature="e#545#546#0" expanded="true" />
-                <element signature="e#573#574#0" expanded="true" />
+                <element signature="e#565#566#0" expanded="true" />
+                <element signature="e#597#598#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -344,7 +333,7 @@
       <file leaf-file-name="SourceOperator.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/SourceOperator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="0" selection-start="205" selection-end="205" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="391">
+            <state line="7" column="0" selection-start="209" selection-end="209" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="391">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -355,7 +344,7 @@
       <file leaf-file-name="LeafOperator.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operatorabstract/LeafOperator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="13" selection-start="226" selection-end="226" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="459">
+            <state line="15" column="13" selection-start="230" selection-end="230" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="459">
               <folding />
             </state>
           </provider>
@@ -373,7 +362,7 @@
       <file leaf-file-name="GroupByOperator.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/GroupByOperator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="8" selection-start="265" selection-end="284" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="374">
+            <state line="8" column="8" selection-start="273" selection-end="292" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="374">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -450,6 +439,7 @@
         <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/queryparser/TreeMaker.java" />
         <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/ProjectionOperator.java" />
         <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/model/data/Datum.java" />
+        <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/model/data/ResultSet.java" />
       </list>
     </option>
   </component>
@@ -716,6 +706,7 @@
             <option name="mySupportsDeletion" value="false" />
             <option name="myCanBeAbsent" value="false" />
             <option name="myId" value="UPDATED" />
+            <PATH vcs="Git" revision="">$PROJECT_DIR$/src/edu/buffalo/cse562/queryparser/TreeMaker.java</PATH>
           </FILE-GROUP>
           <FILE-GROUP>
             <option name="myUpdateName" value="Created" />
@@ -723,16 +714,10 @@
             <option name="mySupportsDeletion" value="false" />
             <option name="myCanBeAbsent" value="false" />
             <option name="myId" value="CREATED" />
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/src/edu/buffalo/cse562/model/operatorabstract/AggregateOperator.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/src/edu/buffalo/cse562/model/operatorabstract/BinaryOperator.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/src/edu/buffalo/cse562/model/operatorabstract/LeafOperator.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/src/edu/buffalo/cse562/model/operatorabstract/UnaryOperator.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/GroupByOperator.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/JoinOperator.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/OrderByOperator.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/src/edu/buffalo/cse562/parser/datavisitors/FromItemVisitorImpl.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/src/edu/buffalo/cse562/parser/datavisitors/OrderByVisitorImpl.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/src/edu/buffalo/cse562/parser/datavisitors/SelectItemVisitorImpl.java</PATH>
+            <PATH vcs="Git" revision="">$PROJECT_DIR$/../.classpath</PATH>
+            <PATH vcs="Git" revision="">$PROJECT_DIR$/../.project</PATH>
+            <PATH vcs="Git" revision="">$PROJECT_DIR$/../.settings/org.eclipse.jdt.core.prefs</PATH>
+            <PATH vcs="Git" revision="">$PROJECT_DIR$/out/production/HelloWorld/.gitignore</PATH>
           </FILE-GROUP>
           <FILE-GROUP>
             <option name="myUpdateName" value="Deleted" />
@@ -1038,7 +1023,7 @@
       <workItem from="1392514436100" duration="238000" />
       <workItem from="1392663322606" duration="5327000" />
       <workItem from="1392838192911" duration="51000" />
-      <workItem from="1392838272052" duration="12331000" />
+      <workItem from="1392838272052" duration="13401000" />
     </task>
     <task id="LOCAL-00001" summary="Git testing">
       <created>1392091354753</created>
@@ -1056,11 +1041,15 @@
       <created>1392861173841</created>
       <updated>1392861173841</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="From Ankesh">
+      <created>1392862434937</created>
+      <updated>1392862434937</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="74984000" />
+    <option name="totallyTimeSpent" value="76054000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1307,19 +1296,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operatorabstract/LeafOperator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="13" selection-start="226" selection-end="226" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="459">
+        <state line="15" column="13" selection-start="230" selection-end="230" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="459">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/parser/datavisitors/FromItemVisitorImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="13" selection-start="448" selection-end="448" vertical-scroll-proportion="0.0" vertical-offset="17" max-vertical-offset="799">
+        <state line="13" column="13" selection-start="452" selection-end="452" vertical-scroll-proportion="0.0" vertical-offset="17" max-vertical-offset="799">
           <folding>
-            <element signature="e#0#963#0" expanded="true" />
+            <element signature="e#0#999#0" expanded="true" />
             <element signature="imports" expanded="true" />
-            <element signature="e#545#546#0" expanded="true" />
-            <element signature="e#573#574#0" expanded="true" />
+            <element signature="e#565#566#0" expanded="true" />
+            <element signature="e#597#598#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1463,7 +1452,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/SourceOperator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="0" selection-start="205" selection-end="205" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="391">
+        <state line="7" column="0" selection-start="209" selection-end="209" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="391">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1498,33 +1487,33 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/SelectionOperator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="13" selection-start="318" selection-end="318" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="612">
+        <state line="12" column="13" selection-start="322" selection-end="322" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="612">
           <folding>
-            <element signature="e#0#673#0" expanded="true" />
+            <element signature="e#0#685#0" expanded="true" />
             <element signature="imports" expanded="true" />
-            <element signature="e#458#459#0" expanded="true" />
-            <element signature="e#501#502#0" expanded="true" />
+            <element signature="e#462#463#0" expanded="true" />
+            <element signature="e#505#506#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operatorabstract/UnaryOperator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="40" selection-start="267" selection-end="267" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="425">
+        <state line="14" column="40" selection-start="271" selection-end="271" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="425">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operatorabstract/BinaryOperator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="24" selection-start="290" selection-end="295" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="459">
+        <state line="17" column="23" selection-start="294" selection-end="303" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="459">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/JoinOperator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="21" selection-start="342" selection-end="342" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="629">
+        <state line="12" column="21" selection-start="346" selection-end="346" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="629">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1540,23 +1529,23 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operatorabstract/Operator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="0" selection-start="1011" selection-end="1011" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="561">
+        <state line="23" column="0" selection-start="1019" selection-end="1019" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="561">
           <folding>
-            <element signature="e#0#1043#0" expanded="true" />
+            <element signature="e#0#1055#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operatorabstract/AggregateOperator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="8" selection-start="233" selection-end="233" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="425">
+        <state line="16" column="8" selection-start="237" selection-end="237" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="425">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/GroupByOperator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="8" selection-start="265" selection-end="284" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="374">
+        <state line="8" column="8" selection-start="273" selection-end="292" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="374">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1565,14 +1554,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/OrderByOperator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="0" selection-start="523" selection-end="523" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="476">
+        <state line="20" column="0" selection-start="531" selection-end="531" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="476">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/invoker/RelationalQueryEngine.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="29" selection-start="1149" selection-end="1149" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="799">
+        <state line="35" column="29" selection-start="1161" selection-end="1161" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="799">
           <folding />
         </state>
       </provider>
@@ -1597,27 +1586,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/ProjectionOperator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="38" selection-start="862" selection-end="862" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="748">
+        <state line="56" column="22" selection-start="1428" selection-end="1428" vertical-scroll-proportion="0.0" vertical-offset="323" max-vertical-offset="1054">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/data/Datum.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="0" selection-start="61" selection-end="61" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="187">
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/queryparser/TreeMaker.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="90" column="19" selection-start="3481" selection-end="3481" vertical-scroll-proportion="1.4150198" vertical-offset="1172" max-vertical-offset="2278">
+        <state line="77" column="20" selection-start="2824" selection-end="2824" vertical-scroll-proportion="0.0" vertical-offset="1172" max-vertical-offset="2278">
           <folding>
-            <element signature="e#0#4842#0" expanded="true" />
+            <element signature="e#0#4908#0" expanded="true" />
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/data/ResultSet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="22" selection-start="62" selection-end="62" vertical-scroll-proportion="0.13438736" vertical-offset="0" max-vertical-offset="253">
+          <folding />
         </state>
       </provider>
     </entry>

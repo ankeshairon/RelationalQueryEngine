@@ -7,7 +7,7 @@
 
 package edu.buffalo.cse562.queryparser;
 
-import edu.buffalo.cse562.model.data.Datum;
+import edu.buffalo.cse562.model.data.ResultSet;
 import edu.buffalo.cse562.model.operatorabstract.Operator;
 import edu.buffalo.cse562.model.operators.JoinOperator;
 import edu.buffalo.cse562.model.operators.OrderByOperator;
@@ -27,10 +27,10 @@ import java.util.List;
 
 public class TreeMaker {
     private ArrayList<Operator> rAOperatorList;
-    private Datum datum;
+    private ResultSet resultSet;
 
-    public TreeMaker(Datum datum) {
-        this.datum = datum;
+    public TreeMaker(ResultSet resultSet) {
+        this.resultSet = resultSet;
         this.rAOperatorList = new ArrayList<>();
     }
 
@@ -52,15 +52,15 @@ public class TreeMaker {
     public void addSourceOperator(PlainSelect plainSelect) {
         FromItemVisitorImpl fromItemVisitor = new FromItemVisitorImpl();
         plainSelect.getFromItem().accept(fromItemVisitor);
-        datum = fromItemVisitor.getDatum();
+        resultSet = fromItemVisitor.getResultSet();
 
         List<Join> joins = plainSelect.getJoins();
         if (joins != null) {
             JoinOperator joinOperator;
             for (Join join : joins) {
                 joinOperator = new JoinOperator(join);
-                joinOperator.dataIn(datum);
-                datum = joinOperator.dataOut();
+                joinOperator.dataIn(resultSet);
+                resultSet = joinOperator.dataOut();
             }
         }
     }
@@ -117,12 +117,12 @@ public class TreeMaker {
         // Sysout to see what we get here
     }
 
-/*    public Datum execute(Datum datum) {
+/*    public ResultSet execute(ResultSet resultSet) {
         for (Operator Ops : this.rAOperatorList) {
-    		Ops.dataIn(datum);
-    		datum = Ops.dataOut();
+    		Ops.dataIn(resultSet);
+    		resultSet = Ops.dataOut();
     	}
-    	return Datum;
+    	return ResultSet;
     }
 */
 }
