@@ -60,10 +60,10 @@ public class ProjectionOperator implements UnaryOperator {
     }
 
     public void setAggregates(List<AggregateOperator> aggregates) {
-        this.aggregates = aggregates;
+//        this.aggregates = aggregates;
     }
 
     public void setColumnNames(List<String> columnNames) {
-        this.columnNames = columnNames;
+//        this.columnNames = columnNames;
     }
 }

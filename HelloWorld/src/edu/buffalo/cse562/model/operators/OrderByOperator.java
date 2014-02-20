@@ -15,12 +15,12 @@ public class OrderByOperator implements UnaryOperator {
 	}
 
     @Override
-    public void dataIn(ResultSet data) {
-        super.dataIn(data);
+    public ResultSet dataOut() {
+        return null;
     }
 
     @Override
-    public ResultSet dataOut() {
-        return super.dataOut();
+    public void dataIn(ResultSet data) {
+
     }
 }

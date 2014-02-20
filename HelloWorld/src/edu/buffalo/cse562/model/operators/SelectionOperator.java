@@ -18,13 +18,14 @@ public class SelectionOperator implements UnaryOperator {
 		this.whereCondition = whereCondition;
 	}
 
-    @Override
-    public ResultSet dataOut() {
-        return super.dataOut();
-    }
 
     @Override
     public void dataIn(ResultSet data) {
-        super.dataIn(data);
+
+    }
+
+    @Override
+    public ResultSet dataOut() {
+        return null;
     }
 }
