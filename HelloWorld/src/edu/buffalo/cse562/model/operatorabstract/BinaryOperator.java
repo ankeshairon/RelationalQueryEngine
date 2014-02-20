@@ -10,18 +10,19 @@
 package edu.buffalo.cse562.model.operatorabstract;
 
 
+import edu.buffalo.cse562.mock.Datum;
+
 public class BinaryOperator implements Operator {
 
-	@Override
-	public void dataIn() {
-		 throw new UnsupportedOperationException("Not supported yet.");
-		
-	}
+    @Override
+    public void dataIn(Datum data) {
 
-	@Override
-	public void dataOut() {
-		 throw new UnsupportedOperationException("Not supported yet.");
-		
-	}
+    }
+
+    @Override
+    public Datum dataOut() {
+        throw new UnsupportedOperationException("Not supported yet.");
+
+    }
 
 }

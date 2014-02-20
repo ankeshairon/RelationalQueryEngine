@@ -6,21 +6,30 @@
 
 package edu.buffalo.cse562.model.operators;
 
+import edu.buffalo.cse562.mock.Datum;
 import edu.buffalo.cse562.model.operatorabstract.BinaryOperator;
+import net.sf.jsqlparser.statement.select.Join;
 
 public class JoinOperator extends BinaryOperator{
 
-	// Datum data1;
-	// Datum data2;
-	// Expression condition;
-	
-	@Override
-	public void dataIn(){
-		// set data1 and data2
-	}
-	
-	@Override
-	public void dataOut(){
-		// return data1 + data2 (condition)
-	}
+    Datum data;
+    private Join join;
+
+    public JoinOperator(Join join) {
+        this.join = join;
+    }
+    // Expression condition;
+
+
+    @Override
+    public void dataIn(Datum data) {
+        this.data = data;
+    }
+
+    @Override
+    public Datum dataOut() {
+        // todo actually Join the damn data -> Check the type of join and extract condition if not natural join
+
+        return data;
+    }
 }

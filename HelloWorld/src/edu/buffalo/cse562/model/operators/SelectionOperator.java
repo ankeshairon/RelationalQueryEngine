@@ -6,6 +6,7 @@
 */
 package edu.buffalo.cse562.model.operators;
 
+import edu.buffalo.cse562.mock.Datum;
 import edu.buffalo.cse562.model.operatorabstract.UnaryOperator;
 import net.sf.jsqlparser.expression.Expression;
 
@@ -16,14 +17,14 @@ public class SelectionOperator extends UnaryOperator {
 	public void setWhereCondition(Expression whereCondition) {
 		this.whereCondition = whereCondition;
 	}
-	
-    @Override
-    public void dataIn() {
 
+    @Override
+    public Datum dataOut() {
+        return super.dataOut();
     }
 
     @Override
-    public void dataOut() {
-
+    public void dataIn(Datum data) {
+        super.dataIn(data);
     }
 }
