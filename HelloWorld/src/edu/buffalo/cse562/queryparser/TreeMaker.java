@@ -75,15 +75,16 @@ public class TreeMaker {
     }
 
     public void addProjectOperator(PlainSelect plainSelect) {
-        ProjectionOperator projectionOperator;
-        List<SelectItem> selectItem = plainSelect.getSelectItems();
-
+        ProjectionOperator projectionOperator = new ProjectionOperator();
+        List<SelectItem> selectItems = plainSelect.getSelectItems();
         SelectItemVisitorImpl selectItemVisitorImpl;
-        for (SelectItem item : selectItem) {
+
+        for (SelectItem item : selectItems) {
             selectItemVisitorImpl = new SelectItemVisitorImpl();
             item.accept(selectItemVisitorImpl);
+
             if (selectItemVisitorImpl.getIfAllColumns() == 1) {
-            	// projectionOperator.getDataForAllColumns();
+                // projectionOperator.getDataForAllColumns();
             } else if (selectItemVisitorImpl.getAllTableColumns() != null) {
                 // get string of specified columns
             } else if (selectItemVisitorImpl.getExpression() != null) {

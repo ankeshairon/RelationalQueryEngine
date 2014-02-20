@@ -10,18 +10,6 @@
 package edu.buffalo.cse562.model.operatorabstract;
 
 
-import edu.buffalo.cse562.model.data.Datum;
+public interface UnaryOperator extends Operator {
 
-public class UnaryOperator implements Operator {
-
-
-    @Override
-    public void dataIn(Datum data) {
-
-    }
-
-    @Override
-    public Datum dataOut() {
-        return null;
-    }
 }

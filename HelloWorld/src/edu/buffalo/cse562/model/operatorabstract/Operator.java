@@ -16,12 +16,12 @@
 
 package edu.buffalo.cse562.model.operatorabstract;
 
-import edu.buffalo.cse562.model.data.Datum;
+import edu.buffalo.cse562.model.data.ResultSet;
 
 public interface Operator {
 
-    public void dataIn(Datum data);
+    public void dataIn(ResultSet data);
 
-    public Datum dataOut();
+    public ResultSet dataOut();
 
 }

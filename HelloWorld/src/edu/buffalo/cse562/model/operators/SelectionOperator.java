@@ -6,25 +6,25 @@
 */
 package edu.buffalo.cse562.model.operators;
 
-import edu.buffalo.cse562.model.data.Datum;
+import edu.buffalo.cse562.model.data.ResultSet;
 import edu.buffalo.cse562.model.operatorabstract.UnaryOperator;
 import net.sf.jsqlparser.expression.Expression;
 
-public class SelectionOperator extends UnaryOperator {
-	
-	private Expression whereCondition;
+public class SelectionOperator implements UnaryOperator {
+
+    private Expression whereCondition;
 	
 	public void setWhereCondition(Expression whereCondition) {
 		this.whereCondition = whereCondition;
 	}
 
     @Override
-    public Datum dataOut() {
+    public ResultSet dataOut() {
         return super.dataOut();
     }
 
     @Override
-    public void dataIn(Datum data) {
+    public void dataIn(ResultSet data) {
         super.dataIn(data);
     }
 }

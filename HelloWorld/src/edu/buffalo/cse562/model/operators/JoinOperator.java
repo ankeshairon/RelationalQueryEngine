@@ -6,13 +6,13 @@
 
 package edu.buffalo.cse562.model.operators;
 
-import edu.buffalo.cse562.model.data.Datum;
+import edu.buffalo.cse562.model.data.ResultSet;
 import edu.buffalo.cse562.model.operatorabstract.BinaryOperator;
 import net.sf.jsqlparser.statement.select.Join;
 
-public class JoinOperator extends BinaryOperator{
+public class JoinOperator implements BinaryOperator {
 
-    Datum data;
+    ResultSet data;
     private Join join;
 
     public JoinOperator(Join join) {
@@ -22,12 +22,12 @@ public class JoinOperator extends BinaryOperator{
 
 
     @Override
-    public void dataIn(Datum data) {
+    public void dataIn(ResultSet data) {
         this.data = data;
     }
 
     @Override
-    public Datum dataOut() {
+    public ResultSet dataOut() {
         // todo actually Join the damn data -> Check the type of join and extract condition if not natural join
 
         return data;

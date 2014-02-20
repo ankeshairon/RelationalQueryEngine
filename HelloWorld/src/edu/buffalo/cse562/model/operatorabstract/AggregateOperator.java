@@ -12,17 +12,16 @@
 package edu.buffalo.cse562.model.operatorabstract;
 
 
-import edu.buffalo.cse562.model.data.Datum;
+import edu.buffalo.cse562.model.data.ResultSet;
 
-public class AggregateOperator extends UnaryOperator{
+public class AggregateOperator implements UnaryOperator {
 
     @Override
-    public void dataIn(Datum data) {
-        super.dataIn(data);
+    public void dataIn(ResultSet data) {
     }
 
     @Override
-    public Datum dataOut() {
-        return super.dataOut();
+    public ResultSet dataOut() {
+        return null;
     }
 }
