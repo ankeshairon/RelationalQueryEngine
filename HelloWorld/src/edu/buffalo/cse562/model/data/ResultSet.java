@@ -11,22 +11,19 @@ import java.util.Iterator;
 public class ResultSet {
     public ArrayList<String> schema;
     public ArrayList<Tuple> tuples;
+    private Iterator<Tuple> tuplesIterator;
 
     public ResultSet(ArrayList<String> schema, ArrayList<Tuple> tuples) {
         this.schema = schema;
         this.tuples = tuples;
+        tuplesIterator = tuples.iterator();
     }
 
-    Iterator iterator;
+    public boolean hasNext() {
+        return tuplesIterator.hasNext();
+    }
 
-    public boolean hasNext(){
-        if (iterator.hasNext())
-            return true;
-		else
-			return false;
-	}
-	
-	public Tuple next(){
-        return (Tuple) iterator.next();
+    public Tuple next() {
+        return tuplesIterator.next();
     }
 }

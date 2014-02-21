@@ -5,7 +5,9 @@
  */
 package edu.buffalo.cse562.parser.datavisitors;
 
-import edu.buffalo.cse562.model.operators.FromOperator;
+import edu.buffalo.cse562.datagrabber.DataGrabber;
+import edu.buffalo.cse562.model.operators.sourceoperators.FromOperator;
+import edu.buffalo.cse562.processor.DataProcessor;
 import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.select.FromItemVisitor;
 import net.sf.jsqlparser.statement.select.SubJoin;
@@ -14,9 +16,11 @@ import net.sf.jsqlparser.statement.select.SubSelect;
 public class FromItemVisitorImpl implements FromItemVisitor {
 
     private FromOperator fromOperator;
+    private DataGrabber dataGrabber;
 
-    public FromItemVisitorImpl(FromOperator fromOperator) {
+    public FromItemVisitorImpl(FromOperator fromOperator, DataGrabber dataGrabber) {
         this.fromOperator = fromOperator;
+        this.dataGrabber = dataGrabber;
     }
 
     @Override
@@ -25,9 +29,12 @@ public class FromItemVisitorImpl implements FromItemVisitor {
     }
 
     @Override
-    public void visit(SubSelect arg0) {
-        // create a new TreeMaker for subselect and get output and assign to ResultSet
-
+    public void visit(SubSelect subSelect) {
+        //todo Use SelectionOperator to retrieve results from this
+        DataProcessor dataProcessor = new DataProcessor(dataGrabber);
+        SelectDataVisitorImpl selectVisitor = new SelectDataVisitorImpl(dataProcessor);
+        subSelect.getSelectBody().accept(selectVisitor);
+        dataProcessor.execute(null);
     }
 
     @Override

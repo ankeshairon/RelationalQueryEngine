@@ -1,4 +1,4 @@
-package edu.buffalo.cse562.model.operators;
+package edu.buffalo.cse562.model.operators.sourceoperators;
 
 import edu.buffalo.cse562.datagrabber.DataGrabber;
 import edu.buffalo.cse562.model.data.ResultSet;
@@ -9,27 +9,22 @@ public class FromOperator implements LeafOperator {
     private DataGrabber dataGrabber;
     private String sourceTableName;
 
-    private ResultSet resultSet;
-
     public FromOperator(DataGrabber dataGrabber) {
         this.dataGrabber = dataGrabber;
     }
 
+    public void setSourceTableName(String sourceTableName) {
+        this.sourceTableName = sourceTableName;
+    }
+
     @Override
     public void dataIn(ResultSet resultSet) {
-        if (resultSet != null) {
-            this.resultSet = resultSet;
-        } else {
-            this.resultSet = dataGrabber.getAllDataFromTable(sourceTableName);
-        }
+        //always supposed to receive null
+        throw new UnsupportedOperationException("From operator does not accept any data");
     }
 
     @Override
     public ResultSet dataOut() {
-        return resultSet;
-    }
-
-    public void setSourceTableName(String sourceTableName) {
-        this.sourceTableName = sourceTableName;
+        return dataGrabber.getAllDataFromTable(sourceTableName);
     }
 }

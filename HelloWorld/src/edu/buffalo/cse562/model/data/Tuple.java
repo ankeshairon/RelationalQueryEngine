@@ -8,4 +8,9 @@ public class Tuple {
     public Tuple() {
         fields = new ArrayList<>();
     }
+
+    @Override
+    public String toString() {
+        return fields.toString();
+    }
 }

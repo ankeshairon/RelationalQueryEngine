@@ -7,7 +7,6 @@
 package edu.buffalo.cse562.model.operators;
 
 import edu.buffalo.cse562.model.data.ResultSet;
-import edu.buffalo.cse562.model.operatorabstract.AggregateOperator;
 import edu.buffalo.cse562.model.operatorabstract.UnaryOperator;
 import net.sf.jsqlparser.expression.Expression;
 

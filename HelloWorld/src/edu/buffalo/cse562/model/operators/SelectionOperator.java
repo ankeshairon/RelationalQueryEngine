@@ -13,15 +13,16 @@ import net.sf.jsqlparser.expression.Expression;
 public class SelectionOperator implements UnaryOperator {
 
     private Expression whereCondition;
-	
-	public void setWhereCondition(Expression whereCondition) {
-		this.whereCondition = whereCondition;
-	}
+    private ResultSet resultSet;
+
+    public void setWhereCondition(Expression whereCondition) {
+        this.whereCondition = whereCondition;
+    }
 
 
     @Override
-    public void dataIn(ResultSet data) {
-
+    public void dataIn(ResultSet resultSet) {
+        this.resultSet = resultSet;
     }
 
     @Override

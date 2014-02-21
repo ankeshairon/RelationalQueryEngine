@@ -1,8 +1,6 @@
 package edu.buffalo.cse562.invoker;
 
-import edu.buffalo.cse562.datagrabber.DataGrabber;
 import edu.buffalo.cse562.parser.datavisitors.StatementDataVisitorImpl;
-import edu.buffalo.cse562.queryparser.TreeMaker;
 import net.sf.jsqlparser.parser.CCJSqlParser;
 import net.sf.jsqlparser.parser.ParseException;
 import net.sf.jsqlparser.statement.Statement;
@@ -13,36 +11,26 @@ import java.io.FileReader;
 
 public class RelationalQueryEngine {
 
+    public void invoke(String[] args) {
+        String dataFolderName = args[1];
+        String sqlQueryFileName;
+        Statement sqlStatement;
+        String result;
 
-    private String dataFolderName;
-    private String sqlQueryFileName;
+        for (int index = 2; index < args.length; index++) {
+            sqlQueryFileName = args[index];
+            try {
+                CCJSqlParser sqlParser = new CCJSqlParser(new FileReader(new File(sqlQueryFileName)));
+                StatementDataVisitorImpl statementEvaluator = new StatementDataVisitorImpl(dataFolderName);
 
-    public RelationalQueryEngine(String dataFolderName, String sqlQueryFileName) {
-        this.dataFolderName = dataFolderName;
-        this.sqlQueryFileName = sqlQueryFileName;
-    }
-
-    public void invoke() {
-        try {
-            Statement sqlStatement;
-            String result;
-            //todo add multiple sql files
-
-            DataGrabber dataGrabber = new DataGrabber(dataFolderName);
-            CCJSqlParser sqlParser = new CCJSqlParser(new FileReader(new File(sqlQueryFileName)));
-
-            TreeMaker operatorStack = new TreeMaker(dataGrabber);
-
-            //data extraction
-            StatementDataVisitorImpl statementEvaluator = new StatementDataVisitorImpl(dataGrabber, operatorStack);
-
-            while ((sqlStatement = sqlParser.Statement()) != null) {
-                sqlStatement.accept(statementEvaluator);
+                while ((sqlStatement = sqlParser.Statement()) != null) {
+                    sqlStatement.accept(statementEvaluator);
+                }
+            } catch (FileNotFoundException e) {
+                System.out.println("Unable to find the sql file : " + sqlQueryFileName);
+            } catch (ParseException e) {
+                System.out.println("Something went wrong while parsing the query. Please try again");
             }
-        } catch (FileNotFoundException e) {
-            System.out.println("Unable to find file : " + sqlQueryFileName);
-        } catch (ParseException e) {
-            System.out.println("Something went wrong while parsing the query. Please try again");
         }
     }
 }

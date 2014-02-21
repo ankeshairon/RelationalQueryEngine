@@ -4,7 +4,7 @@
  *
  */
 
-package edu.buffalo.cse562.model.operators;
+package edu.buffalo.cse562.model.operators.sourceoperators;
 
 import edu.buffalo.cse562.model.data.ResultSet;
 import edu.buffalo.cse562.model.operatorabstract.BinaryOperator;

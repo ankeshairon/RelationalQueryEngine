@@ -5,15 +5,21 @@
  * We return the output back to PlainSelect.
  */
 
-package edu.buffalo.cse562.queryparser;
+package edu.buffalo.cse562.processor;
 
 import edu.buffalo.cse562.datagrabber.DataGrabber;
 import edu.buffalo.cse562.model.data.ResultSet;
 import edu.buffalo.cse562.model.operatorabstract.Operator;
-import edu.buffalo.cse562.model.operators.*;
+import edu.buffalo.cse562.model.operators.OrderByOperator;
+import edu.buffalo.cse562.model.operators.ProjectionOperator;
+import edu.buffalo.cse562.model.operators.SelectionOperator;
+import edu.buffalo.cse562.model.operators.sourceoperators.FromOperator;
+import edu.buffalo.cse562.model.operators.sourceoperators.JoinOperator;
+import edu.buffalo.cse562.model.operators.sourceoperators.SourceOperator;
 import edu.buffalo.cse562.parser.datavisitors.FromItemVisitorImpl;
 import edu.buffalo.cse562.parser.datavisitors.OrderByVisitorImpl;
 import edu.buffalo.cse562.parser.datavisitors.SelectItemVisitorImpl;
+import edu.buffalo.cse562.view.ResultsViewer;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.statement.select.Join;
 import net.sf.jsqlparser.statement.select.OrderByElement;
@@ -23,56 +29,61 @@ import net.sf.jsqlparser.statement.select.SelectItem;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TreeMaker {
+public class DataProcessor {
     private ArrayList<Operator> operatorList;
-    private ResultSet resultSet;
     private DataGrabber dataGrabber;
 
-    public TreeMaker(DataGrabber dataGrabber) {
+    public DataProcessor(DataGrabber dataGrabber) {
         this.dataGrabber = dataGrabber;
         this.operatorList = new ArrayList<>();
     }
 
-    public void makeTree(PlainSelect plainSelect) {
+    public void execute(PlainSelect plainSelect) {
         addSourceOperator(plainSelect);
         addWhereOperator(plainSelect);
         addProjectOperator(plainSelect);
         addOrderByOperator(plainSelect);
-        addGroupbyOperator(plainSelect);
+        addGroupByOperator(plainSelect);
+        ResultsViewer.viewResults(executeOperators(null));
+
     }
 
-    /* TODO
-    private List selectItems;
-    private FromItem fromItem;
-    private Expression where;
-    private List groupByColumnReferences;
-    private List orderByElements;*/
 
+    /**
+     * __________________________________________________________________________________________________
+     * SQL        |                     Java                               |   Target Checkpoint
+     * ----------------|--------------------------------------------------------|------------------------
+     * From T       |   visit(Table table) in FromVisitorItemImpl            |       1
+     * T1 JOIN T2     |   visit(SubJoin subjoin) in FromVisitorItemImpl        |       Not decided
+     * T1,T2,T3     |   getJoins() return {T2,T3}                            |       1
+     * subexpression |   visit(SubSelect subselect) in FromVisitorItemImpl    |       1
+     */
     public void addSourceOperator(PlainSelect plainSelect) {
+        SourceOperator sourceOperator = new SourceOperator();
+
         FromOperator fromOperator = new FromOperator(dataGrabber);
-
-        FromItemVisitorImpl fromItemVisitor = new FromItemVisitorImpl(fromOperator);
+        FromItemVisitorImpl fromItemVisitor = new FromItemVisitorImpl(fromOperator, dataGrabber);
         plainSelect.getFromItem().accept(fromItemVisitor);
-
-        fromOperator.dataIn(null);
-        resultSet = fromOperator.dataOut();
+        sourceOperator.addSubOperator(fromOperator);
+//        ResultsViewer.viewResults(fromOperator.dataOut());
 
         List<Join> joins = plainSelect.getJoins();
         if (joins != null) {
-            JoinOperator joinOperator;
             for (Join join : joins) {
-                joinOperator = new JoinOperator(join);
-                joinOperator.dataIn(resultSet);
-                resultSet = joinOperator.dataOut();
+                sourceOperator.addSubOperator(new JoinOperator(join));
             }
         }
+
+        operatorList.add(sourceOperator);
     }
 
     public void addWhereOperator(PlainSelect plainSelect) {
         //todo
-        if (plainSelect.getWhere() != null) {
+
+        Expression whereExpression = plainSelect.getWhere();
+        if (whereExpression != null) {
             SelectionOperator selectOperator = new SelectionOperator();
-            selectOperator.setWhereCondition(plainSelect.getWhere());
+            selectOperator.setWhereCondition(whereExpression);
             this.operatorList.add(selectOperator);
         }
     }
@@ -89,8 +100,8 @@ public class TreeMaker {
     }
 
     public void addOrderByOperator(PlainSelect plainSelect) {
-        OrderByVisitorImpl orderByVisitorImpl;
-        ArrayList<Expression> orderByExpression = new ArrayList<>();
+        OrderByVisitorImpl orderByVisitorImpl = new OrderByVisitorImpl();
+        ArrayList<Expression> orderByExpressions = new ArrayList<>();
         List<OrderByElement> orderByElements = plainSelect.getOrderByElements();
 
         if (orderByElements == null || orderByElements.isEmpty()) {
@@ -98,14 +109,13 @@ public class TreeMaker {
         }
 
         for (OrderByElement orderByElement : orderByElements) {
-            orderByVisitorImpl = new OrderByVisitorImpl();
             orderByElement.accept(orderByVisitorImpl);
-            orderByExpression.add(orderByVisitorImpl.getExpression());
+            orderByExpressions.add(orderByVisitorImpl.getExpression());
         }
-        operatorList.add(new OrderByOperator(orderByExpression));
+        operatorList.add(new OrderByOperator(orderByExpressions));
     }
 
-    public void addGroupbyOperator(PlainSelect plainSelect) {
+    public void addGroupByOperator(PlainSelect plainSelect) {
         /**
          * A list of {@link Expression}s of the GROUP BY clause.
          * It is null in case there is no GROUP BY clause
@@ -116,12 +126,11 @@ public class TreeMaker {
         // Sysout to see what we get here
     }
 
-/*    public ResultSet execute(ResultSet resultSet) {
-        for (Operator Ops : this.operatorList) {
-    		Ops.dataIn(resultSet);
-    		resultSet = Ops.dataOut();
-    	}
-    	return ResultSet;
+    private ResultSet executeOperators(ResultSet resultSet) {
+        for (Operator operator : this.operatorList) {
+            operator.dataIn(resultSet);
+            resultSet = operator.dataOut();
+        }
+        return resultSet;
     }
-*/
 }
