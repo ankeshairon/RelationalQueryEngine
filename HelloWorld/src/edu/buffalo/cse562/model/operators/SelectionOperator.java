@@ -10,7 +10,6 @@ import edu.buffalo.cse562.model.data.ResultSet;
 import edu.buffalo.cse562.model.operatorabstract.UnaryOperator;
 import edu.buffalo.cse562.parser.datavisitors.ExpressionTreeExecutor;
 import edu.buffalo.cse562.processor.ExpressionTree;
-import net.sf.jsqlparser.expression.Expression;
 
 public class SelectionOperator implements UnaryOperator {
 
@@ -22,8 +21,8 @@ public class SelectionOperator implements UnaryOperator {
     }
 	
     @Override
-    public void dataIn(ResultSet data) {
-    	ExpressionTreeExecutor expressionTreeExecutor = new ExpressionTreeExecutor();
+    public void dataIn(ResultSet[] data) {
+        ExpressionTreeExecutor expressionTreeExecutor = new ExpressionTreeExecutor();
     	// Iterate over the data and push it into the tree if overall value returned is true,
     	// We are good, otherwise discard the tuple
     }

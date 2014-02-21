@@ -14,7 +14,7 @@ public class SourceOperator implements Operator {
     }
 
     @Override
-    public void dataIn(ResultSet data) {
+    public void dataIn(ResultSet[] data) {
 
     }
 

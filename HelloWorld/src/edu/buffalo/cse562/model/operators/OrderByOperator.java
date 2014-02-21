@@ -20,7 +20,7 @@ public class OrderByOperator implements UnaryOperator {
     }
 
     @Override
-    public void dataIn(ResultSet data) {
+    public void dataIn(ResultSet[] data) {
 
     }
 }

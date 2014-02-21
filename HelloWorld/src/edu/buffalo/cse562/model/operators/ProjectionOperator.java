@@ -10,6 +10,7 @@ import edu.buffalo.cse562.datagrabber.DataGrabber;
 import edu.buffalo.cse562.model.data.ResultSet;
 import edu.buffalo.cse562.model.data.Tuple;
 import edu.buffalo.cse562.model.operatorabstract.UnaryOperator;
+import edu.buffalo.cse562.model.operators.utils.OperatorUtils;
 import net.sf.jsqlparser.expression.Expression;
 
 import java.util.ArrayList;
@@ -37,18 +38,18 @@ public class ProjectionOperator implements UnaryOperator {
     }
 
     @Override
-    public void dataIn(ResultSet inputDataSet) {
+    public void dataIn(ResultSet[] inputDataSet) {
         //todo implement projection operator
         //make calls to resultSet manipulating class & populate resultset inside it
 
         if (aggregateExpressions.isEmpty() && columnNames.isEmpty()) {
-            resultSet = inputDataSet;
+            resultSet = inputDataSet[0];
         } else if (aggregateExpressions.isEmpty()) {
-            resultSet = getDataOnlyForRelevantColumns(inputDataSet);
+            resultSet = getDataOnlyForRelevantColumns(inputDataSet[0]);
         } else if (columnNames.isEmpty()) {
-            resultSet = getAggregatedData(inputDataSet);
+            resultSet = getAggregatedData(inputDataSet[0]);
         } else {
-            resultSet = getAggregatedDataForColumns(inputDataSet);
+            resultSet = getAggregatedDataForColumns(inputDataSet[0]);
         }
 
     }
@@ -74,7 +75,7 @@ public class ProjectionOperator implements UnaryOperator {
 
     private ResultSet getAggregatedData(ResultSet inputDataSet) {
         AggregateOperator aggregateOperator = new AggregateOperator(aggregateExpressions);
-        aggregateOperator.dataIn(inputDataSet);
+        aggregateOperator.dataIn(new ResultSet[]{inputDataSet});
         return aggregateOperator.dataOut();
     }
 
@@ -84,9 +85,11 @@ public class ProjectionOperator implements UnaryOperator {
         Tuple inputTuple;
         Tuple newTuple;
 
+        List<Integer> indicesOfDataToPull = OperatorUtils.calculateIndicesOfTheseDataColumns(dataGrabber.getNamesOfAllColumnsForTable(tableName));
+
         while (iterator.hasPrevious()) {
             inputTuple = iterator.previous();
-            newTuple = getFilteredTuple(inputTuple, calculateIndicesOfDataToPull());
+            newTuple = getFilteredTuple(inputTuple, indicesOfDataToPull);
             newRowSet.add(newTuple);
         }
 
@@ -101,17 +104,5 @@ public class ProjectionOperator implements UnaryOperator {
             newTuple.fields.add(inputTuple.fields.get(i));
         }
         return newTuple;
-    }
-
-    private List<Integer> calculateIndicesOfDataToPull() {
-        List<Integer> indices = new ArrayList<>();
-        List<String> allColumnNamesInTable = dataGrabber.getNamesOfAllColumnsForTable(tableName);
-
-        Integer indexOfColumn;
-        for (String nameOfColumnToBeProjected : allColumnNamesInTable) {
-            indexOfColumn = allColumnNamesInTable.indexOf(nameOfColumnToBeProjected);
-            indices.add(indexOfColumn);
-        }
-        return indices;
     }
 }

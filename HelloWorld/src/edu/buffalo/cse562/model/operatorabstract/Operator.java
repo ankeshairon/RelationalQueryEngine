@@ -20,7 +20,7 @@ import edu.buffalo.cse562.model.data.ResultSet;
 
 public interface Operator {
 
-    public void dataIn(ResultSet data);
+    public void dataIn(ResultSet... data);
 
     public ResultSet dataOut();
 

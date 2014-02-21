@@ -5,15 +5,15 @@ import edu.buffalo.cse562.processor.DataProcessor;
 import net.sf.jsqlparser.statement.select.PlainSelect;
 
 public class SelectDataVisitorImpl extends AbstractSelectVisitor {
-    private DataProcessor treeMaker;
+    private DataProcessor dataProcessor;
 
-    public SelectDataVisitorImpl(DataProcessor treeMaker) {
-        this.treeMaker = treeMaker;
+    public SelectDataVisitorImpl(DataProcessor dataProcessor) {
+        this.dataProcessor = dataProcessor;
     }
 
     @Override
     public void visit(PlainSelect plainSelect) {
-        treeMaker.execute(plainSelect);
+        dataProcessor.execute(plainSelect);
     }
 
 }

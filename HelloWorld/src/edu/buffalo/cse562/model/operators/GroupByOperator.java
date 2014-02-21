@@ -5,7 +5,7 @@ import edu.buffalo.cse562.model.operatorabstract.UnaryOperator;
 
 public class GroupByOperator implements UnaryOperator {
     @Override
-    public void dataIn(ResultSet data) {
+    public void dataIn(ResultSet[] data) {
 
     }
 
