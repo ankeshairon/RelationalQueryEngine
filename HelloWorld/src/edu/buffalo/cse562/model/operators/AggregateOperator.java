@@ -14,7 +14,6 @@ package edu.buffalo.cse562.model.operators;
 
 import edu.buffalo.cse562.model.data.ResultSet;
 import edu.buffalo.cse562.model.operatorabstract.UnaryOperator;
-import edu.buffalo.cse562.model.operators.utils.OperatorUtils;
 import net.sf.jsqlparser.expression.Expression;
 
 import java.util.ArrayList;
@@ -48,13 +47,17 @@ public class AggregateOperator implements UnaryOperator {
         // prepare result set - read the old schema and map the results back
 
 
+        createListsOfAggregates();
+
+
+//        OperatorUtils.calculateIndicesOfTheseDataColumns()
+
+    }
+
+    private void createListsOfAggregates() {
         for (Integer indexInOldSchema : aggregationExpressions.keySet()) {
-
+            System.out.println(aggregationExpressions.get(indexInOldSchema));
         }
-
-
-        OperatorUtils.calculateIndicesOfTheseDataColumns()
-
     }
 
     @Override

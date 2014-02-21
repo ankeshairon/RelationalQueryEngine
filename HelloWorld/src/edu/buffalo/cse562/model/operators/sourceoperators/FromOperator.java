@@ -18,7 +18,7 @@ public class FromOperator implements LeafOperator {
     }
 
     @Override
-    public void dataIn(ResultSet resultSet) {
+    public void dataIn(ResultSet[] resultSet) {
         //always supposed to receive null
         throw new UnsupportedOperationException("From operator does not accept any data");
     }

@@ -8,16 +8,10 @@
   </component>
   <component name="ChangeListManager">
     <list id="8f1a133d-1531-49c4-be57-1cf67645d473" name="Default" comment="" />
-    <list default="true" id="65df4483-c907-483f-9920-e0918ff4b5dd" name="Current_changes" comment="Renaming dataprocessor back to treemaker temporarily to solve git issues">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/utils/OperatorUtils.java" />
+    <list default="true" id="65df4483-c907-483f-9920-e0918ff4b5dd" name="Current_changes" comment="Modifying operator interface to take 2 datasets">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/AggregateOperator.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/AggregateOperator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/GroupByOperator.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/GroupByOperator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operatorabstract/Operator.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operatorabstract/Operator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/OrderByOperator.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/OrderByOperator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/ProjectionOperator.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/ProjectionOperator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/parser/datavisitors/SelectDataVisitorImpl.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/parser/datavisitors/SelectDataVisitorImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/SelectionOperator.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/SelectionOperator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/sourceoperators/SourceOperator.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/sourceoperators/SourceOperator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/sourceoperators/FromOperator.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/sourceoperators/FromOperator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/sourceoperators/JoinOperator.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/sourceoperators/JoinOperator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="HelloWorld.iws" />
@@ -109,6 +103,21 @@
         <option name="CONDITION" value="&#13;&#13;JAVA" />
         <option name="LOG_MESSAGE" value="&#13;&#13;JAVA" />
       </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/AggregateOperator.java" line="58" class="edu.buffalo.cse562.model.operators.AggregateOperator" package="edu.buffalo.cse562.model.operators">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
     </line_breakpoints>
     <breakpoint_rules />
     <ui_properties />
@@ -122,25 +131,25 @@
       <file leaf-file-name="AggregateOperator.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/AggregateOperator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="55" column="19" selection-start="1663" selection-end="1663" vertical-scroll-proportion="0.0" vertical-offset="170" max-vertical-offset="918">
+            <state line="58" column="77" selection-start="1796" selection-end="1796" vertical-scroll-proportion="0.0" vertical-offset="221" max-vertical-offset="986">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GroupByOperator.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/GroupByOperator.java">
+      <file leaf-file-name="FromOperator.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/sourceoperators/FromOperator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="34" selection-start="262" selection-end="262" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="357">
+            <state line="6" column="7" selection-start="231" selection-end="231" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="544">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="OrderByOperator.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/OrderByOperator.java">
+      <file leaf-file-name="JoinOperator.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/sourceoperators/JoinOperator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="0" selection-start="587" selection-end="587" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="476">
+            <state line="32" column="19" selection-start="826" selection-end="826" vertical-scroll-proportion="1.070218" vertical-offset="0" max-vertical-offset="595">
               <folding />
             </state>
           </provider>
@@ -150,87 +159,6 @@
         <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/ProjectionOperator.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="77" column="62" selection-start="2550" selection-end="2550" vertical-scroll-proportion="0.0" vertical-offset="578" max-vertical-offset="1683">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ResultSet.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/data/ResultSet.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="13" selection-start="173" selection-end="173" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="476">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DataProcessor.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/processor/DataProcessor.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="74" column="55" selection-start="3405" selection-end="3405" vertical-scroll-proportion="0.0" vertical-offset="375" max-vertical-offset="1972">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="JoinOperator.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/sourceoperators/JoinOperator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="13" selection-start="354" selection-end="354" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="595">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SourceOperator.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/sourceoperators/SourceOperator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="34" selection-start="426" selection-end="426" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="544">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Operator.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operatorabstract/Operator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="35" selection-start="1014" selection-end="1014" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="323">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BinaryOperator.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operatorabstract/BinaryOperator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="0" selection-start="208" selection-end="208" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="238">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SelectionOperator.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/SelectionOperator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="25" selection-start="760" selection-end="760" vertical-scroll-proportion="0.44444445" vertical-offset="0" max-vertical-offset="612">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FromOperator.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/sourceoperators/FromOperator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="13" selection-start="237" selection-end="237" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="544">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UnaryOperator.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operatorabstract/UnaryOperator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="0" selection-start="232" selection-end="232" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="221">
               <folding />
             </state>
           </provider>
@@ -256,7 +184,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/parser/defaultimpl/AbstractSelectVisitor.java" />
         <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/parser/ExpressionVisitorImpl.java" />
         <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/parser/defaultimpl/AbstractStatementVisitor.java" />
         <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/operators/Operator.java" />
@@ -280,7 +207,6 @@
         <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/model/datastructure/TreeNode.java" />
         <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/model/datastructure/tree/MultipleChildrenTree.java" />
         <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/FromOperator.java" />
-        <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/sourceoperators/FromOperator.java" />
         <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/invoker/queryprocessor/QueryProcessor.java" />
         <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/queryparser/TreeMaker.java" />
         <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/parser/datavisitors/FromItemVisitorImpl.java" />
@@ -307,6 +233,8 @@
         <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/sourceoperators/SourceOperator.java" />
         <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/SelectionOperator.java" />
         <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/AggregateOperator.java" />
+        <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/sourceoperators/FromOperator.java" />
+        <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/sourceoperators/JoinOperator.java" />
       </list>
     </option>
   </component>
@@ -733,12 +661,6 @@
             <option name="mySupportsDeletion" value="false" />
             <option name="myCanBeAbsent" value="false" />
             <option name="myId" value="UPDATED" />
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/out/production/HelloWorld/edu/buffalo/cse562/Main.class</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/SelectionOperator.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/src/edu/buffalo/cse562/parser/datavisitors/ExpressionDataVisitorImpl.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/src/edu/buffalo/cse562/parser/datavisitors/FromItemVisitorImpl.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/src/edu/buffalo/cse562/parser/datavisitors/SelectDataVisitorImpl.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/src/edu/buffalo/cse562/parser/datavisitors/StatementDataVisitorImpl.java</PATH>
           </FILE-GROUP>
           <FILE-GROUP>
             <option name="myUpdateName" value="Created" />
@@ -746,7 +668,8 @@
             <option name="mySupportsDeletion" value="false" />
             <option name="myCanBeAbsent" value="false" />
             <option name="myId" value="CREATED" />
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/src/edu/buffalo/cse562/processor/DataProcessor.java</PATH>
+            <PATH vcs="Git" revision="">$PROJECT_DIR$/src/edu/buffalo/cse562/parser/datavisitors/ExpressionTreeExecutor.java</PATH>
+            <PATH vcs="Git" revision="">$PROJECT_DIR$/src/edu/buffalo/cse562/processor/ExpressionTree.java</PATH>
           </FILE-GROUP>
           <FILE-GROUP>
             <option name="myUpdateName" value="Deleted" />
@@ -754,7 +677,6 @@
             <option name="mySupportsDeletion" value="false" />
             <option name="myCanBeAbsent" value="true" />
             <option name="myId" value="REMOVED_FROM_REPOSITORY" />
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/src/edu/buffalo/cse562/processor/TreeMaker.java</PATH>
           </FILE-GROUP>
           <FILE-GROUP>
             <option name="myUpdateName" value="Restored" />
@@ -1077,7 +999,7 @@
       <workItem from="1392872623458" duration="41005000" />
       <workItem from="1392962420723" duration="1421000" />
       <workItem from="1392975433722" duration="2022000" />
-      <workItem from="1393020873676" duration="3154000" />
+      <workItem from="1393020873676" duration="3424000" />
     </task>
     <task id="LOCAL-00001" summary="Git testing">
       <created>1392091354753</created>
@@ -1143,11 +1065,15 @@
       <created>1393021322592</created>
       <updated>1393021322592</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Modifying operator interface to take 2 datasets">
+      <created>1393024130732</created>
+      <updated>1393024130732</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="131707000" />
+    <option name="totallyTimeSpent" value="131977000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1184,7 +1110,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39967373" sideWeight="0.42069486" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32930514" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32626426" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32463294" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32463294" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32952693" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
@@ -1213,13 +1139,13 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39967373" sideWeight="0.42069486" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32930514" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32626426" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32463294" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32463294" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32930514" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32952693" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2666163" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2666163" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32626426" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1249,7 +1175,8 @@
     <MESSAGE value="Ankesh - Datagrabber handling columndefintions" />
     <MESSAGE value="Changing schema type back to string" />
     <MESSAGE value="Renaming dataprocessor back to treemaker temporarily to solve git issues" />
-    <option name="LAST_COMMIT_MESSAGE" value="Renaming dataprocessor back to treemaker temporarily to solve git issues" />
+    <MESSAGE value="Modifying operator interface to take 2 datasets" />
+    <option name="LAST_COMMIT_MESSAGE" value="Modifying operator interface to take 2 datasets" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
@@ -1477,44 +1404,51 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/SelectionOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="5" selection-start="921" selection-end="921" vertical-scroll-proportion="0.5277778" vertical-offset="0" max-vertical-offset="612">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operatorabstract/BinaryOperator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="0" selection-start="208" selection-end="208" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="238">
+        <state line="13" column="0" selection-start="208" selection-end="208" vertical-scroll-proportion="0.16666667" vertical-offset="0" max-vertical-offset="612">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operatorabstract/Operator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="35" selection-start="1014" selection-end="1014" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="323">
+        <state line="22" column="35" selection-start="1014" selection-end="1014" vertical-scroll-proportion="0.22222222" vertical-offset="0" max-vertical-offset="612">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/sourceoperators/SourceOperator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="34" selection-start="426" selection-end="426" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="544">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/sourceoperators/JoinOperator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="13" selection-start="354" selection-end="354" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="595">
+        <state line="16" column="34" selection-start="426" selection-end="426" vertical-scroll-proportion="0.33333334" vertical-offset="0" max-vertical-offset="612">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/processor/DataProcessor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="74" column="55" selection-start="3405" selection-end="3405" vertical-scroll-proportion="0.0" vertical-offset="375" max-vertical-offset="1972">
+        <state line="74" column="55" selection-start="3405" selection-end="3405" vertical-scroll-proportion="0.6928105" vertical-offset="375" max-vertical-offset="1972">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/data/ResultSet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="13" selection-start="173" selection-end="173" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="476">
+        <state line="10" column="13" selection-start="173" selection-end="173" vertical-scroll-proportion="0.16666667" vertical-offset="0" max-vertical-offset="612">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operatorabstract/UnaryOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="0" selection-start="232" selection-end="232" vertical-scroll-proportion="0.1388889" vertical-offset="0" max-vertical-offset="612">
           <folding />
         </state>
       </provider>
@@ -1528,42 +1462,35 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/OrderByOperator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="0" selection-start="587" selection-end="587" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="476">
+        <state line="25" column="0" selection-start="587" selection-end="587" vertical-scroll-proportion="0.5833333" vertical-offset="0" max-vertical-offset="612">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/GroupByOperator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="34" selection-start="262" selection-end="262" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="357">
+        <state line="7" column="34" selection-start="262" selection-end="262" vertical-scroll-proportion="0.16666667" vertical-offset="0" max-vertical-offset="612">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/AggregateOperator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="19" selection-start="1663" selection-end="1663" vertical-scroll-proportion="0.0" vertical-offset="170" max-vertical-offset="918">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operatorabstract/UnaryOperator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="0" selection-start="232" selection-end="232" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="221">
+        <state line="58" column="77" selection-start="1796" selection-end="1796" vertical-scroll-proportion="0.0" vertical-offset="221" max-vertical-offset="986">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/sourceoperators/FromOperator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="13" selection-start="237" selection-end="237" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="544">
+        <state line="6" column="7" selection-start="231" selection-end="231" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="544">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/SelectionOperator.java">
+    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/operators/sourceoperators/JoinOperator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="25" selection-start="760" selection-end="760" vertical-scroll-proportion="0.44444445" vertical-offset="0" max-vertical-offset="612">
+        <state line="32" column="19" selection-start="826" selection-end="826" vertical-scroll-proportion="1.070218" vertical-offset="0" max-vertical-offset="595">
           <folding />
         </state>
       </provider>
