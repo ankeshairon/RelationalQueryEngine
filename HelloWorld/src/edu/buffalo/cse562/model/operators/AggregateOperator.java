@@ -18,16 +18,21 @@ import net.sf.jsqlparser.expression.Expression;
 
 public class AggregateOperator implements UnaryOperator {
 
-    public AggregateOperator(Expression aggregationExpression) {
 
+    private ResultSet resultSet;
+    private Expression aggregationExpression;
+
+    public AggregateOperator(Expression aggregationExpression) {
+        this.aggregationExpression = aggregationExpression;
     }
 
     @Override
-    public void dataIn(ResultSet data) {
+    public void dataIn(ResultSet resultSet) {
+
     }
 
     @Override
     public ResultSet dataOut() {
-        return null;
+        return resultSet;
     }
 }

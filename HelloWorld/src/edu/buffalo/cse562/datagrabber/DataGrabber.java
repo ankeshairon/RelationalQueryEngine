@@ -2,7 +2,6 @@ package edu.buffalo.cse562.datagrabber;
 
 import edu.buffalo.cse562.model.data.ResultSet;
 import edu.buffalo.cse562.model.data.Tuple;
-import net.sf.jsqlparser.statement.create.table.ColumnDefinition;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -15,14 +14,14 @@ import java.util.Map;
 public class DataGrabber {
 
     private String dataFolder;
-    private Map<String, ArrayList<ColumnDefinition>> tables;
+    private Map<String, ArrayList<String>> tables;
 
     public DataGrabber(String dataFolder) {
         this.dataFolder = dataFolder;
         this.tables = new LinkedHashMap<>();
     }
 
-    public void addTable(String tableName, ArrayList<ColumnDefinition> columnDefinitions) {
+    public void addTable(String tableName, ArrayList<String> columnDefinitions) {
         tables.put(tableName, columnDefinitions);
     }
 
@@ -33,7 +32,7 @@ public class DataGrabber {
      */
     public ResultSet getAllDataFromTable(String tableName) {
 
-        ArrayList<ColumnDefinition> schema = tables.get(tableName);
+        ArrayList<String> schema = tables.get(tableName);
         ArrayList<Tuple> tuples = new ArrayList<>();
 
 
