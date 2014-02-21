@@ -3,7 +3,7 @@ package edu.buffalo.cse562.parser.datavisitors;
 
 import edu.buffalo.cse562.datagrabber.DataGrabber;
 import edu.buffalo.cse562.parser.defaultimpl.AbstractStatementVisitor;
-import edu.buffalo.cse562.processor.TreeMaker;
+import edu.buffalo.cse562.processor.DataProcessor;
 import net.sf.jsqlparser.statement.create.table.ColumnDefinition;
 import net.sf.jsqlparser.statement.create.table.CreateTable;
 import net.sf.jsqlparser.statement.select.Select;
@@ -20,7 +20,7 @@ public class StatementDataVisitorImpl extends AbstractStatementVisitor {
 
     @Override
     public void visit(Select selectTypeQuery) {
-        SelectDataVisitorImpl selectVisitor = new SelectDataVisitorImpl(new TreeMaker(dataGrabber));
+        SelectDataVisitorImpl selectVisitor = new SelectDataVisitorImpl(new DataProcessor(dataGrabber));
         selectTypeQuery.getSelectBody().accept(selectVisitor);
     }
 

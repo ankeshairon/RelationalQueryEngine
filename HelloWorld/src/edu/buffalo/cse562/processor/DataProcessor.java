@@ -16,6 +16,7 @@ import edu.buffalo.cse562.model.operators.SelectionOperator;
 import edu.buffalo.cse562.model.operators.sourceoperators.FromOperator;
 import edu.buffalo.cse562.model.operators.sourceoperators.JoinOperator;
 import edu.buffalo.cse562.model.operators.sourceoperators.SourceOperator;
+import edu.buffalo.cse562.parser.datavisitors.ExpressionDataVisitorImpl;
 import edu.buffalo.cse562.parser.datavisitors.FromItemVisitorImpl;
 import edu.buffalo.cse562.parser.datavisitors.OrderByVisitorImpl;
 import edu.buffalo.cse562.parser.datavisitors.SelectItemVisitorImpl;
@@ -30,11 +31,11 @@ import net.sf.jsqlparser.statement.select.SelectItem;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TreeMaker {
+public class DataProcessor {
     private ArrayList<Operator> operatorList;
     private DataGrabber dataGrabber;
 
-    public TreeMaker(DataGrabber dataGrabber) {
+    public DataProcessor(DataGrabber dataGrabber) {
         this.dataGrabber = dataGrabber;
         this.operatorList = new ArrayList<>();
     }
@@ -77,14 +78,13 @@ public class TreeMaker {
 
         operatorList.add(sourceOperator);
     }
-
     public void addWhereOperator(PlainSelect plainSelect) {
-        //todo
-
-        Expression whereExpression = plainSelect.getWhere();
-        if (whereExpression != null) {
-            SelectionOperator selectOperator = new SelectionOperator();
-            selectOperator.setWhereCondition(whereExpression);
+        if (plainSelect.getWhere() != null) {
+            ExpressionDataVisitorImpl expressionDataVisitorImpl = new ExpressionDataVisitorImpl();
+            Expression whereExpression = plainSelect.getWhere();
+            whereExpression.accept(expressionDataVisitorImpl);
+            expressionDataVisitorImpl.showTree();
+            SelectionOperator selectOperator = new SelectionOperator(expressionDataVisitorImpl.getExpressionTree());
             this.operatorList.add(selectOperator);
         }
     }

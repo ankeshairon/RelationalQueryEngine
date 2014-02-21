@@ -1,13 +1,13 @@
 package edu.buffalo.cse562.parser.datavisitors;
 
 import edu.buffalo.cse562.parser.defaultimpl.AbstractSelectVisitor;
-import edu.buffalo.cse562.processor.TreeMaker;
+import edu.buffalo.cse562.processor.DataProcessor;
 import net.sf.jsqlparser.statement.select.PlainSelect;
 
 public class SelectDataVisitorImpl extends AbstractSelectVisitor {
-    private TreeMaker treeMaker;
+    private DataProcessor treeMaker;
 
-    public SelectDataVisitorImpl(TreeMaker treeMaker) {
+    public SelectDataVisitorImpl(DataProcessor treeMaker) {
         this.treeMaker = treeMaker;
     }
 

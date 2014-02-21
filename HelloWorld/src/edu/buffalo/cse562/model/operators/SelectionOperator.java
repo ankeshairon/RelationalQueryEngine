@@ -8,21 +8,24 @@ package edu.buffalo.cse562.model.operators;
 
 import edu.buffalo.cse562.model.data.ResultSet;
 import edu.buffalo.cse562.model.operatorabstract.UnaryOperator;
+import edu.buffalo.cse562.parser.datavisitors.ExpressionTreeExecutor;
+import edu.buffalo.cse562.processor.ExpressionTree;
 import net.sf.jsqlparser.expression.Expression;
 
 public class SelectionOperator implements UnaryOperator {
 
-    private Expression whereCondition;
-    private ResultSet resultSet;
-
-    public void setWhereCondition(Expression whereCondition) {
-        this.whereCondition = whereCondition;
+    private ResultSet data;
+    private ExpressionTree expressionTree;
+    
+    public SelectionOperator(ExpressionTree expressionTree) {
+    	this.expressionTree = expressionTree;  
     }
-
-
+	
     @Override
-    public void dataIn(ResultSet resultSet) {
-        this.resultSet = resultSet;
+    public void dataIn(ResultSet data) {
+    	ExpressionTreeExecutor expressionTreeExecutor = new ExpressionTreeExecutor();
+    	// Iterate over the data and push it into the tree if overall value returned is true,
+    	// We are good, otherwise discard the tuple
     }
 
     @Override
