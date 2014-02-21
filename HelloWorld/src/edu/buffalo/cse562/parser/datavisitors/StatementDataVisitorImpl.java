@@ -27,9 +27,9 @@ public class StatementDataVisitorImpl extends AbstractStatementVisitor {
     @Override
     public void visit(CreateTable createTypeQuery) {
         String tableName = createTypeQuery.getTable().getName();
-        ArrayList<String> columnNames = new ArrayList<>();
+        ArrayList<ColumnDefinition> columnNames = new ArrayList<>();
         for (Object columnDefinition : createTypeQuery.getColumnDefinitions()) {
-            columnNames.add(((ColumnDefinition) columnDefinition).getColumnName());
+            columnNames.add(((ColumnDefinition) columnDefinition));
         }
         dataGrabber.addTable(tableName, columnNames);
     }

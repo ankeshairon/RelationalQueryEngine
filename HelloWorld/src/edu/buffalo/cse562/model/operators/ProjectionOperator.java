@@ -26,21 +26,10 @@ public class ProjectionOperator implements UnaryOperator {
     }
 
     @Override
-    public void dataIn(ResultSet data) {
-        this.resultSet = data;
-
+    public void dataIn(ResultSet inputDataSet) {
         //todo implement projection operator
         //make calls to resultSet manipulating class & populate resultset inside it
 
-        if (aggregates.isEmpty() && columnNames.isEmpty()) {
-            getDataForAllColumns();
-        } else if (aggregates.isEmpty()) {
-            getDataForColumns();
-        } else if (columnNames.isEmpty()) {
-            getAggregatedData();
-        } else {
-            getAggregatedDataForColumns();
-        }
 
     }
 
@@ -57,22 +46,6 @@ public class ProjectionOperator implements UnaryOperator {
     public void addProjectionAttribute(Expression aggregationExpression) {
         aggregates.put(currentIndex, new AggregateOperator(aggregationExpression));
         ++currentIndex;
-    }
-
-    private ResultSet getAggregatedDataForColumns() {
-        return null;
-    }
-
-    private ResultSet getAggregatedData() {
-        return null;
-    }
-
-    private ResultSet getDataForColumns() {
-        return null;
-    }
-
-    private ResultSet getDataForAllColumns() {
-        return null;
     }
 
 }
