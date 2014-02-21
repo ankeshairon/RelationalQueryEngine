@@ -29,6 +29,7 @@ public class SelectionOperator implements UnaryOperator {
         ExpressionTreeExecutor expressionTreeExecutor = new ExpressionTreeExecutor();
     	// Iterate over the data and push it into the tree if overall value returned is true,
     	// We are good, otherwise discard the tuple
+        ArrayList<String> schema = data[0].getSchema();
         ListIterator<Tuple> listIterator =  data[0].getTuplesListIteratorFromLastElement();
         while(listIterator.hasPrevious()){
         	Tuple meraTuple = listIterator.previous();
