@@ -30,11 +30,11 @@ import net.sf.jsqlparser.statement.select.SelectItem;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataProcessor {
+public class TreeMaker {
     private ArrayList<Operator> operatorList;
     private DataGrabber dataGrabber;
 
-    public DataProcessor(DataGrabber dataGrabber) {
+    public TreeMaker(DataGrabber dataGrabber) {
         this.dataGrabber = dataGrabber;
         this.operatorList = new ArrayList<>();
     }
