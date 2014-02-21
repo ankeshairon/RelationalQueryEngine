@@ -21,6 +21,7 @@ import edu.buffalo.cse562.parser.datavisitors.OrderByVisitorImpl;
 import edu.buffalo.cse562.parser.datavisitors.SelectItemVisitorImpl;
 import edu.buffalo.cse562.view.ResultsViewer;
 import net.sf.jsqlparser.expression.Expression;
+import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.select.Join;
 import net.sf.jsqlparser.statement.select.OrderByElement;
 import net.sf.jsqlparser.statement.select.PlainSelect;
@@ -89,7 +90,7 @@ public class DataProcessor {
     }
 
     public void addProjectOperator(PlainSelect plainSelect) {
-        ProjectionOperator projectionOperator = new ProjectionOperator();
+        ProjectionOperator projectionOperator = new ProjectionOperator(dataGrabber, ((Table) plainSelect.getFromItem()).getName());
         List<SelectItem> selectItems = plainSelect.getSelectItems();
         SelectItemVisitorImpl selectItemVisitorImpl = new SelectItemVisitorImpl(projectionOperator);
 

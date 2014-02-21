@@ -9,6 +9,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DataGrabber {
@@ -23,6 +24,10 @@ public class DataGrabber {
 
     public void addTable(String tableName, ArrayList<String> columnDefinitions) {
         tables.put(tableName, columnDefinitions);
+    }
+
+    public List<String> getNamesOfAllColumnsForTable(String tableName) {
+        return tables.get(tableName);
     }
 
     /*

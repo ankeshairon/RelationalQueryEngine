@@ -6,24 +6,23 @@
 package edu.buffalo.cse562.model.data;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.ListIterator;
 
 public class ResultSet {
-    public ArrayList<String> schema;
-    public ArrayList<Tuple> tuples;
-    private Iterator<Tuple> tuplesIterator;
+    private ArrayList<String> schema;
+    private ArrayList<Tuple> tuples;
 
     public ResultSet(ArrayList<String> schema, ArrayList<Tuple> tuples) {
         this.schema = schema;
         this.tuples = tuples;
-        tuplesIterator = tuples.iterator();
     }
 
-    public boolean hasNext() {
-        return tuplesIterator.hasNext();
+    public ListIterator<Tuple> getTuplesListIteratorFromLastElement() {
+        return tuples.listIterator(tuples.size());
     }
 
-    public Tuple next() {
-        return tuplesIterator.next();
+    public ArrayList<String> getSchema() {
+        return schema;
     }
+
 }
