@@ -20,6 +20,10 @@ public class ResultSet {
     public ListIterator<Tuple> getTuplesListIteratorFromLastElement() {
         return tuples.listIterator(tuples.size());
     }
+    
+    public ListIterator<Tuple> getTuplesListIteratorFromFirstElement() {
+        return tuples.listIterator();
+    }
 
     public ArrayList<String> getSchema() {
         return schema;
