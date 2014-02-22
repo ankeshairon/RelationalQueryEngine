@@ -84,7 +84,7 @@ public class DataProcessor {
             Expression whereExpression = plainSelect.getWhere();
             whereExpression.accept(expressionDataVisitorImpl);
             expressionDataVisitorImpl.showTree();
-            SelectionOperator selectOperator = new SelectionOperator(expressionDataVisitorImpl.getExpressionTree());
+            SelectionOperator selectOperator = new SelectionOperator(expressionDataVisitorImpl.getExpressionTree(),expressionDataVisitorImpl.getColumnNames());
             this.operatorList.add(selectOperator);
         }
     }

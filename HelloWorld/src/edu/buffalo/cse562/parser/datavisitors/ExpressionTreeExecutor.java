@@ -1,7 +1,16 @@
 package edu.buffalo.cse562.parser.datavisitors;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+
 import net.sf.jsqlparser.expression.DateValue;
 import net.sf.jsqlparser.expression.DoubleValue;
+import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.Function;
 import net.sf.jsqlparser.expression.LongValue;
 import net.sf.jsqlparser.expression.StringValue;
@@ -17,10 +26,21 @@ import net.sf.jsqlparser.expression.operators.relational.GreaterThanEquals;
 import net.sf.jsqlparser.expression.operators.relational.MinorThan;
 import net.sf.jsqlparser.expression.operators.relational.MinorThanEquals;
 import net.sf.jsqlparser.schema.Column;
+import edu.buffalo.cse562.model.data.Tuple;
 import edu.buffalo.cse562.parser.defaultimpl.AbstractExpressionVisitor;
 
 public class ExpressionTreeExecutor extends AbstractExpressionVisitor {
 
+	boolean toAdd = false;
+	List<Tuple> workingSet;
+	
+	public ExpressionTreeExecutor(List<Tuple> workingSet) {
+		this.workingSet = workingSet;
+	}
+	
+	public boolean getToAdd() {
+		return toAdd;
+	}
 	@Override
 	public void visit(Function fnctn) {
 		// TODO Auto-generated method stub
@@ -52,9 +72,32 @@ public class ExpressionTreeExecutor extends AbstractExpressionVisitor {
 	}
 
 	@Override
-	public void visit(Addition adtn) {
-		// TODO Auto-generated method stub
-		super.visit(adtn);
+	public void visit(Addition expr) {
+		Pattern pattern = Pattern.compile("[\\d()+*/.\\-\\s]*");
+    	Matcher matcher = pattern.matcher(expr.toString().trim());
+    	if (matcher.matches()) {
+    		try {
+    			ScriptEngineManager manager = new ScriptEngineManager();
+    			ScriptEngine engine = manager.getEngineByName("JavaScript");
+    			System.out.println("## " + engine.eval(expr.toString()));
+    			String val = engine.eval(expr.toString()).toString();
+    			if (val.contains(".")) {
+    				DoubleValue doubleExpr = new DoubleValue(val);
+    				expressionTree.insert(doubleExpr);
+    			}
+    			else {
+    				LongValue longExpr = new LongValue(val);
+    				expressionTree.insert(longExpr);
+    			}
+    		} catch(Exception e) {e.printStackTrace();}
+    	}
+    	else {
+    	  	Expression leftExpression = expr.getLeftExpression();
+            Expression rightExpression = expr.getRightExpression();
+            
+            expressionTree.insert(expr);
+            addToExpressionTree(leftExpression, rightExpression);
+    	}
 	}
 
 	@Override

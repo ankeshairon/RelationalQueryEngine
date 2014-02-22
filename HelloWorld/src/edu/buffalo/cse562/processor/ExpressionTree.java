@@ -21,6 +21,8 @@ package edu.buffalo.cse562.processor;
 
 
 import net.sf.jsqlparser.expression.Expression;
+import net.sf.jsqlparser.expression.StringValue;
+import net.sf.jsqlparser.schema.Column;
 
 public class ExpressionTree {
 	
@@ -61,6 +63,7 @@ public class ExpressionTree {
 	 */
 	public void insert(Expression expr) {
 		currentNode.expression = expr;
+		System.out.println("Added: " + expr.toString());
 		count++;
 	}
 	
@@ -77,6 +80,7 @@ public class ExpressionTree {
 	/* Traversal Begin */
 	
 	private void traverse(Node node) {
+	
 		System.out.println(node.expression);
 		if (node.leftChild != null)
 			traverse(node.leftChild);
@@ -86,7 +90,8 @@ public class ExpressionTree {
 	}
 	
 	public void traverse() {
-		traverse(root);
+		System.out.println("Tree:" + count + "\n" );
+		traverse(root);	
 	}
 	/* Traversal End */
 	

@@ -1,5 +1,7 @@
 package edu.buffalo.cse562.parser.datavisitors;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,12 +30,15 @@ import net.sf.jsqlparser.schema.Column;
 public class ExpressionDataVisitorImpl extends AbstractExpressionVisitor {
 
 	ExpressionTree expressionTree;
+	HashSet<String> columnNames;
 	
 	public ExpressionDataVisitorImpl() {
 		expressionTree = new ExpressionTree();
+		columnNames = new HashSet<>();
 	}
-	public ExpressionDataVisitorImpl(ExpressionTree exprTree) {
+	public ExpressionDataVisitorImpl(ExpressionTree exprTree, HashSet columnSet) {
 		expressionTree = exprTree;		
+		columnNames = columnSet;
 	}
 	
 	public void showTree() {
@@ -43,18 +48,29 @@ public class ExpressionDataVisitorImpl extends AbstractExpressionVisitor {
 	public ExpressionTree getExpressionTree() {
 		return expressionTree;
 	}
+	public HashSet getColumnNames() {
+		return columnNames;
+	}
 	
 	private void addToExpressionTree(Expression leftExpression, Expression rightExpression) {
+		if (leftExpression instanceof Column) {
+			columnNames.add(leftExpression.toString());
+			System.out.println(leftExpression.toString());
+		}
 		if (leftExpression instanceof BinaryExpression) {
         	expressionTree.moveLeft();
-        	leftExpression.accept(new ExpressionDataVisitorImpl(expressionTree));
+        	leftExpression.accept(new ExpressionDataVisitorImpl(expressionTree,columnNames));
         }
         else 
         	expressionTree.insert(leftExpression);
-        
+		
+		if (rightExpression instanceof Column) {
+			columnNames.add(rightExpression.toString());
+			System.out.println(rightExpression.toString());
+		}
         if (rightExpression instanceof BinaryExpression) {
         	expressionTree.moveRight();
-        	rightExpression.accept(new ExpressionDataVisitorImpl(expressionTree));
+        	rightExpression.accept(new ExpressionDataVisitorImpl(expressionTree,columnNames));
         }
         else
         	expressionTree.insert(rightExpression);
@@ -66,7 +82,7 @@ public class ExpressionDataVisitorImpl extends AbstractExpressionVisitor {
 		System.out.println("And MinorThanEquals: " + expr);
 	  	Expression leftExpression = expr.getLeftExpression();
         Expression rightExpression = expr.getRightExpression();
-        
+       
         expressionTree.insert(expr);
         addToExpressionTree(leftExpression, rightExpression);
         
