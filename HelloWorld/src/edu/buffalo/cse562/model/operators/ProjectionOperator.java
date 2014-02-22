@@ -15,7 +15,6 @@ import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.Function;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -26,8 +25,9 @@ public class ProjectionOperator implements UnaryOperator {
     private DataGrabber dataGrabber;
     private String tableName;
 
-    private LinkedHashMap<Integer, String> columnNames;
-    private LinkedHashMap<Integer, Function> aggregationFunctions;
+    private List<String> columnNames;
+    private List<Function> aggregationFunctions;
+    private List<Integer> indexesOfFunctionsInProjectionList;
     private Integer currentIndex;
 
     private ResultSet resultSet;
@@ -36,8 +36,9 @@ public class ProjectionOperator implements UnaryOperator {
         this.dataGrabber = dataGrabber;
         this.tableName = tableName;
         currentIndex = 0;
-        columnNames = new LinkedHashMap<>();
-        aggregationFunctions = new LinkedHashMap<>();
+        columnNames = new ArrayList<>();
+        indexesOfFunctionsInProjectionList = new ArrayList<>();
+        aggregationFunctions = new ArrayList<>();
     }
 
     @Override
@@ -49,7 +50,6 @@ public class ProjectionOperator implements UnaryOperator {
         } else if (columnNames.isEmpty()) {
             resultSet = getDataForAggregationsOnly(inputDataSet[0]);
         } else {
-            //todo
             resultSet = getDataForColumnsAndAggregations(inputDataSet[0]);
         }
 
@@ -61,21 +61,35 @@ public class ProjectionOperator implements UnaryOperator {
     }
 
     public void addProjectionAttribute(String columnName) {
-        columnNames.put(currentIndex, columnName);
+        columnNames.add(columnName);
         ++currentIndex;
     }
 
-    public void addProjectionAttribute(Expression aggregationExpression) {
-        aggregationFunctions.put(currentIndex, (Function) aggregationExpression);
+    public void addProjectionAttribute(Expression projectionExpression) {
+        if (projectionExpression instanceof Function) {
+            aggregationFunctions.add((Function) projectionExpression);
+            indexesOfFunctionsInProjectionList.add(currentIndex);
+        } else {
+            columnNames.add(projectionExpression.toString());
+        }
         ++currentIndex;
     }
 
     private ResultSet getDataForColumnsAndAggregations(ResultSet inputDataSet) {
-        ResultSet dataFromAggregationSingleTuple = getDataForAggregationsOnly(inputDataSet);
-        ResultSet dataOfSelectedColumnsSingleTuple = getRowsOfDataForColumnsInOrder(inputDataSet, 1);
+        ResultSet destinationDataSet = getRowsOfDataForColumnsInOrder(inputDataSet, 1);
+        ResultSet indexedDataSet = getDataForAggregationsOnly(inputDataSet);
 
-//        dataFromAggregationSingleTuple
-        return null;
+        mergePartialLists2To1(destinationDataSet.getSchema(), indexedDataSet.getSchema());
+        mergePartialLists2To1(destinationDataSet.getTuples().get(0).fields, indexedDataSet.getTuples().get(0).fields);
+
+        return destinationDataSet;
+    }
+
+    private void mergePartialLists2To1(List destinationList, List indexedList) {
+        ListIterator indexedListIterator = indexedList.listIterator();
+        for (Integer targetIndex : indexesOfFunctionsInProjectionList) {
+            destinationList.add(targetIndex, indexedListIterator.next());
+        }
     }
 
     private ResultSet getDataForAggregationsOnly(ResultSet inputDataSet) {
@@ -89,8 +103,7 @@ public class ProjectionOperator implements UnaryOperator {
     }
 
     private ResultSet getRowsOfDataForColumnsInOrder(ResultSet inputDataSet, Integer noOfRows) {
-        ArrayList<String> newSchema = new ArrayList<>(columnNames.values());
-        List<Integer> indicesOfDataToPull = calculateIndicesOfTheseDataColumns(dataGrabber.getNamesOfAllColumnsForTable(tableName), newSchema);
+        List<Integer> indicesOfDataToPull = calculateIndicesOfTheseDataColumns(dataGrabber.getNamesOfAllColumnsForTable(tableName), columnNames);
         ArrayList<Tuple> newRowSet = new ArrayList<>();
 
         if (noOfRows < 0) {
@@ -98,7 +111,7 @@ public class ProjectionOperator implements UnaryOperator {
         } else {
             populateLastRowOfData(inputDataSet, newRowSet, indicesOfDataToPull, noOfRows);
         }
-        return new ResultSet(newSchema, newRowSet);
+        return new ResultSet(columnNames, newRowSet);
     }
 
     private void populateLastRowOfData(ResultSet inputDataSet, ArrayList<Tuple> newRowSet, List<Integer> indicesOfDataToPull, Integer noOfRows) {

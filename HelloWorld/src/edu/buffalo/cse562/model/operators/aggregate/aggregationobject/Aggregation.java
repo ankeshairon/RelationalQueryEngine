@@ -7,17 +7,11 @@ public abstract class Aggregation {
     String oldColumnName;
     Integer oldSchemaIndex;
     String newColumnName;
-    Integer newSchemaIndex;
 
-    public Aggregation(Function aggregationFunction, Integer indexInNewSchema, Integer indexInOldSchema) {
+    public Aggregation(Function aggregationFunction, Integer indexInOldSchema) {
         oldColumnName = aggregationFunction.getParameters().getExpressions().get(0).toString();
         newColumnName = aggregationFunction.toString();
-        newSchemaIndex = indexInNewSchema;
         oldSchemaIndex = indexInOldSchema;
-    }
-
-    public Integer getNewSchemaIndex() {
-        return newSchemaIndex;
     }
 
     public String getNewColumnName() {

@@ -6,8 +6,8 @@ import net.sf.jsqlparser.expression.Function;
 public class CountAggregation extends Aggregation {
     private Integer value;
 
-    public CountAggregation(Function aggregationFunction, Integer indexInNewSchema, Integer indexInOldSchema) {
-        super(aggregationFunction, indexInNewSchema, indexInOldSchema);
+    public CountAggregation(Function aggregationFunction, Integer indexInOldSchema) {
+        super(aggregationFunction, indexInOldSchema);
         value = 0;
     }
 

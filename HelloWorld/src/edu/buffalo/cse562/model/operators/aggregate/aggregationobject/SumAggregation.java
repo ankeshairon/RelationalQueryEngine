@@ -7,8 +7,8 @@ public class SumAggregation extends Aggregation {
 
     private Long value;
 
-    public SumAggregation(Function aggregationFunction, Integer indexInNewSchema, Integer indexInOldSchema) {
-        super(aggregationFunction, indexInNewSchema, indexInOldSchema);
+    public SumAggregation(Function aggregationFunction, Integer indexInOldSchema) {
+        super(aggregationFunction, indexInOldSchema);
         value = 0L;
     }
 

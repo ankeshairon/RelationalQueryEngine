@@ -46,7 +46,7 @@ public class DataProcessor {
         addProjectOperator(plainSelect);
         addOrderByOperator(plainSelect);
         addGroupByOperator(plainSelect);
-        ResultsViewer.viewResults(executeOperators(null));
+        ResultsViewer.viewResults(executeOperators());
 
     }
 
@@ -127,7 +127,8 @@ public class DataProcessor {
         // Sysout to see what we get here
     }
 
-    private ResultSet executeOperators(ResultSet resultSet) {
+    private ResultSet executeOperators() {
+        ResultSet resultSet = null;
         for (Operator operator : this.operatorList) {
             operator.dataIn(resultSet);
             resultSet = operator.dataOut();

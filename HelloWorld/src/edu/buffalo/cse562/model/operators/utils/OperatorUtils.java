@@ -18,7 +18,7 @@ public class OperatorUtils {
         return calculateIndicesOfTheseDataColumns(superset, new String[]{name}).get(0);
     }
 
-    public static List<Integer> calculateIndicesOfTheseDataColumns(List<String> superset, ArrayList<String> subset) {
+    public static List<Integer> calculateIndicesOfTheseDataColumns(List<String> superset, List<String> subset) {
         return calculateIndicesOfTheseDataColumns(superset, subset.toArray(new String[subset.size()]));
     }
 }

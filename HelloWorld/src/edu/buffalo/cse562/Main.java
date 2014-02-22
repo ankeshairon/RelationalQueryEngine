@@ -2,14 +2,17 @@ package edu.buffalo.cse562;
 
 import edu.buffalo.cse562.invoker.RelationalQueryEngine;
 
+import java.util.ArrayList;
+
 public class Main {
     public static void main(String[] args) {
         new RelationalQueryEngine().invoke(args);
 
-//        Map<Integer, Integer> map = new HashMap<>();
-//        map.put(0,0);
-//        map.put(0, map.get(0) + 1);
-//        System.out.println(map.get(0));
-
+        ArrayList l = new ArrayList();
+        l.add(null);
+        l.add(null);
+        l.add("c");
+        l.set(2, "b");
+        l.set(1, "a");
     }
 }

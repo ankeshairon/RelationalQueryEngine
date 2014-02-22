@@ -17,7 +17,6 @@ import edu.buffalo.cse562.model.operators.aggregate.aggregationobject.Aggregatio
 import net.sf.jsqlparser.expression.Function;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -28,15 +27,10 @@ public class AggregateOperator implements UnaryOperator {
     //todo handle aggregates like sum(extendedprice*(1-discount))
 
     private ResultSet resultSet;
-    private LinkedHashMap<Integer, Function> aggregationFunctions;
+    private List<Function> aggregationFunctions;
 
-    LinkedHashMap<Integer, Long> sums;
-    LinkedHashMap<Integer, Integer> counts;
-
-    public AggregateOperator(LinkedHashMap<Integer, Function> aggregationFunctions) {
+    public AggregateOperator(List<Function> aggregationFunctions) {
         this.aggregationFunctions = aggregationFunctions;
-        sums = new LinkedHashMap<>();
-        counts = new LinkedHashMap<>();
     }
 
     @Override
@@ -61,8 +55,8 @@ public class AggregateOperator implements UnaryOperator {
         ArrayList<String> newSchema = new ArrayList<>();
 
         for (Aggregation aggregation : aggregations) {
-            newSchema.add(aggregation.getNewSchemaIndex(), aggregation.getNewColumnName());
-            tuple.fields.add(aggregation.getNewSchemaIndex(), aggregation.getValue());
+            newSchema.add(aggregation.getNewColumnName());
+            tuple.fields.add(aggregation.getValue());
         }
         resultSet = new ResultSet(newSchema, newSingleTuple);
     }
@@ -86,11 +80,9 @@ public class AggregateOperator implements UnaryOperator {
     private List<Aggregation> createAggregations(ResultSet inputDataSet) {
         List<Aggregation> aggregations = new ArrayList<>();
 
-        for (Integer indexInNewSchema : aggregationFunctions.keySet()) {
-            Function aggregationFunction = aggregationFunctions.get(indexInNewSchema);
+        for (Function aggregationFunction : aggregationFunctions) {
             aggregations.add(AggregationObjectFactory.getAggregationObject(
                     aggregationFunction,
-                    indexInNewSchema,
                     calculateIndicesOfTheseDataColumns(inputDataSet.getSchema(),
                             getColumnName(aggregationFunction)))
             );

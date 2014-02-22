@@ -6,14 +6,15 @@
 package edu.buffalo.cse562.model.data;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ListIterator;
 
 public class ResultSet {
-    private ArrayList<Integer> indexesOfColumnsToDisplay;
-    private ArrayList<String> schema;
-    private ArrayList<Tuple> tuples;
+    private List<Integer> indexesOfColumnsToDisplay;
+    private List<String> schema;
+    private List<Tuple> tuples;
 
-    public ResultSet(ArrayList<String> schema, ArrayList<Tuple> tuples) {
+    public ResultSet(List<String> schema, List<Tuple> tuples) {
         this.schema = schema;
         this.tuples = tuples;
         instantiateListOfColumnIndexesToDisplay();
@@ -31,11 +32,11 @@ public class ResultSet {
         return tuples.listIterator();
     }
 
-    public ArrayList<String> getSchema() {
+    public List<String> getSchema() {
         return schema;
     }
 
-    public ArrayList<Tuple> getTuples() {
+    public List<Tuple> getTuples() {
         return tuples;
     }
 

@@ -7,8 +7,8 @@ public class AverageAggregation extends Aggregation {
     private Long sum;
     private Integer count;
 
-    public AverageAggregation(Function aggregationFunction, Integer indexInNewSchema, Integer indexInOldSchema) {
-        super(aggregationFunction, indexInNewSchema, indexInOldSchema);
+    public AverageAggregation(Function aggregationFunction, Integer indexInOldSchema) {
+        super(aggregationFunction, indexInOldSchema);
         sum = 0L;
         count = 0;
     }
