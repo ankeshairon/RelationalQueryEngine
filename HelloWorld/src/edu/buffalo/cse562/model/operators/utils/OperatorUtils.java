@@ -13,4 +13,8 @@ public class OperatorUtils {
         }
         return indices;
     }
+
+    public static List<Integer> calculateIndicesOfTheseDataColumns(List<String> superset, ArrayList<String> subset) {
+        return calculateIndicesOfTheseDataColumns(superset, subset.toArray(new String[subset.size()]));
+    }
 }
