@@ -12,6 +12,7 @@ import edu.buffalo.cse562.model.data.Tuple;
 import edu.buffalo.cse562.model.operatorabstract.UnaryOperator;
 import edu.buffalo.cse562.model.operators.utils.OperatorUtils;
 import net.sf.jsqlparser.expression.Expression;
+import net.sf.jsqlparser.expression.Function;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -24,7 +25,7 @@ public class ProjectionOperator implements UnaryOperator {
     private String tableName;
 
     private LinkedHashMap<Integer, String> columnNames;
-    private LinkedHashMap<Integer, Expression> aggregateExpressions;
+    private LinkedHashMap<Integer, Function> aggregationFunctions;
     private Integer currentIndex;
 
     private ResultSet resultSet;
@@ -34,7 +35,7 @@ public class ProjectionOperator implements UnaryOperator {
         this.tableName = tableName;
         currentIndex = 0;
         columnNames = new LinkedHashMap<>();
-        aggregateExpressions = new LinkedHashMap<>();
+        aggregationFunctions = new LinkedHashMap<>();
     }
 
     @Override
@@ -42,9 +43,9 @@ public class ProjectionOperator implements UnaryOperator {
         //todo implement projection operator
         //make calls to resultSet manipulating class & populate resultset inside it
 
-        if (aggregateExpressions.isEmpty() && columnNames.isEmpty()) {
+        if (aggregationFunctions.isEmpty() && columnNames.isEmpty()) {
             resultSet = inputDataSet[0];
-        } else if (aggregateExpressions.isEmpty()) {
+        } else if (aggregationFunctions.isEmpty()) {
             resultSet = getDataOnlyForRelevantColumns(inputDataSet[0]);
         } else if (columnNames.isEmpty()) {
             resultSet = getAggregatedData(inputDataSet[0]);
@@ -65,7 +66,7 @@ public class ProjectionOperator implements UnaryOperator {
     }
 
     public void addProjectionAttribute(Expression aggregationExpression) {
-        aggregateExpressions.put(currentIndex, aggregationExpression);
+        aggregationFunctions.put(currentIndex, (Function) aggregationExpression);
         ++currentIndex;
     }
 
@@ -74,18 +75,20 @@ public class ProjectionOperator implements UnaryOperator {
     }
 
     private ResultSet getAggregatedData(ResultSet inputDataSet) {
-        AggregateOperator aggregateOperator = new AggregateOperator(aggregateExpressions);
+        AggregateOperator aggregateOperator = new AggregateOperator(aggregationFunctions);
         aggregateOperator.dataIn(new ResultSet[]{inputDataSet});
         return aggregateOperator.dataOut();
     }
 
     private ResultSet getDataOnlyForRelevantColumns(ResultSet inputDataSet) {
         ListIterator<Tuple> iterator = inputDataSet.getTuplesListIteratorFromLastElement();
+        ArrayList<String> newSchema = new ArrayList<>(columnNames.values());
+
         ArrayList<Tuple> newRowSet = new ArrayList<>();
         Tuple inputTuple;
         Tuple newTuple;
 
-        List<Integer> indicesOfDataToPull = OperatorUtils.calculateIndicesOfTheseDataColumns(dataGrabber.getNamesOfAllColumnsForTable(tableName));
+        List<Integer> indicesOfDataToPull = OperatorUtils.calculateIndicesOfTheseDataColumns(dataGrabber.getNamesOfAllColumnsForTable(tableName), newSchema);
 
         while (iterator.hasPrevious()) {
             inputTuple = iterator.previous();
@@ -93,8 +96,7 @@ public class ProjectionOperator implements UnaryOperator {
             newRowSet.add(newTuple);
         }
 
-        ArrayList<String> schema = new ArrayList<>(columnNames.values());
-        return new ResultSet(schema, newRowSet);
+        return new ResultSet(newSchema, newRowSet);
     }
 
 

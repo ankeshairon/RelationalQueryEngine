@@ -17,6 +17,10 @@ public class ResultSet {
         this.tuples = tuples;
     }
 
+    /**
+     * Return iterator starting from the last element
+     * Use hasPrevious() & previous() methods to access this
+     */
     public ListIterator<Tuple> getTuplesListIteratorFromLastElement() {
         return tuples.listIterator(tuples.size());
     }

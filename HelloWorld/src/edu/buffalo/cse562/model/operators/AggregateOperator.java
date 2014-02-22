@@ -13,28 +13,26 @@ package edu.buffalo.cse562.model.operators;
 
 
 import edu.buffalo.cse562.model.data.ResultSet;
+import edu.buffalo.cse562.model.data.Tuple;
 import edu.buffalo.cse562.model.operatorabstract.UnaryOperator;
-import net.sf.jsqlparser.expression.Expression;
+import net.sf.jsqlparser.expression.Function;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.ListIterator;
 
 public class AggregateOperator implements UnaryOperator {
 
 
     private ResultSet resultSet;
-    private LinkedHashMap<Integer, Expression> aggregationExpressions;
+    private LinkedHashMap<Integer, Function> aggregationExpressions;
 
-    List<Integer> sums;
-    List<Integer> counts;
-    List<Integer> averages;
+    LinkedHashMap<Integer, Long> sums;
+    LinkedHashMap<Integer, Integer> counts;
 
-    public AggregateOperator(LinkedHashMap<Integer, Expression> aggregationExpressions) {
+    public AggregateOperator(LinkedHashMap<Integer, Function> aggregationExpressions) {
         this.aggregationExpressions = aggregationExpressions;
-        sums = new ArrayList<>();
-        counts = new ArrayList<>();
-        averages = new ArrayList<>();
+        sums = new LinkedHashMap<>();
+        counts = new LinkedHashMap<>();
     }
 
     @Override
@@ -46,17 +44,46 @@ public class AggregateOperator implements UnaryOperator {
         // new data creation - read each row and update each of the counters
         // prepare result set - read the old schema and map the results back
 
-
-        createListsOfAggregates();
+        createListsOfAggregatesToFind();
+        calculateAggregates(inputDataSet[0]);
 
 
 //        OperatorUtils.calculateIndicesOfTheseDataColumns()
 
     }
 
-    private void createListsOfAggregates() {
-        for (Integer indexInOldSchema : aggregationExpressions.keySet()) {
-            System.out.println(aggregationExpressions.get(indexInOldSchema));
+    private void calculateAggregates(ResultSet inputDataSet) {
+        ListIterator<Tuple> listIterator = inputDataSet.getTuplesListIteratorFromFirstElement();
+        Tuple currentTuple;
+
+        while (listIterator.hasNext()) {
+            currentTuple = listIterator.next();
+
+//            if (currentTuple.fields.get(indexOfFieldOfInterest) != null) {
+//                incrementCounter;
+//                addToSum
+//            }
+
+        }
+    }
+
+    private void createListsOfAggregatesToFind() {
+        for (Integer indexInNewSchema : aggregationExpressions.keySet()) {
+            switch (aggregationExpressions.get(indexInNewSchema).getName()) {
+                case "sum":
+                case "SUM":
+                    sums.put(indexInNewSchema, 0L);
+                    break;
+                case "COUNT":
+                case "count":
+                    counts.put(indexInNewSchema, 0);
+                    break;
+                case "AVG":
+                case "avg":
+                    sums.put(indexInNewSchema, 0L);
+                    counts.put(indexInNewSchema, 0);
+                    break;
+            }
         }
     }
 
