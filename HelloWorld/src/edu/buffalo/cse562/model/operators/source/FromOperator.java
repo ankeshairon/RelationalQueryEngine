@@ -1,4 +1,4 @@
-package edu.buffalo.cse562.model.operators.sourceoperators;
+package edu.buffalo.cse562.model.operators.source;
 
 import edu.buffalo.cse562.datagrabber.DataGrabber;
 import edu.buffalo.cse562.model.data.ResultSet;
@@ -20,7 +20,9 @@ public class FromOperator implements LeafOperator {
     @Override
     public void dataIn(ResultSet[] resultSet) {
         //always supposed to receive null
-        throw new UnsupportedOperationException("From operator does not accept any data");
+        if (resultSet != null && resultSet.length != 0 && resultSet[0] != null) {
+            throw new UnsupportedOperationException("From operator does not accept any data");
+        }
     }
 
     @Override

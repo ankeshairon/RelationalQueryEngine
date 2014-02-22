@@ -10,7 +10,7 @@ import edu.buffalo.cse562.datagrabber.DataGrabber;
 import edu.buffalo.cse562.model.data.ResultSet;
 import edu.buffalo.cse562.model.data.Tuple;
 import edu.buffalo.cse562.model.operatorabstract.UnaryOperator;
-import edu.buffalo.cse562.model.operators.utils.OperatorUtils;
+import edu.buffalo.cse562.model.operators.aggregate.AggregateOperator;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.Function;
 
@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ListIterator;
+
+import static edu.buffalo.cse562.model.operators.utils.OperatorUtils.calculateIndicesOfTheseDataColumns;
 
 public class ProjectionOperator implements UnaryOperator {
 
@@ -40,17 +42,15 @@ public class ProjectionOperator implements UnaryOperator {
 
     @Override
     public void dataIn(ResultSet[] inputDataSet) {
-        //todo implement projection operator
-        //make calls to resultSet manipulating class & populate resultset inside it
-
         if (aggregationFunctions.isEmpty() && columnNames.isEmpty()) {
             resultSet = inputDataSet[0];
         } else if (aggregationFunctions.isEmpty()) {
-            resultSet = getDataOnlyForRelevantColumns(inputDataSet[0]);
+            resultSet = getDataForRelevantColumnsOnly(inputDataSet[0]);
         } else if (columnNames.isEmpty()) {
-            resultSet = getAggregatedData(inputDataSet[0]);
+            resultSet = getDataForAggregationsOnly(inputDataSet[0]);
         } else {
-            resultSet = getAggregatedDataForColumns(inputDataSet[0]);
+            //todo
+            resultSet = getDataForColumnsAndAggregations(inputDataSet[0]);
         }
 
     }
@@ -70,33 +70,57 @@ public class ProjectionOperator implements UnaryOperator {
         ++currentIndex;
     }
 
-    private ResultSet getAggregatedDataForColumns(ResultSet inputDataSet) {
+    private ResultSet getDataForColumnsAndAggregations(ResultSet inputDataSet) {
+        ResultSet dataFromAggregationSingleTuple = getDataForAggregationsOnly(inputDataSet);
+        ResultSet dataOfSelectedColumnsSingleTuple = getRowsOfDataForColumnsInOrder(inputDataSet, 1);
+
+//        dataFromAggregationSingleTuple
         return null;
     }
 
-    private ResultSet getAggregatedData(ResultSet inputDataSet) {
+    private ResultSet getDataForAggregationsOnly(ResultSet inputDataSet) {
         AggregateOperator aggregateOperator = new AggregateOperator(aggregationFunctions);
         aggregateOperator.dataIn(new ResultSet[]{inputDataSet});
         return aggregateOperator.dataOut();
     }
 
-    private ResultSet getDataOnlyForRelevantColumns(ResultSet inputDataSet) {
-        ListIterator<Tuple> iterator = inputDataSet.getTuplesListIteratorFromLastElement();
-        ArrayList<String> newSchema = new ArrayList<>(columnNames.values());
+    private ResultSet getDataForRelevantColumnsOnly(ResultSet inputDataSet) {
+        return getRowsOfDataForColumnsInOrder(inputDataSet, -1);
+    }
 
+    private ResultSet getRowsOfDataForColumnsInOrder(ResultSet inputDataSet, Integer noOfRows) {
+        ArrayList<String> newSchema = new ArrayList<>(columnNames.values());
+        List<Integer> indicesOfDataToPull = calculateIndicesOfTheseDataColumns(dataGrabber.getNamesOfAllColumnsForTable(tableName), newSchema);
         ArrayList<Tuple> newRowSet = new ArrayList<>();
+
+        if (noOfRows < 0) {
+            populateDataForAllRows(inputDataSet, newRowSet, indicesOfDataToPull);
+        } else {
+            populateLastRowOfData(inputDataSet, newRowSet, indicesOfDataToPull, noOfRows);
+        }
+        return new ResultSet(newSchema, newRowSet);
+    }
+
+    private void populateLastRowOfData(ResultSet inputDataSet, ArrayList<Tuple> newRowSet, List<Integer> indicesOfDataToPull, Integer noOfRows) {
         Tuple inputTuple;
         Tuple newTuple;
-
-        List<Integer> indicesOfDataToPull = OperatorUtils.calculateIndicesOfTheseDataColumns(dataGrabber.getNamesOfAllColumnsForTable(tableName), newSchema);
-
-        while (iterator.hasPrevious()) {
+        ListIterator<Tuple> iterator = inputDataSet.getTuplesListIteratorFromLastElement();
+        if (iterator.hasPrevious() && noOfRows-- != 0) {
             inputTuple = iterator.previous();
             newTuple = getFilteredTuple(inputTuple, indicesOfDataToPull);
             newRowSet.add(newTuple);
         }
+    }
 
-        return new ResultSet(newSchema, newRowSet);
+    private void populateDataForAllRows(ResultSet inputDataSet, ArrayList<Tuple> newRowSet, List<Integer> indicesOfDataToPull) {
+        Tuple inputTuple;
+        Tuple newTuple;
+        ListIterator<Tuple> iterator = inputDataSet.getTuplesListIteratorFromFirstElement();
+        while (iterator.hasNext()) {
+            inputTuple = iterator.next();
+            newTuple = getFilteredTuple(inputTuple, indicesOfDataToPull);
+            newRowSet.add(newTuple);
+        }
     }
 
 

@@ -6,7 +6,7 @@
 package edu.buffalo.cse562.parser.datavisitors;
 
 import edu.buffalo.cse562.datagrabber.DataGrabber;
-import edu.buffalo.cse562.model.operators.sourceoperators.FromOperator;
+import edu.buffalo.cse562.model.operators.source.FromOperator;
 import edu.buffalo.cse562.processor.DataProcessor;
 import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.select.FromItemVisitor;
