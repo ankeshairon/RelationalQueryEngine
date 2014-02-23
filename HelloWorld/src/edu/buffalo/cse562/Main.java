@@ -1,18 +1,53 @@
 package edu.buffalo.cse562;
 
-import edu.buffalo.cse562.invoker.RelationalQueryEngine;
 
+import edu.buffalo.cse562.visitor.MyStatementVisitor;
+import net.sf.jsqlparser.parser.CCJSqlParser;
+import net.sf.jsqlparser.parser.ParseException;
+import net.sf.jsqlparser.statement.Statement;
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Main {
-    public static void main(String[] args) {
-        new RelationalQueryEngine().invoke(args);
 
-        ArrayList l = new ArrayList();
-        l.add(null);
-        l.add(null);
-        l.add("c");
-        l.set(2, "b");
-        l.set(1, "a");
+    /**
+     * @param args
+     */
+    public static void main(String[] args) {
+
+        int i;
+        File dataDir = null;
+        ArrayList<File> sqlFiles = new ArrayList<File>();
+
+        for (i = 0; i < args.length; i++) {
+            if (args[i].equals("--data")) {
+                dataDir = new File(args[i + 1]);
+                i++;
+            } else {
+                sqlFiles.add(new File(args[i]));
+            }
+        }
+
+        MyStatementVisitor myVisitor = new MyStatementVisitor(dataDir.getName());
+
+        for (File sqlFile : sqlFiles) {
+            try (FileReader reader = new FileReader(sqlFile)) {
+                CCJSqlParser parser = new CCJSqlParser(reader);
+                Statement stmnt;
+                while ((stmnt = parser.Statement()) != null) {
+                    stmnt.accept(myVisitor);
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
+
 }
