@@ -7,7 +7,11 @@ public class FLOAT implements Datum {
         this.f = Float.parseFloat(s);
     }
 
-    @Override
+    public FLOAT(float floatData) {
+		this.f = floatData;
+	}
+
+	@Override
     public boolean toBOOL() throws CastException {
         throw new CastException();
     }

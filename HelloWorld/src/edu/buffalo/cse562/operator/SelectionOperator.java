@@ -1,6 +1,7 @@
 package edu.buffalo.cse562.operator;
 
 import edu.buffalo.cse562.data.Datum;
+import edu.buffalo.cse562.data.Datum.CastException;
 import edu.buffalo.cse562.schema.ColumnSchema;
 import edu.buffalo.cse562.visitor.Evaluator;
 import net.sf.jsqlparser.expression.Expression;
@@ -28,6 +29,11 @@ public class SelectionOperator implements Operator {
 
             Evaluator eval = new Evaluator(schema, tuple);
             condition.accept(eval);
+            try {
+            	eval.executeStack();
+            }catch (CastException e){
+            	e.printStackTrace();
+            }
 
             if (!eval.getBool()) {
                 tuple = null;
