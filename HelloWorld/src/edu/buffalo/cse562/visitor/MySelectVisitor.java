@@ -43,7 +43,7 @@ public class MySelectVisitor implements SelectVisitor {
 
         List<SelectItem> selItems = stmnt.getSelectItems();
 
-        oper = new ProjectionOperator(oper, selItems);
+        //oper = new ProjectionOperator(oper, selItems);
 
         dump(oper);
 
