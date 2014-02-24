@@ -64,7 +64,7 @@ public class MySelectItemVisitor implements SelectItemVisitor {
     public void visit(SelectExpressionItem arg0) {
         counter++;
         /* To create a executable stack of the expression
-         * Tuple data is not availble here so I cannot calculate the needed value
+         * Tuple data is not available here so I cannot calculate the needed value
          */
         
         Expression projectExpression = arg0.getExpression();
