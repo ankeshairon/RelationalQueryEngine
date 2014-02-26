@@ -13,4 +13,4 @@ sl int,
 name string,
 avg float
 )
-SELECT * FROM table1,table2,table3 WHERE avg>16;
+SELECT * FROM table1,table2,table3 WHERE avg=22.5;

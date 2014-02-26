@@ -21,6 +21,7 @@ import net.sf.jsqlparser.schema.Column;
 import edu.buffalo.cse562.data.Datum;
 import edu.buffalo.cse562.data.Datum.CastException;
 import edu.buffalo.cse562.data.FLOAT;
+import edu.buffalo.cse562.data.LONG;
 import edu.buffalo.cse562.data.STRING;
 import edu.buffalo.cse562.schema.ColumnSchema;
 
@@ -40,13 +41,20 @@ public class Evaluator extends AbstractExpressionVisitor {
 	public Evaluator(ColumnSchema[] schema, Datum[] tuple){
 		this.schema = schema;
 		this.tuple = tuple;
+		floatRight = -1;
+		floatLeft = -1;
+		strRight = "";
+		strLeft = "";
+		right = false;
+		left = false;
+		bool = true;
 	}
 	
-	public Evaluator(ColumnSchema[] schema, Datum[] tuple, boolean left, boolean right) {
+	public Evaluator(ColumnSchema[] schema, Datum[] tuple, boolean leftBool, boolean rightBool) {
 		this.schema = schema;
 		this.tuple = tuple;
-		this.left = left;
-		this.right = right;
+		left = leftBool;
+		right = rightBool;
 	}
 	
 	public boolean getBool(){
@@ -61,8 +69,8 @@ public class Evaluator extends AbstractExpressionVisitor {
 	public void visit(Addition arg0) {
 		Expression leftExpression = arg0.getLeftExpression();
 		Expression rightExpression = arg0.getRightExpression();
-		leftExpression.accept(new Evaluator(schema,tuple));
-		rightExpression.accept(new Evaluator(schema,tuple));
+		leftExpression.accept(new Evaluator(schema,tuple,true,false));
+		rightExpression.accept(new Evaluator(schema,tuple,false,true));
 		
 		if (left) {
 			if (floatLeft != -1 && floatRight != -1) {
@@ -92,8 +100,8 @@ public class Evaluator extends AbstractExpressionVisitor {
 		Expression leftExpression = arg0.getLeftExpression();
 		Expression rightExpression = arg0.getRightExpression();
 		
-		leftExpression.accept(new Evaluator(schema,tuple));
-		rightExpression.accept(new Evaluator(schema,tuple));
+		leftExpression.accept(new Evaluator(schema,tuple,true,false));
+		rightExpression.accept(new Evaluator(schema,tuple,false,true));
 		
 		if (left) {
 			if (floatLeft != -1 && floatRight != -1) {
@@ -124,8 +132,8 @@ public class Evaluator extends AbstractExpressionVisitor {
 		Expression leftExpression = arg0.getLeftExpression();
 		Expression rightExpression = arg0.getRightExpression();
 		
-		leftExpression.accept(new Evaluator(schema,tuple));
-		rightExpression.accept(new Evaluator(schema,tuple));
+		leftExpression.accept(new Evaluator(schema,tuple,true,false));
+		rightExpression.accept(new Evaluator(schema,tuple,false,true));
 
 		if (left) {
 			if (floatLeft != -1 && floatRight != -1) {
@@ -154,8 +162,8 @@ public class Evaluator extends AbstractExpressionVisitor {
 		Expression leftExpression = arg0.getLeftExpression();
 		Expression rightExpression = arg0.getRightExpression();
 		
-		leftExpression.accept(new Evaluator(schema,tuple));
-		rightExpression.accept(new Evaluator(schema,tuple));
+		leftExpression.accept(new Evaluator(schema,tuple,true,false));
+		rightExpression.accept(new Evaluator(schema,tuple,false,true));
 		
 		if (left) {
 			if (floatLeft != -1 && floatRight != -1) {
@@ -185,8 +193,8 @@ public class Evaluator extends AbstractExpressionVisitor {
 		Expression leftExpression = arg0.getLeftExpression();
 		Expression rightExpression = arg0.getRightExpression();
 		
-		leftExpression.accept(new Evaluator(schema,tuple));
-		rightExpression.accept(new Evaluator(schema,tuple));
+		leftExpression.accept(new Evaluator(schema,tuple,true,false));
+		rightExpression.accept(new Evaluator(schema,tuple,false,true));
 		
 	}
 
@@ -195,8 +203,8 @@ public class Evaluator extends AbstractExpressionVisitor {
 		Expression leftExpression = arg0.getLeftExpression();
 		Expression rightExpression = arg0.getRightExpression();
 		
-		leftExpression.accept(new Evaluator(schema,tuple));
-		rightExpression.accept(new Evaluator(schema,tuple));
+		leftExpression.accept(new Evaluator(schema,tuple,true,false));
+		rightExpression.accept(new Evaluator(schema,tuple,false,true));
 		if (floatLeft != -1 && floatRight != -1) {
 			if (floatLeft != floatRight)
 				bool = false;
@@ -235,8 +243,8 @@ public class Evaluator extends AbstractExpressionVisitor {
 		Expression leftExpression = arg0.getLeftExpression();
 		Expression rightExpression = arg0.getRightExpression();
 		 
-		leftExpression.accept(new Evaluator(schema,tuple));
-		rightExpression.accept(new Evaluator(schema,tuple));
+		leftExpression.accept(new Evaluator(schema,tuple,true,false));
+		rightExpression.accept(new Evaluator(schema,tuple,false,true));
 		
 		if (floatLeft != -1 && floatRight != -1) {
 			if (floatLeft < floatRight)
@@ -255,8 +263,8 @@ public class Evaluator extends AbstractExpressionVisitor {
 		Expression leftExpression = arg0.getLeftExpression();
 		Expression rightExpression = arg0.getRightExpression();
 		
-		leftExpression.accept(new Evaluator(schema,tuple));
-		rightExpression.accept(new Evaluator(schema,tuple));
+		leftExpression.accept(new Evaluator(schema,tuple,true,false));
+		rightExpression.accept(new Evaluator(schema,tuple,false,true));
 		if (floatLeft != -1 && floatRight != -1) {
 			if (floatLeft >= floatRight)
 				bool = false;
@@ -274,8 +282,8 @@ public class Evaluator extends AbstractExpressionVisitor {
 		Expression leftExpression = arg0.getLeftExpression();
 		Expression rightExpression = arg0.getRightExpression();
 		
-		leftExpression.accept(new Evaluator(schema,tuple));
-		rightExpression.accept(new Evaluator(schema,tuple));
+		leftExpression.accept(new Evaluator(schema,tuple,true,false));
+		rightExpression.accept(new Evaluator(schema,tuple,false,true));
 		
 		if (floatLeft != -1 && floatRight != -1) {
 			if (floatLeft > floatRight)
@@ -306,12 +314,12 @@ public class Evaluator extends AbstractExpressionVisitor {
 
 	@Override
 	public void visit(LongValue arg0) {
-		FLOAT longVal = new FLOAT(arg0.toString());
+		LONG longVal = new LONG(arg0.toString());
 		try {
 		if (left) 
-			floatLeft = longVal.toFLOAT();
-		else if (right)
-			floatRight = longVal.toFLOAT();
+			floatLeft = longVal.toLONG();
+		else if (right) 
+			floatRight = longVal.toLONG();
 		}catch (Exception e) {e.printStackTrace();}
 	}
 
