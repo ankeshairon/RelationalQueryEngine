@@ -21,6 +21,8 @@ public interface Datum {
     long toLONG() throws CastException;
 
     float toFLOAT() throws CastException;
+    
+    int compareTo(Datum datum) throws CastException;
 
     type getType();
 

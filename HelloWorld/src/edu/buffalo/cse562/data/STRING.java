@@ -33,4 +33,10 @@ public class STRING implements Datum {
         return s;
     }
 
+	@Override
+	public int compareTo(Datum datum) throws CastException {
+		// TODO Auto-generated method stub
+		return this.toSTRING().compareTo(datum.toSTRING());
+	}
+
 }

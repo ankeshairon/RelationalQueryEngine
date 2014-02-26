@@ -29,6 +29,9 @@ public class SelectionOperator implements Operator {
 
             Evaluator eval = new Evaluator(schema, tuple);
             condition.accept(eval);
+            try {
+            	eval.executeStack();
+            } catch (CastException e) {e.printStackTrace();}
 
             if (!eval.getBool()) {
                 tuple = null;

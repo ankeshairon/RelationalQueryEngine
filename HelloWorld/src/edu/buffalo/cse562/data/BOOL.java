@@ -34,5 +34,11 @@ public class BOOL implements Datum {
         return null;
     }
 
+	@Override
+	public int compareTo(Datum datum) throws CastException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 
 }
