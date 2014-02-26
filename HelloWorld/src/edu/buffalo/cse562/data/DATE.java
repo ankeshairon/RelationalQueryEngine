@@ -37,7 +37,13 @@ public class DATE implements Datum {
     @Override
     public String toSTRING() {
         // TODO Auto-generated method stub
-        return null;
+        return this.toString();
     }
+
+	@Override
+	public int compareTo(Datum datum) throws CastException {
+		// TODO Auto-generated method stub
+		return this.toSTRING().compareTo(datum.toSTRING());
+	}
 
 }

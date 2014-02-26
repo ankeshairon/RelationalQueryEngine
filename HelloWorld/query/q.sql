@@ -1,16 +1,16 @@
 CREATE TABLE table1(
-sl int,
-name string,
-avg float
+sl1 int,
+name1 string,
+avg1 float
 )
 CREATE TABLE table2(
-sl int,
-name string,
-avg float
+sl2 int,
+name2 string,
+avg2 float
 )
 CREATE TABLE table3(
-sl int,
-name string,
-avg float
+sl3 int,
+name3 string,
+avg3 float
 )
-SELECT * FROM table1,table2,table3 WHERE avg=22.5;
+SELECT * FROM table1,table2,table3 WHERE name1='Ramesh';

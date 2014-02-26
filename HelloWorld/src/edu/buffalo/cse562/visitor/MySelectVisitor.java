@@ -44,7 +44,7 @@ public class MySelectVisitor implements SelectVisitor {
 
         List<SelectItem> selItems = stmnt.getSelectItems();
         Operator ops = new SelectionOperator(oper,oper.getSchema(),stmnt.getWhere());
-        //oper = new ProjectionOperator(oper, selItems);
+        //oper = new ProjectionOperator(ops, selItems);
 
         dump(ops);
 
