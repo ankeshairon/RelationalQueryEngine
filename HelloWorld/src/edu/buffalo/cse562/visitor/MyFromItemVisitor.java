@@ -29,9 +29,9 @@ public class MyFromItemVisitor implements FromItemVisitor {
     }
 
     @Override
-    public void visit(SubSelect arg0) {
-        // TODO Auto-generated method stub
-
+    public void visit(SubSelect subSelect) {
+        MySelectVisitor selectVisitor = new MySelectVisitor(dataDir, tables);
+        subSelect.getSelectBody().accept(selectVisitor);
     }
 
     @Override

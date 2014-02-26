@@ -1,2 +1,2 @@
-CREATE TABLE personInfo(id int, first_name string, last_name string, Gender string, age int, State string)
-SELECT sum(age-id) as WeirdSum from personInfo
+CREATE TABLE PLAYERS(ID string, FIRSTNAME string, LASTNAME string, FIRSTSEASON int, LASTSEASON int, WEIGHT int, BIRTHDATE date)
+SELECT EXPERIENCE, COUNT(ID) FROM (SELECT ID, FIRSTNAME, LASTNAME, (LASTSEASON-FIRSTSEASON) AS EXPERIENCE FROM PLAYERS) GROUP BY EXPERIENCE
