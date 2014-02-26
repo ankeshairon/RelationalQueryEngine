@@ -1,6 +1,7 @@
 package edu.buffalo.cse562.operator;
 
 import edu.buffalo.cse562.data.Datum;
+import edu.buffalo.cse562.data.Datum.CastException;
 import edu.buffalo.cse562.schema.ColumnSchema;
 import edu.buffalo.cse562.visitor.Evaluator;
 import net.sf.jsqlparser.expression.Expression;

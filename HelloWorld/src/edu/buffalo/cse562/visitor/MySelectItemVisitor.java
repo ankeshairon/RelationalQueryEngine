@@ -1,6 +1,7 @@
 package edu.buffalo.cse562.visitor;
 
 import edu.buffalo.cse562.schema.ColumnSchema;
+import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.statement.select.AllColumns;
 import net.sf.jsqlparser.statement.select.AllTableColumns;
 import net.sf.jsqlparser.statement.select.SelectExpressionItem;
@@ -62,6 +63,15 @@ public class MySelectItemVisitor implements SelectItemVisitor {
     @Override
     public void visit(SelectExpressionItem arg0) {
         counter++;
+        /* To create a executable stack of the expression
+         * Tuple data is not available here so I cannot calculate the needed value
+         */
+        
+        Expression projectExpression = arg0.getExpression();
+        String projectAlias = arg0.getAlias();
+        
+        EvaluatorProjection evaluatorProjection = new EvaluatorProjection(projectExpression,projectAlias);
+        
     }
 
 }

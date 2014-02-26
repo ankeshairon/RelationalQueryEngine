@@ -6,6 +6,7 @@ import edu.buffalo.cse562.data.Datum.CastException;
 import edu.buffalo.cse562.operator.JoinOperator;
 import edu.buffalo.cse562.operator.Operator;
 import edu.buffalo.cse562.operator.ProjectionOperator;
+import edu.buffalo.cse562.operator.SelectionOperator;
 import net.sf.jsqlparser.statement.create.table.ColumnDefinition;
 import net.sf.jsqlparser.statement.select.*;
 
@@ -42,10 +43,10 @@ public class MySelectVisitor implements SelectVisitor {
         }
 
         List<SelectItem> selItems = stmnt.getSelectItems();
+        Operator ops = new SelectionOperator(oper,oper.getSchema(),stmnt.getWhere());
+        //oper = new ProjectionOperator(oper, selItems);
 
-        oper = new ProjectionOperator(oper, selItems);
-
-        dump(oper);
+        dump(ops);
 
 //		List<SelectItem> selectItems = stmnt.getSelectItems();
 
