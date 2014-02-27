@@ -86,21 +86,6 @@ public class ScanOperator implements Operator {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
-//        if (dataDir.exists()) {
-//            File[] files = dataDir.listFiles();
-//            for (File file : files) {
-//                if (file.getName().split("\\.")[0].equalsIgnoreCase(tableName)) {
-//                    try {
-//                        return new FileReader(file);
-//                    } catch (FileNotFoundException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//
-//        }
-
         return null;
     }
 

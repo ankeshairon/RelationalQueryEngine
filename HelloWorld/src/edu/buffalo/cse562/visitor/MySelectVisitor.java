@@ -2,10 +2,7 @@ package edu.buffalo.cse562.visitor;
 
 
 import edu.buffalo.cse562.data.Datum;
-import edu.buffalo.cse562.operator.JoinOperator;
-import edu.buffalo.cse562.operator.Operator;
-import edu.buffalo.cse562.operator.ProjectionOperator;
-import edu.buffalo.cse562.operator.SelectionOperator;
+import edu.buffalo.cse562.operator.*;
 import edu.buffalo.cse562.schema.ColumnSchema;
 import net.sf.jsqlparser.statement.create.table.ColumnDefinition;
 import net.sf.jsqlparser.statement.select.*;
@@ -28,6 +25,46 @@ public class MySelectVisitor implements SelectVisitor {
 
     @Override
     public void visit(PlainSelect statement) {
+        visitFromItems(statement);
+        createItemsToProject(statement);
+        applyWhereConditions(statement);
+        orderTheResults(statement);
+
+    }
+
+    private void orderTheResults(PlainSelect statement) {
+        List<OrderByElement> orderByElements = statement.getOrderByElements();
+        if (orderByElements != null) {
+            MyOrderByVisitor orderByVisitor = new MyOrderByVisitor(source);
+            for (OrderByElement orderByElement : orderByElements) {
+                orderByElement.accept(orderByVisitor);
+            }
+            source = new OrderByOperator(source, orderByVisitor.indexesOfColumnsToSortOn);
+        }
+    }
+
+    private void applyWhereConditions(PlainSelect statement) {
+        source = new SelectionOperator(source, source.getSchema(), statement.getWhere());
+    }
+
+    private void createItemsToProject(PlainSelect statement) {
+        List<SelectItem> selectItems = statement.getSelectItems();
+        if (selectItems != null) {
+            MySelectItemVisitor selectItemVisitor = new MySelectItemVisitor(source);
+            for (SelectItem selectItem : selectItems) {
+                selectItem.accept(selectItemVisitor);
+            }
+            ColumnSchema[] outputSchema = new ColumnSchema[selectItemVisitor.outputSchema.size()];
+            selectItemVisitor.outputSchema.toArray(outputSchema);
+
+            Integer[] indexArray = new Integer[selectItemVisitor.indexes.size()];
+            selectItemVisitor.indexes.toArray(indexArray);
+
+            source = new ProjectionOperator(selectItemVisitor.in, outputSchema, indexArray);
+        }
+    }
+
+    private void visitFromItems(PlainSelect statement) {
         MyFromItemVisitor myFromItemVisitor = new MyFromItemVisitor(dataDir, tables);
         FromItem fromItem = statement.getFromItem();
         fromItem.accept(myFromItemVisitor);
@@ -42,30 +79,6 @@ public class MySelectVisitor implements SelectVisitor {
                 source = new JoinOperator(source, newOper);
             }
         }
-
-        List<SelectItem> selectItems = statement.getSelectItems();
-        MySelectItemVisitor selectItemVisitor = new MySelectItemVisitor(source);
-        if (selectItems != null) {
-            for (SelectItem selectItem : selectItems) {
-                selectItem.accept(selectItemVisitor);
-            }
-            ColumnSchema[] outputSchema = new ColumnSchema[selectItemVisitor.outputSchema.size()];
-            selectItemVisitor.outputSchema.toArray(outputSchema);
-
-            Integer[] indexArray = new Integer[selectItemVisitor.indexes.size()];
-            selectItemVisitor.indexes.toArray(indexArray);
-
-            source = new ProjectionOperator(selectItemVisitor.in, outputSchema, indexArray);
-        }
-
-        source = new SelectionOperator(source, source.getSchema(), statement.getWhere());
-
-
-//		List<SelectItem> selectItems = stmnt.getSelectItems();
-
-//		for(SelectItem selectItem:selectItems){
-//			selectItem.accept(mySelectItemVisitor);
-//		}
     }
 
     public void dump(Operator input) {

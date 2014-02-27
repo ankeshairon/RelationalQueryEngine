@@ -8,10 +8,12 @@ import java.util.Date;
 public class DATE implements Datum {
 
     Date d;
+    String s;
 
     public DATE(String s) throws ParseException {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         this.d = df.parse(s);
+        this.s = s;
     }
 
     @Override
@@ -40,10 +42,8 @@ public class DATE implements Datum {
         return this.toString();
     }
 
-	@Override
-	public int compareTo(Datum datum) throws CastException {
-		// TODO Auto-generated method stub
-		return this.toSTRING().compareTo(datum.toSTRING());
-	}
-
+    @Override
+    public int compareTo(Object datum) {
+        return s.compareTo(((DATE) datum).s);
+    }
 }

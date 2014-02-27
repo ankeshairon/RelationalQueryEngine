@@ -9,7 +9,6 @@ import net.sf.jsqlparser.statement.drop.Drop;
 import net.sf.jsqlparser.statement.insert.Insert;
 import net.sf.jsqlparser.statement.replace.Replace;
 import net.sf.jsqlparser.statement.select.Select;
-import net.sf.jsqlparser.statement.select.SelectBody;
 import net.sf.jsqlparser.statement.truncate.Truncate;
 import net.sf.jsqlparser.statement.update.Update;
 
@@ -31,8 +30,7 @@ public class MyStatementVisitor implements StatementVisitor {
     @Override
     public void visit(Select stmnt) {
         MySelectVisitor myVisitor = new MySelectVisitor(dataDir, tables);
-        SelectBody selectBody = stmnt.getSelectBody();
-        selectBody.accept(myVisitor);
+        stmnt.getSelectBody().accept(myVisitor);
         source = myVisitor.source;
     }
 

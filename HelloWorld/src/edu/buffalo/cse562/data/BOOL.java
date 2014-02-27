@@ -30,15 +30,11 @@ public class BOOL implements Datum {
 
     @Override
     public String toSTRING() {
-        // TODO Auto-generated method stub
-        return null;
+        return String.valueOf(b);
     }
 
-	@Override
-	public int compareTo(Datum datum) throws CastException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-
+    @Override
+    public int compareTo(Object o) {
+        return ((Boolean) b).compareTo(((BOOL) o).b);
+    }
 }

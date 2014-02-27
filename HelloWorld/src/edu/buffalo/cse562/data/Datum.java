@@ -1,6 +1,6 @@
 package edu.buffalo.cse562.data;
 
-public interface Datum {
+public interface Datum extends Comparable {
 
     public static enum type {
         BOOL, LONG, FLOAT, STRING, DATE
@@ -19,8 +19,6 @@ public interface Datum {
     long toLONG() throws CastException;
 
     float toFLOAT() throws CastException;
-    
-    int compareTo(Datum datum) throws CastException;
 
     type getType();
 

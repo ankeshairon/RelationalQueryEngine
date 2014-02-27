@@ -1,7 +1,5 @@
 package edu.buffalo.cse562.data;
 
-import edu.buffalo.cse562.data.Datum.CastException;
-
 public class FLOAT implements Datum {
     float f;
 
@@ -10,10 +8,10 @@ public class FLOAT implements Datum {
     }
 
     public FLOAT(float floatData) {
-		this.f = floatData;
-	}
+        this.f = floatData;
+    }
 
-	@Override
+    @Override
     public boolean toBOOL() throws CastException {
         throw new CastException();
     }
@@ -39,17 +37,11 @@ public class FLOAT implements Datum {
         return Float.toString(f);
     }
 
-	@Override
-	public int compareTo(Datum datum) throws CastException {
-		int comp;
-		if (this.toFLOAT() == datum.toFLOAT())
-			comp = 0;
-		else if (this.toFLOAT() > datum.toFLOAT())
-			comp = 1;
-		else 
-			comp = -1;
-		return comp;
-	}
+    @Override
+    public int compareTo(Object o) {
+        return ((Float) f).compareTo(((FLOAT) o).f);
+
+    }
 }
 
 

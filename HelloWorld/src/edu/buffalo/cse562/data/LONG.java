@@ -33,15 +33,8 @@ public class LONG implements Datum {
         return null;
     }
 
-	@Override
-	public int compareTo(Datum datum) throws CastException {
-		int comp;
-		if (this.toLONG() == datum.toLONG())
-			comp = 0;
-		else if (this.toLONG() > datum.toLONG())
-			comp = 1;
-		else 
-			comp = -1;
-		return comp;
-	}
+    @Override
+    public int compareTo(Object o) {
+        return ((Long) l).compareTo(((LONG) o).l);
+    }
 }
