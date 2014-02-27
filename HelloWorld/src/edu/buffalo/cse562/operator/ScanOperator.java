@@ -84,7 +84,7 @@ public class ScanOperator implements Operator {
     }
 
     private InputStreamReader getInputStreamReader() {
-        return new InputStreamReader(Main.class.getResourceAsStream(dataDir + "/" + tableName + ".dat"));
+        return new InputStreamReader(Main.class.getResourceAsStream(System.getProperty("user.dir") + "/" + dataDir + "/" + tableName + ".dat"));
     }
 
     @Override
