@@ -24,7 +24,8 @@ public class Main {
 
         for (i = 0; i < args.length; i++) {
             if (args[i].equals("--data")) {
-                dataDir = new File(args[i + 1]);
+            	System.out.println(System.getProperty("user.dir") + "/" + args[i+1]);
+                dataDir = new File(System.getProperty("user.dir") + "/" + args[i + 1]);
                 i++;
             } else {
                 sqlFiles.add(new File(args[i]));
@@ -34,7 +35,7 @@ public class Main {
         MyStatementVisitor myVisitor = new MyStatementVisitor(dataDir.getName());
 
         for (File sqlFile : sqlFiles) {
-            try (FileReader reader = new FileReader(sqlFile)) {
+            try (FileReader reader = new FileReader(System.getProperty("user.dir") + "/" + sqlFile)) {
                 CCJSqlParser parser = new CCJSqlParser(reader);
                 Statement stmnt;
                 while ((stmnt = parser.Statement()) != null) {
