@@ -8,10 +8,6 @@
   <component name="ChangeListManager">
     <list id="8f1a133d-1531-49c4-be57-1cf67645d473" name="Default" comment="" />
     <list default="true" id="65df4483-c907-483f-9920-e0918ff4b5dd" name="Current_changes" comment="Ankesh - Attempt to fix data folder path">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/Main.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/MyFromItemVisitor.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/MyFromItemVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/MySelectVisitor.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/MySelectVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/MyStatementVisitor.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/MyStatementVisitor.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/operator/ScanOperator.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/operator/ScanOperator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -119,7 +115,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/edu/buffalo/cse562/operator/ScanOperator.java" line="83" class="edu.buffalo.cse562.operator.ScanOperator" package="edu.buffalo.cse562.operator">
+      <breakpoint url="file://$PROJECT_DIR$/src/edu/buffalo/cse562/operator/ScanOperator.java" line="89" class="edu.buffalo.cse562.operator.ScanOperator" package="edu.buffalo.cse562.operator">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -162,7 +158,7 @@
       <file leaf-file-name="Main.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="33" column="60" selection-start="890" selection-end="890" vertical-scroll-proportion="0.0" vertical-offset="34" max-vertical-offset="884">
+            <state line="33" column="0" selection-start="830" selection-end="830" vertical-scroll-proportion="0.0" vertical-offset="303" max-vertical-offset="884">
               <folding />
             </state>
           </provider>
@@ -247,7 +243,7 @@
       <file leaf-file-name="ScanOperator.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/operator/ScanOperator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="83" column="19" selection-start="2483" selection-end="2483" vertical-scroll-proportion="0.86440676" vertical-offset="1054" max-vertical-offset="1870">
+            <state line="84" column="18" selection-start="2496" selection-end="2496" vertical-scroll-proportion="0.25" vertical-offset="1275" max-vertical-offset="1972">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -960,7 +956,7 @@
       <workItem from="1393371398930" duration="2926000" />
       <workItem from="1393375131049" duration="4253000" />
       <workItem from="1393379415759" duration="33018000" />
-      <workItem from="1393475224710" duration="9706000" />
+      <workItem from="1393475224710" duration="10133000" />
     </task>
     <task id="LOCAL-00001" summary="Git testing">
       <created>1392091354753</created>
@@ -1110,11 +1106,15 @@
       <created>1393483822253</created>
       <updated>1393483822253</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="Ankesh - Attempt to fix data folder path">
+      <created>1393485176660</created>
+      <updated>1393485176660</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="227423000" />
+    <option name="totallyTimeSpent" value="227850000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1138,7 +1138,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5791191" sideWeight="0.63746226" order="7" side_tool="false" content_ui="tabs" />
@@ -1156,7 +1156,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2854985" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32463294" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32463294" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1518,13 +1518,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="60" selection-start="890" selection-end="890" vertical-scroll-proportion="0.0" vertical-offset="34" max-vertical-offset="884">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/MyStatementVisitor.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="32" column="48" selection-start="1135" selection-end="1135" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1207">
@@ -1546,9 +1539,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="0" selection-start="830" selection-end="830" vertical-scroll-proportion="0.0" vertical-offset="303" max-vertical-offset="884">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/operator/ScanOperator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="83" column="19" selection-start="2483" selection-end="2483" vertical-scroll-proportion="0.86440676" vertical-offset="1054" max-vertical-offset="1870">
+        <state line="84" column="18" selection-start="2496" selection-end="2496" vertical-scroll-proportion="0.25" vertical-offset="1275" max-vertical-offset="1972">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
