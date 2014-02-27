@@ -13,9 +13,9 @@ public class ScanOperator implements Operator {
     String tableName;
     public ColumnSchema[] schema;
     HashMap<String, List<ColumnDefinition>> tables;
-    private String dataDir;
+    private File dataDir;
 
-    public ScanOperator(String dataDir, String tableName, HashMap<String, List<ColumnDefinition>> tables) {
+    public ScanOperator(File dataDir, String tableName, HashMap<String, List<ColumnDefinition>> tables) {
         this.tables = tables;
         this.tableName = tableName;
         this.dataDir = dataDir;
@@ -81,9 +81,8 @@ public class ScanOperator implements Operator {
     }
 
     private FileReader getFileReader() {
-        File dataDirFile = new File(System.getProperty("user.dir") + "//" + dataDir);
-        if (dataDirFile.exists()) {
-            File[] files = dataDirFile.listFiles();
+        if (dataDir.exists()) {
+            File[] files = dataDir.listFiles();
             for (File file : files) {
                 if (file.getName().split("\\.")[0].equalsIgnoreCase(tableName)) {
                     try {

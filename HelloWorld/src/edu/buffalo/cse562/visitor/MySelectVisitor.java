@@ -10,17 +10,18 @@ import edu.buffalo.cse562.schema.ColumnSchema;
 import net.sf.jsqlparser.statement.create.table.ColumnDefinition;
 import net.sf.jsqlparser.statement.select.*;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
 public class MySelectVisitor implements SelectVisitor {
 
-    public String dataDir;
+    public File dataDir;
     public Operator source;
 
     HashMap<String, List<ColumnDefinition>> tables;
 
-    public MySelectVisitor(String dataDir, HashMap<String, List<ColumnDefinition>> tables) {
+    public MySelectVisitor(File dataDir, HashMap<String, List<ColumnDefinition>> tables) {
         this.dataDir = dataDir;
         this.tables = tables;
     }

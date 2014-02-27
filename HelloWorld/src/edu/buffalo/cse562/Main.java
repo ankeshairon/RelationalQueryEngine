@@ -31,7 +31,7 @@ public class Main {
             }
         }
 
-        MyStatementVisitor myVisitor = new MyStatementVisitor(dataDir.getName());
+        MyStatementVisitor myVisitor = new MyStatementVisitor(dataDir);
 
         for (File sqlFile : sqlFiles) {
             try (FileReader reader = new FileReader(sqlFile)) {

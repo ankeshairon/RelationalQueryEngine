@@ -13,16 +13,17 @@ import net.sf.jsqlparser.statement.select.SelectBody;
 import net.sf.jsqlparser.statement.truncate.Truncate;
 import net.sf.jsqlparser.statement.update.Update;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
 public class MyStatementVisitor implements StatementVisitor {
 
-    public String dataDir;
+    public File dataDir;
     public HashMap<String, List<ColumnDefinition>> tables;
     public Operator source;
 
-    public MyStatementVisitor(String dataDir) {
+    public MyStatementVisitor(File dataDir) {
         this.dataDir = dataDir;
         tables = new HashMap<>();
     }
