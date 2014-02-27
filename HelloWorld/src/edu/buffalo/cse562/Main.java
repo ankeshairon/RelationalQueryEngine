@@ -35,7 +35,7 @@ public class Main {
         MyStatementVisitor myVisitor = new MyStatementVisitor(dataDir.getName());
 
         for (File sqlFile : sqlFiles) {
-            try (FileReader reader = new FileReader(System.getProperty("user.dir") + "/" + sqlFile)) {
+            try (FileReader reader = new FileReader(sqlFile)) {
                 CCJSqlParser parser = new CCJSqlParser(reader);
                 Statement stmnt;
                 while ((stmnt = parser.Statement()) != null) {
