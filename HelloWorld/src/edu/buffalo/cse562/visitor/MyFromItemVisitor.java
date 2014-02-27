@@ -8,7 +8,6 @@ import net.sf.jsqlparser.statement.select.FromItemVisitor;
 import net.sf.jsqlparser.statement.select.SubJoin;
 import net.sf.jsqlparser.statement.select.SubSelect;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class MyFromItemVisitor implements FromItemVisitor {
 
     @Override
     public void visit(Table tbl) {
-        source = new ScanOperator(new File("./" + dataDir.toString() + "/" + tbl.getName() + ".dat"), tables);
+        source = new ScanOperator(dataDir, tbl.getName(), tables);
     }
 
     @Override

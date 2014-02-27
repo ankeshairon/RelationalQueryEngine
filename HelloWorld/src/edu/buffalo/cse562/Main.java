@@ -21,7 +21,7 @@ public class Main {
 
         int i;
         File dataDir = null;
-        ArrayList<File> sqlFiles = new ArrayList<File>();
+        ArrayList<File> sqlFiles = new ArrayList<>();
         for (i = 0; i < args.length; i++) {
             if (args[i].equals("--data")) {
                 dataDir = new File(args[i + 1]);
@@ -44,11 +44,6 @@ public class Main {
 
             } catch (IOException e) {
                 e.printStackTrace();
-                try {
-                    throw new Throwable("CUSTOM EXCEPTION : " + Main.class.getName());
-                } catch (Throwable throwable) {
-                    throwable.printStackTrace();
-                }
             } catch (ParseException e) {
                 e.printStackTrace();
             }
