@@ -23,7 +23,7 @@ public class Evaluator extends AbstractExpressionVisitor {
 	
 	Stack<Datum> literals;
 	Stack<String> symbols; 
-	private static boolean bool = true;
+	private boolean bool = true;
 	ColumnSchema[] schema;
 	Datum[] tuple;
 	
@@ -63,8 +63,8 @@ public class Evaluator extends AbstractExpressionVisitor {
 		while (!literals.empty() && !symbols.empty()) 
 		{
 			condition = symbols.pop();
-			dataRight = literals.pop();
 			dataLeft = literals.pop();
+			dataRight = literals.pop();
 			if (dataRight.getType() == Datum.type.FLOAT  && dataLeft.getType() == Datum.type.FLOAT)
 			{
 				floatLeft = dataLeft.toFLOAT();
@@ -101,8 +101,8 @@ public class Evaluator extends AbstractExpressionVisitor {
 				
 			else if (dataRight.getType() == Datum.type.STRING  && dataLeft.getType() == Datum.type.STRING)
 			{
-				stringLeft = dataLeft.toSTRING();
-				stringRight = dataRight.toSTRING();
+				stringRight = dataLeft.toSTRING();
+				stringLeft = dataRight.toSTRING();
 				
 				switch (condition) {
 		
@@ -137,8 +137,8 @@ public class Evaluator extends AbstractExpressionVisitor {
 		symbols.push("+");
 		Expression leftExpression = arg0.getLeftExpression();
 		Expression rightExpression = arg0.getRightExpression();
-		leftExpression.accept(new Evaluator(schema,tuple,literals,symbols));
 		rightExpression.accept(new Evaluator(schema,tuple,literals,symbols));
+		leftExpression.accept(new Evaluator(schema,tuple,literals,symbols));
 		
 	}
 
@@ -148,8 +148,8 @@ public class Evaluator extends AbstractExpressionVisitor {
 		Expression leftExpression = arg0.getLeftExpression();
 		Expression rightExpression = arg0.getRightExpression();
 		
-		leftExpression.accept(new Evaluator(schema,tuple,literals,symbols));
 		rightExpression.accept(new Evaluator(schema,tuple,literals,symbols));
+		leftExpression.accept(new Evaluator(schema,tuple,literals,symbols));
 	}
 
 	@Override
@@ -158,10 +158,10 @@ public class Evaluator extends AbstractExpressionVisitor {
 		Expression leftExpression = arg0.getLeftExpression();
 		Expression rightExpression = arg0.getRightExpression();
 		
-		leftExpression.accept(new Evaluator(schema,tuple,literals,symbols));
 		rightExpression.accept(new Evaluator(schema,tuple,literals,symbols));
+		leftExpression.accept(new Evaluator(schema,tuple,literals,symbols));
 		
-}
+	}
 
 	@Override
 	public void visit(Subtraction arg0) {
@@ -169,9 +169,9 @@ public class Evaluator extends AbstractExpressionVisitor {
 		Expression leftExpression = arg0.getLeftExpression();
 		Expression rightExpression = arg0.getRightExpression();
 		
-		leftExpression.accept(new Evaluator(schema,tuple,literals,symbols));
 		rightExpression.accept(new Evaluator(schema,tuple,literals,symbols));
-}
+		leftExpression.accept(new Evaluator(schema,tuple,literals,symbols));
+	}
 
 	@Override
 	public void visit(AndExpression arg0) {
@@ -179,8 +179,8 @@ public class Evaluator extends AbstractExpressionVisitor {
 		Expression leftExpression = arg0.getLeftExpression();
 		Expression rightExpression = arg0.getRightExpression();
 		
-		leftExpression.accept(new Evaluator(schema,tuple,literals,symbols));
 		rightExpression.accept(new Evaluator(schema,tuple,literals,symbols));
+		leftExpression.accept(new Evaluator(schema,tuple,literals,symbols));
 		
 	}
 
@@ -190,8 +190,8 @@ public class Evaluator extends AbstractExpressionVisitor {
 		Expression leftExpression = arg0.getLeftExpression();
 		Expression rightExpression = arg0.getRightExpression();
 		
-		leftExpression.accept(new Evaluator(schema,tuple,literals,symbols));
 		rightExpression.accept(new Evaluator(schema,tuple,literals,symbols));
+		leftExpression.accept(new Evaluator(schema,tuple,literals,symbols));
 	}
 
 	@Override
@@ -200,8 +200,8 @@ public class Evaluator extends AbstractExpressionVisitor {
 		Expression leftExpression = arg0.getLeftExpression();
 		Expression rightExpression = arg0.getRightExpression();
 		
-		leftExpression.accept(new Evaluator(schema,tuple,literals,symbols));
 		rightExpression.accept(new Evaluator(schema,tuple,literals,symbols));
+		leftExpression.accept(new Evaluator(schema,tuple,literals,symbols));
 	}
 
 	@Override
@@ -210,8 +210,8 @@ public class Evaluator extends AbstractExpressionVisitor {
 		Expression leftExpression = arg0.getLeftExpression();
 		Expression rightExpression = arg0.getRightExpression();
 		 
-		leftExpression.accept(new Evaluator(schema,tuple,literals,symbols));
 		rightExpression.accept(new Evaluator(schema,tuple,literals,symbols));
+		leftExpression.accept(new Evaluator(schema,tuple,literals,symbols));
 	}
 
 	@Override
@@ -220,8 +220,8 @@ public class Evaluator extends AbstractExpressionVisitor {
 		Expression leftExpression = arg0.getLeftExpression();
 		Expression rightExpression = arg0.getRightExpression();
 		
-		leftExpression.accept(new Evaluator(schema,tuple,literals,symbols));
 		rightExpression.accept(new Evaluator(schema,tuple,literals,symbols));
+		leftExpression.accept(new Evaluator(schema,tuple,literals,symbols));
 
 	}
 
@@ -231,8 +231,8 @@ public class Evaluator extends AbstractExpressionVisitor {
 		Expression leftExpression = arg0.getLeftExpression();
 		Expression rightExpression = arg0.getRightExpression();
 		
-		leftExpression.accept(new Evaluator(schema,tuple,literals,symbols));
 		rightExpression.accept(new Evaluator(schema,tuple,literals,symbols));
+		leftExpression.accept(new Evaluator(schema,tuple,literals,symbols));
 	}
 	/*
 	 *literals or Leaf Nodes of the recursion tree

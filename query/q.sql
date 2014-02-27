@@ -13,4 +13,4 @@ sl3 int,
 name3 string,
 avg3 float
 )
-SELECT * FROM table1,table2,table3 WHERE avg1=15.8 and name2='Billy';
+SELECT * FROM table1,table2,table3 WHERE avg2-avg1>1 and name1='Ramesh';
