@@ -10,6 +10,7 @@ import net.sf.jsqlparser.statement.select.AllTableColumns;
 import net.sf.jsqlparser.statement.select.SelectExpressionItem;
 import net.sf.jsqlparser.statement.select.SelectItemVisitor;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -46,7 +47,10 @@ public class MySelectItemVisitor implements SelectItemVisitor {
     @Override
     public void visit(SelectExpressionItem selectExpressionItem) {
         Expression expr = selectExpressionItem.getExpression();
-
+        String alias = selectExpressionItem.getAlias();
+        EvaluatorProjection evalProjection = new EvaluatorProjection(expr,alias,inputSchema,outputSchema,indexes);
+        expr.accept(evalProjection);
+     /*   
         if (expr instanceof Column) {
             for (int i = 0; i < inputSchema.length; i++) {
                 if (((Column) expr).getColumnName().equalsIgnoreCase(inputSchema[i].getColName())) {
@@ -61,11 +65,11 @@ public class MySelectItemVisitor implements SelectItemVisitor {
         } else {
             // todo for Ankesh
             indexes.set(counter, -1);
-//            if(selectExpressionItem.getAlias() == null ){
+            //if(selectExpressionItem.getAlias() == null ){
             outputSchema.get(counter).setColName(expr.toString());
             outputSchema.get(counter).setAlias(expr.toString());
             outputSchema.get(counter).setType(Datum.type.FLOAT);
             counter++;
         }
-    }
+    */}
 }
