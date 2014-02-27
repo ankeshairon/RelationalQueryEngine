@@ -21,7 +21,7 @@ public class Main {
         int i;
         File dataDir = null;
         ArrayList<File> sqlFiles = new ArrayList<File>();
-        System.out.println(System.getProperty("user.dir"));
+        System.out.println("**************************" + System.getProperty("user.dir"));
         for (i = 0; i < args.length; i++) {
             if (args[i].equals("--data")) {
                 dataDir = new File(args[i + 1]);
