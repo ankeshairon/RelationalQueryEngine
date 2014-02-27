@@ -25,7 +25,7 @@ public class MyFromItemVisitor implements FromItemVisitor {
 
     @Override
     public void visit(Table tbl) {
-        source = new ScanOperator(new File(System.getProperty("user.dir") + "/NBA/" + tbl.getName().toLowerCase() + ".dat"), tables);
+        source = new ScanOperator(new File(dataDir.toString() + "/" + tbl.getName().toLowerCase() + ".dat"), tables);
     }
 
     @Override
