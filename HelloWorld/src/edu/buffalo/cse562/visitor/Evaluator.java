@@ -279,11 +279,25 @@ public class Evaluator extends AbstractExpressionVisitor {
 			
 		String columnVal = arg0.getColumnName();
 		Datum columnTupleVal = null;
+		long nativeLong;
+		float nativeFloat;
+		FLOAT newFLOAT;
 		int count = 0;
 		for (ColumnSchema col: schema) {
             if (col.getColName().equalsIgnoreCase(columnVal)) {
                 columnTupleVal = tuple[count];
-				literals.push(columnTupleVal);
+                if (columnTupleVal.getType() == Datum.type.LONG) {
+                	try {
+						nativeLong = columnTupleVal.toLONG();
+						nativeFloat = (float)nativeLong;
+						newFLOAT = new FLOAT(nativeFloat);
+						literals.push(newFLOAT);
+					} catch (CastException e) {
+						e.printStackTrace();
+					}
+                }
+                else 
+                	literals.push(columnTupleVal);
 				break;
 			}
 			count++;
