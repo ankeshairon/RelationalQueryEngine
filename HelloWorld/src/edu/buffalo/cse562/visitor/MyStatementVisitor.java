@@ -24,7 +24,7 @@ public class MyStatementVisitor implements StatementVisitor {
 
     public MyStatementVisitor(String dataDir) {
         this.dataDir = dataDir;
-        tables = new HashMap<String, List<ColumnDefinition>>();
+        tables = new HashMap<>();
     }
 
     @Override

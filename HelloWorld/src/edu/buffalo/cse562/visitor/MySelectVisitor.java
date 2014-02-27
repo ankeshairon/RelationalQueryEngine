@@ -4,7 +4,9 @@ package edu.buffalo.cse562.visitor;
 import edu.buffalo.cse562.data.Datum;
 import edu.buffalo.cse562.operator.JoinOperator;
 import edu.buffalo.cse562.operator.Operator;
+import edu.buffalo.cse562.operator.ProjectionOperator;
 import edu.buffalo.cse562.operator.SelectionOperator;
+import edu.buffalo.cse562.schema.ColumnSchema;
 import net.sf.jsqlparser.statement.create.table.ColumnDefinition;
 import net.sf.jsqlparser.statement.select.*;
 
@@ -41,12 +43,18 @@ public class MySelectVisitor implements SelectVisitor {
         }
 
         List<SelectItem> selectItems = statement.getSelectItems();
-        MySelectItemVisitor selectItemVisitor = new MySelectItemVisitor(source, selectItems.size());
+        MySelectItemVisitor selectItemVisitor = new MySelectItemVisitor(source);
         if (selectItems != null) {
             for (SelectItem selectItem : selectItems) {
                 selectItem.accept(selectItemVisitor);
             }
-            source = selectItemVisitor.source;
+            ColumnSchema[] outputSchema = new ColumnSchema[selectItemVisitor.outputSchema.size()];
+            selectItemVisitor.outputSchema.toArray(outputSchema);
+
+            Integer[] indexArray = new Integer[selectItemVisitor.indexes.size()];
+            selectItemVisitor.indexes.toArray(indexArray);
+
+            source = new ProjectionOperator(selectItemVisitor.in, outputSchema, indexArray);
         }
 
         source = new SelectionOperator(source, source.getSchema(), statement.getWhere());

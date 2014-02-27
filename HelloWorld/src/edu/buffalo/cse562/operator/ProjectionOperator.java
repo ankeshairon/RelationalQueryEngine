@@ -9,9 +9,9 @@ public class ProjectionOperator implements Operator {
 
     Operator input;
     ColumnSchema[] outputSchema;
-    int[] indexes;
+    Integer[] indexes;
 
-    public ProjectionOperator(Operator in, ColumnSchema[] outputSchema, int[] indexes) {
+    public ProjectionOperator(Operator in, ColumnSchema[] outputSchema, Integer[] indexes) {
         input = in;
         this.outputSchema = outputSchema;
         this.indexes = indexes;
