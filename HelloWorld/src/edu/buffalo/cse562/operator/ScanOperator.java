@@ -81,7 +81,7 @@ public class ScanOperator implements Operator {
     }
 
     private FileReader getFileReader() {
-        File dataDirFile = new File(dataDir);
+        File dataDirFile = new File(System.getProperty("user.dir") + "//" + dataDir);
         if (dataDirFile.exists()) {
             File[] files = dataDirFile.listFiles();
             for (File file : files) {
