@@ -24,9 +24,7 @@ public class Main {
         ArrayList<File> sqlFiles = new ArrayList<File>();
         for (i = 0; i < args.length; i++) {
             if (args[i].equals("--data")) {
-            	System.out.println(System.getProperty("user.dir") + "/" + args[i+1]);
-            	String current = new java.io.File( "." ).getCanonicalPath();
-                dataDir = new File(current + "/" + args[i + 1]);
+                dataDir = new File(args[i + 1]);
                 i++;
             } else {
                 sqlFiles.add(new File(args[i]));
