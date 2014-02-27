@@ -1,13 +1,10 @@
 package edu.buffalo.cse562.operator;
 
-import edu.buffalo.cse562.Main;
 import edu.buffalo.cse562.data.*;
 import edu.buffalo.cse562.schema.ColumnSchema;
 import net.sf.jsqlparser.statement.create.table.ColumnDefinition;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 
@@ -80,11 +77,26 @@ public class ScanOperator implements Operator {
 
     @Override
     public void reset() {
-        input = new BufferedReader(getInputStreamReader());
+        input = new BufferedReader(getFileReader());
     }
 
-    private InputStreamReader getInputStreamReader() {
-        return new InputStreamReader(Main.class.getResourceAsStream(System.getProperty("user.dir") + "/" + dataDir + "/" + tableName + ".dat"));
+    private FileReader getFileReader() {
+        File dataDirFile = new File(dataDir);
+        if (dataDirFile.exists()) {
+            File[] files = dataDirFile.listFiles();
+            for (File file : files) {
+                if (file.getName().split("\\.")[0].equalsIgnoreCase(tableName)) {
+                    try {
+                        return new FileReader(file);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        }
+
+        return null;
     }
 
     @Override
