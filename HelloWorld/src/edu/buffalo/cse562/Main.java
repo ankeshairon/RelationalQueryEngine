@@ -46,7 +46,7 @@ public class Main {
 
             } catch (IOException e) {
                 e.printStackTrace();
-                new Throwable(Main.class.getName());
+                new Throwable("CUSTOM EXCEPTION : " + Main.class.getName());
             } catch (ParseException e) {
                 e.printStackTrace();
             }
