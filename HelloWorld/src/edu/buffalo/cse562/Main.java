@@ -24,7 +24,7 @@ public class Main {
 
         for (i = 0; i < args.length; i++) {
             if (args[i].equals("--data")) {
-                dataDir = new File(System.getProperty("user.dir") + "\\" + args[i + 1] + "\\");
+                dataDir = new File(System.getProperty("user.dir") + "\\" + args[i + 1]);
                 i++;
             } else {
                 sqlFiles.add(new File(args[i]));
