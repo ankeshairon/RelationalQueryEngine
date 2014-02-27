@@ -1,30 +1,22 @@
 package edu.buffalo.cse562.visitor;
 
-import java.sql.Date;
-import java.util.Stack;
-
-import net.sf.jsqlparser.expression.DateValue;
-import net.sf.jsqlparser.expression.DoubleValue;
-import net.sf.jsqlparser.expression.Expression;
-import net.sf.jsqlparser.expression.LongValue;
-import net.sf.jsqlparser.expression.StringValue;
-import net.sf.jsqlparser.expression.operators.arithmetic.Addition;
-import net.sf.jsqlparser.expression.operators.arithmetic.Division;
-import net.sf.jsqlparser.expression.operators.arithmetic.Multiplication;
-import net.sf.jsqlparser.expression.operators.arithmetic.Subtraction;
-import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
-import net.sf.jsqlparser.expression.operators.relational.EqualsTo;
-import net.sf.jsqlparser.expression.operators.relational.GreaterThan;
-import net.sf.jsqlparser.expression.operators.relational.GreaterThanEquals;
-import net.sf.jsqlparser.expression.operators.relational.MinorThan;
-import net.sf.jsqlparser.expression.operators.relational.MinorThanEquals;
-import net.sf.jsqlparser.schema.Column;
 import edu.buffalo.cse562.data.Datum;
 import edu.buffalo.cse562.data.Datum.CastException;
 import edu.buffalo.cse562.data.FLOAT;
 import edu.buffalo.cse562.data.LONG;
 import edu.buffalo.cse562.data.STRING;
 import edu.buffalo.cse562.schema.ColumnSchema;
+import net.sf.jsqlparser.expression.*;
+import net.sf.jsqlparser.expression.operators.arithmetic.Addition;
+import net.sf.jsqlparser.expression.operators.arithmetic.Division;
+import net.sf.jsqlparser.expression.operators.arithmetic.Multiplication;
+import net.sf.jsqlparser.expression.operators.arithmetic.Subtraction;
+import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
+import net.sf.jsqlparser.expression.operators.relational.*;
+import net.sf.jsqlparser.schema.Column;
+
+import java.sql.Date;
+import java.util.Stack;
 
 public class Evaluator extends AbstractExpressionVisitor {
 
@@ -40,7 +32,8 @@ public class Evaluator extends AbstractExpressionVisitor {
 		this.tuple = tuple;
 		this.literals = new Stack<>();
 		this.symbols = new Stack<>();
-	}
+        bool = true;
+    }
 	
 	public Evaluator(ColumnSchema[] schema, Datum[] tuple, Stack<Datum> literals, Stack<String> symbols) {
 		this.schema = schema;
@@ -267,8 +260,8 @@ public class Evaluator extends AbstractExpressionVisitor {
 
 	@Override
 	public void visit(DateValue arg0) {
-		Date date = arg0.getValue(); 
-		STRING dateVal = new STRING(date.toString());
+        Date date = arg0.getValue();
+        STRING dateVal = new STRING(date.toString());
 		literals.push(dateVal);
 	}
 
@@ -288,8 +281,8 @@ public class Evaluator extends AbstractExpressionVisitor {
 		Datum columnTupleVal = null;
 		int count = 0;
 		for (ColumnSchema col: schema) {
-			if(col.colName.equals(columnVal)) {
-				columnTupleVal = tuple[count];
+            if (col.getColName().equalsIgnoreCase(columnVal)) {
+                columnTupleVal = tuple[count];
 				literals.push(columnTupleVal);
 				break;
 			}

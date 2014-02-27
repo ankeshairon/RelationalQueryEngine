@@ -2,11 +2,9 @@ package edu.buffalo.cse562.data;
 
 public interface Datum {
 
-    static enum type {
+    public static enum type {
         BOOL, LONG, FLOAT, STRING, DATE
     }
-
-    ;
 
     static class CastException extends Exception {
         public CastException() {

@@ -54,20 +54,26 @@ public class ScanOperator implements Operator {
         String[] cols = line.split("\\|");
         Datum[] ret = new Datum[cols.length];
         for (int i = 0; i < cols.length; i++) {
-            if (schema[i].type == Datum.type.LONG) {
-                ret[i] = new LONG(cols[i]);
-            } else if (schema[i].type == Datum.type.FLOAT) {
-                ret[i] = new FLOAT(cols[i]);
-            } else if (schema[i].type == Datum.type.BOOL) {
-                ret[i] = new BOOL(cols[i]);
-            } else if (schema[i].type == Datum.type.DATE) {
-                try {
-                    ret[i] = new DATE(cols[i]);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-            } else if (schema[i].type == Datum.type.STRING) {
-                ret[i] = new STRING(cols[i]);
+            switch (schema[i].getType()) {
+                case LONG:
+                    ret[i] = new LONG(cols[i]);
+                    break;
+                case FLOAT:
+                    ret[i] = new FLOAT(cols[i]);
+                    break;
+                case BOOL:
+                    ret[i] = new BOOL(cols[i]);
+                    break;
+                case DATE:
+                    try {
+                        ret[i] = new DATE(cols[i]);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case STRING:
+                    ret[i] = new STRING(cols[i]);
+                    break;
             }
         }
         return ret;

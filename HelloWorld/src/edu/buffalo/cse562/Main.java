@@ -39,6 +39,7 @@ public class Main {
                 Statement stmnt;
                 while ((stmnt = parser.Statement()) != null) {
                     stmnt.accept(myVisitor);
+                    View.dump(myVisitor.source);
                 }
 
             } catch (IOException e) {

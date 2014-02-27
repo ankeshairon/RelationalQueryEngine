@@ -1,5 +1,6 @@
 package edu.buffalo.cse562.visitor;
 
+import edu.buffalo.cse562.operator.Operator;
 import net.sf.jsqlparser.statement.StatementVisitor;
 import net.sf.jsqlparser.statement.create.table.ColumnDefinition;
 import net.sf.jsqlparser.statement.create.table.CreateTable;
@@ -19,6 +20,7 @@ public class MyStatementVisitor implements StatementVisitor {
 
     public String dataDir;
     public HashMap<String, List<ColumnDefinition>> tables;
+    public Operator source;
 
     public MyStatementVisitor(String dataDir) {
         this.dataDir = dataDir;
@@ -30,6 +32,7 @@ public class MyStatementVisitor implements StatementVisitor {
         MySelectVisitor myVisitor = new MySelectVisitor(dataDir, tables);
         SelectBody selectBody = stmnt.getSelectBody();
         selectBody.accept(myVisitor);
+        source = myVisitor.source;
     }
 
     @Override

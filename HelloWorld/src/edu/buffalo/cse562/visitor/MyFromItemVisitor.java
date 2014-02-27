@@ -32,6 +32,7 @@ public class MyFromItemVisitor implements FromItemVisitor {
     public void visit(SubSelect subSelect) {
         MySelectVisitor selectVisitor = new MySelectVisitor(dataDir, tables);
         subSelect.getSelectBody().accept(selectVisitor);
+        source = selectVisitor.source;
     }
 
     @Override

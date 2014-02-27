@@ -2,10 +2,8 @@ package edu.buffalo.cse562.visitor;
 
 
 import edu.buffalo.cse562.data.Datum;
-import edu.buffalo.cse562.data.Datum.CastException;
 import edu.buffalo.cse562.operator.JoinOperator;
 import edu.buffalo.cse562.operator.Operator;
-import edu.buffalo.cse562.operator.ProjectionOperator;
 import edu.buffalo.cse562.operator.SelectionOperator;
 import net.sf.jsqlparser.statement.create.table.ColumnDefinition;
 import net.sf.jsqlparser.statement.select.*;
@@ -16,6 +14,7 @@ import java.util.List;
 public class MySelectVisitor implements SelectVisitor {
 
     public String dataDir;
+    public Operator source;
 
     HashMap<String, List<ColumnDefinition>> tables;
 
@@ -25,28 +24,33 @@ public class MySelectVisitor implements SelectVisitor {
     }
 
     @Override
-    public void visit(PlainSelect stmnt) {
+    public void visit(PlainSelect statement) {
         MyFromItemVisitor myFromItemVisitor = new MyFromItemVisitor(dataDir, tables);
-
-        FromItem fromItem = stmnt.getFromItem();
+        FromItem fromItem = statement.getFromItem();
         fromItem.accept(myFromItemVisitor);
+        source = myFromItemVisitor.source;
 
-        Operator oper = myFromItemVisitor.source;
-        List<Join> joins;
-        if ((joins = stmnt.getJoins()) != null) {
+        List<Join> joins = statement.getJoins();
+        if (joins != null) {
             for (Join join : joins) {
                 fromItem = join.getRightItem();
                 fromItem.accept(myFromItemVisitor);
                 Operator newOper = myFromItemVisitor.source;
-                oper = new JoinOperator(oper, newOper);
+                source = new JoinOperator(source, newOper);
             }
         }
 
-        List<SelectItem> selItems = stmnt.getSelectItems();
-        Operator ops = new SelectionOperator(oper,oper.getSchema(),stmnt.getWhere());
-        //oper = new ProjectionOperator(ops, selItems);
+        List<SelectItem> selectItems = statement.getSelectItems();
+        MySelectItemVisitor selectItemVisitor = new MySelectItemVisitor(source, selectItems.size());
+        if (selectItems != null) {
+            for (SelectItem selectItem : selectItems) {
+                selectItem.accept(selectItemVisitor);
+            }
+            source = selectItemVisitor.source;
+        }
 
-        dump(ops);
+        source = new SelectionOperator(source, source.getSchema(), statement.getWhere());
+
 
 //		List<SelectItem> selectItems = stmnt.getSelectItems();
 
@@ -63,7 +67,7 @@ public class MySelectVisitor implements SelectVisitor {
                     try {
                         long l = col.toLONG();
                         System.out.print(l + "|");
-                    } catch (CastException e) {
+                    } catch (Datum.CastException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
@@ -76,7 +80,7 @@ public class MySelectVisitor implements SelectVisitor {
                     try {
                         float f = col.toFLOAT();
                         System.out.print(f + "|");
-                    } catch (CastException e) {
+                    } catch (Datum.CastException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                     }

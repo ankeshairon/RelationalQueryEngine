@@ -1,7 +1,6 @@
 package edu.buffalo.cse562.operator;
 
 import edu.buffalo.cse562.data.Datum;
-import edu.buffalo.cse562.data.Datum.CastException;
 import edu.buffalo.cse562.schema.ColumnSchema;
 import edu.buffalo.cse562.visitor.Evaluator;
 import net.sf.jsqlparser.expression.Expression;
@@ -20,21 +19,25 @@ public class SelectionOperator implements Operator {
 
     @Override
     public Datum[] readOneTuple() {
-        Datum[] tuple = null;
+        Datum[] tuple;
         do {
             tuple = input.readOneTuple();
             if (tuple == null) {
                 return null;
             }
 
-            Evaluator eval = new Evaluator(schema, tuple);
-            condition.accept(eval);
-            try {
+            if (condition != null) {
+                Evaluator eval = new Evaluator(schema, tuple);
+                condition.accept(eval);
+                try {
             	eval.executeStack();
-            } catch (CastException e) {e.printStackTrace();}
+                } catch (Datum.CastException e) {
+                    e.printStackTrace();
+                }
 
-            if (!eval.getBool()) {
-                tuple = null;
+                if (!eval.getBool()) {
+                    tuple = null;
+                }
             }
 
         } while (tuple == null);
@@ -48,8 +51,7 @@ public class SelectionOperator implements Operator {
 
     @Override
     public ColumnSchema[] getSchema() {
-        // TODO Auto-generated method stub
-        return null;
+        return schema;
     }
 
 }

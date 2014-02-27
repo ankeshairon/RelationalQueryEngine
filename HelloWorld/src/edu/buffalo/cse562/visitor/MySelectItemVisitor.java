@@ -1,7 +1,11 @@
 package edu.buffalo.cse562.visitor;
 
+import edu.buffalo.cse562.data.Datum;
+import edu.buffalo.cse562.operator.Operator;
+import edu.buffalo.cse562.operator.ProjectionOperator;
 import edu.buffalo.cse562.schema.ColumnSchema;
 import net.sf.jsqlparser.expression.Expression;
+import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.statement.select.AllColumns;
 import net.sf.jsqlparser.statement.select.AllTableColumns;
 import net.sf.jsqlparser.statement.select.SelectExpressionItem;
@@ -9,69 +13,61 @@ import net.sf.jsqlparser.statement.select.SelectItemVisitor;
 
 public class MySelectItemVisitor implements SelectItemVisitor {
 
-    public ColumnSchema[] inSchema;
-    public ColumnSchema[] outSchema;
+    Operator source;
+    Operator in;
+    private int noOfSelectItems;
+    int counter = 0;
 
-    int counter;
-    int[] indexes;
 
-    public MySelectItemVisitor(ColumnSchema[] inSchema, ColumnSchema[] outSchema, int[] indexes) {
-        this.inSchema = inSchema;
-        this.outSchema = outSchema;
-        this.indexes = indexes;
-        counter = 0;
+    public MySelectItemVisitor(Operator in, int noOfSelectItems) {
+        this.in = in;
+        this.noOfSelectItems = noOfSelectItems;
     }
 
-    public int[] getIndexes() {
-        return indexes;
-    }
-
-    public ColumnSchema[] getOutSchema() {
-        return outSchema;
-    }
 
     @Override
     public void visit(AllColumns allColumns) {
-        outSchema = new ColumnSchema[inSchema.length];
-        indexes = new int[inSchema.length];
-        for (int i = 0; i < inSchema.length; i++) {
+        int[] indexes = new int[in.getSchema().length];
+        for (int i = 0; i < indexes.length; i++) {
             indexes[i] = i;
         }
-        outSchema = inSchema;
-        //counter++;
+        source = new ProjectionOperator(in, in.getSchema(), indexes);
     }
 
     @Override
-    public void visit(AllTableColumns atblcol) {
-        int nofcols = 0;
-        for (int i = 0; i < inSchema.length; i++) {
-            if (inSchema[i].tblName.equalsIgnoreCase(atblcol.getTable().getName())) {
-                nofcols++;
-            }
-        }
-        outSchema = new ColumnSchema[nofcols];
-        indexes = new int[nofcols];
-        for (int i = 0; i < inSchema.length; i++) {
-            if (inSchema[i].tblName.equalsIgnoreCase(atblcol.getTable().getName())) {
-                outSchema[counter] = inSchema[i];
-                indexes[counter] = i;
-                counter++;
-            }
-        }
+    public void visit(AllTableColumns allTableColumns) {
     }
 
     @Override
-    public void visit(SelectExpressionItem arg0) {
-        counter++;
-        /* To create a executable stack of the expression
-         * Tuple data is not available here so I cannot calculate the needed value
-         */
-        
-        Expression projectExpression = arg0.getExpression();
-        String projectAlias = arg0.getAlias();
-        
-        EvaluatorProjection evaluatorProjection = new EvaluatorProjection(projectExpression,projectAlias);
-        
-    }
+    public void visit(SelectExpressionItem selectExpressionItem) {
+        Expression expr = selectExpressionItem.getExpression();
+        ColumnSchema[] inputSchema = in.getSchema();
+        ColumnSchema[] outputSchema = new ColumnSchema[noOfSelectItems];
+        int[] indexes = new int[noOfSelectItems];
 
+        if (expr instanceof Column) {
+            for (int i = 0; i < inputSchema.length; i++) {
+                if (((Column) expr).getColumnName().equalsIgnoreCase(inputSchema[i].getColName())) {
+                    indexes[counter] = i;
+                    outputSchema[counter] = new ColumnSchema(inputSchema[i].getColName(), inputSchema[i].getType());
+                    outputSchema[counter].setAlias(inputSchema[i].getAlias());
+                    counter++;
+                }
+            }
+        } else {
+            // todo for Ankesh
+            indexes[counter] = -1;
+//            if(selectExpressionItem.getAlias() == null ){
+            outputSchema[counter].setColName(expr.toString());
+            outputSchema[counter].setAlias(expr.toString());
+
+//            } else{
+//
+//            }
+            outputSchema[counter].setType(Datum.type.FLOAT);
+            counter++;
+        }
+
+        source = new ProjectionOperator(in, outputSchema, indexes);
+    }
 }
