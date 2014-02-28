@@ -2,8 +2,6 @@ package edu.buffalo.cse562.operator;
 
 import edu.buffalo.cse562.data.Datum;
 import edu.buffalo.cse562.schema.ColumnSchema;
-import edu.buffalo.cse562.visitor.EvaluatorSelection;
-import net.sf.jsqlparser.expression.Expression;
 
 public class ProjectionOperator implements Operator {
 
@@ -23,19 +21,10 @@ public class ProjectionOperator implements Operator {
         Datum[] tuple;
         if ((tuple = input.readOneTuple()) != null) {
             for (int i = 0; i < indexes.length; i++) {
-                if (indexes[i] >= 0) {
-                    ret[i] = tuple[indexes[i]];
-                } else {
-                    toExpression(outputSchema[i].getColName()).accept(new EvaluatorSelection(input.getSchema(), tuple));
-                }
+                ret[i] = tuple[indexes[i]];
             }
             return ret;
         }
-        return null;
-    }
-
-    private Expression toExpression(String string) {
-        //todo for Ankesh
         return null;
     }
 

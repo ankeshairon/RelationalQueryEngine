@@ -60,7 +60,11 @@ public class MySelectVisitor implements SelectVisitor {
             Integer[] indexArray = new Integer[selectItemVisitor.indexes.size()];
             selectItemVisitor.indexes.toArray(indexArray);
 
-            source = new ProjectionOperator(selectItemVisitor.in, outputSchema, indexArray);
+            if (selectItemVisitor.isAggregationPresent()) {
+                source = new AggregationOperator(source, outputSchema, indexArray, selectItemVisitor.getAggregations(), statement.getGroupByColumnReferences());
+            } else {
+                source = new ProjectionOperator(source, outputSchema, indexArray);
+            }
         }
     }
 

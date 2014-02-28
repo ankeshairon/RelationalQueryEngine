@@ -1,16 +1,14 @@
 package edu.buffalo.cse562.visitor;
 
-import edu.buffalo.cse562.data.Datum;
 import edu.buffalo.cse562.operator.Operator;
 import edu.buffalo.cse562.schema.ColumnSchema;
 import net.sf.jsqlparser.expression.Expression;
-import net.sf.jsqlparser.schema.Column;
+import net.sf.jsqlparser.expression.Function;
 import net.sf.jsqlparser.statement.select.AllColumns;
 import net.sf.jsqlparser.statement.select.AllTableColumns;
 import net.sf.jsqlparser.statement.select.SelectExpressionItem;
 import net.sf.jsqlparser.statement.select.SelectItemVisitor;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -18,21 +16,23 @@ import java.util.List;
 public class MySelectItemVisitor implements SelectItemVisitor {
 
     Operator in;
-    int counter = 0;
+    private Boolean isAggregationPresent;
 
     ColumnSchema[] inputSchema;
     List<ColumnSchema> outputSchema;
     List<Integer> indexes;
     EvaluatorProjection evalProjection;
+    private List<Function> aggregations;
 
     public MySelectItemVisitor(Operator in) {
         this.in = in;
         inputSchema = in.getSchema();
         outputSchema = new ArrayList<>();
         indexes = new ArrayList<>();
-        evalProjection = new EvaluatorProjection(inputSchema,outputSchema,indexes);
+        evalProjection = new EvaluatorProjection(inputSchema, outputSchema, indexes);
+        isAggregationPresent = false;
+        aggregations = new ArrayList<>();
     }
-
 
     @Override
     public void visit(AllColumns allColumns) {
@@ -50,9 +50,12 @@ public class MySelectItemVisitor implements SelectItemVisitor {
     public void visit(SelectExpressionItem selectExpressionItem) {
         Expression expr = selectExpressionItem.getExpression();
         String alias = selectExpressionItem.getAlias();
-        evalProjection = new EvaluatorProjection(expr,alias);
+        evalProjection = new EvaluatorProjection(expr, alias);
         expr.accept(evalProjection);
-     /*   
+        if (evalProjection.isAnAggregation()) {
+            aggregations.add((Function) selectExpressionItem.getExpression());
+        }
+     /*
         if (expr instanceof Column) {
             for (int i = 0; i < inputSchema.length; i++) {
                 if (((Column) expr).getColumnName().equalsIgnoreCase(inputSchema[i].getColName())) {
@@ -73,5 +76,14 @@ public class MySelectItemVisitor implements SelectItemVisitor {
             outputSchema.get(counter).setType(Datum.type.FLOAT);
             counter++;
         }
-    */}
+    */
+    }
+
+    public boolean isAggregationPresent() {
+        return aggregations.size() != 0;
+    }
+
+    public List<Function> getAggregations() {
+        return aggregations;
+    }
 }

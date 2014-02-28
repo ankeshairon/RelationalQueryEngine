@@ -1,21 +1,15 @@
 package edu.buffalo.cse562.visitor;
 
-import java.util.List;
-
 import edu.buffalo.cse562.data.Datum;
 import edu.buffalo.cse562.schema.ColumnSchema;
-
-import net.sf.jsqlparser.expression.DoubleValue;
-import net.sf.jsqlparser.expression.Expression;
-import net.sf.jsqlparser.expression.Function;
-import net.sf.jsqlparser.expression.LongValue;
-import net.sf.jsqlparser.expression.Parenthesis;
+import net.sf.jsqlparser.expression.*;
 import net.sf.jsqlparser.expression.operators.arithmetic.Addition;
 import net.sf.jsqlparser.expression.operators.arithmetic.Division;
 import net.sf.jsqlparser.expression.operators.arithmetic.Multiplication;
 import net.sf.jsqlparser.expression.operators.arithmetic.Subtraction;
-import net.sf.jsqlparser.expression.operators.relational.ExpressionList;
 import net.sf.jsqlparser.schema.Column;
+
+import java.util.List;
 
 public class EvaluatorProjection extends AbstractExpressionVisitor {
 
@@ -25,9 +19,10 @@ public class EvaluatorProjection extends AbstractExpressionVisitor {
 	Expression expression;
 	String alias = null;
 	static int counter = 0;
-	
-	public EvaluatorProjection(ColumnSchema[] inputSchemaArg, List<ColumnSchema> outputSchemaArg, List<Integer> indexesArg) {
-		inputSchema = inputSchemaArg;
+    private boolean isAnAggregation;
+
+    public EvaluatorProjection(ColumnSchema[] inputSchemaArg, List<ColumnSchema> outputSchemaArg, List<Integer> indexesArg) {
+        inputSchema = inputSchemaArg;
 		outputSchema = outputSchemaArg;
 		indexes = indexesArg;
 	}
@@ -36,8 +31,8 @@ public class EvaluatorProjection extends AbstractExpressionVisitor {
 		this.expression = expression;
 		this.alias = alias;
 	}
-	
-	@Override
+
+    @Override
 	public void visit(Function arg0) {
 		/*String aggregate = arg0.getName();
 		ExpressionList expressionList = arg0.getParameters();
@@ -52,8 +47,9 @@ public class EvaluatorProjection extends AbstractExpressionVisitor {
 		List<Expression> expr = expressionList.getExpressions();
 		Expression func = arg0;
 		*/
-		
-		indexes.add(-1);
+        isAnAggregation = true;
+
+        indexes.add(-1);
 		String colName = null;
 		if (alias == null) 
 			colName = arg0.toString();
@@ -110,8 +106,10 @@ public class EvaluatorProjection extends AbstractExpressionVisitor {
 
 	@Override
 	public void visit(Column arg0) {
-		for (int i = 0; i < inputSchema.length; i++) {
-			if (arg0.getColumnName().equalsIgnoreCase(inputSchema[i].getColName())) {
+        isAnAggregation = false;
+
+        for (int i = 0; i < inputSchema.length; i++) {
+            if (arg0.getColumnName().equalsIgnoreCase(inputSchema[i].getColName())) {
 				indexes.add(i);
                 ColumnSchema columnSchema = new ColumnSchema(inputSchema[i].getColName(), inputSchema[i].getType());
                 columnSchema.setAlias(inputSchema[i].getAlias());
@@ -122,4 +120,8 @@ public class EvaluatorProjection extends AbstractExpressionVisitor {
          }
 
 	}
+
+    public boolean isAnAggregation() {
+        return isAnAggregation;
+    }
 }
