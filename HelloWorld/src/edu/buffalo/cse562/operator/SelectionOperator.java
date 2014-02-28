@@ -2,7 +2,7 @@ package edu.buffalo.cse562.operator;
 
 import edu.buffalo.cse562.data.Datum;
 import edu.buffalo.cse562.schema.ColumnSchema;
-import edu.buffalo.cse562.visitor.Evaluator;
+import edu.buffalo.cse562.visitor.EvaluatorSelection;
 import net.sf.jsqlparser.expression.Expression;
 
 public class SelectionOperator implements Operator {
@@ -27,7 +27,7 @@ public class SelectionOperator implements Operator {
             }
 
             if (condition != null) {
-                Evaluator eval = new Evaluator(schema, tuple);
+                EvaluatorSelection eval = new EvaluatorSelection(schema, tuple);
                 condition.accept(eval);
                 try {
             	eval.executeStack();
