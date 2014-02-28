@@ -52,7 +52,6 @@ public class MySelectVisitor implements SelectVisitor {
         if (selectItems != null) {
             MySelectItemVisitor selectItemVisitor = new MySelectItemVisitor(source);
             for (SelectItem selectItem : selectItems) {
-            	System.out.println(selectItem);
                 selectItem.accept(selectItemVisitor);
             }
             ColumnSchema[] outputSchema = new ColumnSchema[selectItemVisitor.outputSchema.size()];

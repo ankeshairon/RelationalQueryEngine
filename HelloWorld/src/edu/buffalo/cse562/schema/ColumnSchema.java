@@ -1,5 +1,6 @@
 package edu.buffalo.cse562.schema;
 
+import net.sf.jsqlparser.expression.Expression;
 import edu.buffalo.cse562.data.Datum;
 
 public class ColumnSchema {
@@ -7,6 +8,7 @@ public class ColumnSchema {
     private Datum.type type;
     private String tblName;
     private String alias;
+    private Expression expr;
 
     public ColumnSchema(String colName, String type) {
         this.colName = colName.toLowerCase();
@@ -43,6 +45,10 @@ public class ColumnSchema {
     public String getAlias() {
         return alias;
     }
+    
+    public Expression getExpression() {
+    	return expr;
+    }
 
     public void setColName(String colName) {
         this.colName = colName;
@@ -58,5 +64,9 @@ public class ColumnSchema {
 
     public void setAlias(String alias) {
         this.alias = alias;
+    }
+    
+    public void setExpression(Expression expr) {
+    	this.expr = expr;
     }
 }

@@ -20,45 +20,50 @@ import net.sf.jsqlparser.schema.Column;
 public class EvaluatorProjection extends AbstractExpressionVisitor {
 
     static ColumnSchema[] inputSchema;
-    List<ColumnSchema> outputSchema;
-    List<Integer> indexes;
+    static List<ColumnSchema> outputSchema;
+    static List<Integer> indexes;
 	Expression expression;
-	String alias;
+	String alias = null;
 	static int counter = 0;
 	
-	public EvaluatorProjection(Expression expression, String alias, ColumnSchema[] inputSchema, 
-			List<ColumnSchema> outputSchema, List<Integer> indexes) {
-		this.expression = expression;
-		this.alias = alias;
-		this.inputSchema = inputSchema;
-		this.outputSchema = outputSchema;
-		this.indexes = indexes;
+	public EvaluatorProjection(ColumnSchema[] inputSchemaArg, List<ColumnSchema> outputSchemaArg, List<Integer> indexesArg) {
+		inputSchema = inputSchemaArg;
+		outputSchema = outputSchemaArg;
+		indexes = indexesArg;
 	}
 	
-	public EvaluatorProjection(Expression expression, ColumnSchema[] inputSchema, List<ColumnSchema> outputSchema) {
-		
+	public EvaluatorProjection(Expression expression, String alias) {
+		this.expression = expression;
+		this.alias = alias;
 	}
 	
 	@Override
 	public void visit(Function arg0) {
-		String aggregate = arg0.getName();
+		/*String aggregate = arg0.getName();
 		ExpressionList expressionList = arg0.getParameters();
 		boolean isAllColumns = arg0.isAllColumns();
 		boolean isDistinct = arg0.isDistinct();
 		
-		/*
 		 * Aggregates don't follow the pull model 
 		 * We need to implement the is_done function()
 		 * This is to be a blocking method.
-		 */
+		 
 		System.out.println(aggregate + ", All columns " + isAllColumns + ", Distinct " + isDistinct);
-		List<Expression> expr;
-		while ((expr = expressionList.getExpressions()) != null) {
-			for (Expression e: expr){
-			System.out.println(e);
-			}
-		}
-
+		List<Expression> expr = expressionList.getExpressions();
+		Expression func = arg0;
+		*/
+		
+		indexes.add(-1);
+		String colName = null;
+		if (alias == null) 
+			colName = arg0.toString();
+		else 
+			colName = alias;
+        ColumnSchema columnSchema = new ColumnSchema(colName, Datum.type.FLOAT);
+        columnSchema.setAlias(alias);
+        columnSchema.setExpression(arg0);
+        outputSchema.add(columnSchema);
+		counter++;
 	}
 
 	@Override

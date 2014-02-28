@@ -23,12 +23,14 @@ public class MySelectItemVisitor implements SelectItemVisitor {
     ColumnSchema[] inputSchema;
     List<ColumnSchema> outputSchema;
     List<Integer> indexes;
+    EvaluatorProjection evalProjection;
 
     public MySelectItemVisitor(Operator in) {
         this.in = in;
         inputSchema = in.getSchema();
         outputSchema = new ArrayList<>();
         indexes = new ArrayList<>();
+        evalProjection = new EvaluatorProjection(inputSchema,outputSchema,indexes);
     }
 
 
@@ -48,7 +50,7 @@ public class MySelectItemVisitor implements SelectItemVisitor {
     public void visit(SelectExpressionItem selectExpressionItem) {
         Expression expr = selectExpressionItem.getExpression();
         String alias = selectExpressionItem.getAlias();
-        EvaluatorProjection evalProjection = new EvaluatorProjection(expr,alias,inputSchema,outputSchema,indexes);
+        evalProjection = new EvaluatorProjection(expr,alias);
         expr.accept(evalProjection);
      /*   
         if (expr instanceof Column) {
