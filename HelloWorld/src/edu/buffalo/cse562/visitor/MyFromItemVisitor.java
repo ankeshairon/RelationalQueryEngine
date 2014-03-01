@@ -37,7 +37,7 @@ public class MyFromItemVisitor implements FromItemVisitor {
 
     @Override
     public void visit(SubJoin arg0) {
-        // TODO Auto-generated method stub
+
 
     }
 

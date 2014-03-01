@@ -36,37 +36,37 @@ public class MyStatementVisitor implements StatementVisitor {
 
     @Override
     public void visit(Delete arg0) {
-        // TODO Auto-generated method stub
+
 
     }
 
     @Override
     public void visit(Update arg0) {
-        // TODO Auto-generated method stub
+
 
     }
 
     @Override
     public void visit(Insert arg0) {
-        // TODO Auto-generated method stub
+
 
     }
 
     @Override
     public void visit(Replace arg0) {
-        // TODO Auto-generated method stub
+
 
     }
 
     @Override
     public void visit(Drop arg0) {
-        // TODO Auto-generated method stub
+
 
     }
 
     @Override
     public void visit(Truncate arg0) {
-        // TODO Auto-generated method stub
+
 
     }
 

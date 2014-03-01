@@ -38,7 +38,7 @@ public class DATE implements Datum {
 
     @Override
     public String toSTRING() {
-        // TODO Auto-generated method stub
+
         return this.toString();
     }
 

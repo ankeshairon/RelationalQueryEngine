@@ -3,7 +3,6 @@ package edu.buffalo.cse562.visitor;
 import edu.buffalo.cse562.operator.Operator;
 import edu.buffalo.cse562.schema.ColumnSchema;
 import net.sf.jsqlparser.expression.Expression;
-import net.sf.jsqlparser.expression.Function;
 import net.sf.jsqlparser.statement.select.AllColumns;
 import net.sf.jsqlparser.statement.select.AllTableColumns;
 import net.sf.jsqlparser.statement.select.SelectExpressionItem;
@@ -22,7 +21,6 @@ public class MySelectItemVisitor implements SelectItemVisitor {
     List<ColumnSchema> outputSchema;
     List<Integer> indexes;
     EvaluatorProjection evalProjection;
-    private List<Function> aggregations;
 
     public MySelectItemVisitor(Operator in) {
         this.in = in;
@@ -31,7 +29,6 @@ public class MySelectItemVisitor implements SelectItemVisitor {
         indexes = new ArrayList<>();
         evalProjection = new EvaluatorProjection(inputSchema, outputSchema, indexes);
         isAggregationPresent = false;
-        aggregations = new ArrayList<>();
     }
 
     @Override
@@ -53,7 +50,7 @@ public class MySelectItemVisitor implements SelectItemVisitor {
         evalProjection = new EvaluatorProjection(expr, alias);
         expr.accept(evalProjection);
         if (evalProjection.isAnAggregation()) {
-            aggregations.add((Function) selectExpressionItem.getExpression());
+            isAggregationPresent = true;
         }
      /*
         if (expr instanceof Column) {
@@ -68,7 +65,6 @@ public class MySelectItemVisitor implements SelectItemVisitor {
                 }
             }
         } else {
-            // todo for Ankesh
             indexes.set(counter, -1);
             //if(selectExpressionItem.getAlias() == null ){
             outputSchema.get(counter).setColName(expr.toString());
@@ -80,10 +76,6 @@ public class MySelectItemVisitor implements SelectItemVisitor {
     }
 
     public boolean isAggregationPresent() {
-        return aggregations.size() != 0;
-    }
-
-    public List<Function> getAggregations() {
-        return aggregations;
+        return isAggregationPresent;
     }
 }

@@ -64,45 +64,45 @@ public class EvaluatorProjection extends AbstractExpressionVisitor {
 
 	@Override
 	public void visit(DoubleValue arg0) {
-		// TODO Auto-generated method stub
-		super.visit(arg0);
-	}
+
+        super.visit(arg0);
+    }
 
 	@Override
 	public void visit(LongValue arg0) {
-		// TODO Auto-generated method stub
-		super.visit(arg0);
-	}
+
+        super.visit(arg0);
+    }
 
 	@Override
 	public void visit(Addition arg0) {
-		// TODO Auto-generated method stub
-		super.visit(arg0);
-	}
+
+        super.visit(arg0);
+    }
 
 	@Override
 	public void visit(Division arg0) {
-		// TODO Auto-generated method stub
-		super.visit(arg0);
-	}
+
+        super.visit(arg0);
+    }
 
 	@Override
 	public void visit(Multiplication arg0) {
-		// TODO Auto-generated method stub
-		super.visit(arg0);
-	}
+
+        super.visit(arg0);
+    }
 
 	@Override
 	public void visit(Subtraction arg0) {
-		// TODO Auto-generated method stub
-		super.visit(arg0);
-	}
+
+        super.visit(arg0);
+    }
 
 	@Override
 	public void visit(Parenthesis arg0) {
-		// TODO Auto-generated method stub
-		super.visit(arg0);
-	}
+
+        super.visit(arg0);
+    }
 
 	@Override
 	public void visit(Column arg0) {

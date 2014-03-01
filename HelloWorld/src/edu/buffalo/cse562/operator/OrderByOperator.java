@@ -39,13 +39,13 @@ public class OrderByOperator implements Operator {
 
     @Override
     public void reset() {
-        // TODO Auto-generated method stub
+
 
     }
 
     @Override
     public ColumnSchema[] getSchema() {
-        // TODO Auto-generated method stub
+
         return null;
     }
 

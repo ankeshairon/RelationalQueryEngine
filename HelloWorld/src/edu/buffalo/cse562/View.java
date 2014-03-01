@@ -32,7 +32,6 @@ public class View {
                             float f = col.toFLOAT();
                             result.append(f).append("|");
                         } catch (Datum.CastException e) {
-                            // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
                         break;

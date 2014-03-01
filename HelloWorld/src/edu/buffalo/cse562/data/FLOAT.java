@@ -33,7 +33,6 @@ public class FLOAT implements Datum {
 
     @Override
     public String toSTRING() {
-        // TODO Auto-generated method stub
         return Float.toString(f);
     }
 

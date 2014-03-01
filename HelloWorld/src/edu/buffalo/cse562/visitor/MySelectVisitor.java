@@ -61,7 +61,7 @@ public class MySelectVisitor implements SelectVisitor {
             selectItemVisitor.indexes.toArray(indexArray);
 
             if (selectItemVisitor.isAggregationPresent()) {
-                source = new AggregationOperator(source, outputSchema, indexArray, selectItemVisitor.getAggregations(), statement.getGroupByColumnReferences());
+                source = new AggregationOperator(source, outputSchema, indexArray, statement.getGroupByColumnReferences());
             } else {
                 source = new ProjectionOperator(source, outputSchema, indexArray);
             }
@@ -94,7 +94,7 @@ public class MySelectVisitor implements SelectVisitor {
                         long l = col.toLONG();
                         System.out.print(l + "|");
                     } catch (Datum.CastException e) {
-                        // TODO Auto-generated catch block
+
                         e.printStackTrace();
                     }
                 }
@@ -107,7 +107,7 @@ public class MySelectVisitor implements SelectVisitor {
                         float f = col.toFLOAT();
                         System.out.print(f + "|");
                     } catch (Datum.CastException e) {
-                        // TODO Auto-generated catch block
+
                         e.printStackTrace();
                     }
                 }
