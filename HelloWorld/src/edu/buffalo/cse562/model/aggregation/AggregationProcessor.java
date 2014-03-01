@@ -125,8 +125,11 @@ public class AggregationProcessor {
 
     private LinkedHashMap<Integer, Boolean> createLinkedHashMapOfIndexes() {
         LinkedHashMap<Integer, Boolean> indexMap = new LinkedHashMap<>();
-        for (Integer i : indexesOfGroupByReferencesInOldSchema) {
-            indexMap.put(i, true);
+
+        for (int i = 0; i < newSchemaIndexesRelativeToOldSchema.length; i++) {
+            if (newSchemaIndexesRelativeToOldSchema[i] >= 0) {
+                indexMap.put(i, true);
+            }
         }
         return indexMap;
     }
