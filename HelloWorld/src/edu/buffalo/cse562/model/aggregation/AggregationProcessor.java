@@ -20,15 +20,13 @@ public class AggregationProcessor {
 
     private List<Datum[]> resultDatumWithUniqueValuesOfGroupByElements;
 
-    private List<Integer> indexesOfGroupByReferencesInOldSchema;
     private Integer[] newSchemaIndexesRelativeToOldSchema;
     private TupleComparator tupleComparator;
 
 
-    public AggregationProcessor(ColumnSchema[] oldSchema, ColumnSchema[] newSchema, List<Integer> indexesOfGroupByReferencesInOldSchema, Integer[] newSchemaIndexesRelativeToOldSchema) {
+    public AggregationProcessor(ColumnSchema[] oldSchema, ColumnSchema[] newSchema, Integer[] newSchemaIndexesRelativeToOldSchema) {
         this.oldSchema = oldSchema;
         this.newSchema = newSchema;
-        this.indexesOfGroupByReferencesInOldSchema = indexesOfGroupByReferencesInOldSchema;
         this.newSchemaIndexesRelativeToOldSchema = newSchemaIndexesRelativeToOldSchema;
         tupleComparator = new TupleComparator(createLinkedHashMapOfIndexes());
         resultDatumWithUniqueValuesOfGroupByElements = new ArrayList<>();
