@@ -64,44 +64,37 @@ public class EvaluatorProjection extends AbstractExpressionVisitor {
 
 	@Override
 	public void visit(DoubleValue arg0) {
-
         super.visit(arg0);
     }
 
 	@Override
 	public void visit(LongValue arg0) {
-
         super.visit(arg0);
     }
 
 	@Override
 	public void visit(Addition arg0) {
-
         super.visit(arg0);
     }
 
 	@Override
 	public void visit(Division arg0) {
-
         super.visit(arg0);
     }
 
 	@Override
 	public void visit(Multiplication arg0) {
-
         super.visit(arg0);
     }
 
 	@Override
 	public void visit(Subtraction arg0) {
-
         super.visit(arg0);
     }
 
 	@Override
-	public void visit(Parenthesis arg0) {
-
-        super.visit(arg0);
+    public void visit(Parenthesis parenthesis) {
+        parenthesis.getExpression().accept(this);
     }
 
 	@Override

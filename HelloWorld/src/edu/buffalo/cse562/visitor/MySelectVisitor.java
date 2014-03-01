@@ -4,6 +4,7 @@ package edu.buffalo.cse562.visitor;
 import edu.buffalo.cse562.data.Datum;
 import edu.buffalo.cse562.operator.*;
 import edu.buffalo.cse562.schema.ColumnSchema;
+import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.statement.create.table.ColumnDefinition;
 import net.sf.jsqlparser.statement.select.*;
 
@@ -44,7 +45,10 @@ public class MySelectVisitor implements SelectVisitor {
     }
 
     private void applyWhereConditions(PlainSelect statement) {
-        source = new SelectionOperator(source, source.getSchema(), statement.getWhere());
+        Expression where = statement.getWhere();
+        if (where != null) {
+            source = new SelectionOperator(source, source.getSchema(), where);
+        }
     }
 
     private void createItemsToProject(PlainSelect statement) {
