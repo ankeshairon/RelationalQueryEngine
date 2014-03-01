@@ -132,14 +132,13 @@ public class AggregationProcessor {
     }
 
     private Datum[] convertTupleToNewSchema(Datum[] oldDatum) {
-        //todo call Dev's code to evaluate expressions life "valueof(Field1) + valueof(Field2)"
         Datum[] newDatum = new Datum[newSchemaIndexesRelativeToOldSchema.length];
 
         for (int i = 0; i < newSchemaIndexesRelativeToOldSchema.length; i++) {
             if (newSchemaIndexesRelativeToOldSchema[i] >= 0) {
                 newDatum[i] = oldDatum[newSchemaIndexesRelativeToOldSchema[i]];
             } else {
-                newDatum[i] = functionToCall(oldDatum, oldSchema, newSchema[i].getExpression());
+                newDatum[i] = evaluateExpression(oldDatum, oldSchema, newSchema[i].getExpression());
             }
             if (newDatum[i] == null) {
                 return null;
@@ -148,7 +147,7 @@ public class AggregationProcessor {
         return newDatum;
     }
 
-    private Datum functionToCall(Datum[] oldDatum, ColumnSchema[] oldSchema, Expression expression) {
+    private Datum evaluateExpression(Datum[] oldDatum, ColumnSchema[] oldSchema, Expression expression) {
         EvaluatorAggregate evalAggregate = new EvaluatorAggregate(oldDatum, oldSchema, expression);
         expression.accept(evalAggregate);
         Datum floatDatum = null;
