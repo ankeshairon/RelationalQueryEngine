@@ -16,8 +16,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static edu.buffalo.cse562.Constants.EXPRESSION_INDICATING_INDEX;
-import static edu.buffalo.cse562.Constants.FUNCTION_INDICATING_INDEX;
+import static edu.buffalo.cse562.Constants.INDEX_INDICATING_EXPRESSION;
+import static edu.buffalo.cse562.Constants.INDEX_INDICATING_FUNCTION;
 
 public class EvaluatorProjection extends AbstractExpressionVisitor {
 
@@ -26,7 +26,7 @@ public class EvaluatorProjection extends AbstractExpressionVisitor {
     static List<Integer> indexes;
     Expression expression;
     String alias = null;
-    //	static int counter = 0;
+    static int counter = 0;
     private boolean isAnAggregation;
     static Map<String, Expression> aliasExpressionMap = new HashMap<>();
 
@@ -58,7 +58,7 @@ public class EvaluatorProjection extends AbstractExpressionVisitor {
 		*/
         isAnAggregation = true;
 
-        indexes.add(FUNCTION_INDICATING_INDEX);
+        indexes.add(INDEX_INDICATING_FUNCTION);
         String colName;
         if (alias == null) {
             colName = arg0.toString();
@@ -69,7 +69,7 @@ public class EvaluatorProjection extends AbstractExpressionVisitor {
         columnSchema.setAlias(alias);
         columnSchema.setExpression(arg0);
         outputSchema.add(columnSchema);
-//		counter++;
+        counter++;
     }
 
     @Override
@@ -87,18 +87,19 @@ public class EvaluatorProjection extends AbstractExpressionVisitor {
                 ColumnSchema columnSchema = new ColumnSchema(inputSchema[i].getColName(), inputSchema[i].getType());
                 columnSchema.setAlias(inputSchema[i].getAlias());
                 outputSchema.add(columnSchema);
-//                counter++;
+                counter++;
                 return;
             }
         }
 
         for (String alias : aliasExpressionMap.keySet()) {
             if (arg0.getColumnName().equalsIgnoreCase(alias)) {
-                indexes.add(EXPRESSION_INDICATING_INDEX);
+                indexes.add(counter);
                 ColumnSchema columnSchema = new ColumnSchema(alias, Datum.type.FLOAT);
                 columnSchema.setAlias(alias);
                 columnSchema.setExpression(aliasExpressionMap.get(alias));
                 outputSchema.add(columnSchema);
+                counter++;
             }
         }
 
@@ -126,9 +127,14 @@ public class EvaluatorProjection extends AbstractExpressionVisitor {
     }
 
     private void visitBinaryExpression(BinaryExpression binaryExpression) {
+        ColumnSchema newColumnSchema = new ColumnSchema(binaryExpression.toString(), Datum.type.FLOAT);
+        newColumnSchema.setExpression(binaryExpression);
         if (alias != null) {
             aliasExpressionMap.put(alias, binaryExpression);
+            newColumnSchema.setAlias(alias);
         }
+        outputSchema.add(newColumnSchema);
+        indexes.add(INDEX_INDICATING_EXPRESSION);
     }
 
     public boolean isAnAggregation() {

@@ -2,6 +2,8 @@ package edu.buffalo.cse562.operator;
 
 import edu.buffalo.cse562.data.Datum;
 import edu.buffalo.cse562.schema.ColumnSchema;
+import edu.buffalo.cse562.visitor.EvaluatorAggregate;
+import net.sf.jsqlparser.expression.Expression;
 
 public class ProjectionOperator implements Operator {
 
@@ -21,7 +23,11 @@ public class ProjectionOperator implements Operator {
         Datum[] tuple;
         if ((tuple = input.readOneTuple()) != null) {
             for (int i = 0; i < indexes.length; i++) {
-                ret[i] = tuple[indexes[i]];
+                if (indexes[i] >= 0) {
+                    ret[i] = tuple[indexes[i]];
+                } else {
+                    ret[i] = evaluateExpression(tuple, input.getSchema(), outputSchema[i].getExpression());
+                }
             }
             return ret;
         }
@@ -38,4 +44,15 @@ public class ProjectionOperator implements Operator {
         return outputSchema;
     }
 
+    private Datum evaluateExpression(Datum[] oldDatum, ColumnSchema[] oldSchema, Expression expression) {
+        EvaluatorAggregate evalAggregate = new EvaluatorAggregate(oldDatum, oldSchema, expression);
+        expression.accept(evalAggregate);
+        Datum floatDatum = null;
+        try {
+            floatDatum = evalAggregate.executeStack();
+        } catch (Datum.CastException e) {
+            e.printStackTrace();
+        }
+        return floatDatum;
+    }
 }

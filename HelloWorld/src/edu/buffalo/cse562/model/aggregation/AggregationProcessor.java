@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import static edu.buffalo.cse562.Constants.FUNCTION_INDICATING_INDEX;
+import static edu.buffalo.cse562.Constants.INDEX_INDICATING_FUNCTION;
 
 public class AggregationProcessor {
 
@@ -138,12 +138,10 @@ public class AggregationProcessor {
         Datum[] newDatum = new Datum[newSchemaIndexesRelativeToOldSchema.length];
 
         for (int i = 0; i < newSchemaIndexesRelativeToOldSchema.length; i++) {
-            if (newSchemaIndexesRelativeToOldSchema[i] >= 0) {
-                newDatum[i] = oldDatum[newSchemaIndexesRelativeToOldSchema[i]];
-            } else if (newSchemaIndexesRelativeToOldSchema[i] == FUNCTION_INDICATING_INDEX) {
+            if (newSchemaIndexesRelativeToOldSchema[i] == INDEX_INDICATING_FUNCTION) {
                 newDatum[i] = evaluateExpression(oldDatum, oldSchema, (Expression) ((Function) newSchema[i].getExpression()).getParameters().getExpressions().get(0));
             } else {
-                newDatum[i] = evaluateExpression(oldDatum, oldSchema, newSchema[i].getExpression());
+                newDatum[i] = oldDatum[newSchemaIndexesRelativeToOldSchema[i]];
             }
             if (newDatum[i] == null) {
                 return null;
