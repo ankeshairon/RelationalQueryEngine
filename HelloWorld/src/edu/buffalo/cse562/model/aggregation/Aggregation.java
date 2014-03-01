@@ -2,6 +2,7 @@ package edu.buffalo.cse562.model.aggregation;
 
 import edu.buffalo.cse562.data.Datum;
 import edu.buffalo.cse562.schema.ColumnSchema;
+import edu.buffalo.cse562.visitor.EvaluatorAggregate;
 import net.sf.jsqlparser.expression.Expression;
 
 import java.util.ArrayList;
@@ -25,8 +26,11 @@ public abstract class Aggregation {
     public abstract void process(Datum[] tuple);
 
     protected Float getFieldValue(Datum[] tuple) {
-        //todo call Dev's code to evaluate expressions life "valueof(Field1) + valueof(Field2)"
-//      return  functionToCall(tuple, expressionToBeEvaluated)
+        // Dev's code to evaluate expressions life "valueof(Field1) + valueof(Field2)"
+    	
+    	// EvaluatorAggregate evalAggregate = new EvaluatorAggregate(oldDatum, oldSchema, newSchema[i].getExpression());
+    	// Datum floatData = evalAggregate.executeStack();
+    	// return floatData;
         return 1f;
     }
 
