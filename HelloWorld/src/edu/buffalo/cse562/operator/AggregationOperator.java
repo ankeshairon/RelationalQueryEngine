@@ -26,7 +26,9 @@ public class AggregationOperator implements Operator {
             aggregationProcessor.process(datum);
         }
         result = aggregationProcessor.getResult();
-        Collections.sort(result, new TupleComparator(getListOfIndexesOfGroupByReferencesInNewSchema(newSchema, groupByColumnReferences)));
+        if (groupByColumnReferences != null) {
+            Collections.sort(result, new TupleComparator(getListOfIndexesOfGroupByReferencesInNewSchema(newSchema, groupByColumnReferences)));
+        }
     }
 
     private LinkedHashMap<Integer, Boolean> getListOfIndexesOfGroupByReferencesInNewSchema(ColumnSchema[] schema, List<Column> groupByColumnReferences) {
