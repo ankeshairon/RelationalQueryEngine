@@ -2,7 +2,10 @@ package edu.buffalo.cse562.visitor;
 
 import edu.buffalo.cse562.data.Datum;
 import edu.buffalo.cse562.schema.ColumnSchema;
-import net.sf.jsqlparser.expression.*;
+import net.sf.jsqlparser.expression.BinaryExpression;
+import net.sf.jsqlparser.expression.Expression;
+import net.sf.jsqlparser.expression.Function;
+import net.sf.jsqlparser.expression.Parenthesis;
 import net.sf.jsqlparser.expression.operators.arithmetic.Addition;
 import net.sf.jsqlparser.expression.operators.arithmetic.Division;
 import net.sf.jsqlparser.expression.operators.arithmetic.Multiplication;
@@ -63,36 +66,6 @@ public class EvaluatorProjection extends AbstractExpressionVisitor {
 	}
 
 	@Override
-	public void visit(DoubleValue arg0) {
-        super.visit(arg0);
-    }
-
-	@Override
-	public void visit(LongValue arg0) {
-        super.visit(arg0);
-    }
-
-	@Override
-	public void visit(Addition arg0) {
-        super.visit(arg0);
-    }
-
-	@Override
-	public void visit(Division arg0) {
-        super.visit(arg0);
-    }
-
-	@Override
-	public void visit(Multiplication arg0) {
-        super.visit(arg0);
-    }
-
-	@Override
-	public void visit(Subtraction arg0) {
-        super.visit(arg0);
-    }
-
-	@Override
     public void visit(Parenthesis parenthesis) {
         parenthesis.getExpression().accept(this);
     }
@@ -113,6 +86,30 @@ public class EvaluatorProjection extends AbstractExpressionVisitor {
          }
 
 	}
+
+    @Override
+    public void visit(Addition arg0) {
+        visitBinaryExpression(arg0);
+    }
+
+    @Override
+    public void visit(Division arg0) {
+        visitBinaryExpression(arg0);
+    }
+
+    @Override
+    public void visit(Multiplication arg0) {
+        visitBinaryExpression(arg0);
+    }
+
+    @Override
+    public void visit(Subtraction arg0) {
+        visitBinaryExpression(arg0);
+    }
+
+    private void visitBinaryExpression(BinaryExpression binaryExpression) {
+        //todo dev
+    }
 
     public boolean isAnAggregation() {
         return isAnAggregation;
