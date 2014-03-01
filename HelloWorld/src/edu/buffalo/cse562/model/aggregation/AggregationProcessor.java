@@ -138,7 +138,7 @@ public class AggregationProcessor {
             if (newSchemaIndexesRelativeToOldSchema[i] >= 0) {
                 newDatum[i] = oldDatum[newSchemaIndexesRelativeToOldSchema[i]];
             } else {
-                newDatum[i] = evaluateExpression(oldDatum, oldSchema, newSchema[i].getExpression());
+                newDatum[i] = evaluateExpression(oldDatum, oldSchema, (Expression) ((Function) newSchema[i].getExpression()).getParameters().getExpressions().get(0));
             }
             if (newDatum[i] == null) {
                 return null;

@@ -1,25 +1,21 @@
 package edu.buffalo.cse562.visitor;
 
-import java.sql.Date;
-import java.util.Stack;
-
 import edu.buffalo.cse562.data.Datum;
+import edu.buffalo.cse562.data.Datum.CastException;
 import edu.buffalo.cse562.data.FLOAT;
 import edu.buffalo.cse562.data.LONG;
-import edu.buffalo.cse562.data.STRING;
-import edu.buffalo.cse562.data.Datum.CastException;
 import edu.buffalo.cse562.schema.ColumnSchema;
-import net.sf.jsqlparser.expression.DateValue;
 import net.sf.jsqlparser.expression.DoubleValue;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.LongValue;
 import net.sf.jsqlparser.expression.Parenthesis;
-import net.sf.jsqlparser.expression.StringValue;
 import net.sf.jsqlparser.expression.operators.arithmetic.Addition;
 import net.sf.jsqlparser.expression.operators.arithmetic.Division;
 import net.sf.jsqlparser.expression.operators.arithmetic.Multiplication;
 import net.sf.jsqlparser.expression.operators.arithmetic.Subtraction;
 import net.sf.jsqlparser.schema.Column;
+
+import java.util.Stack;
 
 public class EvaluatorAggregate extends AbstractExpressionVisitor {
 
@@ -32,8 +28,8 @@ public class EvaluatorAggregate extends AbstractExpressionVisitor {
 	public EvaluatorAggregate(Datum[] tuple, ColumnSchema[] oldSchema, Expression evalExpresssion) {
 		this.tuple = tuple;
 		this.oldSchema = oldSchema;
-		this.evalExpression = evalExpression;
-		literals = new Stack<>();
+        this.evalExpression = evalExpresssion;
+        literals = new Stack<>();
 		symbols = new Stack<>();
 	}
 	
