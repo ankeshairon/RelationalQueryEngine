@@ -29,6 +29,7 @@ public abstract class Aggregation {
         // Dev's code to evaluate expressions life "valueof(Field1) + valueof(Field2)"
     	
     	// EvaluatorAggregate evalAggregate = new EvaluatorAggregate(oldDatum, oldSchema, newSchema[i].getExpression());
+    	// newSchema[i].getExpression().accept(evalAggregate);
     	// Datum floatData = evalAggregate.executeStack();
     	// return floatData;
         return 1f;
