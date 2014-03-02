@@ -318,10 +318,7 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
 
     @Override
     public void visit(Function function) {
-        if (function.getName().equalsIgnoreCase("date")) {
-            literals.push(new STRING(function.getParameters().getExpressions().get(0).toString()));
-        } else {
-            super.visit(function);
-        }
+        Expression expr = (Expression)function.getParameters().getExpressions().get(0);
+        expr.accept(new EvaluatorSelection(schema, tuple, literals, symbols));
     }
 }

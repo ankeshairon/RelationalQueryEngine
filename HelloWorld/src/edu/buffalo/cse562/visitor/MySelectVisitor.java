@@ -16,6 +16,7 @@ public class MySelectVisitor implements SelectVisitor {
 
     public File dataDir;
     public Operator source;
+    public ColumnSchema[] finalSchema = null;
 
     HashMap<String, List<ColumnDefinition>> tables;
 
@@ -60,6 +61,7 @@ public class MySelectVisitor implements SelectVisitor {
             }
             ColumnSchema[] outputSchema = new ColumnSchema[selectItemVisitor.outputSchema.size()];
             selectItemVisitor.outputSchema.toArray(outputSchema);
+            finalSchema = outputSchema;
 
             Integer[] indexArray = new Integer[selectItemVisitor.indexes.size()];
             selectItemVisitor.indexes.toArray(indexArray);
@@ -73,7 +75,7 @@ public class MySelectVisitor implements SelectVisitor {
     }
 
     private void visitFromItems(PlainSelect statement) {
-        MyFromItemVisitor myFromItemVisitor = new MyFromItemVisitor(dataDir, tables);
+        MyFromItemVisitor myFromItemVisitor = new MyFromItemVisitor(dataDir, tables, finalSchema);
         FromItem fromItem = statement.getFromItem();
         fromItem.accept(myFromItemVisitor);
         source = myFromItemVisitor.source;

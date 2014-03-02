@@ -15,22 +15,25 @@ public class ScanOperator implements Operator {
     HashMap<String, List<ColumnDefinition>> tables;
     private File dataDir;
 
-    public ScanOperator(File dataDir, String tableName, HashMap<String, List<ColumnDefinition>> tables) {
+    public ScanOperator(File dataDir, String tableName, HashMap<String, List<ColumnDefinition>> tables, ColumnSchema[] finalSchema) {
         this.tables = tables;
         this.tableName = tableName;
         this.dataDir = dataDir;
+        this.schema = finalSchema;
         makeSchema(tableName);
         reset();
     }
 
     public void makeSchema(String tbl) {
-        List<ColumnDefinition> colDefns = tables.get(tbl.toLowerCase());
-        schema = new ColumnSchema[colDefns.size()];
-        int i = 0;
-        for (ColumnDefinition cd : colDefns) {
-            schema[i] = new ColumnSchema(cd.getColumnName(), cd.getColDataType().getDataType());
-            i++;
-        }
+    	if (schema == null) {
+    		List<ColumnDefinition> colDefns = tables.get(tbl.toLowerCase());
+    		schema = new ColumnSchema[colDefns.size()];
+    		int i = 0;
+    		for (ColumnDefinition cd : colDefns) {
+    			schema[i] = new ColumnSchema(cd.getColumnName(), cd.getColDataType().getDataType());
+    			i++;
+    		}
+    	}
     }
 
     @Override
