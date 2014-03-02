@@ -1,7 +1,6 @@
 package edu.buffalo.cse562.visitor;
 
 
-import edu.buffalo.cse562.data.Datum;
 import edu.buffalo.cse562.operator.*;
 import edu.buffalo.cse562.schema.ColumnSchema;
 import net.sf.jsqlparser.expression.Expression;
@@ -88,38 +87,6 @@ public class MySelectVisitor implements SelectVisitor {
                 Operator newOper = myFromItemVisitor.source;
                 source = new JoinOperator(source, newOper);
             }
-        }
-    }
-
-    public void dump(Operator input) {
-        Datum[] row = input.readOneTuple();
-        while (row != null) {
-            for (Datum col : row) {
-                if (col.getType() == Datum.type.LONG) {
-                    try {
-                        long l = col.toLONG();
-                        System.out.print(l + "|");
-                    } catch (Datum.CastException e) {
-
-                        e.printStackTrace();
-                    }
-                }
-                if (col.getType() == Datum.type.STRING) {
-                    String s = col.toSTRING();
-                    System.out.print(s + "|");
-                }
-                if (col.getType() == Datum.type.FLOAT) {
-                    try {
-                        float f = col.toFLOAT();
-                        System.out.print(f + "|");
-                    } catch (Datum.CastException e) {
-
-                        e.printStackTrace();
-                    }
-                }
-            }
-            System.out.println();
-            row = input.readOneTuple();
         }
     }
 

@@ -78,7 +78,7 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
                         literals.push(getInstance(floatLeft + floatRight, dataRight.getType()));
                         break;
                     case "=":
-                        bool = (floatLeft == floatRight) ? true : false;
+                        bool = floatLeft.equals(floatRight);
                         break;
                     case ">":
                         if (floatLeft <= floatRight) bool = false;
@@ -101,7 +101,7 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
 
                 switch (condition) {
                     case "=":
-                        bool = (stringLeft.equalsIgnoreCase(stringRight)) ? true : false;
+                        bool = stringLeft.equalsIgnoreCase(stringRight);
                         break;
                     case ">":
                         if (stringLeft.compareTo(stringRight) <= 0)
@@ -136,8 +136,8 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
         symbols.push("+");
         Expression leftExpression = arg0.getLeftExpression();
         Expression rightExpression = arg0.getRightExpression();
-        rightExpression.accept(new EvaluatorSelection(schema, tuple, literals, symbols));
-        leftExpression.accept(new EvaluatorSelection(schema, tuple, literals, symbols));
+        rightExpression.accept(this);
+        leftExpression.accept(this);
 
     }
 
@@ -147,8 +147,8 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
         Expression leftExpression = arg0.getLeftExpression();
         Expression rightExpression = arg0.getRightExpression();
 
-        rightExpression.accept(new EvaluatorSelection(schema, tuple, literals, symbols));
-        leftExpression.accept(new EvaluatorSelection(schema, tuple, literals, symbols));
+        rightExpression.accept(this);
+        leftExpression.accept(this);
     }
 
     @Override
@@ -157,8 +157,8 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
         Expression leftExpression = arg0.getLeftExpression();
         Expression rightExpression = arg0.getRightExpression();
 
-        rightExpression.accept(new EvaluatorSelection(schema, tuple, literals, symbols));
-        leftExpression.accept(new EvaluatorSelection(schema, tuple, literals, symbols));
+        rightExpression.accept(this);
+        leftExpression.accept(this);
 
     }
 
@@ -168,8 +168,8 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
         Expression leftExpression = arg0.getLeftExpression();
         Expression rightExpression = arg0.getRightExpression();
 
-        rightExpression.accept(new EvaluatorSelection(schema, tuple, literals, symbols));
-        leftExpression.accept(new EvaluatorSelection(schema, tuple, literals, symbols));
+        rightExpression.accept(this);
+        leftExpression.accept(this);
     }
 
     @Override
@@ -178,8 +178,8 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
         Expression leftExpression = arg0.getLeftExpression();
         Expression rightExpression = arg0.getRightExpression();
 
-        rightExpression.accept(new EvaluatorSelection(schema, tuple, literals, symbols));
-        leftExpression.accept(new EvaluatorSelection(schema, tuple, literals, symbols));
+        rightExpression.accept(this);
+        leftExpression.accept(this);
 
     }
 
@@ -189,8 +189,8 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
         Expression leftExpression = arg0.getLeftExpression();
         Expression rightExpression = arg0.getRightExpression();
 
-        rightExpression.accept(new EvaluatorSelection(schema, tuple, literals, symbols));
-        leftExpression.accept(new EvaluatorSelection(schema, tuple, literals, symbols));
+        rightExpression.accept(this);
+        leftExpression.accept(this);
     }
 
     @Override
@@ -199,8 +199,8 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
         Expression leftExpression = arg0.getLeftExpression();
         Expression rightExpression = arg0.getRightExpression();
 
-        rightExpression.accept(new EvaluatorSelection(schema, tuple, literals, symbols));
-        leftExpression.accept(new EvaluatorSelection(schema, tuple, literals, symbols));
+        rightExpression.accept(this);
+        leftExpression.accept(this);
     }
 
     @Override
@@ -209,8 +209,8 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
         Expression leftExpression = arg0.getLeftExpression();
         Expression rightExpression = arg0.getRightExpression();
 
-        rightExpression.accept(new EvaluatorSelection(schema, tuple, literals, symbols));
-        leftExpression.accept(new EvaluatorSelection(schema, tuple, literals, symbols));
+        rightExpression.accept(this);
+        leftExpression.accept(this);
     }
 
     @Override
@@ -219,8 +219,8 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
         Expression leftExpression = arg0.getLeftExpression();
         Expression rightExpression = arg0.getRightExpression();
 
-        rightExpression.accept(new EvaluatorSelection(schema, tuple, literals, symbols));
-        leftExpression.accept(new EvaluatorSelection(schema, tuple, literals, symbols));
+        rightExpression.accept(this);
+        leftExpression.accept(this);
 
     }
 
@@ -230,8 +230,8 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
         Expression leftExpression = arg0.getLeftExpression();
         Expression rightExpression = arg0.getRightExpression();
 
-        rightExpression.accept(new EvaluatorSelection(schema, tuple, literals, symbols));
-        leftExpression.accept(new EvaluatorSelection(schema, tuple, literals, symbols));
+        rightExpression.accept(this);
+        leftExpression.accept(this);
     }
     /*
      *literals or Leaf Nodes of the recursion tree
@@ -270,9 +270,6 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
         String columnVal = arg0.getColumnName();
         String tableVal = arg0.getTable().getName();
         Datum columnTupleVal = null;
-        long nativeLong;
-        float nativeFloat;
-        FLOAT newFLOAT;
         int count = 0;
         for (ColumnSchema col : schema) {
             if (col.matchColumn(columnVal, tableVal)) {
@@ -288,7 +285,7 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
     public void visit(Function function) {
         if (function.getName().equalsIgnoreCase("date")) {
             Expression expr = (Expression) function.getParameters().getExpressions().get(0);
-            expr.accept(new EvaluatorSelection(schema, tuple, literals, symbols));
+            expr.accept(this);
         } else {
             super.visit(function);
         }
