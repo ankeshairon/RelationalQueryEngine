@@ -34,14 +34,3 @@ GROUP BY
   returnflag, linestatus
 ORDER BY
   returnflag, linestatus;
-
-
-
-CREATE TABLE TEST (
-        val       INT
-    );
-
-SELECT
-  sum(val)
-FROM
-  TEST;
