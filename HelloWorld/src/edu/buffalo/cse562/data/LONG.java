@@ -1,11 +1,15 @@
 package edu.buffalo.cse562.data;
 
-public class LONG implements Datum {
+public class LONG extends Datum {
 
-    long l;
+    Long l;
 
     public LONG(String s) {
         this.l = Long.parseLong(s);
+    }
+
+    public LONG(Long l) {
+        this.l = l;
     }
 
     @Override
@@ -14,12 +18,12 @@ public class LONG implements Datum {
     }
 
     @Override
-    public long toLONG() throws CastException {
+    public Long toLONG() throws CastException {
         return l;
     }
 
     @Override
-    public float toFLOAT() throws CastException {
+    public Float toFLOAT() throws CastException {
         return (float) l;
     }
 
@@ -35,6 +39,6 @@ public class LONG implements Datum {
 
     @Override
     public int compareTo(Object o) {
-        return ((Long) l).compareTo(((LONG) o).l);
+        return (l).compareTo(((LONG) o).l);
     }
 }

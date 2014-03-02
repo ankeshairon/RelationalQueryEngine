@@ -1,27 +1,24 @@
 package edu.buffalo.cse562.data;
 
-public interface Datum extends Comparable {
+public abstract class Datum implements Comparable {
 
     public static enum type {
         BOOL, LONG, FLOAT, STRING, DATE
     }
 
-    static class CastException extends Exception {
+    public static class CastException extends Exception {
         public CastException() {
             System.out.println("Cannot cast into type");
         }
     }
 
-    String toSTRING();
+    public abstract String toSTRING();
 
-    boolean toBOOL() throws CastException;
+    public abstract boolean toBOOL() throws CastException;
 
-    long toLONG() throws CastException;
+    public abstract Long toLONG() throws CastException;
 
-    float toFLOAT() throws CastException;
+    public abstract Float toFLOAT() throws CastException;
 
-    type getType();
-
-    //Datum.type getValue();
-
+    public abstract type getType();
 }

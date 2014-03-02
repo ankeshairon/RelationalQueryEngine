@@ -1,6 +1,6 @@
 package edu.buffalo.cse562.data;
 
-public class BOOL implements Datum {
+public class BOOL extends Datum {
 
     boolean b;
 
@@ -14,12 +14,12 @@ public class BOOL implements Datum {
     }
 
     @Override
-    public long toLONG() throws CastException {
+    public Long toLONG() throws CastException {
         throw new CastException();
     }
 
     @Override
-    public float toFLOAT() throws CastException {
+    public Float toFLOAT() throws CastException {
         throw new CastException();
     }
 
@@ -37,4 +37,14 @@ public class BOOL implements Datum {
     public int compareTo(Object o) {
         return ((Boolean) b).compareTo(((BOOL) o).b);
     }
+
+//    @Override
+//    public Number getNumber() {
+//        throw new ClassCastException("Cannot convert boolean to number");
+//    }
+//
+//    @Override
+//    public Datum multiply(Datum that) {
+//        return null;
+//    }
 }

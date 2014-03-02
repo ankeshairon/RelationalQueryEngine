@@ -18,6 +18,8 @@ import net.sf.jsqlparser.schema.Column;
 import java.sql.Date;
 import java.util.Stack;
 
+import static edu.buffalo.cse562.data.DatumUtilities.getInstance;
+
 public class EvaluatorSelection extends AbstractExpressionVisitor {
 
 
@@ -51,40 +53,29 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
          * Execute Stack is not OR operator safe
 		 */
 
-        float floatData;
-        int stringCheck;
         String condition;
-        String stringLeft;
-        String stringRight;
         Datum dataLeft;
         Datum dataRight;
-        float floatLeft;
-        float floatRight;
+
         while (!literals.empty() && !symbols.empty()) {
             condition = symbols.pop();
             dataLeft = literals.pop();
             dataRight = literals.pop();
-            if (dataRight.getType() == Datum.type.FLOAT && dataLeft.getType() == Datum.type.FLOAT) {
-                floatLeft = dataLeft.toFLOAT();
-                floatRight = dataRight.toFLOAT();
-
+            if (dataRight.getType() == Datum.type.FLOAT) {
+                Float floatLeft = dataLeft.toFLOAT();
+                Float floatRight = dataRight.toFLOAT();
                 switch (condition) {
-
                     case "*":
-                        floatData = floatLeft * floatRight;
-                        literals.push(new FLOAT(floatData));
+                        literals.push(getInstance(floatLeft * floatRight, dataRight.getType()));
                         break;
                     case "/":
-                        floatData = floatLeft / floatRight;
-                        literals.push(new FLOAT(floatData));
+                        literals.push(getInstance(floatLeft / floatRight, dataRight.getType()));
                         break;
                     case "-":
-                        floatData = floatLeft - floatRight;
-                        literals.push(new FLOAT(floatData));
+                        literals.push(getInstance(floatLeft - floatRight, dataRight.getType()));
                         break;
                     case "+":
-                        floatData = floatLeft + floatRight;
-                        literals.push(new FLOAT(floatData));
+                        literals.push(getInstance(floatLeft + floatRight, dataRight.getType()));
                         break;
                     case "=":
                         bool = (floatLeft == floatRight) ? true : false;
@@ -104,33 +95,28 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
                 }
                 if (!bool)
                     break;
-            } else if (dataRight.getType() == Datum.type.STRING && dataLeft.getType() == Datum.type.STRING) {
-                stringRight = dataRight.toSTRING();
-                stringLeft = dataLeft.toSTRING();
+            } else if (dataRight.getType() == Datum.type.STRING) {
+                String stringLeft = dataLeft.toSTRING();
+                String stringRight = dataRight.toSTRING();
 
                 switch (condition) {
-
                     case "=":
                         bool = (stringLeft.equalsIgnoreCase(stringRight)) ? true : false;
                         break;
                     case ">":
-                        stringCheck = stringLeft.compareTo(stringRight);
-                        if (stringCheck <= 0)
+                        if (stringLeft.compareTo(stringRight) <= 0)
                             bool = false;
                         break;
                     case "<":
-                        stringCheck = stringLeft.compareTo(stringRight);
-                        if (stringCheck >= 0)
+                        if (stringLeft.compareTo(stringRight) >= 0)
                             bool = false;
                         break;
                     case ">=":
-                        stringCheck = stringLeft.compareTo(stringRight);
-                        if (stringCheck < 0)
+                        if (stringLeft.compareTo(stringRight) < 0)
                             bool = false;
                         break;
                     case "<=":
-                        stringCheck = stringLeft.compareTo(stringRight);
-                        if (stringCheck > 0)
+                        if (stringLeft.compareTo(stringRight) > 0)
                             bool = false;
                         break;
                 }
@@ -259,16 +245,7 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
 
     @Override
     public void visit(LongValue arg0) {
-        LONG longVal = new LONG(arg0.toString());
-        long nativeLong;
-        try {
-            nativeLong = longVal.toLONG();
-            float nativeFloat = (float) nativeLong;
-            FLOAT floatVal = new FLOAT(nativeFloat);
-            literals.push(floatVal);
-        } catch (CastException e) {
-            e.printStackTrace();
-        }
+        literals.push(new LONG(arg0.getValue()));
     }
 
     @Override
@@ -298,19 +275,9 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
         FLOAT newFLOAT;
         int count = 0;
         for (ColumnSchema col : schema) {
-            if (col.matchColumn(columnVal,tableVal)) {
+            if (col.matchColumn(columnVal, tableVal)) {
                 columnTupleVal = tuple[count];
-                if (columnTupleVal.getType() == Datum.type.LONG) {
-                    try {
-                        nativeLong = columnTupleVal.toLONG();
-                        nativeFloat = (float) nativeLong;
-                        newFLOAT = new FLOAT(nativeFloat);
-                        literals.push(newFLOAT);
-                    } catch (CastException e) {
-                        e.printStackTrace();
-                    }
-                } else
-                    literals.push(columnTupleVal);
+                literals.push(columnTupleVal);
                 break;
             }
             count++;

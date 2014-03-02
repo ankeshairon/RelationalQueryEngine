@@ -1,9 +1,9 @@
 package edu.buffalo.cse562;
 
-import java.text.DecimalFormat;
-
 import edu.buffalo.cse562.data.Datum;
 import edu.buffalo.cse562.operator.Operator;
+
+import java.text.DecimalFormat;
 
 public class View {
     public static void dump(Operator source) {
@@ -31,8 +31,7 @@ public class View {
                         break;
                     case FLOAT:
                         try {
-                            result.append(new DecimalFormat("#.#").format(col.toFLOAT())).append("|");
-//                            result.append(col.toFLOAT()).append("|");
+                            result.append(new DecimalFormat("#.####").format(col.toFLOAT())).append("|");
                         } catch (Datum.CastException e) {
                             e.printStackTrace();
                         }

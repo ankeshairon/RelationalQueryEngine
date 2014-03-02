@@ -14,6 +14,8 @@ import net.sf.jsqlparser.schema.Column;
 
 import java.util.Stack;
 
+import static edu.buffalo.cse562.data.DatumUtilities.getInstance;
+
 public class EvaluatorAggregate extends AbstractExpressionVisitor {
 
     private Datum[] tuple;
@@ -39,13 +41,14 @@ public class EvaluatorAggregate extends AbstractExpressionVisitor {
     }
 
     public void showStack() {
-    	while(!literals.empty() && !symbols.empty()) {
+        while (!literals.empty() && !symbols.empty()) {
             Datum dataRight = literals.pop();
             Datum dataLeft = literals.pop();
 //    		System.out.println(dataLeft.toSTRING()+" "+symbols.pop()+" "+dataRight.toSTRING()+" " +symbols.pop() + " " + literals.pop().toSTRING());
 
         }
     }
+
     public Datum executeStack() throws CastException {
 
         float floatData;
@@ -63,35 +66,24 @@ public class EvaluatorAggregate extends AbstractExpressionVisitor {
     }
 
     private Datum executeExpression() throws CastException {
-        String condition;
-        Datum dataRight;
-        Datum dataLeft;
-        float floatLeft;
-        float floatRight;
-        float floatData;
-        condition = symbols.pop();
-        dataRight = literals.pop();
-        dataLeft = literals.pop();
-        floatLeft = dataLeft.toFLOAT();
-        floatRight = dataRight.toFLOAT();
+        String condition = symbols.pop();
+        Datum dataRight = literals.pop();
+        Datum dataLeft = literals.pop();
+        Float floatLeft = dataLeft.toFLOAT();
+        Float floatRight = dataRight.toFLOAT();
 
         switch (condition) {
-
             case "*":
-                floatData = floatLeft * floatRight;
-                literals.push(new FLOAT(floatData));
+                literals.push(getInstance(floatLeft * floatRight, dataRight.getType()));
                 break;
             case "/":
-                floatData = floatLeft / floatRight;
-                literals.push(new FLOAT(floatData));
+                literals.push(getInstance(floatLeft / floatRight, dataRight.getType()));
                 break;
             case "-":
-                floatData = floatLeft - floatRight;
-                literals.push(new FLOAT(floatData));
+                literals.push(getInstance(floatLeft - floatRight, dataRight.getType()));
                 break;
             case "+":
-                floatData = floatLeft + floatRight;
-                literals.push(new FLOAT(floatData));
+                literals.push(getInstance(floatLeft + floatRight, dataRight.getType()));
                 break;
         }
         return literals.pop();
@@ -139,7 +131,7 @@ public class EvaluatorAggregate extends AbstractExpressionVisitor {
     }
 
 	/*
-	 * Leaf Nodes
+     * Leaf Nodes
 	 */
 
     @Override
@@ -150,17 +142,7 @@ public class EvaluatorAggregate extends AbstractExpressionVisitor {
 
     @Override
     public void visit(LongValue arg0) {
-        LONG longVal = new LONG(arg0.toString());
-        long nativeLong;
-        try {
-            nativeLong = longVal.toLONG();
-            float nativeFloat = (float) nativeLong;
-            FLOAT floatVal = new FLOAT(nativeFloat);
-            literals.push(floatVal);
-//            System.out.println(nativeLong);
-        } catch (CastException e) {
-            e.printStackTrace();
-        }
+        literals.push(new LONG(arg0.getValue()));
     }
 
     /*
@@ -190,22 +172,9 @@ public class EvaluatorAggregate extends AbstractExpressionVisitor {
         FLOAT newFLOAT;
         int count = 0;
         for (ColumnSchema col : oldSchema) {
-            if (col.matchColumn(columnVal,tableVal)) {
+            if (col.matchColumn(columnVal, tableVal)) {
                 columnTupleVal = tuple[count];
-                if (columnTupleVal.getType() == Datum.type.LONG) {
-                    try {
-                        nativeLong = columnTupleVal.toLONG();
-                        nativeFloat = (float) nativeLong;
-                        newFLOAT = new FLOAT(nativeFloat);
-                        literals.push(newFLOAT);
-                        //System.out.println(newFLOAT.toSTRING());
-                    } catch (CastException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    literals.push(columnTupleVal);
-                    //System.out.println(columnTupleVal.toSTRING());
-                }
+                literals.push(columnTupleVal);
                 break;
             }
             count++;

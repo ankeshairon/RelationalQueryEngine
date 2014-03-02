@@ -5,7 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class DATE implements Datum {
+public class DATE extends Datum {
 
     Date d;
     String s;
@@ -22,12 +22,12 @@ public class DATE implements Datum {
     }
 
     @Override
-    public long toLONG() throws CastException {
+    public Long toLONG() throws CastException {
         throw new CastException();
     }
 
     @Override
-    public float toFLOAT() throws CastException {
+    public Float toFLOAT() throws CastException {
         throw new CastException();
     }
 

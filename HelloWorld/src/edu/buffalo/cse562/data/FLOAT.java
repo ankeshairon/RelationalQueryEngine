@@ -1,7 +1,7 @@
 package edu.buffalo.cse562.data;
 
-public class FLOAT implements Datum {
-    float f;
+public class FLOAT extends Datum {
+    Float f;
 
     public FLOAT(String s) {
         this.f = Float.parseFloat(s);
@@ -17,12 +17,12 @@ public class FLOAT implements Datum {
     }
 
     @Override
-    public long toLONG() throws CastException {
+    public Long toLONG() throws CastException {
         throw new CastException();
     }
 
     @Override
-    public float toFLOAT() throws CastException {
+    public Float toFLOAT() throws CastException {
         return f;
     }
 
@@ -38,9 +38,9 @@ public class FLOAT implements Datum {
 
     @Override
     public int compareTo(Object o) {
-        return ((Float) f).compareTo(((FLOAT) o).f);
-
+        return (f).compareTo(((FLOAT) o).f);
     }
+
 }
 
 

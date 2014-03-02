@@ -1,6 +1,6 @@
 package edu.buffalo.cse562.data;
 
-public class STRING implements Datum {
+public class STRING extends Datum {
 
     String s;
 
@@ -14,12 +14,12 @@ public class STRING implements Datum {
     }
 
     @Override
-    public long toLONG() throws CastException {
+    public Long toLONG() throws CastException {
         throw new CastException();
     }
 
     @Override
-    public float toFLOAT() throws CastException {
+    public Float toFLOAT() throws CastException {
         throw new CastException();
     }
 

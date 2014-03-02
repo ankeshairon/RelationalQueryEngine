@@ -11,7 +11,7 @@ public class FRACTION extends FLOAT {
     }
 
     @Override
-    public float toFLOAT() throws CastException {
+    public Float toFLOAT() throws CastException {
         return numerator / denominator;
     }
 

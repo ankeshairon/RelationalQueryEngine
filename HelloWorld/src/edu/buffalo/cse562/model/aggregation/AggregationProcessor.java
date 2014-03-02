@@ -4,6 +4,7 @@ import edu.buffalo.cse562.comparator.TupleComparator;
 import edu.buffalo.cse562.data.Datum;
 import edu.buffalo.cse562.data.FLOAT;
 import edu.buffalo.cse562.data.FRACTION;
+import edu.buffalo.cse562.data.LONG;
 import edu.buffalo.cse562.schema.ColumnSchema;
 import edu.buffalo.cse562.visitor.EvaluatorAggregate;
 import net.sf.jsqlparser.expression.Expression;
@@ -96,10 +97,10 @@ public class AggregationProcessor {
             switch (aggregationName) {
                 case "sum":
                 case "SUM":
-                    return new FLOAT(offsetValue.toFLOAT());
+                    return offsetValue;
                 case "count":
                 case "COUNT":
-                    return new FLOAT(1f);
+                    return new LONG(1l);
                 case "avg":
                 case "AVG":
                     return new FRACTION(offsetValue.toFLOAT(), 1f);
@@ -116,10 +117,10 @@ public class AggregationProcessor {
             switch (aggregationName) {
                 case "sum":
                 case "SUM":
-                    return new FLOAT(oldDatum.toFLOAT() + offsetValue.toFLOAT());
+                    return addDatums(oldDatum, offsetValue);
                 case "count":
                 case "COUNT":
-                    return new FLOAT(oldDatum.toFLOAT() + 1f);
+                    return new LONG(oldDatum.toLONG() + 1l);
                 case "avg":
                 case "AVG":
                     FRACTION fraction = (FRACTION) oldDatum;
@@ -131,6 +132,19 @@ public class AggregationProcessor {
             e.printStackTrace();
         }
         throw new UnsupportedOperationException("Unsupported aggregation received " + aggregationName);
+    }
+
+    private Datum addDatums(Datum oldDatum, Datum offsetValue) {
+        try {
+            if (oldDatum.getType() == Datum.type.FLOAT) {
+                return new FLOAT(oldDatum.toFLOAT() + offsetValue.toFLOAT());
+            } else {
+                return new LONG(oldDatum.toLONG() + offsetValue.toLONG());
+            }
+        } catch (Datum.CastException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private String getAggregationName(int newColumnIndex) {
@@ -171,7 +185,7 @@ public class AggregationProcessor {
 
     private Datum evaluateExpression(Datum[] oldDatum, ColumnSchema[] oldSchema, Expression expression) {
         if (expression == null) {
-            return new FLOAT(1);
+            return new LONG(1l);
         }
         EvaluatorAggregate evalAggregate = new EvaluatorAggregate(oldDatum, oldSchema, expression);
         expression.accept(evalAggregate);
