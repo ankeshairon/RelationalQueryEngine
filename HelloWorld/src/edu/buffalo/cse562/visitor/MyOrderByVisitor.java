@@ -21,7 +21,7 @@ public class MyOrderByVisitor implements OrderByVisitor {
     public void visit(OrderByElement orderBy) {
         ColumnSchema[] inSchema = in.getSchema();
         for (int i = 0; i < inSchema.length; i++) {
-            if (inSchema[i].getColName().equalsIgnoreCase(orderBy.getExpression().toString())) {
+            if (inSchema[i].matchColumn(orderBy.getExpression().toString())) {
                 indexesOfColumnsToSortOn.put(i, orderBy.isAsc());
             }
         }

@@ -101,7 +101,7 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
 
                 switch (condition) {
                     case "=":
-                        bool = stringLeft.equalsIgnoreCase(stringRight);
+                        bool = stringLeft.equals(stringRight);
                         break;
                     case ">":
                         if (stringLeft.compareTo(stringRight) <= 0)
@@ -265,14 +265,11 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
     }
 
     @Override
-    public void visit(Column arg0) {
-
-        String columnVal = arg0.getColumnName();
-        String tableVal = arg0.getTable().getName();
-        Datum columnTupleVal = null;
+    public void visit(Column column) {
+        Datum columnTupleVal;
         int count = 0;
         for (ColumnSchema col : schema) {
-            if (col.matchColumn(columnVal, tableVal)) {
+            if (col.matchColumn(column)) {
                 columnTupleVal = tuple[count];
                 literals.push(columnTupleVal);
                 break;

@@ -40,24 +40,7 @@ public class EvaluatorAggregate extends AbstractExpressionVisitor {
         this.symbols = symbols;
     }
 
-    public void showStack() {
-        while (!literals.empty() && !symbols.empty()) {
-            Datum dataRight = literals.pop();
-            Datum dataLeft = literals.pop();
-//    		System.out.println(dataLeft.toSTRING()+" "+symbols.pop()+" "+dataRight.toSTRING()+" " +symbols.pop() + " " + literals.pop().toSTRING());
-
-        }
-    }
-
     public Datum executeStack() throws CastException {
-
-        float floatData;
-        String condition;
-        float floatLeft;
-        float floatRight;
-        Datum dataLeft;
-        Datum dataRight;
-
         while (!symbols.empty()) {
             literals.push(executeExpression());
         }
@@ -162,17 +145,11 @@ public class EvaluatorAggregate extends AbstractExpressionVisitor {
         }
     */
     @Override
-    public void visit(Column arg0) {
-
-        String columnVal = arg0.getColumnName();
-        String tableVal = arg0.getTable().getName();
-        Datum columnTupleVal = null;
-        long nativeLong;
-        float nativeFloat;
-        FLOAT newFLOAT;
+    public void visit(Column column) {
+        Datum columnTupleVal;
         int count = 0;
-        for (ColumnSchema col : oldSchema) {
-            if (col.matchColumn(columnVal, tableVal)) {
+        for (ColumnSchema schemaCol : oldSchema) {
+            if (schemaCol.matchColumn(column)) {
                 columnTupleVal = tuple[count];
                 literals.push(columnTupleVal);
                 break;

@@ -35,7 +35,7 @@ public class AggregationOperator implements Operator {
         LinkedHashMap<Integer, Boolean> groupByReferenceIndexes = new LinkedHashMap<>();
         for (Column groupByColumnReference : groupByColumnReferences) {
             for (int i = 0; i < schema.length; i++) {
-                if (schema[i].getColName().equalsIgnoreCase(groupByColumnReference.getColumnName())) {
+                if (schema[i].matchColumn(groupByColumnReference)) {
                     groupByReferenceIndexes.put(i, true);
                     break;
                 }

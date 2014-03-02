@@ -82,7 +82,7 @@ public class EvaluatorProjection extends AbstractExpressionVisitor {
         isAnAggregation = false;
 
         for (int i = 0; i < inputSchema.length; i++) {
-            if (arg0.getColumnName().equalsIgnoreCase(inputSchema[i].getColName())) {
+            if (inputSchema[i].matchColumn(arg0)) {
                 indexes.add(i);
                 ColumnSchema columnSchema = new ColumnSchema(inputSchema[i].getColName(), inputSchema[i].getType());
                 columnSchema.setAlias(inputSchema[i].getAlias());

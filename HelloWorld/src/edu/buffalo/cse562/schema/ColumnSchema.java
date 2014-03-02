@@ -1,7 +1,8 @@
 package edu.buffalo.cse562.schema;
 
-import net.sf.jsqlparser.expression.Expression;
 import edu.buffalo.cse562.data.Datum;
+import net.sf.jsqlparser.expression.Expression;
+import net.sf.jsqlparser.schema.Column;
 
 public class ColumnSchema {
     private String colName;
@@ -33,14 +34,31 @@ public class ColumnSchema {
     public String getColName() {
         return colName;
     }
-    
-    public boolean matchColumn(String columnVal, String tableVal) {
-    	System.out.println("COL: " +columnVal + " vs " + this.getColName());
-    	System.out.println("TAB: " +tableVal + " vs " + this.getTblName());
-    	if (tableVal == null)
-    		return columnVal.equalsIgnoreCase(this.getColName());
-    	else 
-    		return columnVal.equalsIgnoreCase(this.getColName()) && tableVal.equalsIgnoreCase(this.getTblName());
+
+    public boolean matchColumn(Column column) {
+        String columnName = column.getColumnName();
+        String tableName = column.getTable().getName();
+        if (tableName == null) {
+            return matchColumnNameOnly(columnName);
+        } else
+            return matchTableAndColumnName(tableName, columnName);
+    }
+
+    public boolean matchColumn(String col) {
+        if (col.contains("\\.")) {
+            String[] tokens = col.split("\\.");
+            return matchTableAndColumnName(tokens[0], tokens[1]);
+        } else {
+            return matchColumnNameOnly(col);
+        }
+    }
+
+    private boolean matchTableAndColumnName(String tableName, String columnName) {
+        return matchColumnNameOnly(columnName) && tableName.equalsIgnoreCase(this.getTblName());
+    }
+
+    private boolean matchColumnNameOnly(String columnName) {
+        return columnName.equalsIgnoreCase(this.getColName());
     }
 
     public Datum.type getType() {

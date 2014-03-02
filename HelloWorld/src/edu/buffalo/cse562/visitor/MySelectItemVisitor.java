@@ -53,27 +53,6 @@ public class MySelectItemVisitor implements SelectItemVisitor {
         if (evalProjection.isAnAggregation()) {
             isAggregationPresent = true;
         }
-     /*
-        if (expr instanceof Column) {
-            for (int i = 0; i < inputSchema.length; i++) {
-                if (((Column) expr).getColumnName().equalsIgnoreCase(inputSchema[i].getColName())) {
-                    indexes.add(i);
-                    ColumnSchema columnSchema = new ColumnSchema(inputSchema[i].getColName(), inputSchema[i].getType());
-                    columnSchema.setAlias(inputSchema[i].getAlias());
-                    outputSchema.add(columnSchema);
-                    counter++;
-                    break;
-                }
-            }
-        } else {
-            indexes.set(counter, -1);
-            //if(selectExpressionItem.getAlias() == null ){
-            outputSchema.get(counter).setColName(expr.toString());
-            outputSchema.get(counter).setAlias(expr.toString());
-            outputSchema.get(counter).setType(Datum.type.FLOAT);
-            counter++;
-        }
-    */
     }
 
     public boolean isAggregationPresent() {
