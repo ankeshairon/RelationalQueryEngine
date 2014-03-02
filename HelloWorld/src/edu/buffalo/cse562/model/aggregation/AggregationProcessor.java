@@ -153,7 +153,7 @@ public class AggregationProcessor {
 
         for (int i = 0; i < newSchemaIndexesRelativeToOldSchema.length; i++) {
             if (newSchemaIndexesRelativeToOldSchema[i] == INDEX_INDICATING_FUNCTION) {
-                newDatum[i] = evaluateExpression(oldDatum, oldSchema, (Expression) ((Function) newSchema[i].getExpression()).getParameters().getExpressions().get(0));
+                newDatum[i] = evaluateExpression(oldDatum, oldSchema, getExpression(i));
             } else {
                 newDatum[i] = oldDatum[newSchemaIndexesRelativeToOldSchema[i]];
             }
@@ -161,7 +161,18 @@ public class AggregationProcessor {
         return newDatum;
     }
 
+    private Expression getExpression(int i) {
+        Function function = (Function) newSchema[i].getExpression();
+        if (function.getParameters() != null) {
+            return (Expression) function.getParameters().getExpressions().get(0);
+        }
+        return null; //handling count(*)
+    }
+
     private Datum evaluateExpression(Datum[] oldDatum, ColumnSchema[] oldSchema, Expression expression) {
+        if (expression == null) {
+            return new FLOAT(1);
+        }
         EvaluatorAggregate evalAggregate = new EvaluatorAggregate(oldDatum, oldSchema, expression);
         expression.accept(evalAggregate);
         Datum floatDatum = null;

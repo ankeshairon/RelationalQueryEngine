@@ -248,7 +248,7 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
         leftExpression.accept(new EvaluatorSelection(schema, tuple, literals, symbols));
     }
     /*
-	 *literals or Leaf Nodes of the recursion tree
+     *literals or Leaf Nodes of the recursion tree
 	 */
 
     @Override
@@ -318,7 +318,11 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
 
     @Override
     public void visit(Function function) {
-        Expression expr = (Expression)function.getParameters().getExpressions().get(0);
-        expr.accept(new EvaluatorSelection(schema, tuple, literals, symbols));
+        if (function.getName().equalsIgnoreCase("date")) {
+            Expression expr = (Expression) function.getParameters().getExpressions().get(0);
+            expr.accept(new EvaluatorSelection(schema, tuple, literals, symbols));
+        } else {
+            super.visit(function);
+        }
     }
 }

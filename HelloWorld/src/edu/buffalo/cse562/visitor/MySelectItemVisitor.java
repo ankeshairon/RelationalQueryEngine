@@ -41,6 +41,7 @@ public class MySelectItemVisitor implements SelectItemVisitor {
 
     @Override
     public void visit(AllTableColumns allTableColumns) {
+        throw new UnsupportedOperationException(allTableColumns.getClass().toString());
     }
 
     @Override
