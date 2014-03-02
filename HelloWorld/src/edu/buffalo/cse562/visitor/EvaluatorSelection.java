@@ -92,6 +92,8 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
                     case "<=":
                         if (floatLeft > floatRight) bool = false;
                         break;
+                    default:
+                        throw new UnsupportedOperationException("Malformed stack exception");
                 }
                 if (!bool)
                     break;
@@ -119,6 +121,8 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
                         if (stringLeft.compareTo(stringRight) > 0)
                             bool = false;
                         break;
+                    default:
+                        throw new UnsupportedOperationException("Malformed stack exception");
                 }
                 if (!bool)
                     break;

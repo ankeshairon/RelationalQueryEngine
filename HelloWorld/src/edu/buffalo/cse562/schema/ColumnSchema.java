@@ -58,7 +58,7 @@ public class ColumnSchema {
     }
 
     private boolean matchColumnNameOnly(String columnName) {
-        return columnName.equalsIgnoreCase(this.getColName());
+        return columnName.equalsIgnoreCase(colName);
     }
 
     public Datum.type getType() {

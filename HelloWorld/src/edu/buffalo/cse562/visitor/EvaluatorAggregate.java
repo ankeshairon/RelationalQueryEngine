@@ -68,6 +68,8 @@ public class EvaluatorAggregate extends AbstractExpressionVisitor {
             case "+":
                 literals.push(getInstance(floatLeft + floatRight, dataRight.getType()));
                 break;
+            default:
+                throw new UnsupportedOperationException("Malformed stack exception");
         }
         return literals.pop();
     }
