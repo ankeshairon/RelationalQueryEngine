@@ -61,7 +61,7 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
             condition = symbols.pop();
             dataLeft = literals.pop();
             dataRight = literals.pop();
-            if (dataRight.getType() == Datum.type.FLOAT) {
+            if (dataRight.getType() == Datum.type.FLOAT || dataRight.getType() == Datum.type.LONG) {
                 Float floatLeft = dataLeft.toFLOAT();
                 Float floatRight = dataRight.toFLOAT();
                 switch (condition) {
