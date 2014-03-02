@@ -31,6 +31,7 @@ public class ScanOperator implements Operator {
     		int i = 0;
     		for (ColumnDefinition cd : colDefns) {
     			schema[i] = new ColumnSchema(cd.getColumnName(), cd.getColDataType().getDataType());
+    			schema[i].setTblName(tbl);
     			i++;
     		}
     	}
