@@ -45,9 +45,12 @@ public class AggregationProcessor {
         if (!(newTuple == null)) {
             int index;
             for (index = 0; index < resultDatumWithUniqueValuesOfGroupByElements.size(); index++) {
-                if (tupleComparator.compare(resultDatumWithUniqueValuesOfGroupByElements.get(index), newTuple) == 0) {
+                if (matchesTheCombinationOfGroupByElements(newTuple, index)) {
                     Datum[] newAggregatedDatum = resultDatumWithUniqueValuesOfGroupByElements.get(index);
                     for (int i = 0; i < newSchemaIndexesRelativeToOldSchema.length; i++) {
+                        if (newTuple[i] == null) {
+                            continue;
+                        }
                         if (newSchemaIndexesRelativeToOldSchema[i] >= 0) {
                             newAggregatedDatum[i] = newTuple[i];
                         } else {
@@ -58,7 +61,7 @@ public class AggregationProcessor {
                     break;
                 }
             }
-            if (index == resultDatumWithUniqueValuesOfGroupByElements.size()) {
+            if (isANewUniqueCombinationOfGroupByElements(index)) {
                 Datum[] newAggregatedDatum = new Datum[newSchema.length];
                 for (int i = 0; i < newSchemaIndexesRelativeToOldSchema.length; i++) {
                     if (newSchemaIndexesRelativeToOldSchema[i] >= 0) {
@@ -70,6 +73,14 @@ public class AggregationProcessor {
                 resultDatumWithUniqueValuesOfGroupByElements.add(newAggregatedDatum);
             }
         }
+    }
+
+    private boolean isANewUniqueCombinationOfGroupByElements(int index) {
+        return index == resultDatumWithUniqueValuesOfGroupByElements.size();
+    }
+
+    private boolean matchesTheCombinationOfGroupByElements(Datum[] newTuple, int index) {
+        return tupleComparator.compare(resultDatumWithUniqueValuesOfGroupByElements.get(index), newTuple) == 0;
     }
 
     public List<Datum[]> getResult() {
@@ -142,9 +153,6 @@ public class AggregationProcessor {
                 newDatum[i] = evaluateExpression(oldDatum, oldSchema, (Expression) ((Function) newSchema[i].getExpression()).getParameters().getExpressions().get(0));
             } else {
                 newDatum[i] = oldDatum[newSchemaIndexesRelativeToOldSchema[i]];
-            }
-            if (newDatum[i] == null) {
-                return null;
             }
         }
         return newDatum;
