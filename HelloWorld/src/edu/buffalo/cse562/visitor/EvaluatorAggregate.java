@@ -42,7 +42,7 @@ public class EvaluatorAggregate extends AbstractExpressionVisitor {
     	while(!literals.empty() && !symbols.empty()) {
             Datum dataRight = literals.pop();
             Datum dataLeft = literals.pop();
-    		System.out.println(dataLeft.toSTRING()+" "+symbols.pop()+" "+dataRight.toSTRING());
+    		System.out.println(dataLeft.toSTRING()+" "+symbols.pop()+" "+dataRight.toSTRING()+" " +symbols.pop() + " " + literals.pop().toSTRING());
     		
     	}
     }
@@ -104,18 +104,21 @@ public class EvaluatorAggregate extends AbstractExpressionVisitor {
 
     @Override
     public void visit(Multiplication arg0) {
+    	System.out.println("*");
         symbols.push("*");
         visitBinaryExpression(arg0);
     }
 
     @Override
     public void visit(Subtraction arg0) {
+    	System.out.println("-");
         symbols.push("-");
         visitBinaryExpression(arg0);
     }
 
     @Override
     public void visit(Parenthesis arg0) {
+    	System.out.println("()");
         Expression expr = arg0.getExpression();
         expr.accept(new EvaluatorAggregate(tuple, oldSchema, evalExpression, literals, symbols));
     }
@@ -139,6 +142,7 @@ public class EvaluatorAggregate extends AbstractExpressionVisitor {
             float nativeFloat = (float) nativeLong;
             FLOAT floatVal = new FLOAT(nativeFloat);
             literals.push(floatVal);
+            System.out.println(nativeLong);
         } catch (CastException e) {
             e.printStackTrace();
         }
@@ -178,11 +182,14 @@ public class EvaluatorAggregate extends AbstractExpressionVisitor {
                         nativeFloat = (float) nativeLong;
                         newFLOAT = new FLOAT(nativeFloat);
                         literals.push(newFLOAT);
+                        //System.out.println(newFLOAT.toSTRING());
                     } catch (CastException e) {
                         e.printStackTrace();
                     }
-                } else
+                } else {
                     literals.push(columnTupleVal);
+                    //System.out.println(columnTupleVal.toSTRING());
+                }
                 break;
             }
             count++;
