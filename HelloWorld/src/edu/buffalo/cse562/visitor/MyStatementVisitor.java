@@ -36,38 +36,32 @@ public class MyStatementVisitor implements StatementVisitor {
 
     @Override
     public void visit(Delete arg0) {
-
-
+        throw new UnsupportedOperationException("Delete not supported");
     }
 
     @Override
     public void visit(Update arg0) {
-
-
+        throw new UnsupportedOperationException("Update not supported");
     }
 
     @Override
     public void visit(Insert arg0) {
-
-
+        throw new UnsupportedOperationException("Insert not supported");
     }
 
     @Override
     public void visit(Replace arg0) {
-
-
+        throw new UnsupportedOperationException("Replace not supported");
     }
 
     @Override
     public void visit(Drop arg0) {
-
-
+        throw new UnsupportedOperationException("Drop not supported");
     }
 
     @Override
     public void visit(Truncate arg0) {
-
-
+        throw new UnsupportedOperationException("Truncate not supported");
     }
 
     @Override
