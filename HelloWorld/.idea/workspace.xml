@@ -2,12 +2,15 @@
 <project version="4">
   <component name="BookmarkManager">
     <bookmark url="file://$PROJECT_DIR$/sqlFiles/allqueries.sql" line="50" />
-    <bookmark url="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/EvaluatorSelection.java" line="319" mnemonic="1" />
     <bookmark url="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/aggregation/AggregationProcessor.java" line="155" mnemonic="2" />
+    <bookmark url="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/EvaluatorAggregate.java" line="129" mnemonic="1" />
   </component>
   <component name="ChangeListManager">
     <list id="8f1a133d-1531-49c4-be57-1cf67645d473" name="Default" comment="" />
     <list default="true" id="65df4483-c907-483f-9920-e0918ff4b5dd" name="Current_changes" comment="Ankesh - fixing TPCH no 1">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/EvaluatorAggregate.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/EvaluatorAggregate.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/operator/OrderByOperator.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/operator/OrderByOperator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sqlFiles/test.sql" afterPath="$PROJECT_DIR$/sqlFiles/test.sql" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="HelloWorld.iws" />
@@ -84,21 +87,6 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/edu/buffalo/cse562/comparator/TupleComparator.java" line="27" class="edu.buffalo.cse562.comparator.TupleComparator" package="edu.buffalo.cse562.comparator">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
       <breakpoint url="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/EvaluatorProjection.java" line="96" class="edu.buffalo.cse562.visitor.EvaluatorProjection" package="edu.buffalo.cse562.visitor">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
@@ -114,7 +102,22 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/edu/buffalo/cse562/operator/AggregationOperator.java" line="24" class="edu.buffalo.cse562.operator.AggregationOperator" package="edu.buffalo.cse562.operator">
+      <breakpoint url="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/EvaluatorSelection.java" line="133" class="edu.buffalo.cse562.visitor.EvaluatorSelection" package="edu.buffalo.cse562.visitor">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="stringLeft.compareTo(stringRight) == 0&#13;&#13;JAVA" />
+        <option name="LOG_MESSAGE" value="&#13;&#13;JAVA" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/EvaluatorAggregate.java" line="117" class="edu.buffalo.cse562.visitor.EvaluatorAggregate" package="edu.buffalo.cse562.visitor">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -129,22 +132,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/MySelectItemVisitor.java" line="48" class="edu.buffalo.cse562.visitor.MySelectItemVisitor" package="edu.buffalo.cse562.visitor">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/aggregation/AggregationProcessor.java" line="155" class="edu.buffalo.cse562.model.aggregation.AggregationProcessor" package="edu.buffalo.cse562.model.aggregation">
+      <breakpoint url="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/aggregation/AggregationProcessor.java" line="176" class="edu.buffalo.cse562.model.aggregation.AggregationProcessor" package="edu.buffalo.cse562.model.aggregation">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -169,41 +157,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="test.sql" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="test.sql" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/sqlFiles/test.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="25" selection-start="1008" selection-end="1008" vertical-scroll-proportion="0.0" vertical-offset="85" max-vertical-offset="697">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="View.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/View.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="0" selection-start="274" selection-end="274" vertical-scroll-proportion="0.0" vertical-offset="66" max-vertical-offset="850">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AggregationProcessor.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/aggregation/AggregationProcessor.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="155" column="30" selection-start="6569" selection-end="6587" vertical-scroll-proportion="0.0" vertical-offset="2431" max-vertical-offset="3281">
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#3830#3831#0" expanded="true" />
-                <element signature="e#3897#3898#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Constants.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/Constants.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="48" selection-start="166" selection-end="166" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="204">
+            <state line="25" column="8" selection-start="650" selection-end="650" vertical-scroll-proportion="0.7409201" vertical-offset="119" max-vertical-offset="731">
               <folding />
             </state>
           </provider>
@@ -212,19 +169,17 @@
       <file leaf-file-name="Main.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="44" column="0" selection-start="1280" selection-end="1280" vertical-scroll-proportion="0.0" vertical-offset="272" max-vertical-offset="884">
+            <state line="39" column="0" selection-start="1104" selection-end="1104" vertical-scroll-proportion="0.0" vertical-offset="272" max-vertical-offset="884">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ColumnSchema.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/schema/ColumnSchema.java">
+      <file leaf-file-name="View.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/View.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="49" column="0" selection-start="1413" selection-end="1413" vertical-scroll-proportion="0.0" vertical-offset="391" max-vertical-offset="1003">
-              <folding>
-                <element signature="e#1435#1436#0" expanded="true" />
-              </folding>
+            <state line="33" column="0" selection-start="1048" selection-end="1048" vertical-scroll-proportion="0.0" vertical-offset="561" max-vertical-offset="901">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -232,30 +187,53 @@
       <file leaf-file-name="AggregationOperator.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/operator/AggregationOperator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="0" selection-start="977" selection-end="977" vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="1190">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SelectionOperator.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/operator/SelectionOperator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="0" selection-start="932" selection-end="932" vertical-scroll-proportion="0.0" vertical-offset="374" max-vertical-offset="986">
+            <state line="24" column="0" selection-start="977" selection-end="977" vertical-scroll-proportion="0.0" vertical-offset="408" max-vertical-offset="1190">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EvaluatorSelection.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/EvaluatorSelection.java">
+      <file leaf-file-name="TupleComparator.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/comparator/TupleComparator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="319" column="0" selection-start="11213" selection-end="11213" vertical-scroll-proportion="1.3837209" vertical-offset="5032" max-vertical-offset="5644">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state line="27" column="0" selection-start="840" selection-end="840" vertical-scroll-proportion="0.0" vertical-offset="459" max-vertical-offset="748">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TEST.dat" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/data/TEST.dat">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="6" column="0" selection-start="12" selection-end="12" vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="204">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AggregationProcessor.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/aggregation/AggregationProcessor.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="176" column="0" selection-start="7371" selection-end="7371" vertical-scroll-proportion="0.0" vertical-offset="2636" max-vertical-offset="3043">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Multiplication.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$PROJECT_DIR$/lib/jsqlparser-0.8.0-sources.jar!/net/sf/jsqlparser/expression/operators/arithmetic/Multiplication.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="29" column="0" selection-start="1364" selection-end="1364" vertical-scroll-proportion="0.0" vertical-offset="35" max-vertical-offset="357">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="allqueries.sql" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sqlFiles/allqueries.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="51" column="25" selection-start="1904" selection-end="1904" vertical-scroll-proportion="0.0" vertical-offset="357" max-vertical-offset="3502">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -263,18 +241,92 @@
       <file leaf-file-name="EvaluatorAggregate.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/EvaluatorAggregate.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="40" column="17" selection-start="1507" selection-end="1507" vertical-scroll-proportion="0.0" vertical-offset="576" max-vertical-offset="3349">
+            <state line="216" column="36" selection-start="6698" selection-end="6698" vertical-scroll-proportion="0.0" vertical-offset="3429" max-vertical-offset="3859">
               <folding>
                 <element signature="imports" expanded="true" />
+                <marker date="1393731362426" expanded="true" signature="6673:6884" placeholder="{...}" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Function.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://$PROJECT_DIR$/lib/jsqlparser-0.8.0-sources.jar!/net/sf/jsqlparser/expression/Function.java">
+      <file leaf-file-name="Subtraction.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$PROJECT_DIR$/lib/jsqlparser-0.8.0-sources.jar!/net/sf/jsqlparser/expression/operators/arithmetic/Subtraction.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="38" column="0" selection-start="1504" selection-end="1504" vertical-scroll-proportion="0.0" vertical-offset="233" max-vertical-offset="1530">
+            <state line="30" column="0" selection-start="1362" selection-end="1362" vertical-scroll-proportion="0.0" vertical-offset="52" max-vertical-offset="391">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LongValue.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$PROJECT_DIR$/lib/jsqlparser-0.8.0-sources.jar!/net/sf/jsqlparser/expression/LongValue.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="41" column="0" selection-start="1569" selection-end="1569" vertical-scroll-proportion="0.0" vertical-offset="284" max-vertical-offset="697">
+              <folding>
+                <element signature="e#0#1861#0" expanded="false" />
+                <element signature="e#1597#1598#0" expanded="false" />
+                <element signature="e#1616#1617#0" expanded="false" />
+                <element signature="e#1649#1650#0" expanded="false" />
+                <element signature="e#1665#1666#0" expanded="false" />
+                <element signature="e#1700#1701#0" expanded="false" />
+                <element signature="e#1725#1726#0" expanded="false" />
+                <element signature="e#1771#1772#0" expanded="false" />
+                <element signature="e#1798#1799#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Column.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$PROJECT_DIR$/lib/jsqlparser-0.8.0-sources.jar!/net/sf/jsqlparser/schema/Column.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="79" column="0" selection-start="2261" selection-end="2261" vertical-scroll-proportion="0.0" vertical-offset="653" max-vertical-offset="1054">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Addition.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$PROJECT_DIR$/lib/jsqlparser-0.8.0-sources.jar!/net/sf/jsqlparser/expression/operators/arithmetic/Addition.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="31" column="0" selection-start="1392" selection-end="1392" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="374">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Parenthesis.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$PROJECT_DIR$/lib/jsqlparser-0.8.0-sources.jar!/net/sf/jsqlparser/expression/Parenthesis.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="49" column="0" selection-start="1647" selection-end="1647" vertical-scroll-proportion="0.0" vertical-offset="324" max-vertical-offset="731">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EvaluatorSelection.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/EvaluatorSelection.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="133" column="0" selection-start="4995" selection-end="4995" vertical-scroll-proportion="0.0" vertical-offset="2261" max-vertical-offset="5372">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="OrderByOperator.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/operator/OrderByOperator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="48" column="0" selection-start="1304" selection-end="1304" vertical-scroll-proportion="0.0" vertical-offset="816" max-vertical-offset="986">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ProjectionOperator.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/operator/ProjectionOperator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="39" column="5" selection-start="1170" selection-end="1170" vertical-scroll-proportion="0.0" vertical-offset="423" max-vertical-offset="1071">
               <folding />
             </state>
           </provider>
@@ -283,21 +335,8 @@
       <file leaf-file-name="MySelectItemVisitor.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/MySelectItemVisitor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="51" column="0" selection-start="1713" selection-end="1713" vertical-scroll-proportion="0.0" vertical-offset="794" max-vertical-offset="1462">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="EvaluatorProjection.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/EvaluatorProjection.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="58" column="0" selection-start="2187" selection-end="2187" vertical-scroll-proportion="0.0" vertical-offset="658" max-vertical-offset="2482">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state line="48" column="0" selection-start="1530" selection-end="1530" vertical-scroll-proportion="0.0" vertical-offset="816" max-vertical-offset="1496">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -339,7 +378,6 @@
         <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/MyFromItemVisitor.java" />
         <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/MyStatementVisitor.java" />
         <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/operator/ScanOperator.java" />
-        <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/operator/OrderByOperator.java" />
         <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/data/Datum.java" />
         <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/data/STRING.java" />
         <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/data/LONG.java" />
@@ -357,13 +395,11 @@
         <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/model/aggregation/factory/AggregationObjectFactory.java" />
         <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/data/FLOAT.java" />
         <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/model/aggregation/Aggregation.java" />
-        <option value="$PROJECT_DIR$/data/TEST.dat" />
         <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/data/FRACTION.java" />
         <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/data/DATE.java" />
         <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/View.java" />
         <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/operator/AggregationOperator.java" />
         <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/MySelectVisitor.java" />
-        <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/EvaluatorAggregate.java" />
         <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/Constants.java" />
         <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/operator/ProjectionOperator.java" />
         <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/operator/SelectionOperator.java" />
@@ -372,6 +408,9 @@
         <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/MySelectItemVisitor.java" />
         <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/EvaluatorProjection.java" />
         <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/model/aggregation/AggregationProcessor.java" />
+        <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/operator/OrderByOperator.java" />
+        <option value="$PROJECT_DIR$/data/TEST.dat" />
+        <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/EvaluatorAggregate.java" />
         <option value="$PROJECT_DIR$/sqlFiles/test.sql" />
       </list>
     </option>
@@ -412,7 +451,7 @@
     <option name="STATE" value="0" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
+    <navigator proportions="" version="1" splitterProportion="0.5">
       <flattenPackages />
       <showMembers />
       <showModules />
@@ -423,150 +462,7 @@
       <autoscrollFromSource />
       <sortByType />
     </navigator>
-    <panes>
-      <pane id="PackagesPane" />
-      <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="HelloWorld" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="HelloWorld" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="HelloWorld" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="HelloWorld" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="HelloWorld" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cse562" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="HelloWorld" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="HelloWorld" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cse562" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="visitor" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="HelloWorld" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="HelloWorld" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cse562" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="operator" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="HelloWorld" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="HelloWorld" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cse562" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="aggregation" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="HelloWorld" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="HelloWorld" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cse562" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="data" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="HelloWorld" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="HelloWorld" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="data" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="Scope" />
-    </panes>
+    <panes />
   </component>
   <component name="PropertiesComponent">
     <property name="GoToClass.includeLibraries" value="false" />
@@ -635,6 +531,7 @@
             <option name="mySupportsDeletion" value="false" />
             <option name="myCanBeAbsent" value="false" />
             <option name="myId" value="UPDATED" />
+            <PATH vcs="Git" revision="">$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/EvaluatorAggregate.java</PATH>
           </FILE-GROUP>
           <FILE-GROUP>
             <option name="myUpdateName" value="Created" />
@@ -642,7 +539,6 @@
             <option name="mySupportsDeletion" value="false" />
             <option name="myCanBeAbsent" value="false" />
             <option name="myId" value="CREATED" />
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../data/lineitem.dat</PATH>
           </FILE-GROUP>
           <FILE-GROUP>
             <option name="myUpdateName" value="Deleted" />
@@ -991,6 +887,10 @@
       <option name="PATH" value="C:\Users\Mindreader\.IntelliJIdea13\config\shelf\Uncommitted_changes_before_update_operation_at_3_1_14_9_08_PM_[Current_changes].patch" />
       <option name="DESCRIPTION" value="Uncommitted changes before update operation at 3/1/14 9:08 PM [Current_changes]" />
     </recycled_changelist>
+    <recycled_changelist date="1393731319405">
+      <option name="PATH" value="C:\Users\Mindreader\.IntelliJIdea13\config\shelf\Uncommitted_changes_before_update_operation_at_3_1_14_10_35_PM_[Current_changes].patch" />
+      <option name="DESCRIPTION" value="Uncommitted changes before update operation at 3/1/14 10:35 PM [Current_changes]" />
+    </recycled_changelist>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -1030,7 +930,8 @@
       <workItem from="1393548314571" duration="108000" />
       <workItem from="1393548433536" duration="4348000" />
       <workItem from="1393553478412" duration="8832000" />
-      <workItem from="1393563791047" duration="60577000" />
+      <workItem from="1393563791047" duration="63443000" />
+      <workItem from="1393729232969" duration="2129000" />
     </task>
     <task id="LOCAL-00001" summary="Git testing">
       <created>1392091354753</created>
@@ -1252,11 +1153,15 @@
       <created>1393726092458</created>
       <updated>1393726092458</updated>
     </task>
-    <option name="localTasksCounter" value="56" />
+    <task id="LOCAL-00056" summary="Ankesh - fixing TPCH no 1">
+      <created>1393726309407</created>
+      <updated>1393726309407</updated>
+    </task>
+    <option name="localTasksCounter" value="57" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="311669000" />
+    <option name="totallyTimeSpent" value="316664000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1280,19 +1185,19 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.57748777" sideWeight="0.63746226" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.57748777" sideWeight="0.63746226" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32952693" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32300162" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.63947797" sideWeight="0.57854986" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5008157" sideWeight="0.57854986" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32463294" sideWeight="0.42145014" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32930514" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32463294" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32463294" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31810766" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32952693" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1310,7 +1215,7 @@
     <layout-to-restore>
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.57748777" sideWeight="0.63746226" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.57748777" sideWeight="0.63746226" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1318,7 +1223,7 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32300162" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.63947797" sideWeight="0.57854986" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.5008157" sideWeight="0.57854986" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32463294" sideWeight="0.42145014" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32930514" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32463294" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -1383,29 +1288,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://C:/Program Files/Java/jdk1.7.0_51/src.zip!/java/util/HashSet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5406">
-          <folding>
-            <element signature="e#0#11242#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.7.0_51/src.zip!/java/util/ArrayList.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="412" column="24" selection-start="15040" selection-end="15040" vertical-scroll-proportion="0.41666666" vertical-offset="6358" max-vertical-offset="19635">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.7.0_51/src.zip!/java/util/List.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="434" column="6" selection-start="19325" selection-end="19325" vertical-scroll-proportion="0.0" vertical-offset="6783" max-vertical-offset="9911">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/data/Datum.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="5" column="24" selection-start="133" selection-end="133" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="561">
@@ -1441,32 +1323,19 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/data/TEST.dat">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="0" selection-start="60" selection-end="60" vertical-scroll-proportion="0.1646489" vertical-offset="0" max-vertical-offset="413">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/sqlFiles/nba11.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="232" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="136">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="232" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="136" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sqlFiles/nba12.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="0" selection-start="182" selection-end="182" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="136">
-          <folding />
-        </state>
+        <state line="2" column="0" selection-start="182" selection-end="182" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="136" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/expectedData/nba12.expected.dat">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="104" column="7" selection-start="670" selection-end="670" vertical-scroll-proportion="0.0" vertical-offset="1661" max-vertical-offset="2431">
-          <folding />
-        </state>
+        <state line="104" column="7" selection-start="670" selection-end="670" vertical-scroll-proportion="0.0" vertical-offset="1661" max-vertical-offset="2431" />
       </provider>
     </entry>
     <entry file="jar://$PROJECT_DIR$/lib/jsqlparser-0.8.0-sources.jar!/net/sf/jsqlparser/statement/select/Select.java">
@@ -1497,9 +1366,7 @@
     </entry>
     <entry file="jar://$PROJECT_DIR$/lib/jsqlparser-0.8.0-sources.jar!/net/sf/jsqlparser/statement/select/SubSelect.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="0" selection-start="1636" selection-end="1636" vertical-scroll-proportion="0.25181597" vertical-offset="168" max-vertical-offset="748">
-          <folding />
-        </state>
+        <state line="39" column="0" selection-start="1636" selection-end="1636" vertical-scroll-proportion="0.25181597" vertical-offset="168" max-vertical-offset="748" />
       </provider>
     </entry>
     <entry file="jar://$PROJECT_DIR$/lib/jsqlparser-0.8.0-sources.jar!/net/sf/jsqlparser/statement/select/PlainSelect.java">
@@ -1513,9 +1380,7 @@
     </entry>
     <entry file="jar://$PROJECT_DIR$/lib/jsqlparser-0.8.0-sources.jar!/net/sf/jsqlparser/expression/BinaryExpression.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="22" selection-start="1285" selection-end="1285" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="765">
-          <folding />
-        </state>
+        <state line="29" column="22" selection-start="1285" selection-end="1285" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="765" />
       </provider>
     </entry>
     <entry file="jar://$PROJECT_DIR$/lib/jsqlparser-0.8.0-sources.jar!/net/sf/jsqlparser/schema/Table.java">
@@ -1545,38 +1410,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/jsqlparser-0.8.0-sources.jar!/net/sf/jsqlparser/expression/Parenthesis.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="49" column="0" selection-start="1647" selection-end="1647" vertical-scroll-proportion="0.7409201" vertical-offset="153" max-vertical-offset="765">
-          <folding>
-            <element signature="e#1440#1441#0" expanded="false" />
-            <element signature="e#1464#1465#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/operator/ScanOperator.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="93" column="0" selection-start="2747" selection-end="2747" vertical-scroll-proportion="0.5883777" vertical-offset="1236" max-vertical-offset="1649">
           <folding>
             <element signature="e#2851#2852#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/jsqlparser-0.8.0-sources.jar!/net/sf/jsqlparser/expression/operators/arithmetic/Subtraction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="0" selection-start="1395" selection-end="1395" vertical-scroll-proportion="0.4116223" vertical-offset="0" max-vertical-offset="413">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/operator/ProjectionOperator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="0" selection-start="1040" selection-end="1040" vertical-scroll-proportion="0.25181597" vertical-offset="372" max-vertical-offset="1020">
-          <folding>
-            <element signature="e#1224#1225#0" expanded="true" />
-            <element signature="e#1259#1260#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1606,40 +1444,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/comparator/TupleComparator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="0" selection-start="840" selection-end="840" vertical-scroll-proportion="0.30024213" vertical-offset="267" max-vertical-offset="680">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sqlFiles/allqueries.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="0" selection-start="896" selection-end="1904" vertical-scroll-proportion="0.12348668" vertical-offset="221" max-vertical-offset="3502">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/AbstractExpressionVisitor.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="204" column="76" selection-start="5979" selection-end="5979" vertical-scroll-proportion="0.0" vertical-offset="3026" max-vertical-offset="3638">
           <folding>
             <element signature="imports" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/jsqlparser-0.8.0-sources.jar!/net/sf/jsqlparser/schema/Column.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="79" column="0" selection-start="2261" selection-end="2261" vertical-scroll-proportion="0.0" vertical-offset="741" max-vertical-offset="1054">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/operator/OrderByOperator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="0" selection-start="1005" selection-end="1005" vertical-scroll-proportion="0.0" vertical-offset="423" max-vertical-offset="918">
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1669,16 +1479,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="42" column="0" selection-start="1533" selection-end="1533" vertical-scroll-proportion="0.0" vertical-offset="236" max-vertical-offset="663">
           <folding>
-            <element signature="e#1556#1557#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/EvaluatorAggregate.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="17" selection-start="1507" selection-end="1507" vertical-scroll-proportion="0.0" vertical-offset="576" max-vertical-offset="3349">
-          <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#1556#1557#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1713,20 +1514,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/View.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="0" selection-start="274" selection-end="274" vertical-scroll-proportion="0.0" vertical-offset="66" max-vertical-offset="850">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="0" selection-start="1280" selection-end="1280" vertical-scroll-proportion="0.0" vertical-offset="272" max-vertical-offset="884">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/Constants.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="4" column="48" selection-start="166" selection-end="166" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="204">
@@ -1736,7 +1523,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/EvaluatorProjection.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="58" column="0" selection-start="2187" selection-end="2187" vertical-scroll-proportion="0.0" vertical-offset="658" max-vertical-offset="2482">
+        <state line="58" column="0" selection-start="2187" selection-end="2187" vertical-scroll-proportion="0.53594774" vertical-offset="658" max-vertical-offset="2482">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1745,53 +1532,154 @@
     </entry>
     <entry file="jar://$PROJECT_DIR$/lib/jsqlparser-0.8.0-sources.jar!/net/sf/jsqlparser/expression/Function.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="0" selection-start="1504" selection-end="1504" vertical-scroll-proportion="0.0" vertical-offset="233" max-vertical-offset="1530">
+        <state line="38" column="0" selection-start="1504" selection-end="1504" vertical-scroll-proportion="0.119281046" vertical-offset="233" max-vertical-offset="1530">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/operator/ProjectionOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="39" column="5" selection-start="1170" selection-end="1170" vertical-scroll-proportion="0.0" vertical-offset="423" max-vertical-offset="1071">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/MySelectItemVisitor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="0" selection-start="1713" selection-end="1713" vertical-scroll-proportion="0.0" vertical-offset="794" max-vertical-offset="1462">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state line="48" column="0" selection-start="1530" selection-end="1530" vertical-scroll-proportion="0.0" vertical-offset="743" max-vertical-offset="1462">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/operator/AggregationOperator.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="24" column="0" selection-start="977" selection-end="977" vertical-scroll-proportion="0.0" vertical-offset="304" max-vertical-offset="1190">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/aggregation/AggregationProcessor.java">
+    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/comparator/TupleComparator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="155" column="30" selection-start="6569" selection-end="6587" vertical-scroll-proportion="0.0" vertical-offset="2431" max-vertical-offset="3281">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#3830#3831#0" expanded="true" />
-            <element signature="e#3897#3898#0" expanded="true" />
-          </folding>
+        <state line="27" column="0" selection-start="840" selection-end="840" vertical-scroll-proportion="0.0" vertical-offset="318" max-vertical-offset="680">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sqlFiles/test.sql">
+    <entry file="file://$PROJECT_DIR$/data/TEST.dat">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="25" selection-start="1008" selection-end="1008" vertical-scroll-proportion="0.0" vertical-offset="85" max-vertical-offset="697">
+        <state line="6" column="0" selection-start="12" selection-end="12" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="204">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/operator/OrderByOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="48" column="0" selection-start="1304" selection-end="1304" vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="918">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sqlFiles/allqueries.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="51" column="25" selection-start="1904" selection-end="1904" vertical-scroll-proportion="0.0" vertical-offset="357" max-vertical-offset="3502">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/View.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="0" selection-start="1048" selection-end="1048" vertical-scroll-proportion="0.0" vertical-offset="437" max-vertical-offset="850">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/EvaluatorSelection.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="319" column="0" selection-start="11213" selection-end="11213" vertical-scroll-proportion="1.3837209" vertical-offset="5032" max-vertical-offset="5644">
+        <state line="133" column="0" selection-start="4995" selection-end="4995" vertical-scroll-proportion="0.0" vertical-offset="2154" max-vertical-offset="5644">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="39" column="0" selection-start="1104" selection-end="1104" vertical-scroll-proportion="0.0" vertical-offset="272" max-vertical-offset="884">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/jsqlparser-0.8.0-sources.jar!/net/sf/jsqlparser/expression/LongValue.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="41" column="0" selection-start="1569" selection-end="1569" vertical-scroll-proportion="0.0" vertical-offset="284" max-vertical-offset="697">
+          <folding>
+            <element signature="e#0#1861#0" expanded="false" />
+            <element signature="e#1597#1598#0" expanded="false" />
+            <element signature="e#1616#1617#0" expanded="false" />
+            <element signature="e#1649#1650#0" expanded="false" />
+            <element signature="e#1665#1666#0" expanded="false" />
+            <element signature="e#1700#1701#0" expanded="false" />
+            <element signature="e#1725#1726#0" expanded="false" />
+            <element signature="e#1771#1772#0" expanded="false" />
+            <element signature="e#1798#1799#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/jsqlparser-0.8.0-sources.jar!/net/sf/jsqlparser/schema/Column.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="79" column="0" selection-start="2261" selection-end="2261" vertical-scroll-proportion="0.0" vertical-offset="777" max-vertical-offset="1054">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/jsqlparser-0.8.0-sources.jar!/net/sf/jsqlparser/expression/operators/arithmetic/Addition.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="31" column="0" selection-start="1392" selection-end="1392" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="374">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/jsqlparser-0.8.0-sources.jar!/net/sf/jsqlparser/expression/operators/arithmetic/Multiplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="0" selection-start="1364" selection-end="1364" vertical-scroll-proportion="0.0" vertical-offset="80" max-vertical-offset="357">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/jsqlparser-0.8.0-sources.jar!/net/sf/jsqlparser/expression/Parenthesis.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="49" column="0" selection-start="1647" selection-end="1647" vertical-scroll-proportion="0.0" vertical-offset="324" max-vertical-offset="731">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/aggregation/AggregationProcessor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="176" column="0" selection-start="7371" selection-end="7371" vertical-scroll-proportion="0.0" vertical-offset="2636" max-vertical-offset="3043">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/jsqlparser-0.8.0-sources.jar!/net/sf/jsqlparser/expression/operators/arithmetic/Subtraction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="0" selection-start="1362" selection-end="1362" vertical-scroll-proportion="0.0" vertical-offset="52" max-vertical-offset="391">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/EvaluatorAggregate.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="216" column="36" selection-start="6698" selection-end="6698" vertical-scroll-proportion="0.0" vertical-offset="3429" max-vertical-offset="3859">
           <folding>
             <element signature="imports" expanded="true" />
+            <marker date="1393731362426" expanded="true" signature="6673:6884" placeholder="{...}" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sqlFiles/test.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="8" selection-start="650" selection-end="650" vertical-scroll-proportion="0.7409201" vertical-offset="119" max-vertical-offset="731">
+          <folding />
         </state>
       </provider>
     </entry>

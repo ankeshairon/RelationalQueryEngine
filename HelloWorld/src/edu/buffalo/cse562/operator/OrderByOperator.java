@@ -11,12 +11,15 @@ public class OrderByOperator implements Operator {
     Operator input;
     private LinkedHashMap<Integer, Boolean> indexesOfColumnsToSortOn;
     private Iterator<Datum[]> tupleListIterator;
+    private List<Datum[]> tupleList;
 
 
     public OrderByOperator(Operator input, LinkedHashMap<Integer, Boolean> indexesOfColumnsToSortOn) {
         this.input = input;
         this.indexesOfColumnsToSortOn = indexesOfColumnsToSortOn;
+        tupleList = new ArrayList<>();
         pullAllData();
+        reset();
     }
 
     @Override
@@ -28,24 +31,21 @@ public class OrderByOperator implements Operator {
     }
 
     private void pullAllData() {
-        List<Datum[]> tupleList = new ArrayList<>();
         Datum tuple[];
         while ((tuple = input.readOneTuple()) != null) {
             tupleList.add(tuple);
         }
         Collections.sort(tupleList, new TupleComparator(indexesOfColumnsToSortOn));
-        tupleListIterator = tupleList.iterator();
+        reset();
     }
 
     @Override
     public void reset() {
-
-
+        tupleListIterator = tupleList.iterator();
     }
 
     @Override
     public ColumnSchema[] getSchema() {
-
         return null;
     }
 

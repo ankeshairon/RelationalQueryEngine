@@ -42,9 +42,9 @@ public class EvaluatorAggregate extends AbstractExpressionVisitor {
     	while(!literals.empty() && !symbols.empty()) {
             Datum dataRight = literals.pop();
             Datum dataLeft = literals.pop();
-    		System.out.println(dataLeft.toSTRING()+" "+symbols.pop()+" "+dataRight.toSTRING()+" " +symbols.pop() + " " + literals.pop().toSTRING());
-    		
-    	}
+//    		System.out.println(dataLeft.toSTRING()+" "+symbols.pop()+" "+dataRight.toSTRING()+" " +symbols.pop() + " " + literals.pop().toSTRING());
+
+        }
     }
     public Datum executeStack() throws CastException {
 
@@ -56,35 +56,45 @@ public class EvaluatorAggregate extends AbstractExpressionVisitor {
         Datum dataRight;
 
         while (!symbols.empty()) {
-            condition = symbols.pop();
-            dataRight = literals.pop();
-            dataLeft = literals.pop();
-            floatLeft = dataLeft.toFLOAT();
-            floatRight = dataRight.toFLOAT();
-
-            switch (condition) {
-
-                case "*":
-                    floatData = floatLeft * floatRight;
-                    literals.push(new FLOAT(floatData));
-                    break;
-                case "/":
-                    floatData = floatLeft / floatRight;
-                    literals.push(new FLOAT(floatData));
-                    break;
-                case "-":
-                    floatData = floatLeft - floatRight;
-                    literals.push(new FLOAT(floatData));
-                    break;
-                case "+":
-                    floatData = floatLeft + floatRight;
-                    literals.push(new FLOAT(floatData));
-                    break;
-            }
-
+            literals.push(executeExpression());
         }
         return literals.pop();
 
+    }
+
+    private Datum executeExpression() throws CastException {
+        String condition;
+        Datum dataRight;
+        Datum dataLeft;
+        float floatLeft;
+        float floatRight;
+        float floatData;
+        condition = symbols.pop();
+        dataRight = literals.pop();
+        dataLeft = literals.pop();
+        floatLeft = dataLeft.toFLOAT();
+        floatRight = dataRight.toFLOAT();
+
+        switch (condition) {
+
+            case "*":
+                floatData = floatLeft * floatRight;
+                literals.push(new FLOAT(floatData));
+                break;
+            case "/":
+                floatData = floatLeft / floatRight;
+                literals.push(new FLOAT(floatData));
+                break;
+            case "-":
+                floatData = floatLeft - floatRight;
+                literals.push(new FLOAT(floatData));
+                break;
+            case "+":
+                floatData = floatLeft + floatRight;
+                literals.push(new FLOAT(floatData));
+                break;
+        }
+        return literals.pop();
     }
     /*
      * Binary Operators
@@ -104,23 +114,28 @@ public class EvaluatorAggregate extends AbstractExpressionVisitor {
 
     @Override
     public void visit(Multiplication arg0) {
-    	//System.out.println("*");
+//    	System.out.println("*");
         symbols.push("*");
         visitBinaryExpression(arg0);
     }
 
     @Override
     public void visit(Subtraction arg0) {
-    	//System.out.println("-");
+//    	System.out.println("-");
         symbols.push("-");
         visitBinaryExpression(arg0);
     }
 
     @Override
     public void visit(Parenthesis arg0) {
-    	//System.out.println("()");
+//    	System.out.println("()");
         Expression expr = arg0.getExpression();
         expr.accept(new EvaluatorAggregate(tuple, oldSchema, evalExpression, literals, symbols));
+        try {
+            literals.push(executeExpression());
+        } catch (CastException e) {
+            e.printStackTrace();
+        }
     }
 
 	/*
@@ -142,6 +157,7 @@ public class EvaluatorAggregate extends AbstractExpressionVisitor {
             float nativeFloat = (float) nativeLong;
             FLOAT floatVal = new FLOAT(nativeFloat);
             literals.push(floatVal);
+//            System.out.println(nativeLong);
         } catch (CastException e) {
             e.printStackTrace();
         }
