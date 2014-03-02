@@ -41,7 +41,7 @@ CREATE TABLE CUSTOMER (
         mktsegment   CHAR(10),
         comment      VARCHAR(117)
     );
-
+    
 SELECT
   lineitem.orderkey,
   sum(lineitem.extendedprice*(1-lineitem.discount)) as revenue,

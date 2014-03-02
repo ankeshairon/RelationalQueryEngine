@@ -65,18 +65,6 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
                 Float floatLeft = dataLeft.toFLOAT();
                 Float floatRight = dataRight.toFLOAT();
                 switch (condition) {
-                    case "*":
-                        literals.push(getInstance(floatLeft * floatRight, dataRight.getType()));
-                        break;
-                    case "/":
-                        literals.push(getInstance(floatLeft / floatRight, dataRight.getType()));
-                        break;
-                    case "-":
-                        literals.push(getInstance(floatLeft - floatRight, dataRight.getType()));
-                        break;
-                    case "+":
-                        literals.push(getInstance(floatLeft + floatRight, dataRight.getType()));
-                        break;
                     case "=":
                         bool = floatLeft.equals(floatRight);
                         break;
@@ -129,6 +117,31 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
             }
         }
     }
+    
+    private void compressStack(String arithematicOperator) throws CastException{
+    	
+        Datum dataLeft;
+        Datum dataRight;
+        dataLeft = literals.pop();
+        dataRight = literals.pop();
+        Float floatLeft = dataLeft.toFLOAT();
+        Float floatRight = dataRight.toFLOAT();
+    
+        switch (arithematicOperator) {
+        case "*":
+            literals.push(getInstance(floatLeft * floatRight, dataRight.getType()));
+            break;
+        case "/":
+            literals.push(getInstance(floatLeft / floatRight, dataRight.getType()));
+            break;
+        case "-":
+            literals.push(getInstance(floatLeft - floatRight, dataRight.getType()));
+            break;
+        case "+":
+            literals.push(getInstance(floatLeft + floatRight, dataRight.getType()));
+            break;    	
+        }
+    }
 
 	/*
      * Logical and Arithmetic operators
@@ -137,54 +150,71 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
     @Override
     public void visit(Addition arg0) {
 
-        symbols.push("+");
+//        symbols.push("+");
         Expression leftExpression = arg0.getLeftExpression();
         Expression rightExpression = arg0.getRightExpression();
         rightExpression.accept(this);
         leftExpression.accept(this);
+        
+        try{
+        	this.compressStack("+");
+        }catch(CastException e) {e.printStackTrace();}
 
     }
 
     @Override
     public void visit(Division arg0) {
-        symbols.push("/");
+//        symbols.push("/");
         Expression leftExpression = arg0.getLeftExpression();
         Expression rightExpression = arg0.getRightExpression();
 
         rightExpression.accept(this);
         leftExpression.accept(this);
+        
+        try{
+        	this.compressStack("/");
+        }catch(CastException e) {e.printStackTrace();}
     }
 
     @Override
     public void visit(Multiplication arg0) {
-        symbols.push("*");
+ //       symbols.push("*");
         Expression leftExpression = arg0.getLeftExpression();
         Expression rightExpression = arg0.getRightExpression();
 
         rightExpression.accept(this);
         leftExpression.accept(this);
+        
+        try{
+        	this.compressStack("*");
+        }catch(CastException e) {e.printStackTrace();}
 
     }
 
     @Override
     public void visit(Subtraction arg0) {
-        symbols.push("-");
+  //      symbols.push("-");
         Expression leftExpression = arg0.getLeftExpression();
         Expression rightExpression = arg0.getRightExpression();
 
         rightExpression.accept(this);
         leftExpression.accept(this);
+
+        try{
+        	this.compressStack("-");
+        }catch(CastException e) {e.printStackTrace();}
     }
 
     @Override
     public void visit(AndExpression arg0) {
-        symbols.push("AND");
+//        symbols.push("AND");
         Expression leftExpression = arg0.getLeftExpression();
         Expression rightExpression = arg0.getRightExpression();
 
         rightExpression.accept(this);
         leftExpression.accept(this);
 
+        
     }
 
     @Override
