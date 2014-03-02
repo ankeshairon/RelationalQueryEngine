@@ -175,6 +175,7 @@ public class AggregationProcessor {
         }
         EvaluatorAggregate evalAggregate = new EvaluatorAggregate(oldDatum, oldSchema, expression);
         expression.accept(evalAggregate);
+        //evalAggregate.showStack();
         Datum floatDatum = null;
         try {
             floatDatum = evalAggregate.executeStack();

@@ -38,6 +38,14 @@ public class EvaluatorAggregate extends AbstractExpressionVisitor {
         this.symbols = symbols;
     }
 
+    public void showStack() {
+    	while(!literals.empty() && !symbols.empty()) {
+            Datum dataRight = literals.pop();
+            Datum dataLeft = literals.pop();
+    		System.out.println(dataLeft.toSTRING()+" "+symbols.pop()+" "+dataRight.toSTRING());
+    		
+    	}
+    }
     public Datum executeStack() throws CastException {
 
         float floatData;
@@ -49,8 +57,8 @@ public class EvaluatorAggregate extends AbstractExpressionVisitor {
 
         while (!symbols.empty()) {
             condition = symbols.pop();
-            dataLeft = literals.pop();
             dataRight = literals.pop();
+            dataLeft = literals.pop();
             floatLeft = dataLeft.toFLOAT();
             floatRight = dataRight.toFLOAT();
 

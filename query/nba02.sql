@@ -20,7 +20,7 @@ CREATE TABLE LINEITEM (
         shipmode       CHAR(10),
         comment        VARCHAR(44)
     );
-
+    
 SELECT
   returnflag,
   linestatus,
@@ -37,5 +37,4 @@ WHERE
 GROUP BY
   returnflag, linestatus
 ORDER BY
-  returnflag, linestatus;
-  
+  returnflag, linestatus;  
