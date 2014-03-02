@@ -7,10 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list id="8f1a133d-1531-49c4-be57-1cf67645d473" name="Default" comment="" />
-    <list default="true" id="65df4483-c907-483f-9920-e0918ff4b5dd" name="Current_changes" comment="Ankesh - reverting string comparison logic back to original">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/aggregation/AggregationProcessor.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/aggregation/AggregationProcessor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/EvaluatorSelection.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/EvaluatorSelection.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/MySelectItemVisitor.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/MySelectItemVisitor.java" />
+    <list default="true" id="65df4483-c907-483f-9920-e0918ff4b5dd" name="Current_changes" comment="Ankesh - fixing TPCH no 1">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="HelloWorld.iws" />
@@ -172,10 +169,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="test.sql" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="test.sql" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sqlFiles/test.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="25" selection-start="1008" selection-end="1008" vertical-scroll-proportion="1.2348669" vertical-offset="85" max-vertical-offset="697">
+            <state line="35" column="25" selection-start="1008" selection-end="1008" vertical-scroll-proportion="0.0" vertical-offset="85" max-vertical-offset="697">
               <folding />
             </state>
           </provider>
@@ -252,10 +249,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EvaluatorSelection.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="EvaluatorSelection.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/EvaluatorSelection.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="131" column="0" selection-start="4877" selection-end="4877" vertical-scroll-proportion="0.0" vertical-offset="2344" max-vertical-offset="5644">
+            <state line="319" column="0" selection-start="11213" selection-end="11213" vertical-scroll-proportion="1.3837209" vertical-offset="5032" max-vertical-offset="5644">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -638,18 +635,6 @@
             <option name="mySupportsDeletion" value="false" />
             <option name="myCanBeAbsent" value="false" />
             <option name="myId" value="UPDATED" />
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/out/production/HelloWorld/edu/buffalo/cse562/operator/ProjectionOperator.class</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/out/production/HelloWorld/edu/buffalo/cse562/operator/ScanOperator.class</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/out/production/HelloWorld/edu/buffalo/cse562/visitor/AbstractExpressionVisitor.class</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/out/production/HelloWorld/edu/buffalo/cse562/visitor/EvaluatorProjection.class</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/out/production/HelloWorld/edu/buffalo/cse562/visitor/MyFromItemVisitor.class</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/out/production/HelloWorld/edu/buffalo/cse562/visitor/MySelectItemVisitor.class</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/out/production/HelloWorld/edu/buffalo/cse562/visitor/MySelectVisitor.class</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/src/edu/buffalo/cse562/operator/ScanOperator.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/EvaluatorSelection.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/MyFromItemVisitor.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/MySelectVisitor.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../query/nba02.sql</PATH>
           </FILE-GROUP>
           <FILE-GROUP>
             <option name="myUpdateName" value="Created" />
@@ -657,6 +642,7 @@
             <option name="mySupportsDeletion" value="false" />
             <option name="myCanBeAbsent" value="false" />
             <option name="myId" value="CREATED" />
+            <PATH vcs="Git" revision="">$PROJECT_DIR$/../data/lineitem.dat</PATH>
           </FILE-GROUP>
           <FILE-GROUP>
             <option name="myUpdateName" value="Deleted" />
@@ -1001,6 +987,10 @@
       <option name="PATH" value="C:\Users\Mindreader\.IntelliJIdea13\config\shelf\Uncommitted_changes_before_update_operation_at_3_1_14_8_23_PM_[Current_changes].patch" />
       <option name="DESCRIPTION" value="Uncommitted changes before update operation at 3/1/14 8:23 PM [Current_changes]" />
     </recycled_changelist>
+    <recycled_changelist date="1393726211604">
+      <option name="PATH" value="C:\Users\Mindreader\.IntelliJIdea13\config\shelf\Uncommitted_changes_before_update_operation_at_3_1_14_9_08_PM_[Current_changes].patch" />
+      <option name="DESCRIPTION" value="Uncommitted changes before update operation at 3/1/14 9:08 PM [Current_changes]" />
+    </recycled_changelist>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -1040,7 +1030,7 @@
       <workItem from="1393548314571" duration="108000" />
       <workItem from="1393548433536" duration="4348000" />
       <workItem from="1393553478412" duration="8832000" />
-      <workItem from="1393563791047" duration="60348000" />
+      <workItem from="1393563791047" duration="60577000" />
     </task>
     <task id="LOCAL-00001" summary="Git testing">
       <created>1392091354753</created>
@@ -1258,11 +1248,15 @@
       <created>1393723104398</created>
       <updated>1393723104398</updated>
     </task>
-    <option name="localTasksCounter" value="55" />
+    <task id="LOCAL-00055" summary="Ankesh - fixing TPCH no 1">
+      <created>1393726092458</created>
+      <updated>1393726092458</updated>
+    </task>
+    <option name="localTasksCounter" value="56" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="311440000" />
+    <option name="totallyTimeSpent" value="311669000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1289,7 +1283,7 @@
     <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.57748777" sideWeight="0.63746226" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.57748777" sideWeight="0.63746226" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32952693" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
@@ -1304,7 +1298,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28851965" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32463294" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32463294" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1316,7 +1310,7 @@
     <layout-to-restore>
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.57748777" sideWeight="0.63746226" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.57748777" sideWeight="0.63746226" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1337,7 +1331,7 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28851965" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32463294" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32463294" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -1352,7 +1346,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Ankesh - Datagrabber handling columndefintions" />
     <MESSAGE value="Changing schema type back to string" />
     <MESSAGE value="Renaming dataprocessor back to treemaker temporarily to solve git issues" />
     <MESSAGE value="Modifying operator interface to take 2 datasets" />
@@ -1377,7 +1370,8 @@
     <MESSAGE value="Ankesh - expressions handled" />
     <MESSAGE value="Ankesh - handling tpch queries" />
     <MESSAGE value="Ankesh - reverting string comparison logic back to original" />
-    <option name="LAST_COMMIT_MESSAGE" value="Ankesh - reverting string comparison logic back to original" />
+    <MESSAGE value="Ankesh - fixing TPCH no 1" />
+    <option name="LAST_COMMIT_MESSAGE" value="Ankesh - fixing TPCH no 1" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
@@ -1710,15 +1704,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/EvaluatorSelection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="131" column="0" selection-start="4877" selection-end="4877" vertical-scroll-proportion="0.0" vertical-offset="2089" max-vertical-offset="5644">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/schema/ColumnSchema.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="49" column="0" selection-start="1413" selection-end="1413" vertical-scroll-proportion="0.0" vertical-offset="576" max-vertical-offset="1037">
@@ -1796,8 +1781,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/sqlFiles/test.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="25" selection-start="1008" selection-end="1008" vertical-scroll-proportion="1.2348669" vertical-offset="85" max-vertical-offset="697">
+        <state line="35" column="25" selection-start="1008" selection-end="1008" vertical-scroll-proportion="0.0" vertical-offset="85" max-vertical-offset="697">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/EvaluatorSelection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="319" column="0" selection-start="11213" selection-end="11213" vertical-scroll-proportion="1.3837209" vertical-offset="5032" max-vertical-offset="5644">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
