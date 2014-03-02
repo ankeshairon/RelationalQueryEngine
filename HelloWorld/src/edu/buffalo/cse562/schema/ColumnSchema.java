@@ -35,8 +35,8 @@ public class ColumnSchema {
     }
     
     public boolean matchColumn(String columnVal, String tableVal) {
-    	//System.out.println("COL: " +columnVal + " vs " + this.getColName());
-    	//System.out.println("TAB: " +tableVal + " vs " + this.getTblName());
+    	System.out.println("COL: " +columnVal + " vs " + this.getColName());
+    	System.out.println("TAB: " +tableVal + " vs " + this.getTblName());
     	if (tableVal == null)
     		return columnVal.equalsIgnoreCase(this.getColName());
     	else 
