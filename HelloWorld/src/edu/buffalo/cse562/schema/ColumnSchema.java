@@ -33,6 +33,13 @@ public class ColumnSchema {
     public String getColName() {
         return colName;
     }
+    
+    public boolean matchColumn(String columnVal, String tableVal) {
+    	if (tableVal == null)
+    		return columnVal.equalsIgnoreCase(this.getColName());
+    	else 
+    		return columnVal.equalsIgnoreCase(this.getColName()) && tableVal.equalsIgnoreCase(this.getTblName());
+    }
 
     public Datum.type getType() {
         return type;

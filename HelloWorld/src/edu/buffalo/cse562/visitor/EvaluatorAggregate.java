@@ -183,13 +183,14 @@ public class EvaluatorAggregate extends AbstractExpressionVisitor {
     public void visit(Column arg0) {
 
         String columnVal = arg0.getColumnName();
+        String tableVal = arg0.getTable().getName();
         Datum columnTupleVal = null;
         long nativeLong;
         float nativeFloat;
         FLOAT newFLOAT;
         int count = 0;
         for (ColumnSchema col : oldSchema) {
-            if (col.getColName().equalsIgnoreCase(columnVal)) {
+            if (col.matchColumn(columnVal,tableVal)) {
                 columnTupleVal = tuple[count];
                 if (columnTupleVal.getType() == Datum.type.LONG) {
                     try {
