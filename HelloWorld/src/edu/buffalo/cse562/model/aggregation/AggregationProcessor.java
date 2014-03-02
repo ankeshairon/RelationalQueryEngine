@@ -64,6 +64,9 @@ public class AggregationProcessor {
             if (isANewUniqueCombinationOfGroupByElements(index)) {
                 Datum[] newAggregatedDatum = new Datum[newSchema.length];
                 for (int i = 0; i < newSchemaIndexesRelativeToOldSchema.length; i++) {
+                    if (newTuple[i] == null) {
+                        continue;
+                    }
                     if (newSchemaIndexesRelativeToOldSchema[i] >= 0) {
                         newAggregatedDatum[i] = newTuple[i];
                     } else {

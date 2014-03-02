@@ -105,8 +105,8 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
                 if (!bool)
                     break;
             } else if (dataRight.getType() == Datum.type.STRING && dataLeft.getType() == Datum.type.STRING) {
-                stringRight = dataLeft.toSTRING();
-                stringLeft = dataRight.toSTRING();
+                stringRight = dataRight.toSTRING();
+                stringLeft = dataLeft.toSTRING();
 
                 switch (condition) {
 
@@ -114,20 +114,24 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
                         bool = (stringLeft.equalsIgnoreCase(stringRight)) ? true : false;
                         break;
                     case ">":
-                        stringCheck = stringRight.compareTo(stringLeft);
-                        if (stringCheck <= 0) bool = false;
+                        stringCheck = stringLeft.compareTo(stringRight);
+                        if (stringCheck <= 0)
+                            bool = false;
                         break;
                     case "<":
-                        stringCheck = stringRight.compareTo(stringLeft);
-                        if (stringCheck >= 0) bool = false;
+                        stringCheck = stringLeft.compareTo(stringRight);
+                        if (stringCheck >= 0)
+                            bool = false;
                         break;
                     case ">=":
-                        stringCheck = stringRight.compareTo(stringLeft);
-                        if (stringCheck < 0) bool = false;
+                        stringCheck = stringLeft.compareTo(stringRight);
+                        if (stringCheck < 0)
+                            bool = false;
                         break;
                     case "<=":
-                        stringCheck = stringRight.compareTo(stringLeft);
-                        if (stringCheck > 0) bool = false;
+                        stringCheck = stringLeft.compareTo(stringRight);
+                        if (stringCheck > 0)
+                            bool = false;
                         break;
                 }
                 if (!bool)
@@ -137,7 +141,7 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
     }
 
 	/*
-	 * Logical and Arithmetic operators
+     * Logical and Arithmetic operators
 	 */
 
     @Override
