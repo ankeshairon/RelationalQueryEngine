@@ -104,21 +104,21 @@ public class EvaluatorAggregate extends AbstractExpressionVisitor {
 
     @Override
     public void visit(Multiplication arg0) {
-    	System.out.println("*");
+    	//System.out.println("*");
         symbols.push("*");
         visitBinaryExpression(arg0);
     }
 
     @Override
     public void visit(Subtraction arg0) {
-    	System.out.println("-");
+    	//System.out.println("-");
         symbols.push("-");
         visitBinaryExpression(arg0);
     }
 
     @Override
     public void visit(Parenthesis arg0) {
-    	System.out.println("()");
+    	//System.out.println("()");
         Expression expr = arg0.getExpression();
         expr.accept(new EvaluatorAggregate(tuple, oldSchema, evalExpression, literals, symbols));
     }
@@ -142,7 +142,6 @@ public class EvaluatorAggregate extends AbstractExpressionVisitor {
             float nativeFloat = (float) nativeLong;
             FLOAT floatVal = new FLOAT(nativeFloat);
             literals.push(floatVal);
-            System.out.println(nativeLong);
         } catch (CastException e) {
             e.printStackTrace();
         }
@@ -199,8 +198,8 @@ public class EvaluatorAggregate extends AbstractExpressionVisitor {
     private void visitBinaryExpression(BinaryExpression arg0) {
         Expression leftExpression = arg0.getLeftExpression();
         Expression rightExpression = arg0.getRightExpression();
-        rightExpression.accept(new EvaluatorAggregate(tuple, oldSchema, evalExpression, literals, symbols));
         leftExpression.accept(new EvaluatorAggregate(tuple, oldSchema, evalExpression, literals, symbols));
+        rightExpression.accept(new EvaluatorAggregate(tuple, oldSchema, evalExpression, literals, symbols));
     }
 }
 
