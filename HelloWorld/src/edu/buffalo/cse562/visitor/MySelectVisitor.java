@@ -3,11 +3,13 @@ package edu.buffalo.cse562.visitor;
 
 import edu.buffalo.cse562.operator.*;
 import edu.buffalo.cse562.schema.ColumnSchema;
+import edu.buffalo.cse562.visitor.optimizer.JoinMaker;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.statement.create.table.ColumnDefinition;
 import net.sf.jsqlparser.statement.select.*;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,6 +24,14 @@ public class MySelectVisitor implements SelectVisitor {
     public MySelectVisitor(File dataDir, HashMap<String, List<ColumnDefinition>> tables) {
         this.dataDir = dataDir;
         this.tables = tables;
+    }
+
+    @Override
+    public void visit(Union stmnt) {
+        List<PlainSelect> plainSelects = stmnt.getPlainSelects();
+        for (PlainSelect plainSelect : plainSelects) {
+            visit(plainSelect);
+        }
     }
 
     @Override
@@ -84,22 +94,21 @@ public class MySelectVisitor implements SelectVisitor {
 
     private void visitMultipleFromItems(PlainSelect statement, MyFromItemVisitor myFromItemVisitor, Expression where) {
         FromItem fromItem;
+
         List<Join> joins = statement.getJoins();
         if (joins != null) {
+            List<Operator> inputOperators = new ArrayList<>();
+            inputOperators.add(source);
+
             for (Join join : joins) {
                 fromItem = join.getRightItem();
                 fromItem.accept(myFromItemVisitor);
-                Operator newOper = myFromItemVisitor.source;
-                source = new JoinOperator(source, newOper, where);
+                inputOperators.add(myFromItemVisitor.source);
+//                source = new JoinOperator(source, newOper, where);
             }
-        }
-    }
 
-    @Override
-    public void visit(Union stmnt) {
-        List<PlainSelect> plainSelects = stmnt.getPlainSelects();
-        for (PlainSelect plainSelect : plainSelects) {
-            visit(plainSelect);
+            JoinMaker joinMaker = new JoinMaker(where, inputOperators);
+            source = joinMaker.getOptimizedChainedJoinOperator();
         }
     }
 

@@ -1,6 +1,7 @@
 package edu.buffalo.cse562.visitor.optimizer;
 
 import edu.buffalo.cse562.schema.ColumnSchema;
+import edu.buffalo.cse562.visitor.CrossToJoinOptimizationEvaluator;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.schema.Column;
 
@@ -12,11 +13,11 @@ public class CrossToJoinOptimizer {
 
     private Map<Expression, List<Column>> conditionColumnMap;
 
-    public CrossToJoinOptimizer(Map<Expression, List<Column>> conditionColumnMap) {
-        this.conditionColumnMap = conditionColumnMap;
+    public CrossToJoinOptimizer(Expression where) {
+        conditionColumnMap = new CrossToJoinOptimizationEvaluator(where).getConditionColumnMap();
     }
 
-    public List<Expression> canPullASelectInCrossToMakeAJoin(ColumnSchema[] schema) {
+    public List<Expression> getListOfConditionsExclusiveToThisTable(ColumnSchema[] schema) {
         List<Expression> conditionalExpressions = new ArrayList<>();
 
         for (Expression condition : conditionColumnMap.keySet()) {

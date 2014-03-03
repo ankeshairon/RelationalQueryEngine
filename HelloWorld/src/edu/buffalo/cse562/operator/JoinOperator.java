@@ -2,12 +2,6 @@ package edu.buffalo.cse562.operator;
 
 import edu.buffalo.cse562.data.Datum;
 import edu.buffalo.cse562.schema.ColumnSchema;
-import edu.buffalo.cse562.visitor.CrossToJoinOptimizationEvaluator;
-import edu.buffalo.cse562.visitor.optimizer.CrossToJoinOptimizer;
-import net.sf.jsqlparser.expression.Expression;
-
-import java.util.Iterator;
-import java.util.List;
 
 public class JoinOperator implements Operator {
     Operator input1;
@@ -16,46 +10,14 @@ public class JoinOperator implements Operator {
     Datum[] temp2;
     ColumnSchema[] schema;
 
-    public JoinOperator(Operator input1, Operator input2, Expression where) {
-        assignInputs(input1, input2, where);
+    public JoinOperator(Operator input1, Operator input2) {
+        this.input1 = input1;
+        this.input2 = input2;
         updateSchema();
         temp1 = new Datum[input1.getSchema().length];
         temp2 = new Datum[input2.getSchema().length];
         temp1 = input1.readOneTuple();
         //temp2 = input2.readOneTuple();
-    }
-
-    private void assignInputs(Operator in1, Operator in2, Expression where) {
-        CrossToJoinOptimizationEvaluator optimizationEvaluator = new CrossToJoinOptimizationEvaluator(where);
-        CrossToJoinOptimizer optimizer = new CrossToJoinOptimizer(optimizationEvaluator.getConditionColumnMap());
-
-        List<Expression> exclusiveConditionalExpressionsOfInput1 = optimizer.canPullASelectInCrossToMakeAJoin(in1.getSchema());
-        List<Expression> exclusiveConditionalExpressionsOfInput2 = optimizer.canPullASelectInCrossToMakeAJoin(in2.getSchema());
-
-        if (!exclusiveConditionalExpressionsOfInput1.isEmpty()) {
-            input1 = chainInSelectionOperators(in1, exclusiveConditionalExpressionsOfInput1);
-            input2 = in2;
-        } else if (!exclusiveConditionalExpressionsOfInput2.isEmpty()) {
-            input1 = chainInSelectionOperators(in2, exclusiveConditionalExpressionsOfInput2);
-            input2 = in1;
-        } else {
-            input1 = in1;
-            input2 = in2;
-        }
-
-    }
-
-    //todo replace multiple selection operators with one selection operator with multiple conditions
-    private Operator chainInSelectionOperators(Operator oldSource, List<Expression> exclusiveConditionalExpressions) {
-        Operator newSource;
-        Iterator<Expression> iterator = exclusiveConditionalExpressions.iterator();
-
-        do {
-            newSource = new SelectionOperator(oldSource, iterator.next());
-            oldSource = newSource;
-        } while (iterator.hasNext());
-
-        return newSource;
     }
 
     public void updateSchema() {
