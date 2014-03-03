@@ -8,12 +8,10 @@ import net.sf.jsqlparser.expression.Expression;
 public class SelectionOperator implements Operator {
 
     Operator input;
-    ColumnSchema[] schema;
     Expression condition;
 
-    public SelectionOperator(Operator input, ColumnSchema[] schema, Expression condition) {
+    public SelectionOperator(Operator input, Expression condition) {
         this.input = input;
-        this.schema = schema;
         this.condition = condition;
     }
 
@@ -26,18 +24,17 @@ public class SelectionOperator implements Operator {
                 return null;
             }
 
-            if (condition != null) {
-                EvaluatorSelection eval = new EvaluatorSelection(schema, tuple);
-                condition.accept(eval);
-                try {
-            	eval.executeStack();
-                } catch (Datum.CastException e) {
-                    e.printStackTrace();
-                }
+            //todo modify logic to support one time instantiation
+            EvaluatorSelection eval = new EvaluatorSelection(input.getSchema(), tuple);
+            condition.accept(eval);
+            try {
+                eval.executeStack();
+            } catch (Datum.CastException e) {
+                e.printStackTrace();
+            }
 
-                if (!eval.getBool()) {
-                    tuple = null;
-                }
+            if (!eval.getBool()) {
+                tuple = null;
             }
 
         } while (tuple == null);
@@ -51,7 +48,7 @@ public class SelectionOperator implements Operator {
 
     @Override
     public ColumnSchema[] getSchema() {
-        return schema;
+        return input.getSchema();
     }
 
 }

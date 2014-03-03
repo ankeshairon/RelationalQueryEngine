@@ -26,8 +26,12 @@ public class MySelectVisitor implements SelectVisitor {
 
     @Override
     public void visit(PlainSelect statement) {
-        visitFromItems(statement);
-        applyWhereConditions(statement);
+        MyFromItemVisitor myFromItemVisitor = new MyFromItemVisitor(dataDir, tables, finalSchema);
+        Expression where = statement.getWhere();
+
+        visitFromItems(statement, myFromItemVisitor);
+        visitMultipleFromItems(statement, myFromItemVisitor, where);
+        applyWhereConditions(where);
         createItemsToProject(statement);
         orderTheResults(statement);
 
@@ -44,10 +48,9 @@ public class MySelectVisitor implements SelectVisitor {
         }
     }
 
-    private void applyWhereConditions(PlainSelect statement) {
-        Expression where = statement.getWhere();
+    private void applyWhereConditions(Expression where) {
         if (where != null) {
-            source = new SelectionOperator(source, source.getSchema(), where);
+            source = new SelectionOperator(source, where);
         }
     }
 
@@ -73,19 +76,21 @@ public class MySelectVisitor implements SelectVisitor {
         }
     }
 
-    private void visitFromItems(PlainSelect statement) {
-        MyFromItemVisitor myFromItemVisitor = new MyFromItemVisitor(dataDir, tables, finalSchema);
+    private void visitFromItems(PlainSelect statement, MyFromItemVisitor myFromItemVisitor) {
         FromItem fromItem = statement.getFromItem();
         fromItem.accept(myFromItemVisitor);
         source = myFromItemVisitor.source;
+    }
 
+    private void visitMultipleFromItems(PlainSelect statement, MyFromItemVisitor myFromItemVisitor, Expression where) {
+        FromItem fromItem;
         List<Join> joins = statement.getJoins();
         if (joins != null) {
             for (Join join : joins) {
                 fromItem = join.getRightItem();
                 fromItem.accept(myFromItemVisitor);
                 Operator newOper = myFromItemVisitor.source;
-                source = new JoinOperator(source, newOper);
+                source = new JoinOperator(source, newOper, where);
             }
         }
     }
