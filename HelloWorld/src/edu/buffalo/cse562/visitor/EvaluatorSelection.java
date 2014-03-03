@@ -85,6 +85,7 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
             String condition = symbols.pop();
             Datum dataLeft = popFromLiteralsStack();
             Datum dataRight = popFromLiteralsStack();
+
             if (dataRight.getType() == Datum.type.FLOAT || dataRight.getType() == Datum.type.LONG) {
                 Float floatLeft = dataLeft.toFLOAT();
                 Float floatRight = dataRight.toFLOAT();
@@ -142,16 +143,23 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
         }
     }
 
-    private void compressStack(String arithematicOperator) throws CastException {
+    private void compressStack(String arithmeticOperator) throws CastException {
 
-        Datum dataLeft;
-        Datum dataRight;
-        dataLeft = popFromLiteralsStack();
-        dataRight = popFromLiteralsStack();
+        Datum dataLeft = popFromLiteralsStack();
+        if(dataLeft == null){
+            undoPopFromLiteralsStack();
+            return;
+        }
+        Datum dataRight = popFromLiteralsStack();
+        if(dataRight == null){
+            undoPopFromLiteralsStack();
+            return;
+        }
+
         Float floatLeft = dataLeft.toFLOAT();
         Float floatRight = dataRight.toFLOAT();
 
-        switch (arithematicOperator) {
+        switch (arithmeticOperator) {
             case "*":
                 literals.push(getInstance(floatLeft * floatRight, dataRight.getType()));
                 break;
@@ -165,7 +173,7 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
                 literals.push(getInstance(floatLeft + floatRight, dataRight.getType()));
                 break;
             default:
-                throw new UnsupportedOperationException("Unexpected operation" + arithematicOperator);
+                throw new UnsupportedOperationException("Unexpected operation" + arithmeticOperator);
         }
     }
 
@@ -346,11 +354,17 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
         return literalsPop == null ? popValueFromColumnStack() : literalsPop;
     }
 
+    private void undoPopFromLiteralsStack() {
+        literals.push(null);
+    }
+
     private Datum popValueFromColumnStack() {
-        Column column = columnLiterals.pop();
-        for (int i = 0; i < schema.length; i++) {
-            if (schema[i].matchColumn(column)) {
-                return tuple[i];
+        if (tuple != null) {
+            Column column = columnLiterals.pop();
+            for (int i = 0; i < schema.length; i++) {
+                if (schema[i].matchColumn(column)) {
+                    return tuple[i];
+                }
             }
         }
         return null;
