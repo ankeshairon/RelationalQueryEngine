@@ -10,6 +10,7 @@ import net.sf.jsqlparser.statement.select.*;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -37,11 +38,10 @@ public class MySelectVisitor implements SelectVisitor {
     @Override
     public void visit(PlainSelect statement) {
         MyFromItemVisitor myFromItemVisitor = new MyFromItemVisitor(dataDir, tables, finalSchema);
-        Expression where = statement.getWhere();
 
         visitFromItems(statement, myFromItemVisitor);
-        visitMultipleFromItems(statement, myFromItemVisitor, where);
-        applyWhereConditions(where);
+        JoinMaker joinMaker = visitMultipleFromItems(statement, myFromItemVisitor);
+        applyWhereConditions(joinMaker, statement.getWhere());
         createItemsToProject(statement);
         orderTheResults(statement);
 
@@ -58,9 +58,13 @@ public class MySelectVisitor implements SelectVisitor {
         }
     }
 
-    private void applyWhereConditions(Expression where) {
-        if (where != null) {
-            source = new SelectionOperator(source, where);
+    private void applyWhereConditions(JoinMaker joinMaker, Expression where) {
+        if (joinMaker != null) {
+            if (joinMaker.getNonExclusiveConditionClauses() != null && !joinMaker.getNonExclusiveConditionClauses().isEmpty()) {
+                source = new SelectionOperator(source, joinMaker.getNonExclusiveConditionClauses());
+            }
+        } else if (where != null) {
+            source = new SelectionOperator(source, Arrays.asList(where));
         }
     }
 
@@ -92,8 +96,9 @@ public class MySelectVisitor implements SelectVisitor {
         source = myFromItemVisitor.source;
     }
 
-    private void visitMultipleFromItems(PlainSelect statement, MyFromItemVisitor myFromItemVisitor, Expression where) {
+    private JoinMaker visitMultipleFromItems(PlainSelect statement, MyFromItemVisitor myFromItemVisitor) {
         FromItem fromItem;
+        Expression where = statement.getWhere();
 
         List<Join> joins = statement.getJoins();
         if (joins != null) {
@@ -109,7 +114,9 @@ public class MySelectVisitor implements SelectVisitor {
 
             JoinMaker joinMaker = new JoinMaker(where, inputOperators);
             source = joinMaker.getOptimizedChainedJoinOperator();
+            return joinMaker;
         }
+        return null;
     }
 
 }

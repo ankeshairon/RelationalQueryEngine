@@ -38,8 +38,7 @@ public class DATE extends Datum {
 
     @Override
     public String toSTRING() {
-
-        return this.toString();
+        return s;
     }
 
     @Override

@@ -8,6 +8,7 @@ import net.sf.jsqlparser.schema.Column;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class CrossToJoinOptimizer {
 
@@ -24,6 +25,7 @@ public class CrossToJoinOptimizer {
             List<Column> columnsInConditionExpression = conditionColumnMap.get(condition);
             if (allColumnsForThisConditionAreOfThisTableOnly(columnsInConditionExpression, schema)) {
                 conditionalExpressions.add(condition);
+                conditionColumnMap.remove(condition);
             }
         }
         return conditionalExpressions;
@@ -45,5 +47,9 @@ public class CrossToJoinOptimizer {
             }
         }
         return true;
+    }
+
+    public Set<Expression> getNonExclusiveConditionClauses(){
+        return conditionColumnMap.keySet();
     }
 }

@@ -42,7 +42,7 @@ public class JoinMaker {
         for (Operator inputOperator : inputOperators) {
             List<Expression> exclusiveConditions = optimizer.getListOfConditionsExclusiveToThisTable(inputOperator.getSchema());
 
-            hybridOperator = getChainedSelectionOperator(inputOperator, exclusiveConditions);
+            hybridOperator = new SelectionOperator(inputOperator, exclusiveConditions);
             weightage = exclusiveConditions.size();
 
             operatorPriorityPairList.add(new HashMap.SimpleEntry<>(weightage, hybridOperator));
@@ -59,17 +59,9 @@ public class JoinMaker {
         });
     }
 
-    //todo replace multiple selection operators with one selection operator with multiple conditions
-    private Operator getChainedSelectionOperator(Operator oldSource, List<Expression> exclusiveConditionalExpressions) {
-        Operator newSource = oldSource;
-
-        for (Expression exclusiveConditionalExpression : exclusiveConditionalExpressions) {
-            newSource = new SelectionOperator(oldSource, exclusiveConditionalExpression);
-            oldSource = newSource;
-        }
-
-
-        return newSource;
+    public List<Expression> getNonExclusiveConditionClauses() {
+        List<Expression> nonExclusiveConditionClauses = new ArrayList<>();
+        nonExclusiveConditionClauses.addAll(optimizer.getNonExclusiveConditionClauses());
+        return nonExclusiveConditionClauses;
     }
-
 }

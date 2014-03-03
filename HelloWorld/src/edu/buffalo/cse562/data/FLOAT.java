@@ -1,7 +1,7 @@
 package edu.buffalo.cse562.data;
 
 public class FLOAT extends Datum {
-    Float f;
+    private Float f;
 
     public FLOAT(String s) {
         this.f = Float.parseFloat(s);
