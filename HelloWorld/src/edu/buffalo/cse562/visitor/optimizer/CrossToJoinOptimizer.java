@@ -5,10 +5,7 @@ import edu.buffalo.cse562.visitor.CrossToJoinOptimizationEvaluator;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.schema.Column;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class CrossToJoinOptimizer {
 
@@ -21,11 +18,14 @@ public class CrossToJoinOptimizer {
     public List<Expression> getListOfConditionsExclusiveToThisTable(ColumnSchema[] schema) {
         List<Expression> conditionalExpressions = new ArrayList<>();
 
-        for (Expression condition : conditionColumnMap.keySet()) {
+        Iterator<Expression> iterator = conditionColumnMap.keySet().iterator();
+        Expression condition;
+        while (iterator.hasNext()) {
+            condition = iterator.next();
             List<Column> columnsInConditionExpression = conditionColumnMap.get(condition);
             if (allColumnsForThisConditionAreOfThisTableOnly(columnsInConditionExpression, schema)) {
                 conditionalExpressions.add(condition);
-                conditionColumnMap.remove(condition);
+                iterator.remove();
             }
         }
         return conditionalExpressions;
@@ -33,20 +33,20 @@ public class CrossToJoinOptimizer {
 
     private boolean allColumnsForThisConditionAreOfThisTableOnly(List<Column> columnsInConditionExpression, ColumnSchema[] schema) {
         for (Column columnInCondition : columnsInConditionExpression) {
-            if (!isColumnInConditionOfThisTableOnly(columnInCondition, schema)) {
+            if (!isColumnInConditionOfThisTable(columnInCondition, schema)) {
                 return false;
             }
         }
         return true;
     }
 
-    private boolean isColumnInConditionOfThisTableOnly(Column columnInCondition, ColumnSchema[] schema) {
+    private boolean isColumnInConditionOfThisTable(Column columnInCondition, ColumnSchema[] schema) {
         for (ColumnSchema columnSchema : schema) {
-            if (!columnSchema.matchColumn(columnInCondition)) {
-                return false;
+            if (columnSchema.matchColumn(columnInCondition)) {
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     public Set<Expression> getNonExclusiveConditionClauses(){

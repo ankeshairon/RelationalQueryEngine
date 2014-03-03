@@ -6,6 +6,7 @@ import net.sf.jsqlparser.expression.operators.arithmetic.Division;
 import net.sf.jsqlparser.expression.operators.arithmetic.Multiplication;
 import net.sf.jsqlparser.expression.operators.arithmetic.Subtraction;
 import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
+import net.sf.jsqlparser.expression.operators.conditional.OrExpression;
 import net.sf.jsqlparser.expression.operators.relational.*;
 import net.sf.jsqlparser.schema.Column;
 
@@ -16,11 +17,14 @@ import java.util.Map;
 
 public class CrossToJoinOptimizationEvaluator extends AbstractExpressionVisitor {
     private Map<Expression, List<Column>> conditionColumnMap;
-
     private List<Column> currentColumnListToSave;
 
+    /*
+    * This class is to extract a map of (expressions & columns involved in that expression) in the where clause
+    * */
     public CrossToJoinOptimizationEvaluator(Expression whereExpression) {
         conditionColumnMap = new HashMap<>();
+        currentColumnListToSave = new ArrayList<>();
         whereExpression.accept(this);
     }
 
@@ -29,17 +33,25 @@ public class CrossToJoinOptimizationEvaluator extends AbstractExpressionVisitor 
     }
 
     @Override
-    public void visit(AndExpression arg0) {
-        currentColumnListToSave = new ArrayList<>();
-        for (Expression expression : new Expression[]{arg0.getLeftExpression(), arg0.getRightExpression()}) {
-            if (!(expression.toString().contains("AND")) || expression.toString().contains("OR")) {
-                expression.accept(this);
-                if (!currentColumnListToSave.isEmpty()) {
-                    conditionColumnMap.put(expression, currentColumnListToSave);
-                    currentColumnListToSave = new ArrayList<>();
-                }
-            }
+    public void visit(AndExpression binaryExpression) {
+        Expression rightExpression = binaryExpression.getRightExpression();
+        rightExpression.accept(this);
+        if (!currentColumnListToSave.isEmpty()) {
+            conditionColumnMap.put(rightExpression, currentColumnListToSave);
+            currentColumnListToSave = new ArrayList<>();
         }
+
+        binaryExpression.getLeftExpression().accept(this);
+        if (!currentColumnListToSave.isEmpty()) {
+            conditionColumnMap.put(binaryExpression.getLeftExpression(), currentColumnListToSave);
+            currentColumnListToSave = new ArrayList<>();
+        }
+    }
+
+    @Override
+    public void visit(OrExpression arg0) {
+        //todo add smarter logic. Setting this null at the moment to avoid errors going undetected
+        conditionColumnMap = null;
     }
 
     @Override

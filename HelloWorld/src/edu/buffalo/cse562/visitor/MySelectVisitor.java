@@ -60,8 +60,9 @@ public class MySelectVisitor implements SelectVisitor {
 
     private void applyWhereConditions(JoinMaker joinMaker, Expression where) {
         if (joinMaker != null) {
-            if (joinMaker.getNonExclusiveConditionClauses() != null && !joinMaker.getNonExclusiveConditionClauses().isEmpty()) {
-                source = new SelectionOperator(source, joinMaker.getNonExclusiveConditionClauses());
+            List<Expression> nonExclusiveConditionClauses = joinMaker.getNonExclusiveConditionClauses();
+            if (nonExclusiveConditionClauses != null && !nonExclusiveConditionClauses.isEmpty()) {
+                source = new SelectionOperator(source, nonExclusiveConditionClauses);
             }
         } else if (where != null) {
             source = new SelectionOperator(source, Arrays.asList(where));
