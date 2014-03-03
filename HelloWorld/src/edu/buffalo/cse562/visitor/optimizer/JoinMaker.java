@@ -3,7 +3,6 @@ package edu.buffalo.cse562.visitor.optimizer;
 import edu.buffalo.cse562.operator.JoinOperator;
 import edu.buffalo.cse562.operator.Operator;
 import edu.buffalo.cse562.operator.SelectionOperator;
-import javafx.util.Pair;
 import net.sf.jsqlparser.expression.Expression;
 
 import java.util.*;
@@ -20,13 +19,13 @@ public class JoinMaker {
 
 
     public Operator getOptimizedChainedJoinOperator() {
-        List<Pair<Integer, Operator>> operatorPriorityPairList = convertScanToSelectionOperators();
+        List<Map.Entry<Integer, Operator>> operatorPriorityPairList = convertScanToSelectionOperators();
         sortInDecreasingOrderOrNoOfConditions(operatorPriorityPairList);
         return chainSelectionIntoAJoinOperator(operatorPriorityPairList);
     }
 
-    private Operator chainSelectionIntoAJoinOperator(List<Pair<Integer, Operator>> operatorPriorityPairList) {
-        Iterator<Pair<Integer, Operator>> iterator = operatorPriorityPairList.iterator();
+    private Operator chainSelectionIntoAJoinOperator(List<Map.Entry<Integer, Operator>> operatorPriorityPairList) {
+        Iterator<Map.Entry<Integer, Operator>> iterator = operatorPriorityPairList.iterator();
         Operator result = iterator.next().getValue();
         Operator o;
         do {
@@ -36,8 +35,8 @@ public class JoinMaker {
         return result;
     }
 
-    private List<Pair<Integer, Operator>> convertScanToSelectionOperators() {
-        List<Pair<Integer, Operator>> operatorPriorityPairList = new ArrayList<>();
+    private List<Map.Entry<Integer, Operator>> convertScanToSelectionOperators() {
+        List<Map.Entry<Integer, Operator>> operatorPriorityPairList = new ArrayList<>();
         Operator hybridOperator;
         Integer weightage;
         for (Operator inputOperator : inputOperators) {
@@ -46,16 +45,16 @@ public class JoinMaker {
             hybridOperator = getChainedSelectionOperator(inputOperator, exclusiveConditions);
             weightage = exclusiveConditions.size();
 
-            operatorPriorityPairList.add(new Pair<>(weightage, hybridOperator));
+            operatorPriorityPairList.add(new HashMap.SimpleEntry<>(weightage, hybridOperator));
         }
         return operatorPriorityPairList;
     }
 
-    private void sortInDecreasingOrderOrNoOfConditions(List<Pair<Integer, Operator>> operatorPriorityPairList) {
-        Collections.sort(operatorPriorityPairList, new Comparator<Pair<Integer, Operator>>() {
+    private void sortInDecreasingOrderOrNoOfConditions(List<Map.Entry<Integer, Operator>> operatorPriorityPairList) {
+        Collections.sort(operatorPriorityPairList, new Comparator<Map.Entry<Integer, Operator>>() {
             @Override
-            public int compare(Pair<Integer, Operator> p1, Pair<Integer, Operator> p2) {
-                return p2.getKey().compareTo(p1.getKey());
+            public int compare(Map.Entry<Integer, Operator> e1, Map.Entry<Integer, Operator> e2) {
+                return e2.getKey().compareTo(e1.getKey());
             }
         });
     }
