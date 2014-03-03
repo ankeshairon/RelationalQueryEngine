@@ -105,6 +105,18 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
                     case "<=":
                         if (floatLeft > floatRight) bool = false;
                         break;
+                    case "*":
+                        literals.push(getInstance(floatLeft * floatRight, dataRight.getType()));
+                        break;
+                    case "/":
+                        literals.push(getInstance(floatLeft / floatRight, dataRight.getType()));
+                        break;
+                    case "-":
+                        literals.push(getInstance(floatLeft - floatRight, dataRight.getType()));
+                        break;
+                    case "+":
+                        literals.push(getInstance(floatLeft + floatRight, dataRight.getType()));
+                        break;
                     default:
                         throw new UnsupportedOperationException("Malformed stack exception");
                 }
@@ -148,11 +160,13 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
         Datum dataLeft = popFromLiteralsStack();
         if(dataLeft == null){
             undoPopFromLiteralsStack();
+            symbols.push(arithmeticOperator);
             return;
         }
         Datum dataRight = popFromLiteralsStack();
         if(dataRight == null){
             undoPopFromLiteralsStack();
+            symbols.push(arithmeticOperator);
             return;
         }
 
