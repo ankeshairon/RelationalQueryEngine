@@ -12,6 +12,17 @@ public class TupleComparator implements Comparator<Datum[]> {
     private Integer currentIndex;
     private LinkedHashMap<Integer, Boolean> indexesOfColumnsToSortOn;
 
+    /**
+     * Takes as a constructor argument, a LinkedHashMap<Integer, Boolean>
+     * where each entry is an index on which we need to sort and the boolean is to specify Asc or Desc
+     *
+     * e.g. to sort on index 1 in Asc order & in index 3 in desc order, the input map will
+     * have entries like
+     *    {
+     *      (1, true),
+     *      (3, false)
+     *    }
+     */
     public TupleComparator(LinkedHashMap<Integer, Boolean> indexesOfColumnsToSortOn) {
         this.indexesOfColumnsToSortOn = indexesOfColumnsToSortOn;
         indexIterator = indexesOfColumnsToSortOn.keySet().iterator();
