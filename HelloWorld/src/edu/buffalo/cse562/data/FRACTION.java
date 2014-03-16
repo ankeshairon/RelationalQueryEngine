@@ -30,4 +30,10 @@ public class FRACTION extends FLOAT {
     public void setDenominator(float denominator) {
         this.denominator = denominator;
     }
+
+    @Override
+    public int compareTo(Object o) {
+        FRACTION that = (FRACTION) o;
+        return ((Float) (numerator / denominator)).compareTo(that.numerator / that.denominator);
+    }
 }

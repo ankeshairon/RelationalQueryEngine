@@ -34,7 +34,7 @@ public class LONG extends Datum {
 
     @Override
     public String toSTRING() {
-        return null;
+        return Long.toString(l);
     }
 
     @Override

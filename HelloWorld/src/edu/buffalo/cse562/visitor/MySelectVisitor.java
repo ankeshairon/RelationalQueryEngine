@@ -3,11 +3,14 @@ package edu.buffalo.cse562.visitor;
 
 import edu.buffalo.cse562.operator.*;
 import edu.buffalo.cse562.schema.ColumnSchema;
+import edu.buffalo.cse562.visitor.optimizer.JoinMaker;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.statement.create.table.ColumnDefinition;
 import net.sf.jsqlparser.statement.select.*;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,13 +28,20 @@ public class MySelectVisitor implements SelectVisitor {
     }
 
     @Override
+    public void visit(Union stmnt) {
+        List<PlainSelect> plainSelects = stmnt.getPlainSelects();
+        for (PlainSelect plainSelect : plainSelects) {
+            visit(plainSelect);
+        }
+    }
+
+    @Override
     public void visit(PlainSelect statement) {
         MyFromItemVisitor myFromItemVisitor = new MyFromItemVisitor(dataDir, tables, finalSchema);
-        Expression where = statement.getWhere();
 
         visitFromItems(statement, myFromItemVisitor);
-        visitMultipleFromItems(statement, myFromItemVisitor, where);
-        applyWhereConditions(where);
+        JoinMaker joinMaker = visitMultipleFromItems(statement, myFromItemVisitor);
+        applyWhereConditions(joinMaker, statement.getWhere());
         createItemsToProject(statement);
         orderTheResults(statement);
 
@@ -48,9 +58,14 @@ public class MySelectVisitor implements SelectVisitor {
         }
     }
 
-    private void applyWhereConditions(Expression where) {
-        if (where != null) {
-            source = new SelectionOperator(source, where);
+    private void applyWhereConditions(JoinMaker joinMaker, Expression where) {
+        if (joinMaker != null) {
+            List<Expression> nonExclusiveConditionClauses = joinMaker.getNonExclusiveConditionClauses();
+            if (nonExclusiveConditionClauses != null && !nonExclusiveConditionClauses.isEmpty()) {
+                source = new SelectionOperator(source, nonExclusiveConditionClauses);
+            }
+        } else if (where != null) {
+            source = new SelectionOperator(source, Arrays.asList(where));
         }
     }
 
@@ -82,25 +97,27 @@ public class MySelectVisitor implements SelectVisitor {
         source = myFromItemVisitor.source;
     }
 
-    private void visitMultipleFromItems(PlainSelect statement, MyFromItemVisitor myFromItemVisitor, Expression where) {
+    private JoinMaker visitMultipleFromItems(PlainSelect statement, MyFromItemVisitor myFromItemVisitor) {
         FromItem fromItem;
+        Expression where = statement.getWhere();
+
         List<Join> joins = statement.getJoins();
         if (joins != null) {
+            List<Operator> inputOperators = new ArrayList<>();
+            inputOperators.add(source);
+
             for (Join join : joins) {
                 fromItem = join.getRightItem();
                 fromItem.accept(myFromItemVisitor);
-                Operator newOper = myFromItemVisitor.source;
-                source = new JoinOperator(source, newOper, where);
+                inputOperators.add(myFromItemVisitor.source);
+//                source = new JoinOperator(source, newOper, where);
             }
-        }
-    }
 
-    @Override
-    public void visit(Union stmnt) {
-        List<PlainSelect> plainSelects = stmnt.getPlainSelects();
-        for (PlainSelect plainSelect : plainSelects) {
-            visit(plainSelect);
+            JoinMaker joinMaker = new JoinMaker(where, inputOperators);
+            source = joinMaker.getOptimizedChainedJoinOperator();
+            return joinMaker;
         }
+        return null;
     }
 
 }

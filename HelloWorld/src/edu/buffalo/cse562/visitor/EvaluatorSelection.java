@@ -16,20 +16,24 @@ import net.sf.jsqlparser.expression.operators.relational.*;
 import net.sf.jsqlparser.schema.Column;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.Stack;
 
 import static edu.buffalo.cse562.data.DatumUtilities.getInstance;
 
 public class EvaluatorSelection extends AbstractExpressionVisitor {
 
-
+    Stack<Column> columnLiterals;
     Stack<Datum> literals;
     Stack<String> symbols;
-    private boolean bool = true;
+    private boolean bool;
     ColumnSchema[] schema;
     Datum[] tuple;
+    final Stack<Datum> persistentLiterals;
+    final Stack<String> persistentSymbols;
+    final Stack<Column> persistentColumnLiterals;
 
-    public EvaluatorSelection(ColumnSchema[] schema, Datum[] tuple) {
+/*    public EvaluatorSelection(ColumnSchema[] schema, Datum[] tuple) {
         this.schema = schema;
         this.tuple = tuple;
         this.literals = new Stack<>();
@@ -42,25 +46,46 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
         this.tuple = tuple;
         this.literals = literals;
         this.symbols = symbols;
+    }*/
+
+    public EvaluatorSelection(ColumnSchema[] schema, List<Expression> conditions) {
+        this.schema = schema;
+        symbols = new Stack<>();
+        literals = new Stack<>();
+        columnLiterals = new Stack<>();
+        bool = true;
+        for (Expression condition : conditions) {
+            condition.accept(this);
+        }
+        persistentSymbols = symbols;
+        persistentLiterals = literals;
+        persistentColumnLiterals = columnLiterals;
     }
+
 
     public boolean getBool() {
         return bool;
     }
 
-    public void executeStack() throws CastException {
+    public void executeStack(Datum[] tuple) throws CastException {
+        symbols = (Stack<String>) persistentSymbols.clone();
+        literals = (Stack<Datum>) persistentLiterals.clone();
+        columnLiterals = (Stack<Column>) persistentColumnLiterals.clone();
+        this.tuple = tuple;
+        bool = true;
+        executeStack();
+    }
+
+    private void executeStack() throws CastException {
         /*
          * Execute Stack is not OR operator safe
 		 */
 
-        String condition;
-        Datum dataLeft;
-        Datum dataRight;
+        while (!symbols.empty()) {
+            String condition = symbols.pop();
+            Datum dataLeft = popFromLiteralsStack();
+            Datum dataRight = popFromLiteralsStack();
 
-        while (!literals.empty() && !symbols.empty()) {
-            condition = symbols.pop();
-            dataLeft = literals.pop();
-            dataRight = literals.pop();
             if (dataRight.getType() == Datum.type.FLOAT || dataRight.getType() == Datum.type.LONG) {
                 Float floatLeft = dataLeft.toFLOAT();
                 Float floatRight = dataRight.toFLOAT();
@@ -79,6 +104,18 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
                         break;
                     case "<=":
                         if (floatLeft > floatRight) bool = false;
+                        break;
+                    case "*":
+                        literals.push(getInstance(floatLeft * floatRight, dataRight.getType()));
+                        break;
+                    case "/":
+                        literals.push(getInstance(floatLeft / floatRight, dataRight.getType()));
+                        break;
+                    case "-":
+                        literals.push(getInstance(floatLeft - floatRight, dataRight.getType()));
+                        break;
+                    case "+":
+                        literals.push(getInstance(floatLeft + floatRight, dataRight.getType()));
                         break;
                     default:
                         throw new UnsupportedOperationException("Malformed stack exception");
@@ -117,29 +154,40 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
             }
         }
     }
-    
-    private void compressStack(String arithematicOperator) throws CastException{
-    	
-        Datum dataLeft;
-        Datum dataRight;
-        dataLeft = literals.pop();
-        dataRight = literals.pop();
+
+    private void compressStack(String arithmeticOperator) throws CastException {
+
+        Datum dataLeft = popFromLiteralsStack();
+        if(dataLeft == null){
+            undoPopFromLiteralsStack();
+            symbols.push(arithmeticOperator);
+            return;
+        }
+        Datum dataRight = popFromLiteralsStack();
+        if(dataRight == null){
+            undoPopFromLiteralsStack();
+            symbols.push(arithmeticOperator);
+            return;
+        }
+
         Float floatLeft = dataLeft.toFLOAT();
         Float floatRight = dataRight.toFLOAT();
-    
-        switch (arithematicOperator) {
-        case "*":
-            literals.push(getInstance(floatLeft * floatRight, dataRight.getType()));
-            break;
-        case "/":
-            literals.push(getInstance(floatLeft / floatRight, dataRight.getType()));
-            break;
-        case "-":
-            literals.push(getInstance(floatLeft - floatRight, dataRight.getType()));
-            break;
-        case "+":
-            literals.push(getInstance(floatLeft + floatRight, dataRight.getType()));
-            break;    	
+
+        switch (arithmeticOperator) {
+            case "*":
+                literals.push(getInstance(floatLeft * floatRight, dataRight.getType()));
+                break;
+            case "/":
+                literals.push(getInstance(floatLeft / floatRight, dataRight.getType()));
+                break;
+            case "-":
+                literals.push(getInstance(floatLeft - floatRight, dataRight.getType()));
+                break;
+            case "+":
+                literals.push(getInstance(floatLeft + floatRight, dataRight.getType()));
+                break;
+            default:
+                throw new UnsupportedOperationException("Unexpected operation" + arithmeticOperator);
         }
     }
 
@@ -149,72 +197,72 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
 
     @Override
     public void visit(Addition arg0) {
-
-//        symbols.push("+");
         Expression leftExpression = arg0.getLeftExpression();
         Expression rightExpression = arg0.getRightExpression();
         rightExpression.accept(this);
         leftExpression.accept(this);
-        
-        try{
-        	this.compressStack("+");
-        }catch(CastException e) {e.printStackTrace();}
+
+        try {
+            this.compressStack("+");
+        } catch (CastException e) {
+            e.printStackTrace();
+        }
 
     }
 
     @Override
     public void visit(Division arg0) {
-//        symbols.push("/");
         Expression leftExpression = arg0.getLeftExpression();
         Expression rightExpression = arg0.getRightExpression();
 
         rightExpression.accept(this);
         leftExpression.accept(this);
-        
-        try{
-        	this.compressStack("/");
-        }catch(CastException e) {e.printStackTrace();}
+
+        try {
+            this.compressStack("/");
+        } catch (CastException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void visit(Multiplication arg0) {
- //       symbols.push("*");
         Expression leftExpression = arg0.getLeftExpression();
         Expression rightExpression = arg0.getRightExpression();
 
         rightExpression.accept(this);
         leftExpression.accept(this);
-        
-        try{
-        	this.compressStack("*");
-        }catch(CastException e) {e.printStackTrace();}
+
+        try {
+            this.compressStack("*");
+        } catch (CastException e) {
+            e.printStackTrace();
+        }
 
     }
 
     @Override
     public void visit(Subtraction arg0) {
-  //      symbols.push("-");
         Expression leftExpression = arg0.getLeftExpression();
         Expression rightExpression = arg0.getRightExpression();
 
         rightExpression.accept(this);
         leftExpression.accept(this);
 
-        try{
-        	this.compressStack("-");
-        }catch(CastException e) {e.printStackTrace();}
+        try {
+            this.compressStack("-");
+        } catch (CastException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void visit(AndExpression arg0) {
-//        symbols.push("AND");
         Expression leftExpression = arg0.getLeftExpression();
         Expression rightExpression = arg0.getRightExpression();
 
         rightExpression.accept(this);
         leftExpression.accept(this);
-
-        
     }
 
     @Override
@@ -300,16 +348,9 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
 
     @Override
     public void visit(Column column) {
-        Datum columnTupleVal;
-        int count = 0;
-        for (ColumnSchema col : schema) {
-            if (col.matchColumn(column)) {
-                columnTupleVal = tuple[count];
-                literals.push(columnTupleVal);
-                break;
-            }
-            count++;
-        }
+        literals.push(null);
+        columnLiterals.push(column);
+//        popValueFromColumnStack(column);
     }
 
     @Override
@@ -320,5 +361,26 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
         } else {
             super.visit(function);
         }
+    }
+
+    private Datum popFromLiteralsStack() {
+        Datum literalsPop = literals.pop();
+        return literalsPop == null ? popValueFromColumnStack() : literalsPop;
+    }
+
+    private void undoPopFromLiteralsStack() {
+        literals.push(null);
+    }
+
+    private Datum popValueFromColumnStack() {
+        if (tuple != null) {
+            Column column = columnLiterals.pop();
+            for (int i = 0; i < schema.length; i++) {
+                if (schema[i].matchColumn(column)) {
+                    return tuple[i];
+                }
+            }
+        }
+        return null;
     }
 }

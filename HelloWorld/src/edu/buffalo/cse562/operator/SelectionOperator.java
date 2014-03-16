@@ -5,14 +5,16 @@ import edu.buffalo.cse562.schema.ColumnSchema;
 import edu.buffalo.cse562.visitor.EvaluatorSelection;
 import net.sf.jsqlparser.expression.Expression;
 
+import java.util.List;
+
 public class SelectionOperator implements Operator {
 
     Operator input;
-    Expression condition;
+    EvaluatorSelection evaluatorSelection;
 
-    public SelectionOperator(Operator input, Expression condition) {
+    public SelectionOperator(Operator input, List<Expression> conditions) {
         this.input = input;
-        this.condition = condition;
+        evaluatorSelection = new EvaluatorSelection(input.getSchema(), conditions);
     }
 
     @Override
@@ -24,16 +26,13 @@ public class SelectionOperator implements Operator {
                 return null;
             }
 
-            //todo modify logic to support one time instantiation
-            EvaluatorSelection eval = new EvaluatorSelection(input.getSchema(), tuple);
-            condition.accept(eval);
             try {
-                eval.executeStack();
+                evaluatorSelection.executeStack(tuple);
             } catch (Datum.CastException e) {
                 e.printStackTrace();
             }
 
-            if (!eval.getBool()) {
+            if (!evaluatorSelection.getBool()) {
                 tuple = null;
             }
 
