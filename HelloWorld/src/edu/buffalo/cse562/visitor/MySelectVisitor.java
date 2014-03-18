@@ -110,7 +110,6 @@ public class MySelectVisitor implements SelectVisitor {
                 fromItem = join.getRightItem();
                 fromItem.accept(myFromItemVisitor);
                 inputOperators.add(myFromItemVisitor.source);
-//                source = new JoinOperator(source, newOper, where);
             }
 
             JoinMaker joinMaker = new JoinMaker(where, inputOperators);
