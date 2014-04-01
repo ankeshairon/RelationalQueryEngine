@@ -93,6 +93,10 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
                     case "=":
                         bool = floatLeft.equals(floatRight);
                         break;
+                    case "<>":
+                    	bool = floatLeft.equals(floatRight);
+                    	bool = !bool;
+                    	break;
                     case ">":
                         if (floatLeft <= floatRight) bool = false;
                         break;
@@ -276,6 +280,17 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
     }
 
     @Override
+	public void visit(NotEqualsTo arg0) {
+		symbols.push("<>");
+        Expression leftExpression = arg0.getLeftExpression();
+        Expression rightExpression = arg0.getRightExpression();
+        
+        rightExpression.accept(this);
+        leftExpression.accept(this);
+	}
+
+
+	@Override
     public void visit(GreaterThan arg0) {
         symbols.push(">");
         Expression leftExpression = arg0.getLeftExpression();

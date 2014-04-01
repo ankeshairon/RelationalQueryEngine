@@ -80,11 +80,21 @@ public class CrossToJoinOptimizationEvaluator extends AbstractExpressionVisitor 
     }
 
     @Override
+	public void visit(Parenthesis arg0) {
+    	arg0.getExpression().accept(this);
+    }
+
+	@Override
     public void visit(EqualsTo arg0) {
         checkForColumns(arg0);
     }
 
     @Override
+	public void visit(NotEqualsTo arg0) {
+    	checkForColumns(arg0);
+	}
+
+	@Override
     public void visit(GreaterThan arg0) {
         checkForColumns(arg0);
     }
