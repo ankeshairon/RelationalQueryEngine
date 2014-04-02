@@ -32,7 +32,7 @@ public class SelectionOperator implements Operator {
                 e.printStackTrace();
             }
 
-            if (!evaluatorSelection.getBool()) {
+            if (!evaluatorSelection.getResult()) {
                 tuple = null;
             }
 

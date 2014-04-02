@@ -18,7 +18,7 @@ import java.util.Map;
 public class CrossToJoinOptimizationEvaluator extends AbstractExpressionVisitor {
     private Map<Expression, List<Column>> conditionColumnMap;
     private List<Column> currentColumnListToSave;
-    private Boolean isExecutingOr;
+    private int pendingOrs;
 
     /*
     * This class is to extract a map of (expressions & columns involved in that expression) in the where clause
@@ -26,7 +26,7 @@ public class CrossToJoinOptimizationEvaluator extends AbstractExpressionVisitor 
     public CrossToJoinOptimizationEvaluator(Expression whereExpression) {
         conditionColumnMap = new HashMap<>();
         currentColumnListToSave = new ArrayList<>();
-        isExecutingOr = false;
+        pendingOrs = 0;
         whereExpression.accept(this);
     }
 
@@ -41,21 +41,21 @@ public class CrossToJoinOptimizationEvaluator extends AbstractExpressionVisitor 
 
     @Override
     public void visit(OrExpression binaryExpression) {
-        isExecutingOr = true;
+        ++pendingOrs;
         visitBinaryExpression(binaryExpression);
-        isExecutingOr = false;
+        --pendingOrs;
         saveExpressionsCollectedForCondition(binaryExpression);
     }
 
     private void visitBinaryExpression(BinaryExpression binaryExpression) {
         Expression rightExpression = binaryExpression.getRightExpression();
         rightExpression.accept(this);
-        if (!currentColumnListToSave.isEmpty() && !isExecutingOr) {
+        if (!currentColumnListToSave.isEmpty() && (pendingOrs==0)) {
             saveExpressionsCollectedForCondition(rightExpression);
         }
 
         binaryExpression.getLeftExpression().accept(this);
-        if (!currentColumnListToSave.isEmpty() && !isExecutingOr) {
+        if (!currentColumnListToSave.isEmpty() && (pendingOrs==0)) {
             saveExpressionsCollectedForCondition(binaryExpression.getLeftExpression());
         }
     }
