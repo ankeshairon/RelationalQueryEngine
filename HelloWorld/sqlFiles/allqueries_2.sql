@@ -23,6 +23,7 @@ CREATE TABLE ORDERS (
         orderkey       INT,
         custkey        INT,
         orderstatus    CHAR(1),
+        totalprice     DECIMAL,
         orderdate      DATE,
         orderpriority  VARCHAR(15),
         clerk          VARCHAR(15),
