@@ -1,0 +1,17 @@
+- OR in optimizer & evaluator
+- limit by clause
+- min operator
+
+- middle layer
+
+- hybrid hash join
+- sort merge join
+- external sort
+
+- ordering of where expression based on string comparison
+
+Queries -
+- tpch 7
+- tpch 10
+- tpch 12
+- tpch 16

@@ -18,6 +18,7 @@ import java.util.Map;
 public class CrossToJoinOptimizationEvaluator extends AbstractExpressionVisitor {
     private Map<Expression, List<Column>> conditionColumnMap;
     private List<Column> currentColumnListToSave;
+    private Boolean isExecutingOr;
 
     /*
     * This class is to extract a map of (expressions & columns involved in that expression) in the where clause
@@ -25,6 +26,7 @@ public class CrossToJoinOptimizationEvaluator extends AbstractExpressionVisitor 
     public CrossToJoinOptimizationEvaluator(Expression whereExpression) {
         conditionColumnMap = new HashMap<>();
         currentColumnListToSave = new ArrayList<>();
+        isExecutingOr = false;
         whereExpression.accept(this);
     }
 
@@ -34,24 +36,38 @@ public class CrossToJoinOptimizationEvaluator extends AbstractExpressionVisitor 
 
     @Override
     public void visit(AndExpression binaryExpression) {
-        Expression rightExpression = binaryExpression.getRightExpression();
-        rightExpression.accept(this);
-        if (!currentColumnListToSave.isEmpty()) {
-            conditionColumnMap.put(rightExpression, currentColumnListToSave);
-            currentColumnListToSave = new ArrayList<>();
-        }
-
-        binaryExpression.getLeftExpression().accept(this);
-        if (!currentColumnListToSave.isEmpty()) {
-            conditionColumnMap.put(binaryExpression.getLeftExpression(), currentColumnListToSave);
-            currentColumnListToSave = new ArrayList<>();
-        }
+        visitBinaryExpression(binaryExpression);
     }
 
     @Override
-    public void visit(OrExpression arg0) {
-        //todo add smarter logic. Setting this null at the moment to avoid errors going undetected
-        conditionColumnMap = null;
+    public void visit(OrExpression binaryExpression) {
+        isExecutingOr = true;
+        visitBinaryExpression(binaryExpression);
+        isExecutingOr = false;
+        saveExpressionsCollectedForCondition(binaryExpression);
+    }
+
+    private void visitBinaryExpression(BinaryExpression binaryExpression) {
+        Expression rightExpression = binaryExpression.getRightExpression();
+        rightExpression.accept(this);
+        if (!currentColumnListToSave.isEmpty() && !isExecutingOr) {
+            saveExpressionsCollectedForCondition(rightExpression);
+        }
+
+        binaryExpression.getLeftExpression().accept(this);
+        if (!currentColumnListToSave.isEmpty() && !isExecutingOr) {
+            saveExpressionsCollectedForCondition(binaryExpression.getLeftExpression());
+        }
+    }
+
+    private void saveExpressionsCollectedForCondition(Expression binaryExpression) {
+        conditionColumnMap.put(binaryExpression, currentColumnListToSave);
+        currentColumnListToSave = new ArrayList<>();
+    }
+
+    @Override
+    public void visit(Parenthesis parenthesizedExpression) {
+        parenthesizedExpression.getExpression().accept(this);
     }
 
     @Override
@@ -77,11 +93,6 @@ public class CrossToJoinOptimizationEvaluator extends AbstractExpressionVisitor 
     @Override
     public void visit(Subtraction arg0) {
         checkForColumns(arg0);
-    }
-
-    @Override
-	public void visit(Parenthesis arg0) {
-    	arg0.getExpression().accept(this);
     }
 
 	@Override

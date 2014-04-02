@@ -33,21 +33,6 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
     final Stack<String> persistentSymbols;
     final Stack<Column> persistentColumnLiterals;
 
-/*    public EvaluatorSelection(ColumnSchema[] schema, Datum[] tuple) {
-        this.schema = schema;
-        this.tuple = tuple;
-        this.literals = new Stack<>();
-        this.symbols = new Stack<>();
-        bool = true;
-    }
-
-    public EvaluatorSelection(ColumnSchema[] schema, Datum[] tuple, Stack<Datum> literals, Stack<String> symbols) {
-        this.schema = schema;
-        this.tuple = tuple;
-        this.literals = literals;
-        this.symbols = symbols;
-    }*/
-
     public EvaluatorSelection(ColumnSchema[] schema, List<Expression> conditions) {
         this.schema = schema;
         symbols = new Stack<>();
