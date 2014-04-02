@@ -44,7 +44,13 @@ public class MySelectVisitor implements SelectVisitor {
         applyWhereConditions(joinMaker, statement.getWhere());
         createItemsToProject(statement);
         orderTheResults(statement);
+        limitSize(statement);
+    }
 
+    private void limitSize(PlainSelect statement) {
+        if (statement.getLimit() != null) {
+            source = new LimitOperator(source, statement.getLimit());
+        }
     }
 
     private void orderTheResults(PlainSelect statement) {
