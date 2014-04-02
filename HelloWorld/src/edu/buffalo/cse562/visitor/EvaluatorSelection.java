@@ -12,6 +12,7 @@ import net.sf.jsqlparser.expression.operators.arithmetic.Division;
 import net.sf.jsqlparser.expression.operators.arithmetic.Multiplication;
 import net.sf.jsqlparser.expression.operators.arithmetic.Subtraction;
 import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
+import net.sf.jsqlparser.expression.operators.conditional.OrExpression;
 import net.sf.jsqlparser.expression.operators.relational.*;
 import net.sf.jsqlparser.schema.Column;
 
@@ -255,6 +256,12 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
     }
 
     @Override
+	public void visit(OrExpression arg0) {
+		System.out.println(arg0);
+	}
+
+
+	@Override
     public void visit(EqualsTo arg0) {
         symbols.push("=");
         Expression leftExpression = arg0.getLeftExpression();
