@@ -21,12 +21,17 @@ public class Main {
 
         int i;
         File dataDir = null;
+        File swapDir = null;
         ArrayList<File> sqlFiles = new ArrayList<>();
         for (i = 0; i < args.length; i++) {
             if (args[i].equals("--data")) {
                 dataDir = new File(args[i + 1]);
                 i++;
-            } else {
+            } else if (args[i].equals("--swap")) {
+            	swapDir = new File(args[i + 1]);
+            	i++;
+            }
+            else {
                 sqlFiles.add(new File(args[i]));
             }
         }
