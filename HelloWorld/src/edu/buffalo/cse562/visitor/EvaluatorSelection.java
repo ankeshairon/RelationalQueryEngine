@@ -151,8 +151,11 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
                     case "<=":
                         if (stringLeft.compareTo(stringRight) > 0) result = false;
                         break;
+                    case "<>":
+                        result = !stringLeft.equals(stringRight);
+                        break;
                     default:
-                        throw new UnsupportedOperationException("Malformed stack exception");
+                        throw new UnsupportedOperationException("Unsupported operation or malformed stack");
                 }
                 if (!result) break;
             }
