@@ -5,17 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3620e9fb-331a-442e-b7b5-e18cfc5459c5" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/data/customer.dat" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/data/lineitem.dat" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/data/nation.dat" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/data/orders.dat" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/data/part.dat" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/data/partsupp.dat" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/data/region.dat" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/data/supplier.dat" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/data/table1.dat" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/data/table2.dat" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/data/table3.dat" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/operator/LimitOperator.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/operator/LimitOperator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -212,7 +201,7 @@
       <file leaf-file-name="ToDos.txt" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/info/ToDos.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="0" selection-start="242" selection-end="242" vertical-scroll-proportion="0.7105263" vertical-offset="0" max-vertical-offset="646">
+            <state line="17" column="0" selection-start="242" selection-end="242" vertical-scroll-proportion="0.47862357" vertical-offset="0" max-vertical-offset="959">
               <folding />
             </state>
           </provider>
@@ -383,6 +372,20 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HelloWorld" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HelloWorld" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="data" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -699,7 +702,7 @@
       <workItem from="1395270592244" duration="71000" />
       <workItem from="1396396250153" duration="1630000" />
       <workItem from="1396398365550" duration="3263000" />
-      <workItem from="1396405313707" duration="10329000" />
+      <workItem from="1396405313707" duration="12091000" />
     </task>
     <task id="LOCAL-00001" summary="Ankesh - Full blown optimizer that pulls exclusive where conditions and turns cross to join - attempt 1&#10;">
       <created>1393824512793</created>
@@ -745,11 +748,15 @@
       <created>1396416041438</created>
       <updated>1396416041438</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Ankesh - removing datasets as it is causing pulls to timeout&#10;">
+      <created>1396499852815</created>
+      <updated>1396499852815</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="45328000" />
+    <option name="totallyTimeSpent" value="47090000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -786,12 +793,12 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32916668" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32604167" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32604167" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="CafeBabe" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32952693" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25538972" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25538972" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32916668" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1065,7 +1072,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/info/ToDos.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="0" selection-start="242" selection-end="242" vertical-scroll-proportion="0.7105263" vertical-offset="0" max-vertical-offset="646">
+        <state line="17" column="0" selection-start="242" selection-end="242" vertical-scroll-proportion="0.47862357" vertical-offset="0" max-vertical-offset="959">
           <folding />
         </state>
       </provider>
