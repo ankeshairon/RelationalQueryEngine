@@ -1,6 +1,5 @@
 package edu.buffalo.cse562;
 
-
 import edu.buffalo.cse562.visitor.MyStatementVisitor;
 import net.sf.jsqlparser.parser.CCJSqlParser;
 import net.sf.jsqlparser.parser.ParseException;
@@ -21,7 +20,7 @@ public class Main {
 
         int i;
         File dataDir = null;
-        File swapDir = null;
+        File swapDir = null; //not using as of now
         ArrayList<File> sqlFiles = new ArrayList<>();
         for (i = 0; i < args.length; i++) {
             if (args[i].equals("--data")) {
