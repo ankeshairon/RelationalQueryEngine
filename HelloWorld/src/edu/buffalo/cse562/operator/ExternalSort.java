@@ -24,12 +24,14 @@ public class ExternalSort implements Operator{
     private LinkedHashMap<Integer, Boolean> indexesOfColumnsToSortOn;
     private Iterator<Datum[]> tupleListIterator;
     private List<Datum[]> tupleList;
+    private String swapDir;
     private int counter;
     private int blockno;
 
-    public ExternalSort(Operator input, LinkedHashMap<Integer, Boolean> indexesOfColumnsToSortOn) {
+    public ExternalSort(Operator input, LinkedHashMap<Integer, Boolean> indexesOfColumnsToSortOn, String swapDir) {
         this.input = input;
         this.indexesOfColumnsToSortOn = indexesOfColumnsToSortOn;
+        this.swapDir = swapDir;
         tupleList = new ArrayList<>();
         pullAllData();
         reset();
@@ -56,7 +58,7 @@ public class ExternalSort implements Operator{
                 //tupleList=null;
                 FileOutputStream fout;
 				try {
-					fout = new FileOutputStream("Sort"+blockno);
+					fout = new FileOutputStream(swapDir+"Sort"+blockno);
 					ObjectOutputStream oos = new ObjectOutputStream(fout);
 	                oos.writeObject(tupleList);
 	                oos.close();
@@ -73,7 +75,12 @@ public class ExternalSort implements Operator{
         }
         
         //Collections.sort(tupleList, new TupleComparator(indexesOfColumnsToSortOn));
+        this.KwaySort();
         reset();
+    }
+    
+    public void KwaySort() {
+    	
     }
 
     @Override
