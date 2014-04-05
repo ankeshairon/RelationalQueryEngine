@@ -32,6 +32,7 @@ public class ExternalSort implements Operator{
     private String swapDir;
     private int counter;
     private static int blockno;
+    private boolean ongoingPass = true;
 
     public ExternalSort(Operator input, LinkedHashMap<Integer, Boolean> indexesOfColumnsToSortOn, String swapDir) {
         this.input = input;
@@ -78,58 +79,76 @@ public class ExternalSort implements Operator{
         }
         
         //Collections.sort(tupleList, new TupleComparator(indexesOfColumnsToSortOn));
-        this.KwaySort(1,2);
+        this.KwaySort(1,2,1);
         reset();
     }
     
-    public void KwaySort(int i, int j) {
+    public void KwaySort(int block1, int block2, int newBlock) {
     	
     	FileInputStream reader1 = null;
-    	ObjectInputStream oos1 = null;
+    	ObjectInputStream ois1 = null;
     	FileInputStream reader2 = null;
-    	ObjectInputStream oos2 = null;
+    	ObjectInputStream ois2 = null;
     	List<Datum[]> list1 = new ArrayList<>();
     	List<Datum[]> list2 = new ArrayList<>();
     	
-    	if (i <= blockno && j <= blockno ) {
+    	if (block1 <= blockno && block2 <= blockno ) {
     		try { 
-    			reader1 = new FileInputStream(swapDir+"/Sort"+i);
-    			reader2 = new FileInputStream(swapDir+"/Sort"+j);
-    			oos1 = new ObjectInputStream(reader1);
-    			oos2 = new ObjectInputStream(reader2);
-    	    	list1.add((Datum[]) oos1.readObject());
-    	    	list2.add((Datum[]) oos2.readObject());
-    	    	this.sortMerge(list1,list2);
+    			reader1 = new FileInputStream(swapDir+"/Sort"+block1);
+    			reader2 = new FileInputStream(swapDir+"/Sort"+block2);
+    			ois1 = new ObjectInputStream(reader1);
+    			ois2 = new ObjectInputStream(reader2);
+    	    	list1.add((Datum[]) ois1.readObject());
+    	    	list2.add((Datum[]) ois2.readObject());
+    	    	this.sortMerge(list1,list2,newBlock);
+    	    	KwaySort(block2+1,block2+2,block2/2);
     		} 
     		catch (FileNotFoundException e) { e.printStackTrace(); } 
     		catch (IOException e) { e.printStackTrace();} 
     		catch (ClassNotFoundException e) { e.printStackTrace(); }
     		
     	}
-    	else if (i <= blockno && j > blockno) {
+    	else if (block2 <= blockno && block2 > blockno) {
     		try {
-    			reader1 = new FileInputStream(swapDir+"/Sort"+i);
-    			oos1 = new ObjectInputStream(reader1);
-    			list1.add((Datum[]) oos1.readObject());
-    			this.sortMerge(list1,list2);
+    			reader1 = new FileInputStream(swapDir+"/Sort"+block1);
+    			ois1 = new ObjectInputStream(reader1);
+    			list1.add((Datum[]) ois1.readObject());
+    			this.sortMerge(list1,list2,newBlock);
+    			blockno = blockno / 2;
+    			KwaySort(1,2,1);
     		} 
     		catch (FileNotFoundException e) { e.printStackTrace(); } 
     		catch (IOException e) { e.printStackTrace(); } 
     		catch (ClassNotFoundException e) { e.printStackTrace(); }
     	}
     	else {
-    			reader1 = null;
-    			reader2 = null;
+    			if (blockno == 1) {
+    				//Sort ends
+    			}
+    			else {
+    				blockno = blockno / 2;
+    				KwaySort(1,2,1);
+    			}
     	}
     	
     }
     
-    public void sortMerge(List queue1, List queue2) {
+    public void sortMerge(List list1, List list2, int newBlock) {
     	
-    	List<Datum[]> mergedQueue = new ArrayList<>();
-    	mergedQueue.addAll(queue1);
-    	mergedQueue.addAll(queue2);
-    	Collections.sort(mergedQueue, new TupleComparator(indexesOfColumnsToSortOn));
+    	List<Datum[]> mergedList = new ArrayList<>();
+    	mergedList.addAll(list1);
+    	if (list2 != null) {
+    		mergedList.addAll(list2);
+    	}
+    	Collections.sort(mergedList, new TupleComparator(indexesOfColumnsToSortOn));
+    	try {
+			FileOutputStream out = new FileOutputStream(swapDir+"/Sort"+newBlock);
+			ObjectOutputStream oos = new ObjectOutputStream(out);
+			oos.writeObject(mergedList);
+			oos.close();
+		} 
+    	catch (FileNotFoundException e) { e.printStackTrace(); }
+    	catch (IOException e) { e.printStackTrace(); }
     	
     }
     
