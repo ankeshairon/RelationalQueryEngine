@@ -133,7 +133,7 @@ public class ExternalSort implements Operator{
     	
     }
     
-    public void sortMerge(List list1, List list2, int newBlock) {
+    public void sortMerge(List<Datum[]> list1, List<Datum[]> list2, int newBlock) {
     	
     	List<Datum[]> mergedList = new ArrayList<>();
     	mergedList.addAll(list1);
