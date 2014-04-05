@@ -13,10 +13,12 @@ import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.PriorityQueue;
 
 import edu.buffalo.cse562.comparator.TupleComparator;
 import edu.buffalo.cse562.data.Datum;
@@ -61,15 +63,13 @@ public class ExternalSort implements Operator{
                 //tupleList=null;
                 FileOutputStream fout;
 				try {
-					fout = new FileOutputStream(swapDir+"Sort"+blockno);
+					fout = new FileOutputStream(swapDir+"/Sort"+blockno);
 					ObjectOutputStream oos = new ObjectOutputStream(fout);
 	                oos.writeObject(tupleList);
 	                oos.close();
 				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
                 
@@ -88,24 +88,34 @@ public class ExternalSort implements Operator{
     	ObjectInputStream oos1 = null;
     	FileInputStream reader2 = null;
     	ObjectInputStream oos2 = null;
+    	List<Datum[]> list1 = new ArrayList<>();
+    	List<Datum[]> list2 = new ArrayList<>();
     	
     	if (i <= blockno && j <= blockno ) {
-    		try {
-    			reader1 = new FileInputStream(swapDir+"Sort"+i);
-    			reader2 = new FileInputStream(swapDir+"Sort"+j);
-    			
-    	    	while (reader1 != null && reader2 != null) {
-    	    		
-    	    	}
-
-    			
-    		} catch (FileNotFoundException e) { e.printStackTrace(); }
+    		try { 
+    			reader1 = new FileInputStream(swapDir+"/Sort"+i);
+    			reader2 = new FileInputStream(swapDir+"/Sort"+j);
+    			oos1 = new ObjectInputStream(reader1);
+    			oos2 = new ObjectInputStream(reader2);
+    	    	list1.add((Datum[]) oos1.readObject());
+    	    	list2.add((Datum[]) oos2.readObject());
+    	    	this.sortMerge(list1,list2);
+    		} 
+    		catch (FileNotFoundException e) { e.printStackTrace(); } 
+    		catch (IOException e) { e.printStackTrace();} 
+    		catch (ClassNotFoundException e) { e.printStackTrace(); }
+    		
     	}
     	else if (i <= blockno && j > blockno) {
     		try {
-    			reader1 = new FileInputStream(swapDir+"Sort"+i);
-    			reader2 = null;
-    		} catch (FileNotFoundException e) { e.printStackTrace(); }
+    			reader1 = new FileInputStream(swapDir+"/Sort"+i);
+    			oos1 = new ObjectInputStream(reader1);
+    			list1.add((Datum[]) oos1.readObject());
+    			this.sortMerge(list1,list2);
+    		} 
+    		catch (FileNotFoundException e) { e.printStackTrace(); } 
+    		catch (IOException e) { e.printStackTrace(); } 
+    		catch (ClassNotFoundException e) { e.printStackTrace(); }
     	}
     	else {
     			reader1 = null;
@@ -113,6 +123,16 @@ public class ExternalSort implements Operator{
     	}
     	
     }
+    
+    public void sortMerge(List queue1, List queue2) {
+    	
+    	List<Datum[]> mergedQueue = new ArrayList<>();
+    	mergedQueue.addAll(queue1);
+    	mergedQueue.addAll(queue2);
+    	Collections.sort(mergedQueue, new TupleComparator(indexesOfColumnsToSortOn));
+    	
+    }
+    
 
     @Override
     public void reset() {
