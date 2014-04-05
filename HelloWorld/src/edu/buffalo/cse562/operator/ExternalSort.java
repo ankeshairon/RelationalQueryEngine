@@ -1,11 +1,14 @@
 package edu.buffalo.cse562.operator;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
@@ -26,7 +29,7 @@ public class ExternalSort implements Operator{
     private List<Datum[]> tupleList;
     private String swapDir;
     private int counter;
-    private int blockno;
+    private static int blockno;
 
     public ExternalSort(Operator input, LinkedHashMap<Integer, Boolean> indexesOfColumnsToSortOn, String swapDir) {
         this.input = input;
@@ -75,11 +78,39 @@ public class ExternalSort implements Operator{
         }
         
         //Collections.sort(tupleList, new TupleComparator(indexesOfColumnsToSortOn));
-        this.KwaySort();
+        this.KwaySort(1,2);
         reset();
     }
     
-    public void KwaySort() {
+    public void KwaySort(int i, int j) {
+    	
+    	FileInputStream reader1 = null;
+    	ObjectInputStream oos1 = null;
+    	FileInputStream reader2 = null;
+    	ObjectInputStream oos2 = null;
+    	
+    	if (i <= blockno && j <= blockno ) {
+    		try {
+    			reader1 = new FileInputStream(swapDir+"Sort"+i);
+    			reader2 = new FileInputStream(swapDir+"Sort"+j);
+    			
+    	    	while (reader1 != null && reader2 != null) {
+    	    		
+    	    	}
+
+    			
+    		} catch (FileNotFoundException e) { e.printStackTrace(); }
+    	}
+    	else if (i <= blockno && j > blockno) {
+    		try {
+    			reader1 = new FileInputStream(swapDir+"Sort"+i);
+    			reader2 = null;
+    		} catch (FileNotFoundException e) { e.printStackTrace(); }
+    	}
+    	else {
+    			reader1 = null;
+    			reader2 = null;
+    	}
     	
     }
 
