@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -29,26 +30,46 @@ public class ExternalSort implements Operator{
     private LinkedHashMap<Integer, Boolean> indexesOfColumnsToSortOn;
     private Iterator<Datum[]> tupleListIterator;
     private List<Datum[]> tupleList;
-    private String swapDir;
+    private File swapDir;
     private int counter;
     private static int blockno;
-    private boolean ongoingPass = true;
-
-    public ExternalSort(Operator input, LinkedHashMap<Integer, Boolean> indexesOfColumnsToSortOn, String swapDir) {
+    private static int currentsize = 1000;
+    private static int blocksize = 1000;
+    private boolean externalSortActivated = false;
+    private TupleComparator tupleComparator;
+    private List<Datum[]> mergedList;
+    private FileInputStream sortedOutputFile;
+    private ObjectInputStream sortedDatumObjects;
+    
+    public ExternalSort(Operator input, LinkedHashMap<Integer, Boolean> indexesOfColumnsToSortOn, File swapDir) {
         this.input = input;
         this.indexesOfColumnsToSortOn = indexesOfColumnsToSortOn;
         this.swapDir = swapDir;
         tupleList = new ArrayList<>();
+        this.tupleComparator = new TupleComparator(indexesOfColumnsToSortOn);
+        this.mergedList = new ArrayList<>();
         pullAllData();
-        reset();
     }
 
     @Override
     public Datum[] readOneTuple() {
-        if (tupleListIterator.hasNext()) {
-            return tupleListIterator.next();
-        }
-        return null;
+    	//If External sort
+    	if (externalSortActivated) {
+				try {
+					return (Datum[]) sortedDatumObjects.readObject();
+				} 
+				catch (ClassNotFoundException | IOException e) {
+					e.printStackTrace();
+				}
+				return null;
+    	}
+    	//No external sort
+    	else {
+    		if (tupleListIterator.hasNext()) {
+    			return tupleListIterator.next();
+    		}
+    		return null;
+    	}
     }
 
     private void pullAllData() {
@@ -56,15 +77,16 @@ public class ExternalSort implements Operator{
         while ((tuple = input.readOneTuple()) != null) {
             tupleList.add(tuple);
             counter++;
-            if (counter==1000){
-                Collections.sort(tupleList, new TupleComparator(indexesOfColumnsToSortOn));
+            if (counter > blocksize){
+                Collections.sort(tupleList, tupleComparator);
+                externalSortActivated = true;
                 counter=0;
                 blockno++;
                 //Need to clear TupleList of existing values
                 //tupleList=null;
                 FileOutputStream fout;
 				try {
-					fout = new FileOutputStream(swapDir+"/Sort"+blockno);
+					fout = new FileOutputStream(swapDir.getAbsolutePath()+"/Sort"+blockno);
 					ObjectOutputStream oos = new ObjectOutputStream(fout);
 	                oos.writeObject(tupleList);
 	                oos.close();
@@ -73,47 +95,96 @@ public class ExternalSort implements Operator{
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-                
-                
             }
         }
-        
-        //Collections.sort(tupleList, new TupleComparator(indexesOfColumnsToSortOn));
-        this.KwaySort(1,2,1);
-        reset();
+        if (externalSortActivated) {
+        	this.KwaySort(1, 2, 1);
+        } 
+        else {
+        	Collections.sort(tupleList, new TupleComparator(indexesOfColumnsToSortOn));
+        	reset();
+        }
     }
     
-    public void KwaySort(int block1, int block2, int newBlock) {
+    
+    
+    public void KwaySort(int readBlock1, int readBlock2, int writeBlock) {
     	
     	FileInputStream reader1 = null;
     	ObjectInputStream ois1 = null;
     	FileInputStream reader2 = null;
     	ObjectInputStream ois2 = null;
-    	List<Datum[]> list1 = new ArrayList<>();
-    	List<Datum[]> list2 = new ArrayList<>();
+    	Datum[] tuple1 = null;
+    	Datum[] tuple2 = null;
+    	Datum[] prevTuple1 = null;
+    	Datum[] prevTuple2 = null;
+    	int result;
     	
-    	if (block1 <= blockno && block2 <= blockno ) {
+    	if (readBlock1 <= blockno && readBlock2 <= blockno ) {
     		try { 
-    			reader1 = new FileInputStream(swapDir+"/Sort"+block1);
-    			reader2 = new FileInputStream(swapDir+"/Sort"+block2);
+    			reader1 = new FileInputStream(swapDir.getAbsolutePath()+"/Sort"+readBlock1);
+    			reader2 = new FileInputStream(swapDir.getAbsolutePath()+"/Sort"+readBlock2);
     			ois1 = new ObjectInputStream(reader1);
     			ois2 = new ObjectInputStream(reader2);
-    	    	list1.add((Datum[]) ois1.readObject());
-    	    	list2.add((Datum[]) ois2.readObject());
-    	    	this.sortMerge(list1,list2,newBlock);
-    	    	KwaySort(block2+1,block2+2,block2/2);
+    			/*
+    			 * While we keep getting Datum objects from either streams
+    			 */
+    			while (ois1 != null && ois2 != null) {
+    				/*
+    				 * prevTuple is for keeping last tuple which failed the sort test 
+    				 */
+    				if (prevTuple1 == null) {
+    					tuple1 = (Datum[]) ois1.readObject();
+    				}
+    				else {
+    					tuple1 = prevTuple1;
+    				}
+    				if (prevTuple2 == null) {
+    					tuple2 = (Datum[]) ois2.readObject();
+    				}
+    				else {
+    					tuple2 = prevTuple2;
+    				}
+    				/*
+    				 * If we have tuples from both streams compare them
+    				 */
+    				if (tuple1 != null && tuple2 != null) {
+    					result = tupleComparator.compare(tuple1, tuple2);
+    					if (result == 0 || result > 0) {
+    						this.sortMerge(tuple1, writeBlock);
+    						prevTuple1 = null;
+    						prevTuple2 = tuple2;
+    					}
+    					else if (result < 0) {
+    						this.sortMerge(tuple2, writeBlock);
+    						prevTuple2 = null;
+    						prevTuple1 = tuple1;
+    					}
+    				}
+    				/*
+    				 * If we have tuple from only one stream 
+    				 */
+    				else if (tuple1 != null && tuple2 == null) {
+    					this.sortMerge(tuple1, writeBlock);
+    				}
+    				else if (tuple1 == null && tuple2 != null) {
+    					this.sortMerge(tuple2, writeBlock);
+    				}
+    			}
+    			KwaySort(readBlock2+1,readBlock2+2,readBlock2/2);
     		} 
     		catch (FileNotFoundException e) { e.printStackTrace(); } 
-    		catch (IOException e) { e.printStackTrace();} 
+    		catch (IOException e) { e.printStackTrace(); } 
     		catch (ClassNotFoundException e) { e.printStackTrace(); }
     		
     	}
-    	else if (block2 <= blockno && block2 > blockno) {
+    	else if (readBlock1 <= blockno && readBlock2 > blockno) {
     		try {
-    			reader1 = new FileInputStream(swapDir+"/Sort"+block1);
+    			reader1 = new FileInputStream(swapDir.getAbsolutePath()+"/Sort"+readBlock1);
     			ois1 = new ObjectInputStream(reader1);
-    			list1.add((Datum[]) ois1.readObject());
-    			this.sortMerge(list1,list2,newBlock);
+    			while (ois1 != null) {
+    				this.sortMerge((Datum[]) ois1.readObject(), writeBlock);
+    			}
     			blockno = blockno / 2;
     			KwaySort(1,2,1);
     		} 
@@ -123,7 +194,8 @@ public class ExternalSort implements Operator{
     	}
     	else {
     			if (blockno == 1) {
-    				//Sort ends
+    				//Sort Ends
+    				setIterator();
     			}
     			else {
     				blockno = blockno / 2;
@@ -133,26 +205,35 @@ public class ExternalSort implements Operator{
     	
     }
     
-    public void sortMerge(List<Datum[]> list1, List<Datum[]> list2, int newBlock) {
+    public void sortMerge(Datum[] data, int writeBlock) {
     	
-    	List<Datum[]> mergedList = new ArrayList<>();
-    	mergedList.addAll(list1);
-    	if (list2 != null) {
-    		mergedList.addAll(list2);
+    	mergedList.add(data);
+    	currentsize++;
+    	if (blocksize == currentsize * 2) {
+    		try {
+    			blocksize = currentsize * 2;
+    			currentsize = 0;
+    			FileOutputStream out = new FileOutputStream(swapDir.getAbsolutePath()+"/Sort"+writeBlock);
+    			ObjectOutputStream oos = new ObjectOutputStream(out);
+    			oos.writeObject(mergedList);
+    			oos.close();
+    			mergedList = new ArrayList<>();
+    		} 
+    		catch (FileNotFoundException e) { e.printStackTrace(); }
+    		catch (IOException e) { e.printStackTrace(); }
     	}
-    	Collections.sort(mergedList, new TupleComparator(indexesOfColumnsToSortOn));
-    	try {
-			FileOutputStream out = new FileOutputStream(swapDir+"/Sort"+newBlock);
-			ObjectOutputStream oos = new ObjectOutputStream(out);
-			oos.writeObject(mergedList);
-			oos.close();
-		} 
-    	catch (FileNotFoundException e) { e.printStackTrace(); }
-    	catch (IOException e) { e.printStackTrace(); }
-    	
     }
     
+    private void setIterator() {
+        try {
+			sortedOutputFile = new FileInputStream(swapDir.getAbsolutePath() + "/Sort1");
+			sortedDatumObjects = new ObjectInputStream(sortedOutputFile);
+		} 
+        catch (FileNotFoundException e) { e.printStackTrace(); } 
+        catch (IOException e) { e.printStackTrace(); }
+    }
 
+    
     @Override
     public void reset() {
         tupleListIterator = tupleList.iterator();
