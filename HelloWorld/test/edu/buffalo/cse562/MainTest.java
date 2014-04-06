@@ -44,7 +44,7 @@ public class MainTest {
     public void checkpoint2() throws Exception {
 
         //Name of the query to run
-        final String sqlFileName = "tpch10a";
+        final String sqlFileName = "tpch12a";
 
         Main.main(new String[]{"--data", "resources/data_unittest", "resources/sql/" + sqlFileName + ".sql"});
         final String actualResult = outContent.toString().trim();

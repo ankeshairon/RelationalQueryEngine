@@ -1,31 +1,28 @@
-- OR in optimizer & evaluator
-- limit by clause
-- min operator
+x OR in optimizer & evaluator
+x limit by clause
 - distinct operator
 
-- middle layer
-
-- hybrid hash join
-- sort merge join
-- external sort
+x hybrid hash join
+x sort merge join
+x external sort
 
 - ordering of where expression based on string comparison
 
 Queries -
-- tpch 7
-- tpch 10
+x tpch 7
+x tpch 10
 
 - tpch 12
 - tpch 16
 
 
 Middle Layer -
-- know about size of tables
+x know about size of tables
 - know about size of tuples
 - know about no of tuples
 
-- make call to HybridHashJoin (Operator o1, Operator o2, int index1, int index2)
+x make call to HybridHashJoin (Operator o1, Operator o2, int index1, int index2)
 - Decide whether u want to scan or read raw
 
 - make multithreaded hash
-- add join condition in join
+x add join condition in join

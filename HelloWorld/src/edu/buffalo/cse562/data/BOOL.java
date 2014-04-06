@@ -2,7 +2,7 @@ package edu.buffalo.cse562.data;
 
 public class BOOL extends Datum {
 
-    boolean b;
+    Boolean b;
 
     public BOOL(String s) {
         this.b = Boolean.parseBoolean(s);
@@ -35,10 +35,19 @@ public class BOOL extends Datum {
 
     @Override
     public int compareTo(Object o) {
-        return ((Boolean) b).compareTo(((BOOL) o).b);
+        return  b.compareTo(((BOOL) o).b);
     }
 
-//    @Override
+    @Override
+    public boolean equals(Object obj) {
+        try {
+            return (obj instanceof BOOL) && b == (((BOOL) obj).toBOOL());
+        } catch (CastException e) {
+            return false;
+        }
+    }
+
+    //    @Override
 //    public Number getNumber() {
 //        throw new ClassCastException("Cannot convert boolean to number");
 //    }

@@ -45,4 +45,9 @@ public class DATE extends Datum {
     public int compareTo(Object datum) {
         return s.compareTo(((DATE) datum).s);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return (obj instanceof DATE) && s.equals(((DATE) obj).toSTRING());
+    }
 }

@@ -41,6 +41,15 @@ public class FLOAT extends Datum {
         return (f).compareTo(((FLOAT) o).f);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        try {
+            return (obj instanceof FLOAT) && f.equals(((FLOAT) obj).toFLOAT());
+        } catch (CastException e) {
+            return false;
+        }
+
+    }
 }
 
 

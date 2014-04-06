@@ -1,16 +1,18 @@
-CREATE TABLE table1(ID int, NAME CHAR(25), C1 CHAR(5), C2 CHAR(5), V1 int, V2 int)
+CREATE TABLE t1(ID int, NAME CHAR(25), C1 CHAR(5), C2 CHAR(5), V1 int, V2 int)
 --CREATE TABLE table2(ID int, NAME CHAR(5), marks int)
 
-insert into table1 values (1, 'n1', 'a', 'a', 1,1)  ;
-insert into table1 values (11, 'n2', 'a', 'a', 1,1) ;
-insert into table1 values (2, 'n3', 'b', 'a', 1,1)  ;
-insert into table1 values (22, 'n4', 'b', 'a', 1,1) ;
-insert into table1 values (3, 'n5', 'c', 'a', 1,1)  ;
-insert into table1 values (33, 'n6', 'c', 'a', 1,1) ;
-insert into table1 values (4, 'n7', 'd', 'a', 1,1)  ;
-insert into table1 values (44, 'n8', 'd', 'a', 1,1) ;
+insert into t1 values (1,   'n1',   'a', '1', 1,1)  ;
+insert into t1 values (11, 'n2',    'b', '1', 1,1) ;
+insert into t1 values (2,   'n3',    'b', '2', 1,1)  ;
+insert into t1 values (22,  'n4',   'c', '1', 1,1) ;
+insert into t1 values (3,    'n5',   'c', '2', 1,1)  ;
+insert into t1 values (33,  'n6', '  c', '3', 1,1) ;
+insert into t1 values (4,    'n7',   'd', '1', 1,1)  ;
+insert into t1 values (44,  'n8', '  d', '2', 1,1) ;
+insert into t1 values (5,    'n9',   'd', '3', 1,1) ;
+insert into t1 values (55,  'n10', 'd', '4', 1,1) ;
 
-
+select name, count (distinct c1), c2 from t1 group by c2
 
 SELECT table1.NAME FROM table1
 GROUP BY G1

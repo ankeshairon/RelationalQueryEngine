@@ -8,6 +8,10 @@ public class LONG extends Datum {
         this.l = Long.parseLong(s);
     }
 
+    public LONG(int i) {
+        l = (long)i ;
+    }
+
     public LONG(Long l) {
         this.l = l;
     }
@@ -40,5 +44,14 @@ public class LONG extends Datum {
     @Override
     public int compareTo(Object o) {
         return (l).compareTo(((LONG) o).l);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        try {
+            return (obj instanceof LONG) && l.equals(((LONG) obj).toLONG());
+        } catch (CastException e) {
+            return false;
+        }
     }
 }

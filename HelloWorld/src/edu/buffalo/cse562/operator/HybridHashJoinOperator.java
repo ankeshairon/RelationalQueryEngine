@@ -215,8 +215,7 @@ public class HybridHashJoinOperator implements Operator {
 
     @Override
     public void reset() {
-        // TODO Auto-generated method stub
-
+        throw new UnsupportedOperationException("Reset not supported for " + this.getClass().getName());
     }
 
     @Override

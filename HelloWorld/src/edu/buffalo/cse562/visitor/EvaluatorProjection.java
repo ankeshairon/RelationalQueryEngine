@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static edu.buffalo.cse562.Constants.*;
+import static edu.buffalo.cse562.SchemaIndexConstants.*;
 
 public class EvaluatorProjection extends AbstractExpressionVisitor {
 
@@ -42,7 +42,7 @@ public class EvaluatorProjection extends AbstractExpressionVisitor {
     public void visit(Function function) {
         isAnAggregation = true;
 
-        indexes.add(INDEX_INDICATING_FUNCTION);
+        indexes.add(getSchemaIndexForFunctionWithoutExpression(currentIndex));
         String colName;
         if (alias == null) {
             colName = function.toString();
@@ -115,7 +115,7 @@ public class EvaluatorProjection extends AbstractExpressionVisitor {
 
     private void visitBinaryExpression(BinaryExpression binaryExpression) {
         if (isAnAggregation) {
-            indexes.set(currentIndex, INDEX_INDICATING_EXPRESSION_INSIDE_FUNCTION);
+            indexes.set(currentIndex, SCHEMA_INDEX_INDICATING_EXPRESSION_INSIDE_FUNCTION);
             return;
         }
 
@@ -126,7 +126,7 @@ public class EvaluatorProjection extends AbstractExpressionVisitor {
             newColumnSchema.setColumnAlias(alias);
         }
         outputSchema.add(newColumnSchema);
-        indexes.add(INDEX_INDICATING_EXPRESSION);
+        indexes.add(SCHEMA_INDEX_INDICATING_EXPRESSION);
     }
 
     public boolean wasAnAggregation() {
