@@ -37,7 +37,7 @@ public class ExternalSort implements Operator{
         this.input = input;
         this.indexesOfColumnsToSortOn = indexesOfColumnsToSortOn;
         this.swapDir = swapDir;
-        tupleList = new ArrayList<>();
+        this.tupleList = new ArrayList<>();
         this.tupleComparator = new TupleComparator(indexesOfColumnsToSortOn);
         this.mergedList = new ArrayList<>();
         pullAllData();
@@ -74,14 +74,13 @@ public class ExternalSort implements Operator{
                 externalSortActivated = true;
                 counter=0;
                 blockno++;
-                //Need to clear TupleList of existing values
-                //tupleList=null;
                 FileOutputStream fout;
 				try {
 					fout = new FileOutputStream(swapDir.getAbsolutePath()+"/Sort"+blockno);
 					ObjectOutputStream oos = new ObjectOutputStream(fout);
 	                oos.writeObject(tupleList);
 	                oos.close();
+	                tupleList = new ArrayList<>();
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
@@ -98,7 +97,9 @@ public class ExternalSort implements Operator{
         }
     }
     
-    
+    /*
+     * External Sort recursive code
+     */
     
     public void KwaySort(int readBlock1, int readBlock2, int writeBlock) {
     	
@@ -112,7 +113,7 @@ public class ExternalSort implements Operator{
     	Datum[] prevTuple2 = null;
     	int result;
     	
-    	if (readBlock1 <= blockno && readBlock2 <= blockno ) {
+    	if (readBlock1 < blockno && readBlock2 <= blockno ) {
     		try { 
     			reader1 = new FileInputStream(swapDir.getAbsolutePath()+"/Sort"+readBlock1);
     			reader2 = new FileInputStream(swapDir.getAbsolutePath()+"/Sort"+readBlock2);
@@ -170,7 +171,7 @@ public class ExternalSort implements Operator{
     		catch (ClassNotFoundException e) { e.printStackTrace(); }
     		
     	}
-    	else if (readBlock1 <= blockno && readBlock2 > blockno) {
+    	else if (readBlock1 <= blockno && readBlock2 > blockno && blockno != 1) {
     		try {
     			reader1 = new FileInputStream(swapDir.getAbsolutePath()+"/Sort"+readBlock1);
     			ois1 = new ObjectInputStream(reader1);
