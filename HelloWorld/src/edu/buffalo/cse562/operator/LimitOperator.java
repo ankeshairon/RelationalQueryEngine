@@ -8,17 +8,19 @@ public class LimitOperator implements Operator {
 	
 	Operator in;
 	ColumnSchema[] outputSchema;
-	long rowCount;
+	final long rowCount;
 	long counter;
 	
 	public LimitOperator(Operator in,  Limit limit){
+		this.in = in;
 		this.outputSchema = in.getSchema();
 		this.rowCount = limit.getRowCount();
+		counter = 0;  
 	}
 	
 	@Override
 	public Datum[] readOneTuple() {
-
+		
 		if(counter<rowCount){
 			counter++;
 			return in.readOneTuple();

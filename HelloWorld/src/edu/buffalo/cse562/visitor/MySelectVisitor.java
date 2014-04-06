@@ -1,6 +1,7 @@
 package edu.buffalo.cse562.visitor;
 
 
+import edu.buffalo.cse562.View;
 import edu.buffalo.cse562.model.TableInfo;
 import edu.buffalo.cse562.operator.*;
 import edu.buffalo.cse562.schema.ColumnSchema;
