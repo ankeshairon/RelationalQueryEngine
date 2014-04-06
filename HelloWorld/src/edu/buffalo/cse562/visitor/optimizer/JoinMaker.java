@@ -1,6 +1,6 @@
 package edu.buffalo.cse562.visitor.optimizer;
 
-import edu.buffalo.cse562.operator.JoinOperator;
+import edu.buffalo.cse562.operator.NestedLoopJoinOperator;
 import edu.buffalo.cse562.operator.Operator;
 import edu.buffalo.cse562.operator.SelectionOperator;
 import net.sf.jsqlparser.expression.Expression;
@@ -19,49 +19,68 @@ public class JoinMaker {
 
 
     public Operator getOptimizedChainedJoinOperator() {
-        List<Map.Entry<Integer, Operator>> operatorPriorityPairList = convertScanToSelectionOperators();
-        sortInDecreasingOrderOrNoOfConditions(operatorPriorityPairList);
+        List<Map.Entry<Long, SelectionOperator>> operatorPriorityPairList = convertScanToSelectionOperators();
+        sortInIncreasingOrderOfDataSize(operatorPriorityPairList);
+//        sortInDecreasingOrderOrNoOfConditions(operatorPriorityPairList);
         return chainSelectionIntoAJoinOperator(operatorPriorityPairList);
     }
 
-    private Operator chainSelectionIntoAJoinOperator(List<Map.Entry<Integer, Operator>> operatorPriorityPairList) {
-        Iterator<Map.Entry<Integer, Operator>> iterator = operatorPriorityPairList.iterator();
-        Operator result = iterator.next().getValue();
+    private Operator chainSelectionIntoAJoinOperator(List<Map.Entry<Long, SelectionOperator>> operatorPriorityPairList) {
+        Iterator<Map.Entry<Long, SelectionOperator>> iterator = operatorPriorityPairList.iterator();
+        Operator chainedOperator = iterator.next().getValue();
         Operator o;
         do {
             o = iterator.next().getValue();
-            result = new JoinOperator(result, o);
+            chainedOperator = getJoinOperator(chainedOperator, o);
         } while (iterator.hasNext());
-        return result;
+        return chainedOperator;
     }
 
-    private List<Map.Entry<Integer, Operator>> convertScanToSelectionOperators() {
-        List<Map.Entry<Integer, Operator>> operatorPriorityPairList = new ArrayList<>();
-        Operator hybridOperator;
-        Integer weightage;
+    private List<Map.Entry<Long, SelectionOperator>> convertScanToSelectionOperators() {
+        List<Map.Entry<Long, SelectionOperator>> operatorPriorityPairList = new ArrayList<>();
+        SelectionOperator hybridOperator;
+        Long size;
         for (Operator inputOperator : inputOperators) {
-            List<Expression> exclusiveConditions = optimizer.getListOfConditionsExclusiveToThisTable(inputOperator.getSchema());
+            List<Expression> exclusiveConditions = optimizer.getConditionsExclusiveToTable(inputOperator.getSchema());
 
             hybridOperator = new SelectionOperator(inputOperator, exclusiveConditions);
-            weightage = exclusiveConditions.size();
-
-            operatorPriorityPairList.add(new HashMap.SimpleEntry<>(weightage, hybridOperator));
+//            size = exclusiveConditions.size();
+            size = hybridOperator.getTableSize();
+            operatorPriorityPairList.add(new HashMap.SimpleEntry<>(size, hybridOperator));
         }
         return operatorPriorityPairList;
     }
 
-    private void sortInDecreasingOrderOrNoOfConditions(List<Map.Entry<Integer, Operator>> operatorPriorityPairList) {
-        Collections.sort(operatorPriorityPairList, new Comparator<Map.Entry<Integer, Operator>>() {
+    private void sortInIncreasingOrderOfDataSize(List<Map.Entry<Long, SelectionOperator>> operatorPriorityPairList) {
+        Collections.sort(operatorPriorityPairList, new Comparator<Map.Entry<Long, SelectionOperator>>() {
             @Override
-            public int compare(Map.Entry<Integer, Operator> e1, Map.Entry<Integer, Operator> e2) {
-                return e2.getKey().compareTo(e1.getKey());
+            public int compare(Map.Entry<Long, SelectionOperator> e1, Map.Entry<Long, SelectionOperator> e2) {
+                return e1.getKey().compareTo(e2.getKey());
             }
         });
     }
 
+    /*private void sortInDecreasingOrderOrNoOfConditions(List<Map.Entry<Long, SelectionOperator>> operatorPriorityPairList) {
+        Collections.sort(operatorPriorityPairList, new Comparator<Map.Entry<Long, SelectionOperator>>() {
+            @Override
+            public int compare(Map.Entry<Long, SelectionOperator> e1, Map.Entry<Long, SelectionOperator> e2) {
+                return e2.getKey().compareTo(e1.getKey());
+            }
+        });
+    }*/
+
+    private Operator getJoinOperator(Operator chainedOperator, Operator nextOperator) {
+        //todo comment 1st line and uncomment 2nd n 3rd line to start using HybridHash operator
+
+        return new NestedLoopJoinOperator(chainedOperator, nextOperator);
+
+//        Integer[] indexes = optimizer.getIndexesOfJoinColumns(chainedOperator.getSchema(), nextOperator.getSchema());
+//        return new HybridHashJoinOperator(chainedOperator, nextOperator, indexes[0], indexes[1]);
+    }
+
     public List<Expression> getNonExclusiveConditionClauses() {
         List<Expression> nonExclusiveConditionClauses = new ArrayList<>();
-        nonExclusiveConditionClauses.addAll(optimizer.getNonExclusiveConditionClauses());
+        nonExclusiveConditionClauses.addAll(optimizer.getNonExclusiveConditions().keySet());
         return nonExclusiveConditionClauses;
     }
 }
