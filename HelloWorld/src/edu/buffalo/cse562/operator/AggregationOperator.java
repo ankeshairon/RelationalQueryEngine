@@ -5,6 +5,7 @@ import edu.buffalo.cse562.data.Datum;
 import edu.buffalo.cse562.model.aggregation.AggregationProcessor;
 import edu.buffalo.cse562.schema.ColumnSchema;
 import net.sf.jsqlparser.schema.Column;
+import net.sf.jsqlparser.statement.select.PlainSelect;
 
 import java.util.*;
 
@@ -13,13 +14,16 @@ public class AggregationOperator implements Operator {
     private List<Datum[]> result;
     private Iterator<Datum[]> resultIterator;
 
-    public AggregationOperator(Operator in, ColumnSchema[] newSchema, Integer[] indexArray, List<Column> groupByColumnReferences) {
+    public AggregationOperator(Operator in, ColumnSchema[] newSchema, Integer[] indexArray, PlainSelect plainSelect) {
         result = new ArrayList<>();
-        pullAllData(in, newSchema, indexArray, groupByColumnReferences);
+        pullAllData(in, newSchema, indexArray, plainSelect);
         reset();
     }
 
-    private void pullAllData(Operator in, ColumnSchema[] newSchema, Integer[] indexArray, List<Column> groupByColumnReferences) {
+    private void pullAllData(Operator in, ColumnSchema[] newSchema, Integer[] indexArray, PlainSelect plainSelect) {
+        List<Column> groupByColumnReferences = plainSelect.getGroupByColumnReferences();
+//        List<Column> distinctOnColumnReferences = plainSelect.getDistinct().getOnSelectItems();
+
         AggregationProcessor aggregationProcessor = new AggregationProcessor(in.getSchema(), newSchema, indexArray);
         Datum[] datum;
         while ((datum = in.readOneTuple()) != null) {

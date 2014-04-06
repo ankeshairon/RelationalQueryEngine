@@ -1,7 +1,9 @@
 package edu.buffalo.cse562.operator;
 
 import edu.buffalo.cse562.data.*;
+import edu.buffalo.cse562.model.TableInfo;
 import edu.buffalo.cse562.schema.ColumnSchema;
+import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.create.table.ColumnDefinition;
 
 import java.io.*;
@@ -9,29 +11,33 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ScanOperator implements Operator {
-    BufferedReader input;
-    String tableName;
     public ColumnSchema[] schema;
-    HashMap<String, List<ColumnDefinition>> tables;
+
+    private Long tableSize;
+    private BufferedReader input;
+    private String tableName;
+    private HashMap<String, TableInfo> tables;
     private File dataDir;
 
-    public ScanOperator(File dataDir, String tableName, HashMap<String, List<ColumnDefinition>> tables, ColumnSchema[] finalSchema) {
+    public ScanOperator(File dataDir, Table table, HashMap<String, TableInfo> tables, ColumnSchema[] finalSchema) {
         this.tables = tables;
-        this.tableName = tableName;
+        this.tableName = table.getName();
         this.dataDir = dataDir;
         this.schema = finalSchema;
-        makeSchema(tableName);
+        tableSize = tables.get(table.getName()).getSize();
+        makeSchema(table);
         reset();
     }
 
-    public void makeSchema(String tbl) {
+    public void makeSchema(Table table) {
     	if (schema == null) {
-    		List<ColumnDefinition> colDefns = tables.get(tbl.toLowerCase());
+    		List<ColumnDefinition> colDefns = tables.get(table.getName().toLowerCase()).getColumnDefinitions();
     		schema = new ColumnSchema[colDefns.size()];
     		int i = 0;
     		for (ColumnDefinition cd : colDefns) {
     			schema[i] = new ColumnSchema(cd.getColumnName(), cd.getColDataType().getDataType());
-    			schema[i].setTblName(tbl);
+    			schema[i].setTableName(tableName);
+                schema[i].setTableAlias(table.getAlias());
     			i++;
     		}
     	}
@@ -98,4 +104,7 @@ public class ScanOperator implements Operator {
         return schema;
     }
 
+    public Long getTableSize() {
+        return tableSize;
+    }
 }

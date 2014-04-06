@@ -402,14 +402,28 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
     }
 
     private Datum popValueFromColumnStack() {
+        Column column;
         if (tuple != null) {
-            Column column = columnLiterals.pop();
+            column = columnLiterals.pop();
             for (int i = 0; i < schema.length; i++) {
                 if (schema[i].matchColumn(column)) {
                     return tuple[i];
                 }
             }
+            throw new UnsupportedOperationException("Unable to read detect column " + column.toString() + " in schema " + printSchema() + " Malformed schema?");
         }
-        return null;
+        throw new UnsupportedOperationException("Attempt to read column value of a null tuple. Not happening!");
     }
+
+    private String printSchema() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("[");
+        for (ColumnSchema s : schema) {
+            stringBuilder.append(s.toString()).append(",\n");
+        }
+        stringBuilder.append("]");
+        return stringBuilder.toString();
+    }
+
+
 }

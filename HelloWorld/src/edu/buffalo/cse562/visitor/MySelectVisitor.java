@@ -1,11 +1,11 @@
 package edu.buffalo.cse562.visitor;
 
 
+import edu.buffalo.cse562.model.TableInfo;
 import edu.buffalo.cse562.operator.*;
 import edu.buffalo.cse562.schema.ColumnSchema;
 import edu.buffalo.cse562.visitor.optimizer.JoinMaker;
 import net.sf.jsqlparser.expression.Expression;
-import net.sf.jsqlparser.statement.create.table.ColumnDefinition;
 import net.sf.jsqlparser.statement.select.*;
 
 import java.io.File;
@@ -16,14 +16,15 @@ import java.util.List;
 
 public class MySelectVisitor implements SelectVisitor {
 
-    public File dataDir;
     public Operator source;
-    public ColumnSchema[] finalSchema = null;
+    private ColumnSchema[] finalSchema;
+    private final File dataDir;
+    private File swapDir;
+    private final HashMap<String, TableInfo> tables;
 
-    HashMap<String, List<ColumnDefinition>> tables;
-
-    public MySelectVisitor(File dataDir, HashMap<String, List<ColumnDefinition>> tables) {
+    public MySelectVisitor(File dataDir, File swapDir, HashMap<String, TableInfo> tables) {
         this.dataDir = dataDir;
+        this.swapDir = swapDir;
         this.tables = tables;
     }
 
@@ -37,7 +38,7 @@ public class MySelectVisitor implements SelectVisitor {
 
     @Override
     public void visit(PlainSelect statement) {
-        MyFromItemVisitor myFromItemVisitor = new MyFromItemVisitor(dataDir, tables, finalSchema);
+        MyFromItemVisitor myFromItemVisitor = new MyFromItemVisitor(dataDir, swapDir, tables, finalSchema);
 
         visitFromItems(statement, myFromItemVisitor);
         JoinMaker joinMaker = visitMultipleFromItems(statement, myFromItemVisitor);
@@ -90,8 +91,9 @@ public class MySelectVisitor implements SelectVisitor {
             selectItemVisitor.indexes.toArray(indexArray);
 
             if (selectItemVisitor.isAggregationPresent()) {
-                source = new AggregationOperator(source, outputSchema, indexArray, statement.getGroupByColumnReferences());
+                source = new AggregationOperator(source, outputSchema, indexArray, statement);
             } else {
+                //todo need to implement distinct for the case when no aggregations present
                 source = new ProjectionOperator(source, outputSchema, indexArray);
             }
         }

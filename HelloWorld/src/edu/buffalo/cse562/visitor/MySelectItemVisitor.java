@@ -47,10 +47,9 @@ public class MySelectItemVisitor implements SelectItemVisitor {
     @Override
     public void visit(SelectExpressionItem selectExpressionItem) {
         Expression expr = selectExpressionItem.getExpression();
-        String alias = selectExpressionItem.getAlias();
-        evalProjection = new EvaluatorProjection(expr, alias);
+        evalProjection.setAlias(selectExpressionItem.getAlias());
         expr.accept(evalProjection);
-        if (evalProjection.isAnAggregation()) {
+        if (evalProjection.wasAnAggregation()) {
             isAggregationPresent = true;
         }
     }

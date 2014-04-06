@@ -1,6 +1,7 @@
 - OR in optimizer & evaluator
 - limit by clause
 - min operator
+- distinct operator
 
 - middle layer
 
@@ -13,5 +14,18 @@
 Queries -
 - tpch 7
 - tpch 10
+
 - tpch 12
 - tpch 16
+
+
+Middle Layer -
+- know about size of tables
+- know about size of tuples
+- know about no of tuples
+
+- make call to HybridHashJoin (Operator o1, Operator o2, int index1, int index2)
+- Decide whether u want to scan or read raw
+
+- make multithreaded hash
+- add join condition in join

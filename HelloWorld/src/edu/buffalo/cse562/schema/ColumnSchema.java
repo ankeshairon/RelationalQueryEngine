@@ -7,12 +7,16 @@ import net.sf.jsqlparser.schema.Column;
 public class ColumnSchema {
     private String colName;
     private Datum.type type;
-    private String tblName;
-    private String alias;
+    private String tableName;
+    private String tableAlias;
+    private String columnAlias;
     private Expression expr;
+    private String fullQualifiedName;
+    private Boolean isDistinct;
 
     public ColumnSchema(String colName, String type) {
         this.colName = colName.toLowerCase();
+        fullQualifiedName = this.colName;
         if (type.equalsIgnoreCase("int")) {
             this.type = Datum.type.LONG;
         } else if (type.equalsIgnoreCase("float") || type.equalsIgnoreCase("decimal")) {
@@ -24,6 +28,7 @@ public class ColumnSchema {
         } else if (type.equalsIgnoreCase("char") || type.equalsIgnoreCase("varchar") || type.equalsIgnoreCase("string")) {
             this.type = Datum.type.STRING;
         }
+        isDistinct = false;
     }
 
     public ColumnSchema(String colName, Datum.type type) {
@@ -35,13 +40,16 @@ public class ColumnSchema {
         return colName;
     }
 
+    public String getFullQualifiedName() {
+        return fullQualifiedName;
+    }
+
     public boolean matchColumn(Column column) {
         String columnName = column.getColumnName();
         String tableName = column.getTable().getName();
         if (tableName == null) {
             return matchColumnNameOnly(columnName);
-        } else
-            return matchTableAndColumnName(tableName, columnName);
+        } else return matchTableAndColumnName(tableName, columnName);
     }
 
     public boolean matchColumn(String col) {
@@ -54,10 +62,14 @@ public class ColumnSchema {
     }
 
     private boolean matchTableAndColumnName(String tableName, String columnName) {
-        return matchColumnNameOnly(columnName) && tableName.equalsIgnoreCase(this.getTblName());
+        return matchColumnNameOnly(columnName) && matchTableName(tableName);
     }
 
-    private boolean matchColumnNameOnly(String columnName) {
+    private boolean matchTableName(String tableName) {
+        return tableName.equalsIgnoreCase(tableName) || tableName.equalsIgnoreCase(tableAlias);
+    }
+
+    public boolean matchColumnNameOnly(String columnName) {
         return columnName.equalsIgnoreCase(colName);
     }
 
@@ -66,15 +78,15 @@ public class ColumnSchema {
     }
 
     public String getTblName() {
-        return tblName;
+        return tableName;
     }
 
-    public String getAlias() {
-        return alias;
+    public String getColumnAlias() {
+        return columnAlias;
     }
-    
+
     public Expression getExpression() {
-    	return expr;
+        return expr;
     }
 
     public void setColName(String colName) {
@@ -85,15 +97,34 @@ public class ColumnSchema {
         this.type = type;
     }
 
-    public void setTblName(String tblName) {
-        this.tblName = tblName;
+    public void setTableAlias(String tableAlias) {
+        this.tableAlias = tableAlias;
+        this.fullQualifiedName = tableName + "." + colName;
     }
 
-    public void setAlias(String alias) {
-        this.alias = alias;
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
+        this.fullQualifiedName = tableName + "." + colName;
     }
-    
+
+    public void setColumnAlias(String columnAlias) {
+        this.columnAlias = columnAlias;
+    }
+
     public void setExpression(Expression expr) {
-    	this.expr = expr;
+        this.expr = expr;
+    }
+
+    public Boolean getIsDistinct() {
+        return isDistinct;
+    }
+
+    public void setIsDistinct(Boolean isDistinct) {
+        this.isDistinct = isDistinct;
+    }
+
+    @Override
+    public String toString() {
+        return "TableName=" + tableName + "   TableAlias=" + tableAlias + "   ColumnName=" + colName + "   ColumnAlias=" + columnAlias;
     }
 }

@@ -1,8 +1,8 @@
 package edu.buffalo.cse562.visitor;
 
+import edu.buffalo.cse562.model.TableInfo;
 import edu.buffalo.cse562.operator.Operator;
 import net.sf.jsqlparser.statement.StatementVisitor;
-import net.sf.jsqlparser.statement.create.table.ColumnDefinition;
 import net.sf.jsqlparser.statement.create.table.CreateTable;
 import net.sf.jsqlparser.statement.delete.Delete;
 import net.sf.jsqlparser.statement.drop.Drop;
@@ -14,22 +14,23 @@ import net.sf.jsqlparser.statement.update.Update;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.List;
 
 public class MyStatementVisitor implements StatementVisitor {
 
-    public File dataDir;
-    public HashMap<String, List<ColumnDefinition>> tables;
+    private final File dataDir;
+    private File swapDir;
+    private final HashMap<String, TableInfo> tables;
     public Operator source;
 
-    public MyStatementVisitor(File dataDir) {
+    public MyStatementVisitor(File dataDir, File swapDir) {
         this.dataDir = dataDir;
+        this.swapDir = swapDir;
         tables = new HashMap<>();
     }
 
     @Override
     public void visit(Select stmnt) {
-        MySelectVisitor myVisitor = new MySelectVisitor(dataDir, tables);
+        MySelectVisitor myVisitor = new MySelectVisitor(dataDir, swapDir, tables);
         stmnt.getSelectBody().accept(myVisitor);
         source = myVisitor.source;
     }
@@ -66,7 +67,12 @@ public class MyStatementVisitor implements StatementVisitor {
 
     @Override
     public void visit(CreateTable stmnt) {
-        tables.put(stmnt.getTable().getName().toLowerCase(), stmnt.getColumnDefinitions());
+        final String tableName = stmnt.getTable().getName().toLowerCase();
+        tables.put(tableName, new TableInfo(tableName, stmnt.getColumnDefinitions(), getFileSize(tableName)));
+    }
+
+    private Long getFileSize(String tableName) {
+        return new File(dataDir.getAbsolutePath() + "//" + tableName + ".dat").length();
     }
 
 }

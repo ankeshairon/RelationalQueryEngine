@@ -12,10 +12,6 @@ import java.util.ArrayList;
 
 public class Main {
 
-    /**
-     * @param args
-     * @throws IOException 
-     */
     public static void main(String[] args) throws IOException {
 
         int i;
@@ -27,15 +23,14 @@ public class Main {
                 dataDir = new File(args[i + 1]);
                 i++;
             } else if (args[i].equals("--swap")) {
-            	swapDir = new File(args[i + 1]);
-            	i++;
-            }
-            else {
+                swapDir = new File(args[i + 1]);
+                i++;
+            } else {
                 sqlFiles.add(new File(args[i]));
             }
         }
 
-        MyStatementVisitor myVisitor = new MyStatementVisitor(dataDir);
+        MyStatementVisitor myVisitor = new MyStatementVisitor(dataDir, swapDir);
 
         for (File sqlFile : sqlFiles) {
             try (FileReader reader = new FileReader(sqlFile)) {
@@ -46,9 +41,9 @@ public class Main {
                     View.dump(myVisitor.source);
                 }
 
-            } catch (IOException e) {
-                e.printStackTrace();
             } catch (ParseException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }

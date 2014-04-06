@@ -20,25 +20,39 @@ public class EvaluatorAggregate extends AbstractExpressionVisitor {
 
     private Datum[] tuple;
     private ColumnSchema[] oldSchema;
-    private Expression evalExpression;
     private Stack<Datum> literals;
     private Stack<String> symbols;
 
     public EvaluatorAggregate(Datum[] tuple, ColumnSchema[] oldSchema, Expression evalExpresssion) {
         this.tuple = tuple;
         this.oldSchema = oldSchema;
-        this.evalExpression = evalExpresssion;
         literals = new Stack<>();
         symbols = new Stack<>();
+        evaluateExpression(evalExpresssion);
     }
 
-    public EvaluatorAggregate(Datum[] tuple, ColumnSchema[] oldSchema, Expression evalExpression, Stack<Datum> literals, Stack<String> symbols) {
+    private void evaluateExpression(Expression expression) {
+        final String expressionString = expression.toString();
+
+        Datum columnTupleVal;
+        for (int i = 0; i < oldSchema.length; i++) {
+            if(oldSchema[i].matchColumnNameOnly(expressionString)){
+                columnTupleVal = tuple[i];
+                literals.push(columnTupleVal);
+                return;
+            }
+        }
+        expression.accept(this);
+    }
+
+    /*private EvaluatorAggregate(Datum[] tuple, ColumnSchema[] oldSchema, Expression evalExpression, Stack<Datum> literals, Stack<String> symbols) {
         this.tuple = tuple;
         this.oldSchema = oldSchema;
         this.evalExpression = evalExpression;
         this.literals = literals;
         this.symbols = symbols;
-    }
+        evalExpression.accept(this);
+    }*/
 
     public Datum executeStack() throws CastException {
         while (!symbols.empty()) {
@@ -107,7 +121,7 @@ public class EvaluatorAggregate extends AbstractExpressionVisitor {
     public void visit(Parenthesis arg0) {
 //    	System.out.println("()");
         Expression expr = arg0.getExpression();
-        expr.accept(new EvaluatorAggregate(tuple, oldSchema, evalExpression, literals, symbols));
+        expr.accept(this);
         try {
             literals.push(executeExpression());
         } catch (CastException e) {
@@ -149,22 +163,32 @@ public class EvaluatorAggregate extends AbstractExpressionVisitor {
     @Override
     public void visit(Column column) {
         Datum columnTupleVal;
-        int count = 0;
-        for (ColumnSchema schemaCol : oldSchema) {
-            if (schemaCol.matchColumn(column)) {
-                columnTupleVal = tuple[count];
+        for (int i = 0; i < oldSchema.length; i++) {
+            if(oldSchema[i].matchColumn(column)){
+                columnTupleVal = tuple[i];
                 literals.push(columnTupleVal);
-                break;
+                return;
             }
-            count++;
         }
+        throw new UnsupportedOperationException("Unable to read detect column " + column.toString() + " in schema " + printSchema());
     }
 
     private void visitBinaryExpression(BinaryExpression arg0) {
         Expression leftExpression = arg0.getLeftExpression();
         Expression rightExpression = arg0.getRightExpression();
-        leftExpression.accept(new EvaluatorAggregate(tuple, oldSchema, evalExpression, literals, symbols));
-        rightExpression.accept(new EvaluatorAggregate(tuple, oldSchema, evalExpression, literals, symbols));
+        leftExpression.accept(this);
+        rightExpression.accept(this);
     }
+
+    private String printSchema() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("[");
+        for (ColumnSchema s : oldSchema) {
+            stringBuilder.append(s.toString()).append(",\n");
+        }
+        stringBuilder.append("]");
+        return stringBuilder.toString();
+    }
+
 }
 

@@ -1,5 +1,6 @@
 package edu.buffalo.cse562.visitor;
 
+import edu.buffalo.cse562.model.ColumnWrapper;
 import net.sf.jsqlparser.expression.*;
 import net.sf.jsqlparser.expression.operators.arithmetic.Addition;
 import net.sf.jsqlparser.expression.operators.arithmetic.Division;
@@ -10,14 +11,11 @@ import net.sf.jsqlparser.expression.operators.conditional.OrExpression;
 import net.sf.jsqlparser.expression.operators.relational.*;
 import net.sf.jsqlparser.schema.Column;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CrossToJoinOptimizationEvaluator extends AbstractExpressionVisitor {
     private Map<Expression, List<Column>> conditionColumnMap;
-    private List<Column> currentColumnListToSave;
+    private Set<Column> currentColumnSetToSave;
     private int pendingOrs;
 
     /*
@@ -25,7 +23,7 @@ public class CrossToJoinOptimizationEvaluator extends AbstractExpressionVisitor 
     * */
     public CrossToJoinOptimizationEvaluator(Expression whereExpression) {
         conditionColumnMap = new HashMap<>();
-        currentColumnListToSave = new ArrayList<>();
+        currentColumnSetToSave = new HashSet<>();
         pendingOrs = 0;
         whereExpression.accept(this);
     }
@@ -43,26 +41,27 @@ public class CrossToJoinOptimizationEvaluator extends AbstractExpressionVisitor 
     public void visit(OrExpression binaryExpression) {
         ++pendingOrs;
         visitBinaryExpression(binaryExpression);
-        --pendingOrs;
-        saveExpressionsCollectedForCondition(binaryExpression);
+        if (--pendingOrs == 0) {
+            saveExpressionsCollectedForCondition(binaryExpression);
+        }
     }
 
     private void visitBinaryExpression(BinaryExpression binaryExpression) {
         Expression rightExpression = binaryExpression.getRightExpression();
         rightExpression.accept(this);
-        if (!currentColumnListToSave.isEmpty() && (pendingOrs==0)) {
+        if (!currentColumnSetToSave.isEmpty() && (pendingOrs == 0)) {
             saveExpressionsCollectedForCondition(rightExpression);
         }
 
         binaryExpression.getLeftExpression().accept(this);
-        if (!currentColumnListToSave.isEmpty() && (pendingOrs==0)) {
+        if (!currentColumnSetToSave.isEmpty() && (pendingOrs == 0)) {
             saveExpressionsCollectedForCondition(binaryExpression.getLeftExpression());
         }
     }
 
     private void saveExpressionsCollectedForCondition(Expression binaryExpression) {
-        conditionColumnMap.put(binaryExpression, currentColumnListToSave);
-        currentColumnListToSave = new ArrayList<>();
+        conditionColumnMap.put(binaryExpression, new ArrayList<>(currentColumnSetToSave));
+        currentColumnSetToSave = new HashSet<>();
     }
 
     @Override
@@ -72,7 +71,7 @@ public class CrossToJoinOptimizationEvaluator extends AbstractExpressionVisitor 
 
     @Override
     public void visit(Column column) {
-        currentColumnListToSave.add(column);
+        currentColumnSetToSave.add(new ColumnWrapper(column));
     }
 
     @Override
@@ -95,17 +94,17 @@ public class CrossToJoinOptimizationEvaluator extends AbstractExpressionVisitor 
         checkForColumns(arg0);
     }
 
-	@Override
+    @Override
     public void visit(EqualsTo arg0) {
         checkForColumns(arg0);
     }
 
     @Override
-	public void visit(NotEqualsTo arg0) {
-    	checkForColumns(arg0);
-	}
+    public void visit(NotEqualsTo arg0) {
+        checkForColumns(arg0);
+    }
 
-	@Override
+    @Override
     public void visit(GreaterThan arg0) {
         checkForColumns(arg0);
     }

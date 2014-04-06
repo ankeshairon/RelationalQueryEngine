@@ -5,7 +5,10 @@ import edu.buffalo.cse562.visitor.CrossToJoinOptimizationEvaluator;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.schema.Column;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 public class CrossToJoinOptimizer {
 
@@ -15,7 +18,7 @@ public class CrossToJoinOptimizer {
         conditionColumnMap = new CrossToJoinOptimizationEvaluator(where).getConditionColumnMap();
     }
 
-    public List<Expression> getListOfConditionsExclusiveToThisTable(ColumnSchema[] schema) {
+    public List<Expression> getConditionsExclusiveToTable(ColumnSchema[] schema) {
         List<Expression> conditionalExpressions = new ArrayList<>();
 
         Iterator<Expression> iterator = conditionColumnMap.keySet().iterator();
@@ -23,7 +26,7 @@ public class CrossToJoinOptimizer {
         while (iterator.hasNext()) {
             condition = iterator.next();
             List<Column> columnsInConditionExpression = conditionColumnMap.get(condition);
-            if (allColumnsForThisConditionAreOfThisTableOnly(columnsInConditionExpression, schema)) {
+            if (allColumnsForConditionOfThisTableOnly(columnsInConditionExpression, schema)) {
                 conditionalExpressions.add(condition);
                 iterator.remove();
             }
@@ -31,25 +34,62 @@ public class CrossToJoinOptimizer {
         return conditionalExpressions;
     }
 
-    private boolean allColumnsForThisConditionAreOfThisTableOnly(List<Column> columnsInConditionExpression, ColumnSchema[] schema) {
+    public Integer[] getIndexesOfJoinColumns(ColumnSchema[] schema1, ColumnSchema[] schema2) {
+        Iterator<Expression> iterator = conditionColumnMap.keySet().iterator();
+        Expression condition;
+        while (iterator.hasNext()) {
+            condition = iterator.next();
+            List<Column> columnsInConditionExpression = conditionColumnMap.get(condition);
+            final Integer[] indexesOfBothTableColumnsForCondition = getIndexesOfBothTableColumnsForCondition(columnsInConditionExpression, schema1, schema2);
+            if (indexesOfBothTableColumnsForCondition != null) {
+                iterator.remove();
+                return indexesOfBothTableColumnsForCondition;
+            }
+        }
+        return null;
+    }
+
+    private Integer[] getIndexesOfBothTableColumnsForCondition(List<Column> columnsInConditionExpression, ColumnSchema[] schema1, ColumnSchema[] schema2) {
+        Integer index1 = -1;
+        Integer index2 = -1;
+        for (int i = 0; i < columnsInConditionExpression.size(); i++) {
+            if (indexOfColumnInConditionOfThisTable(columnsInConditionExpression.get(i), schema1) != -1) {
+                index1 = i;
+            } else if (indexOfColumnInConditionOfThisTable(columnsInConditionExpression.get(i), schema2) != -1) {
+                index2 = i;
+            } else {
+                return null;
+            }
+        }
+        return (index1 != -1 && index2 != -1) ? new Integer[]{index1, index2} : null;
+    }
+
+
+    private boolean allColumnsForConditionOfThisTableOnly(List<Column> columnsInConditionExpression, ColumnSchema[] schema) {
         for (Column columnInCondition : columnsInConditionExpression) {
-            if (!isColumnInConditionOfThisTable(columnInCondition, schema)) {
+            if (indexOfColumnInConditionOfThisTable(columnInCondition, schema) == -1) {
                 return false;
             }
         }
         return true;
     }
 
-    private boolean isColumnInConditionOfThisTable(Column columnInCondition, ColumnSchema[] schema) {
-        for (ColumnSchema columnSchema : schema) {
-            if (columnSchema.matchColumn(columnInCondition)) {
-                return true;
+    private int indexOfColumnInConditionOfThisTable(Column columnInCondition, ColumnSchema[] schema) {
+        for (int i = 0; i < schema.length; i++) {
+            if (schema[i].matchColumn(columnInCondition)) {
+                return i;
             }
         }
-        return false;
+        return -1;
+//        for (ColumnSchema columnSchema : schema) {
+//            if (columnSchema.matchColumn(columnInCondition)) {
+//                return true;
+//            }
+//        }
+//        return false;
     }
 
-    public Set<Expression> getNonExclusiveConditionClauses(){
-        return conditionColumnMap.keySet();
+    public Map<Expression, List<Column>> getNonExclusiveConditions() {
+        return conditionColumnMap;
     }
 }

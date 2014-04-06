@@ -16,60 +16,47 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static edu.buffalo.cse562.Constants.INDEX_INDICATING_EXPRESSION;
-import static edu.buffalo.cse562.Constants.INDEX_INDICATING_FUNCTION;
+import static edu.buffalo.cse562.Constants.*;
 
 public class EvaluatorProjection extends AbstractExpressionVisitor {
 
-    static ColumnSchema[] inputSchema;
-    static List<ColumnSchema> outputSchema;
-    static List<Integer> indexes;
-    Expression expression;
-    String alias = null;
-    static int counter = 0;
+    private ColumnSchema[] inputSchema;
+    private List<ColumnSchema> outputSchema;
+    private List<Integer> indexes;
+    private int currentIndex = 0;
+    private String alias;
+    private Map<String, Expression> aliasExpressionMap = new HashMap<>();
     private boolean isAnAggregation;
-    static Map<String, Expression> aliasExpressionMap = new HashMap<>();
 
-    public EvaluatorProjection(ColumnSchema[] inputSchemaArg, List<ColumnSchema> outputSchemaArg, List<Integer> indexesArg) {
-        inputSchema = inputSchemaArg;
-        outputSchema = outputSchemaArg;
-        indexes = indexesArg;
+    public EvaluatorProjection(ColumnSchema[] inputSchema, List<ColumnSchema> outputSchema, List<Integer> indexes) {
+        this.inputSchema = inputSchema;
+        this.outputSchema = outputSchema;
+        this.indexes = indexes;
     }
 
-    public EvaluatorProjection(Expression expression, String alias) {
-        this.expression = expression;
+    public void setAlias(String alias) {
         this.alias = alias;
     }
 
     @Override
-    public void visit(Function arg0) {
-        /*String aggregate = arg0.getName();
-        ExpressionList expressionList = arg0.getParameters();
-		boolean isAllColumns = arg0.isAllColumns();
-		boolean isDistinct = arg0.isDistinct();
-		
-		 * Aggregates don't follow the pull model 
-		 * We need to implement the is_done function()
-		 * This is to be a blocking method.
-		 
-		System.out.println(aggregate + ", All columns " + isAllColumns + ", Distinct " + isDistinct);
-		List<Expression> expr = expressionList.getExpressions();
-		Expression func = arg0;
-		*/
+    public void visit(Function function) {
         isAnAggregation = true;
 
         indexes.add(INDEX_INDICATING_FUNCTION);
         String colName;
         if (alias == null) {
-            colName = arg0.toString();
+            colName = function.toString();
         } else {
             colName = alias;
         }
         ColumnSchema columnSchema = new ColumnSchema(colName, Datum.type.FLOAT);
-        columnSchema.setAlias(alias);
-        columnSchema.setExpression(arg0);
+        columnSchema.setColumnAlias(alias);
+        columnSchema.setExpression(function);
+        columnSchema.setIsDistinct(function.isDistinct());
         outputSchema.add(columnSchema);
-        counter++;
+
+        ((Expression) function.getParameters().getExpressions().get(0)).accept(this);
+        currentIndex++;
     }
 
     @Override
@@ -79,31 +66,31 @@ public class EvaluatorProjection extends AbstractExpressionVisitor {
 
     @Override
     public void visit(Column arg0) {
-        isAnAggregation = false;
+        if (isAnAggregation) {
+            return;
+        }
 
         for (int i = 0; i < inputSchema.length; i++) {
             if (inputSchema[i].matchColumn(arg0)) {
                 indexes.add(i);
                 ColumnSchema columnSchema = new ColumnSchema(inputSchema[i].getColName(), inputSchema[i].getType());
-                columnSchema.setAlias(inputSchema[i].getAlias());
+                columnSchema.setColumnAlias(inputSchema[i].getColumnAlias());
                 outputSchema.add(columnSchema);
-                counter++;
+                currentIndex++;
                 return;
             }
         }
 
         for (String alias : aliasExpressionMap.keySet()) {
             if (arg0.getColumnName().equalsIgnoreCase(alias)) {
-                indexes.add(counter);
+                indexes.add(currentIndex);
                 ColumnSchema columnSchema = new ColumnSchema(alias, Datum.type.FLOAT);
-                columnSchema.setAlias(alias);
+                columnSchema.setColumnAlias(alias);
                 columnSchema.setExpression(aliasExpressionMap.get(alias));
                 outputSchema.add(columnSchema);
-                counter++;
+                currentIndex++;
             }
         }
-
-
     }
 
     @Override
@@ -127,17 +114,24 @@ public class EvaluatorProjection extends AbstractExpressionVisitor {
     }
 
     private void visitBinaryExpression(BinaryExpression binaryExpression) {
+        if (isAnAggregation) {
+            indexes.set(currentIndex, INDEX_INDICATING_EXPRESSION_INSIDE_FUNCTION);
+            return;
+        }
+
         ColumnSchema newColumnSchema = new ColumnSchema(binaryExpression.toString(), Datum.type.FLOAT);
         newColumnSchema.setExpression(binaryExpression);
         if (alias != null) {
             aliasExpressionMap.put(alias, binaryExpression);
-            newColumnSchema.setAlias(alias);
+            newColumnSchema.setColumnAlias(alias);
         }
         outputSchema.add(newColumnSchema);
         indexes.add(INDEX_INDICATING_EXPRESSION);
     }
 
-    public boolean isAnAggregation() {
-        return isAnAggregation;
+    public boolean wasAnAggregation() {
+        boolean lastResult = isAnAggregation;
+        isAnAggregation = false;
+        return lastResult;
     }
 }

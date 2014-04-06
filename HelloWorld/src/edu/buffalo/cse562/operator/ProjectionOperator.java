@@ -46,7 +46,7 @@ public class ProjectionOperator implements Operator {
 
     private Datum evaluateExpression(Datum[] oldDatum, ColumnSchema[] oldSchema, Expression expression) {
         EvaluatorAggregate evalAggregate = new EvaluatorAggregate(oldDatum, oldSchema, expression);
-        expression.accept(evalAggregate);
+//        expression.accept(evalAggregate);
         Datum floatDatum = null;
         try {
             floatDatum = evalAggregate.executeStack();
