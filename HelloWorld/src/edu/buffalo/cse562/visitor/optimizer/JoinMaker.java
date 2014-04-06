@@ -8,7 +8,6 @@ import net.sf.jsqlparser.expression.Expression;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.*;
 
 public class JoinMaker {
@@ -81,7 +80,7 @@ public class JoinMaker {
         Integer[] indexes = optimizer.getIndexesOfJoinColumns(chainedOperator.getSchema(), nextOperator.getSchema());
         try {
             return new HybridHashJoinOperator(chainedOperator, nextOperator, indexes[0], indexes[1], swapDir);
-        } catch (IOException | Datum.CastException | ParseException e) {
+        } catch (IOException | Datum.CastException e) {
             e.printStackTrace();
             return null;
         }
