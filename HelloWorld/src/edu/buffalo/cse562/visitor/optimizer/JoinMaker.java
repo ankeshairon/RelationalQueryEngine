@@ -1,19 +1,25 @@
 package edu.buffalo.cse562.visitor.optimizer;
 
-import edu.buffalo.cse562.operator.NestedLoopJoinOperator;
+import edu.buffalo.cse562.data.Datum;
+import edu.buffalo.cse562.operator.HybridHashJoinOperator;
 import edu.buffalo.cse562.operator.Operator;
 import edu.buffalo.cse562.operator.SelectionOperator;
 import net.sf.jsqlparser.expression.Expression;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.*;
 
 public class JoinMaker {
     private final List<Operator> inputOperators;
+    private final File swapDir;
     private CrossToJoinOptimizer optimizer;
 
 
-    public JoinMaker(Expression where, List<Operator> inputOperators) {
+    public JoinMaker(Expression where, List<Operator> inputOperators, File swapDir) {
         this.inputOperators = inputOperators;
+        this.swapDir = swapDir;
         optimizer = new CrossToJoinOptimizer(where);
     }
 
@@ -70,12 +76,15 @@ public class JoinMaker {
     }*/
 
     private Operator getJoinOperator(Operator chainedOperator, Operator nextOperator) {
-        //todo comment 1st line and uncomment 2nd n 3rd line to start using HybridHash operator
+//        return new NestedLoopJoinOperator(chainedOperator, nextOperator);
 
-        return new NestedLoopJoinOperator(chainedOperator, nextOperator);
-
-//        Integer[] indexes = optimizer.getIndexesOfJoinColumns(chainedOperator.getSchema(), nextOperator.getSchema());
-//        return new HybridHashJoinOperator(chainedOperator, nextOperator, indexes[0], indexes[1]);
+        Integer[] indexes = optimizer.getIndexesOfJoinColumns(chainedOperator.getSchema(), nextOperator.getSchema());
+        try {
+            return new HybridHashJoinOperator(chainedOperator, nextOperator, indexes[0], indexes[1], swapDir);
+        } catch (IOException | Datum.CastException | ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public List<Expression> getNonExclusiveConditionClauses() {
