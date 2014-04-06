@@ -1,6 +1,8 @@
 package edu.buffalo.cse562.data;
 
-public abstract class Datum implements Comparable {
+import java.io.Serializable;
+
+public abstract class Datum implements Comparable, Serializable {
 
     public static enum type {
         BOOL, LONG, FLOAT, STRING, DATE
