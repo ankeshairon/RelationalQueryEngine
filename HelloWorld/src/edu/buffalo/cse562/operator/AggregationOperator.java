@@ -11,10 +11,12 @@ import java.util.*;
 
 public class AggregationOperator implements Operator {
 
+    private final ColumnSchema[] newSchema;
     private List<Datum[]> result;
     private Iterator<Datum[]> resultIterator;
 
     public AggregationOperator(Operator in, ColumnSchema[] newSchema, Integer[] indexArray, PlainSelect plainSelect) {
+        this.newSchema = newSchema;
         result = new ArrayList<>();
         pullAllData(in, newSchema, indexArray, plainSelect);
         reset();
@@ -63,6 +65,6 @@ public class AggregationOperator implements Operator {
 
     @Override
     public ColumnSchema[] getSchema() {
-        return new ColumnSchema[0];
+        return newSchema;
     }
 }
