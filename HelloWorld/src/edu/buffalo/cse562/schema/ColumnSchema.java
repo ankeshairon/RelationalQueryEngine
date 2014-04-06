@@ -49,7 +49,9 @@ public class ColumnSchema {
         String tableName = column.getTable().getName();
         if (tableName == null) {
             return matchColumnNameOnly(columnName);
-        } else return matchTableAndColumnName(tableName, columnName);
+        } else {
+            return matchTableAndColumnName(tableName, columnName);
+        }
     }
 
     public boolean matchColumn(String col) {
@@ -66,7 +68,7 @@ public class ColumnSchema {
     }
 
     private boolean matchTableName(String tableName) {
-        return tableName.equalsIgnoreCase(tableName) || tableName.equalsIgnoreCase(tableAlias);
+        return tableName.equalsIgnoreCase(this.tableName) || tableName.equalsIgnoreCase(tableAlias);
     }
 
     public boolean matchColumnNameOnly(String columnName) {
