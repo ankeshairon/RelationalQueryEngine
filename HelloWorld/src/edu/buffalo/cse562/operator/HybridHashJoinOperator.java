@@ -3,7 +3,6 @@ package edu.buffalo.cse562.operator;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -14,8 +13,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 import edu.buffalo.cse562.data.Datum;
-import edu.buffalo.cse562.data.Datum.CastingException;
-import edu.buffalo.cse562.data.Datum.LONG;
+import edu.buffalo.cse562.data.Datum.CastException;
+import edu.buffalo.cse562.data.BOOL;
+import edu.buffalo.cse562.data.FLOAT;
+import edu.buffalo.cse562.data.LONG;
+import edu.buffalo.cse562.data.STRING;
 import edu.buffalo.cse562.schema.ColumnSchema;
 
 public class HybridHashJoinOperator implements Operator {
@@ -38,7 +40,7 @@ public class HybridHashJoinOperator implements Operator {
 	
 	File swapDir;
 	
-	public HybridHashJoinOperator(Operator R, Operator S, int indexR, int indexS, String swapDir) throws CastingException, IOException{
+	public HybridHashJoinOperator(Operator R, Operator S, int indexR, int indexS, String swapDir) throws CastException, IOException{
 		
 		this.R = R; this.S = S;
 		this.indexR = indexR; this.indexS = indexS;
@@ -70,7 +72,7 @@ public class HybridHashJoinOperator implements Operator {
 		}
 	}
 	
-	public void createBuckets(Operator O, int index, HashMap<Long,File> bucket) throws CastingException, IOException{
+	public void createBuckets(Operator O, int index, HashMap<Long,File> bucket) throws CastException, IOException{
 		Datum[] tuple;
 		long key;
 		File file;
@@ -106,7 +108,7 @@ public class HybridHashJoinOperator implements Operator {
 		}
 	}
 	
-	public void join() throws IOException, CastingException{
+	public void join() throws IOException, CastException{
 		Iterator iterR = keySetR.iterator();
 		Datum[] outTuple = new Datum[R.getSchema().length + S.getSchema().length];
 		result = new LinkedList<Datum[]>();
@@ -171,18 +173,30 @@ public class HybridHashJoinOperator implements Operator {
 		Datum[] ret = new Datum[schema.length];
 		String[] cols = line.split("\\|");
 		for(int i=0;i<ret.length;i++){
-			if(schema[i].getType() == Datum.Type.LONG){
-				ret[i] = new Datum.LONG(Long.parseLong(cols[i]));
-			}else if(schema[i].getType() == Datum.Type.FLOAT){
-				ret[i] = new Datum.FLOAT(Double.parseDouble(cols[i]));
-			}else if(schema[i].getType() == Datum.Type.STRING){
-				ret[i] = new Datum.STRING(cols[i]);
-			}else if(schema[i].getType() == Datum.Type.BOOL){
-				ret[i] = new Datum.BOOL(Boolean.parseBoolean(cols[i]));
-			}else if(schema[i].getType() == Datum.Type.DATE){
-				ret[i] = new Datum.DATE(cols[i]);
-			}
-			
+            switch (schema[i].getType()) {
+            case LONG:
+                ret[i] = new LONG(cols[i]);
+                break;
+            case FLOAT:
+                ret[i] = new FLOAT(cols[i]);
+                break;
+            case BOOL:
+                ret[i] = new BOOL(cols[i]);
+                break;
+            case DATE:
+//                try {
+//                    ret[i] = new DATE(cols[i]);
+//                } catch (ParseException e) {
+//                    e.printStackTrace();
+//                }
+//                break;
+            case STRING:
+                ret[i] = new STRING(cols[i]);
+                break;
+            default:
+            	ret[i] = new STRING(cols[i]);
+            	break;
+            }			
 		}
 		return ret;
 	}
