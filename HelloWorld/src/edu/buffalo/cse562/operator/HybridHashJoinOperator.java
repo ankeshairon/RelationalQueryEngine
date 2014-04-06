@@ -27,12 +27,12 @@ public class HybridHashJoinOperator implements Operator {
 
     File swapDir;
 
-    public HybridHashJoinOperator(Operator R, Operator S, int indexR, int indexS, String swapDir) throws CastException, IOException{
+    public HybridHashJoinOperator(Operator R, Operator S, int indexR, int indexS, File swapDir) throws CastException, IOException{
 
         this.R = R; this.S = S;
         this.indexR = indexR; this.indexS = indexS;
         schemaR = R.getSchema(); schemaS = S.getSchema();
-        this.swapDir = new File(swapDir);
+        this.swapDir = swapDir;
         bucketR = new HashMap<Long,File>();
         bucketS = new HashMap<Long,File>();
         createBuckets(this.R,indexR, bucketR);
