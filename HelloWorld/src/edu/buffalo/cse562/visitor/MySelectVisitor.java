@@ -1,7 +1,6 @@
 package edu.buffalo.cse562.visitor;
 
 
-import edu.buffalo.cse562.View;
 import edu.buffalo.cse562.model.TableInfo;
 import edu.buffalo.cse562.operator.*;
 import edu.buffalo.cse562.schema.ColumnSchema;
@@ -121,7 +120,7 @@ public class MySelectVisitor implements SelectVisitor {
                 inputOperators.add(myFromItemVisitor.source);
             }
 
-            JoinMaker joinMaker = new JoinMaker(where, inputOperators);
+            JoinMaker joinMaker = new JoinMaker(where, inputOperators, swapDir);
             source = joinMaker.getOptimizedChainedJoinOperator();
             return joinMaker;
         }
