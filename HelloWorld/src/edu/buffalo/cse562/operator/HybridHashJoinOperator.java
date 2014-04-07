@@ -40,9 +40,9 @@ public class HybridHashJoinOperator implements Operator {
         keySetR = (HashSet<Long>) bucketR.keySet();
         keySetS = (HashSet<Long>) bucketS.keySet();
 
-        this.join();
-        this.cleanup();
-        this.updateSchema();
+        join();
+        cleanup();
+        updateSchema();
         resultIter = result.iterator();
     }
 

@@ -34,19 +34,6 @@ CREATE TABLE LINEITEM (
         comment        VARCHAR(44)
     );
 
-
-CREATE TABLE ORDERS (
-        orderkey       INT,
-        custkey        INT,
-        orderstatus    CHAR(1),
-        totalprice     DECIMAL,
-        orderdate      DATE,
-        orderpriority  VARCHAR(15),
-        clerk          VARCHAR(15),
-        shippriority   INT,
-        comment        VARCHAR(79)
-    );
-
 CREATE TABLE PART (
         partkey      INT,
         name         VARCHAR(55),
@@ -80,6 +67,18 @@ CREATE TABLE SUPPLIER (
         comment      VARCHAR(101)
     );
 
+CREATE TABLE ORDERS (
+        orderkey       INT,
+        custkey        INT,
+        orderstatus    CHAR(1),
+        totalprice     DECIMAL,
+        orderdate      DATE,
+        orderpriority  VARCHAR(15),
+        clerk          VARCHAR(15),
+        shippriority   INT,
+        comment        VARCHAR(79)
+    );
+
 CREATE TABLE PARTSUPP (
         partkey      INT,
         suppkey      INT,
@@ -101,24 +100,24 @@ CREATE TABLE REGION (
         comment      VARCHAR(152)
     );
 
---select suppnation, custnation, sum(volume) as revenue
---from (
---select n1.name as suppnation, n2.name as custnation, lineitem.extendedprice * (1 - lineitem.discount) as volume
---from supplier, lineitem, orders, customer, nation n1, nation n2
---where supplier.suppkey = lineitem.suppkey
---and orders.orderkey = lineitem.orderkey
---and customer.custkey = orders.custkey
---and supplier.nationkey = n1.nationkey
---and customer.nationkey = n2.nationkey
---and lineitem.shipdate >= date('1995-01-01')
---and lineitem.shipdate <= date('1996-12-31')
---) as shipping
---group by
---suppnation,
---custnation
---order by
---suppnation,
---custnation;
+select suppnation, custnation, sum(volume) as revenue
+from (
+select n1.name as suppnation, n2.name as custnation, lineitem.extendedprice * (1 - lineitem.discount) as volume
+from supplier, lineitem, orders, customer, nation n1, nation n2
+where supplier.suppkey = lineitem.suppkey
+and orders.orderkey = lineitem.orderkey
+and customer.custkey = orders.custkey
+and supplier.nationkey = n1.nationkey
+and customer.nationkey = n2.nationkey
+and lineitem.shipdate >= date('1995-01-01')
+and lineitem.shipdate <= date('1996-12-31')
+) as shipping
+group by
+suppnation,
+custnation
+order by
+suppnation,
+custnation;
 
 --select customer.custkey, sum(lineitem.extendedprice * (1 - lineitem.discount)) as revenue, customer.acctbal, nation.name, customer.address, customer.phone, customer.comment
 --from customer, orders, lineitem, nation
@@ -131,7 +130,7 @@ CREATE TABLE REGION (
 --group by customer.custkey, customer.acctbal, customer.phone, nation.name, customer.address, customer.comment
 --order by revenue asc
 --limit 20;
-
+--
 --select lineitem.shipmode, count(distinct orders.orderkey)
 --from orders, lineitem
 --where orders.orderkey = lineitem.orderkey
@@ -144,10 +143,10 @@ CREATE TABLE REGION (
 --and lineitem.receiptdate < date('1996-03-05')
 --group by lineitem.shipmode
 --order by lineitem.shipmode;
-
-select part.brand, part.type, part.size, count(distinct partsupp.suppkey) as suppliercount
-from partsupp, part
-where part.partkey = partsupp.partkey and part.brand <> 'Brand#11'
-group by part.brand, part.type, part.size
-order by suppliercount, part.brand, part.type, part.size;
+--
+--select part.brand, part.type, part.size, count(distinct partsupp.suppkey) as suppliercount
+--from partsupp, part
+--where part.partkey = partsupp.partkey and part.brand <> 'Brand#11'
+--group by part.brand, part.type, part.size
+--order by suppliercount, part.brand, part.type, part.size;
 

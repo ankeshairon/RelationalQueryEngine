@@ -2,6 +2,7 @@ package edu.buffalo.cse562.visitor.optimizer;
 
 import edu.buffalo.cse562.data.Datum;
 import edu.buffalo.cse562.operator.HybridHashJoinOperator;
+import edu.buffalo.cse562.operator.NestedLoopJoinOperator;
 import edu.buffalo.cse562.operator.Operator;
 import edu.buffalo.cse562.operator.SelectionOperator;
 import net.sf.jsqlparser.expression.Expression;
@@ -75,14 +76,17 @@ public class JoinMaker {
     }*/
 
     private Operator getJoinOperator(Operator chainedOperator, Operator nextOperator) {
-//        return new NestedLoopJoinOperator(chainedOperator, nextOperator);
-
         Integer[] indexes = optimizer.getIndexesOfJoinColumns(chainedOperator.getSchema(), nextOperator.getSchema());
-        try {
-            return new HybridHashJoinOperator(chainedOperator, nextOperator, indexes[0], indexes[1], swapDir);
-        } catch (IOException | Datum.CastException e) {
-            e.printStackTrace();
-            return null;
+
+        if (indexes != null) {
+            try {
+                return new HybridHashJoinOperator(chainedOperator, nextOperator, indexes[0], indexes[1], swapDir);
+            } catch (IOException | Datum.CastException e) {
+                e.printStackTrace();
+                return null;
+            }
+        } else {
+            return new NestedLoopJoinOperator(chainedOperator, nextOperator);
         }
     }
 
