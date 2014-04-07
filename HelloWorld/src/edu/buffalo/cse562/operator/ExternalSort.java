@@ -32,7 +32,9 @@ public class ExternalSort implements Operator{
     private static int blockno;
     private static int originalBlocks;
     private static int extraBlocks = 0;
+    private static int currentsize = 0;
     private static int blocksize = 1000;
+    private static int originalsize;
     private static int writeBlock;
     private boolean externalSortActivated = false;
     private TupleComparator tupleComparator;
@@ -49,6 +51,7 @@ public class ExternalSort implements Operator{
         this.tupleList = new ArrayList<>();
         this.tupleComparator = new TupleComparator(indexesOfColumnsToSortOn);
         this.mergedList = new ArrayList<>();
+        this.originalsize = blocksize;
         pullAllData();
     }
     
@@ -154,14 +157,14 @@ public class ExternalSort implements Operator{
     				if (tuple1 != null && tuple2 != null) {
     					result = tupleComparator.compare(tuple1, tuple2);
     					if (result == 0 || result > 0) {
-    						this.sortMerge(tuple1);
-    						tuple1 = null;
-    						prevTuple1 = getNextDatum(ois1);
-    					}
-    					else if (result < 0) {
     						this.sortMerge(tuple2);
     						tuple2 = null;
     						prevTuple2 = getNextDatum(ois2);
+    					}
+    					else if (result < 0) {
+    						this.sortMerge(tuple1);
+    						tuple1 = null;
+    						prevTuple1 = getNextDatum(ois1);
     					}
     				}
     			}
@@ -251,22 +254,27 @@ public class ExternalSort implements Operator{
     public void sortMerge(Datum[] data) {
 
     	ObjectOutputStream oos;
-
-    	if (data == null) {
+    	
+    	if (data == null /*|| currentsize >= originalsize*/) {
     		try {
    				oos = getObjectStream(swapDir.getAbsolutePath()+"/Sort"+writeBlock);
    				for (Datum[] tupleAll: mergedList){
    					oos.writeObject(tupleAll);
    				}
+   				oos.flush();
    				oos.close();
    				mergedList = new ArrayList<>();
     		} 
     		catch (FileNotFoundException e) { e.printStackTrace(); }
     		catch (IOException e) { e.printStackTrace(); }
-    		writeBlock++;
-    		extraBlocks++;
+    //		currentsize = 0;
+    //		if (data == null) {
+    			writeBlock++;
+    			extraBlocks++;
+    //		}
     	}
     	else {
+    		currentsize++;
         	mergedList.add(data);
     	}
     }
