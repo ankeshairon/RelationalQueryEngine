@@ -21,7 +21,11 @@ import edu.buffalo.cse562.comparator.TupleComparator;
 import edu.buffalo.cse562.data.Datum;
 import edu.buffalo.cse562.schema.ColumnSchema;
 
-
+/*
+ * Set BlockSize parameter manually 
+ * If #tuples exceeds BlockSize, external sort is activated
+ * Else normal sort happens.
+ */
 public class ExternalSort implements Operator{
 	Operator input;
     private LinkedHashMap<Integer, Boolean> indexesOfColumnsToSortOn;
@@ -221,6 +225,7 @@ public class ExternalSort implements Operator{
     	else {
     			if (blockno == 1) {
     				//Sort Ends
+    				writeBlock--;
     				setIterator();
     			}
     			else {
@@ -281,7 +286,7 @@ public class ExternalSort implements Operator{
     
     private void setIterator() {
         try {
-			sortedOutputFile = new FileInputStream(swapDir.getAbsolutePath() + "/Sort" + --writeBlock);
+			sortedOutputFile = new FileInputStream(swapDir.getAbsolutePath() + "/Sort" + writeBlock);
 			sortedDatumObjects = new ObjectInputStream(sortedOutputFile);
 		} 
         catch (FileNotFoundException e) { e.printStackTrace(); } 
@@ -299,7 +304,9 @@ public class ExternalSort implements Operator{
         return null;
     }
 }
-
+/*
+ * Java hack to remove ObjectStream Header
+ */
 
 class AppendingObjectOutputStream extends ObjectOutputStream {
 
