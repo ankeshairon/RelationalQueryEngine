@@ -1,6 +1,6 @@
 x OR in optimizer & evaluator
 x limit by clause
-- distinct operator
+x distinct operator
 
 x hybrid hash join
 x sort merge join
@@ -11,10 +11,10 @@ x external sort
 Queries -
 x tpch 7
 x tpch 10
+x tpch 12
+x tpch 16
 
-- tpch 12
-- tpch 16
-
+- clean evaluators
 
 Middle Layer -
 x know about size of tables

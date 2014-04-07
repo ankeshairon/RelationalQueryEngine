@@ -101,19 +101,53 @@ CREATE TABLE REGION (
         comment      VARCHAR(152)
     );
 
-select count(distinct orders.orderkey)
-from orders
---, lineitem
-where
---orders.orderkey = lineitem.orderkey
+--select suppnation, custnation, sum(volume) as revenue
+--from (
+--select n1.name as suppnation, n2.name as custnation, lineitem.extendedprice * (1 - lineitem.discount) as volume
+--from supplier, lineitem, orders, customer, nation n1, nation n2
+--where supplier.suppkey = lineitem.suppkey
+--and orders.orderkey = lineitem.orderkey
+--and customer.custkey = orders.custkey
+--and supplier.nationkey = n1.nationkey
+--and customer.nationkey = n2.nationkey
+--and lineitem.shipdate >= date('1995-01-01')
+--and lineitem.shipdate <= date('1996-12-31')
+--) as shipping
+--group by
+--suppnation,
+--custnation
+--order by
+--suppnation,
+--custnation;
+
+--select customer.custkey, sum(lineitem.extendedprice * (1 - lineitem.discount)) as revenue, customer.acctbal, nation.name, customer.address, customer.phone, customer.comment
+--from customer, orders, lineitem, nation
+--where customer.custkey = orders.custkey
+--and lineitem.orderkey = orders.orderkey
+--and orders.orderdate >= date('1995-03-05')
+--and orders.orderdate < date('1995-06-05')
+--and lineitem.returnflag = 'R'
+--and customer.nationkey = nation.nationkey
+--group by customer.custkey, customer.acctbal, customer.phone, nation.name, customer.address, customer.comment
+--order by revenue asc
+--limit 20;
+
+--select lineitem.shipmode, count(distinct orders.orderkey)
+--from orders, lineitem
+--where orders.orderkey = lineitem.orderkey
 --and (lineitem.shipmode='AIR' or lineitem.shipmode='MAIL' or lineitem.shipmode='TRUCK' or lineitem.shipmode='SHIP')
---and
-orders.orderpriority <> '1-URGENT'
-and orders.orderpriority <> '2-HIGH'
+--and orders.orderpriority <> '1-URGENT'
+--and orders.orderpriority <> '2-HIGH'
 --and lineitem.commitdate < lineitem.receiptdate
 --and lineitem.shipdate < lineitem.commitdate
 --and lineitem.receiptdate >= date('1995-03-05')
 --and lineitem.receiptdate < date('1996-03-05')
 --group by lineitem.shipmode
 --order by lineitem.shipmode;
-order by orders.clerk
+
+select part.brand, part.type, part.size, count(distinct partsupp.suppkey) as suppliercount
+from partsupp, part
+where part.partkey = partsupp.partkey and part.brand <> 'Brand#11'
+group by part.brand, part.type, part.size
+order by suppliercount, part.brand, part.type, part.size;
+

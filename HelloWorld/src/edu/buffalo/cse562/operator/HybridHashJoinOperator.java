@@ -33,8 +33,8 @@ public class HybridHashJoinOperator implements Operator {
         this.indexR = indexR; this.indexS = indexS;
         schemaR = R.getSchema(); schemaS = S.getSchema();
         this.swapDir = swapDir;
-        bucketR = new HashMap<Long,File>();
-        bucketS = new HashMap<Long,File>();
+        bucketR = new HashMap<>();
+        bucketS = new HashMap<>();
         createBuckets(this.R,indexR, bucketR);
         createBuckets(this.S,indexS, bucketS);
         keySetR = (HashSet<Long>) bucketR.keySet();
@@ -70,7 +70,7 @@ public class HybridHashJoinOperator implements Operator {
                 if(i == tuple.length - 1){
                     buildTuple.append(tuple[i]);
                 }else{
-                    buildTuple.append(tuple[i]+"|");
+                    buildTuple.append(tuple[i]).append("|");
                 }
             }
             key = tuple[index].toLONG();
@@ -98,12 +98,12 @@ public class HybridHashJoinOperator implements Operator {
     public void join() throws IOException, CastException{
         Iterator iterR = keySetR.iterator();
         Datum[] outTuple = new Datum[R.getSchema().length + S.getSchema().length];
-        result = new LinkedList<Datum[]>();
+        result = new LinkedList<>();
         while(iterR.hasNext()){
 
             Object key = iterR.next();
             File bucketFileR = bucketR.get(key);
-            HashMap<Long, List<Datum[]>> build = new HashMap<Long, List<Datum[]>>();
+            HashMap<Long, List<Datum[]>> build = new HashMap<>();
             if(keySetS.contains(key)){
                 File bucketFileS = bucketS.get(key);
                 long size = bucketFileR.length();
@@ -114,7 +114,7 @@ public class HybridHashJoinOperator implements Operator {
                     Datum[] tuple = parseLine(line, R.getSchema());
                     List<Datum[]> r_list = build.get(tuple[indexR]);
                     if(r_list == null){
-                        r_list = new LinkedList<Datum[]>();
+                        r_list = new LinkedList<>();
                     }
                     r_list.add(tuple);
                     build.put(tuple[indexR].toLONG(), r_list);

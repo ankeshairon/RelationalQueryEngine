@@ -45,15 +45,6 @@ public class EvaluatorAggregate extends AbstractExpressionVisitor {
         expression.accept(this);
     }
 
-    /*private EvaluatorAggregate(Datum[] tuple, ColumnSchema[] oldSchema, Expression evalExpression, Stack<Datum> literals, Stack<String> symbols) {
-        this.tuple = tuple;
-        this.oldSchema = oldSchema;
-        this.evalExpression = evalExpression;
-        this.literals = literals;
-        this.symbols = symbols;
-        evalExpression.accept(this);
-    }*/
-
     public Datum executeStack() throws CastException {
         while (!symbols.empty()) {
             literals.push(executeExpression());

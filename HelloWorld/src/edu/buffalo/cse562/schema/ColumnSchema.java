@@ -72,7 +72,11 @@ public class ColumnSchema {
     }
 
     public boolean matchColumnNameOnly(String columnName) {
-        return columnName.equalsIgnoreCase(colName);
+        return columnName.equalsIgnoreCase(colName) || columnName.equals(columnAlias);
+    }
+
+    public boolean matchFullQualifiedName(String columnName){
+        return columnName.equalsIgnoreCase(fullQualifiedName);
     }
 
     public Datum.type getType() {
@@ -117,7 +121,7 @@ public class ColumnSchema {
         this.expr = expr;
     }
 
-    public Boolean getIsDistinct() {
+    public Boolean IsDistinct() {
         return isDistinct;
     }
 

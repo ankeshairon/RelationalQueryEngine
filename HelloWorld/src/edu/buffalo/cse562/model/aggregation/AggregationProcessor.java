@@ -46,9 +46,9 @@ public class AggregationProcessor {
     private void createDistinctColumnIndexes() {
         distinctColumnIndexes = new TreeSet<>();
 //        for (int i = 0; i < oldSchema.length; i++) {
-//            if (oldSchema[i].getIsDistinct()) {
+//            if (oldSchema[i].IsDistinct()) {
         for (int i = 0; i < newSchema.length; i++) {
-            if (isSchemaIndexIndicatingFunctionWithoutExpression(relativeNewSchemaIndexes[i])) {
+            if (newSchema[i].IsDistinct() != null && newSchema[i].IsDistinct()) {
                 distinctColumnIndexes.add(relativeNewSchemaIndexes[i]);
             }
         }
@@ -86,7 +86,8 @@ public class AggregationProcessor {
                     }
 
                     if (distinctColumnIndexes.contains(relativeNewSchemaIndexes[i])) {
-                        distinctElementsInGroupBy.put(relativeNewSchemaIndexes[i], newDistinctColumnValuesSet(i, newTuple[i]));
+                        distinctElementsInGroupBy.put(relativeNewSchemaIndexes[i], newDistinctColumnValuesSet(newTuple[i]));
+//                        distinctElementsInGroupBy.put(relativeNewSchemaIndexes[i], newDistinctColumnValuesSet(i, newTuple[i]));
                     }
                 }
                 resultDatumWithUniqueValuesOfGroupByElements.add(newAggregatedDatum);
@@ -108,7 +109,8 @@ public class AggregationProcessor {
         }
     }
 
-    private Set<Datum> newDistinctColumnValuesSet(Integer index, Datum datum) {
+//    private Set<Datum> newDistinctColumnValuesSet(Integer index, Datum datum) {
+    private Set<Datum> newDistinctColumnValuesSet(Datum datum) {
         final Set<Datum> distinctColumnValuesSet = new HashSet<>();
         distinctColumnValuesSet.add(datum);
 
@@ -190,7 +192,7 @@ public class AggregationProcessor {
             return new LONG(distinctElementsInGroupBy.get(distinctColumnIndex).size());
         }
 
-        throw new UnsupportedOperationException("Unsupported aggregation received with distinct : " + aggregationName);
+        throw new UnsupportedOperationException("Unsupported aggregation received with distinct : " + newSchema[newColumnIndex].getExpression().toString());
     }
 
     private Datum addDatums(Datum oldDatum, Datum offsetValue) {
@@ -244,19 +246,20 @@ public class AggregationProcessor {
         Function function = (Function) newSchema[i].getExpression();
         if (function.getParameters() != null) {
             Expression expression = (Expression) function.getParameters().getExpressions().get(0);
-            return getExecutableExpression(expression);
+            return getExecutableExpression(expression, i);
         }
         return null; //handling count(*)
     }
 
-    private Expression getExecutableExpression(Expression expression) {
+    private Expression getExecutableExpression(Expression expression, int i) {
         final String expressionString = expression.toString();
-        for (ColumnSchema colSchema : oldSchema) {
-            if (expressionString.equals(colSchema.getColName()) || expressionString.equals(colSchema.getFullQualifiedName())) {
-                return expression;
-            } else if (expressionString.equals(colSchema.getColumnAlias())) {
-                return colSchema.getExpression();
-            }
+        ColumnSchema colSchema = newSchema[i];
+        if (colSchema.matchColumnNameOnly(expressionString) || colSchema.matchFullQualifiedName(expressionString)) {
+            return expression;
+        } else if (expressionString.equals(colSchema.getColumnAlias())) {
+            return colSchema.getExpression();
+        } else if (colSchema.getExpression() != null && ((Function) colSchema.getExpression()).getParameters().getExpressions().get(0).equals(expression)) {
+            return expression;
         }
         throw new UnsupportedOperationException("No executable expression found");
     }

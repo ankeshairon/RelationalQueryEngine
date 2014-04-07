@@ -23,7 +23,7 @@ public class EvaluatorProjection extends AbstractExpressionVisitor {
     private ColumnSchema[] inputSchema;
     private List<ColumnSchema> outputSchema;
     private List<Integer> indexes;
-    private int currentIndex = 0;
+    private int currentIndex = -1;
     private String alias;
     private Map<String, Expression> aliasExpressionMap = new HashMap<>();
     private boolean isAnAggregation;
@@ -56,7 +56,6 @@ public class EvaluatorProjection extends AbstractExpressionVisitor {
         outputSchema.add(columnSchema);
 
         ((Expression) function.getParameters().getExpressions().get(0)).accept(this);
-        currentIndex++;
     }
 
     @Override
@@ -76,7 +75,6 @@ public class EvaluatorProjection extends AbstractExpressionVisitor {
                 ColumnSchema columnSchema = new ColumnSchema(inputSchema[i].getColName(), inputSchema[i].getType());
                 columnSchema.setColumnAlias(inputSchema[i].getColumnAlias());
                 outputSchema.add(columnSchema);
-                currentIndex++;
                 return;
             }
         }
@@ -88,9 +86,10 @@ public class EvaluatorProjection extends AbstractExpressionVisitor {
                 columnSchema.setColumnAlias(alias);
                 columnSchema.setExpression(aliasExpressionMap.get(alias));
                 outputSchema.add(columnSchema);
-                currentIndex++;
+                return;
             }
         }
+        throw new UnsupportedOperationException("Column not found : " + arg0);
     }
 
     @Override
@@ -133,5 +132,13 @@ public class EvaluatorProjection extends AbstractExpressionVisitor {
         boolean lastResult = isAnAggregation;
         isAnAggregation = false;
         return lastResult;
+    }
+
+    public int getCurrentIndex() {
+        return currentIndex;
+    }
+
+    public void incrementCurrentIndex(){
+        ++currentIndex;
     }
 }
