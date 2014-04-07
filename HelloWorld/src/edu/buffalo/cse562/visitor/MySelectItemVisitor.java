@@ -47,10 +47,15 @@ public class MySelectItemVisitor implements SelectItemVisitor {
     @Override
     public void visit(SelectExpressionItem selectExpressionItem) {
         Expression expr = selectExpressionItem.getExpression();
-        evalProjection.setAlias(selectExpressionItem.getAlias());
+//        evalProjection.setAlias(selectExpressionItem.getAlias());
+        evalProjection.incrementCurrentIndex();
         expr.accept(evalProjection);
         if (evalProjection.wasAnAggregation()) {
             isAggregationPresent = true;
+        }
+        int lastIndex = evalProjection.getCurrentIndex();
+        if (outputSchema.get(lastIndex).getColumnAlias() == null) {
+            outputSchema.get(lastIndex).setColumnAlias(selectExpressionItem.getAlias());
         }
     }
 
