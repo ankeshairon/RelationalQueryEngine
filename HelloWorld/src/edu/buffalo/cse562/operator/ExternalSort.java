@@ -255,7 +255,7 @@ public class ExternalSort implements Operator{
 
     	ObjectOutputStream oos;
     	
-    	if (data == null /*|| currentsize >= originalsize*/) {
+    	if (data == null || currentsize >= originalsize) {
     		try {
    				oos = getObjectStream(swapDir.getAbsolutePath()+"/Sort"+writeBlock);
    				for (Datum[] tupleAll: mergedList){
@@ -267,11 +267,11 @@ public class ExternalSort implements Operator{
     		} 
     		catch (FileNotFoundException e) { e.printStackTrace(); }
     		catch (IOException e) { e.printStackTrace(); }
-    //		currentsize = 0;
-    //		if (data == null) {
+    		currentsize = 0;
+    		if (data == null) {
     			writeBlock++;
     			extraBlocks++;
-    //		}
+    		}
     	}
     	else {
     		currentsize++;
