@@ -39,6 +39,7 @@ public class Main {
                 while ((stmnt = parser.Statement()) != null) {
                     stmnt.accept(myVisitor);
                     View.dump(myVisitor.source);
+                    cleanSwap(swapDir);
                 }
 
             } catch (ParseException e) {
@@ -48,6 +49,17 @@ public class Main {
             }
         }
 
+    }
+    
+    public static void cleanSwap(File swapDir) {
+         String[] myFiles;      
+         if(swapDir.isDirectory()){  
+        	 myFiles = swapDir.list();  
+             for (int i=0; i<myFiles.length; i++) {  
+            	 File myFile = new File(swapDir, myFiles[i]);   
+                 myFile.delete();  
+             }  
+         }  
     }
 
 }
