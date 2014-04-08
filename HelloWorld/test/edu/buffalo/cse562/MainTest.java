@@ -10,25 +10,24 @@ import static org.junit.Assert.assertEquals;
 
 /**
  * Local test setup
- *
+ * <p/>
  * How to setup  -
  * - Download LittleBigDataEvaluation.zip from piazza resources
  * - create a following folder structure
- *
- *      Helloworld
- *          |
- *          |---resources
- *                  |--data_unittest
- *                  |        |---<all dat files>
- *                  |
- *                  |--expected
- *                  |        |---<all expected.dat files>
- *                  |
- *                  |--sqlFiles
- *                  |        |---<all sql files>
+ * <p/>
+ * Helloworld
+ * |
+ * |---resources
+ * |--data_unittest
+ * |        |---<all dat files>
+ * |
+ * |--expected
+ * |        |---<all expected.dat files>
+ * |
+ * |--sqlFiles
+ * |        |---<all sql files>
  * - might have to add junit to your path if it's not done by IDE automatically
- *
- * */
+ */
 
 public class MainTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -41,11 +40,30 @@ public class MainTest {
     }
 
     @Test
-    public void checkpoint2() throws Exception {
-
-        //Name of the query to run
+    public void checkpoint2_tpch07a() throws Exception {
         final String sqlFileName = "tpch07a";
+        testQuery(sqlFileName);
+    }
 
+    @Test
+    public void checkpoint2_tpch10a() throws Exception {
+        final String sqlFileName = "tpch10a";
+        testQuery(sqlFileName);
+    }
+
+    @Test
+    public void checkpoint2_tpch12a() throws Exception {
+        final String sqlFileName = "tpch12a";
+        testQuery(sqlFileName);
+    }
+
+    @Test
+    public void checkpoint2_tpch16a() throws Exception {
+        final String sqlFileName = "tpch16a";
+        testQuery(sqlFileName);
+    }
+
+    private void testQuery(String sqlFileName) throws IOException {
         Main.main(new String[]{"--data", "resources/data_unittest", "resources/sql/" + sqlFileName + ".sql"});
         final String actualResult = outContent.toString().trim();
 
@@ -58,7 +76,7 @@ public class MainTest {
     private String getExpectedData(String sqlFileName) throws IOException {
         File file = new File("resources/expected/" + sqlFileName + ".expected.dat");
         FileInputStream fis = new FileInputStream(file);
-        byte[] data = new byte[(int)file.length()];
+        byte[] data = new byte[(int) file.length()];
 //        fis.read(data);
         fis.close();
         return new String(data, "UTF-8");

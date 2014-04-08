@@ -44,6 +44,11 @@ public class ProjectionOperator implements Operator {
         return outputSchema;
     }
 
+    @Override
+    public Long getProbableTableSize() {
+        return input.getProbableTableSize();
+    }
+
     private Datum evaluateExpression(Datum[] oldDatum, ColumnSchema[] oldSchema, Expression expression) {
         EvaluatorAggregate evalAggregate = new EvaluatorAggregate(oldDatum, oldSchema, expression);
 //        expression.accept(evalAggregate);

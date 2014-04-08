@@ -4,6 +4,7 @@ import edu.buffalo.cse562.comparator.TupleComparator;
 import edu.buffalo.cse562.data.Datum;
 import edu.buffalo.cse562.model.aggregation.AggregationProcessor;
 import edu.buffalo.cse562.schema.ColumnSchema;
+import edu.buffalo.cse562.visitor.optimizer.ObjectSizer;
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.statement.select.PlainSelect;
 
@@ -66,5 +67,10 @@ public class AggregationOperator implements Operator {
     @Override
     public ColumnSchema[] getSchema() {
         return newSchema;
+    }
+
+    @Override
+    public Long getProbableTableSize() {
+        return ObjectSizer.getObjectSize(result);
     }
 }

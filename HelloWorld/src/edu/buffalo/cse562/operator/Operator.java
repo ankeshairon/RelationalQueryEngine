@@ -9,4 +9,6 @@ public interface Operator {
     public void reset();
 
     public ColumnSchema[] getSchema();
+
+    public Long getProbableTableSize();
 }

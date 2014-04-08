@@ -17,30 +17,35 @@ public class ScanOperator implements Operator {
     private BufferedReader input;
     private String tableName;
     private HashMap<String, TableInfo> tables;
-    private File dataDir;
+    private FileInputStream fileInputStream;
+
 
     public ScanOperator(File dataDir, Table table, HashMap<String, TableInfo> tables, ColumnSchema[] finalSchema) {
         this.tables = tables;
         this.tableName = table.getName();
-        this.dataDir = dataDir;
         this.schema = finalSchema;
         tableSize = tables.get(table.getName()).getSize();
         makeSchema(table);
+        try {
+            fileInputStream = new FileInputStream(new File(dataDir.getAbsolutePath() + "//" + tableName + ".dat"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         reset();
     }
 
     public void makeSchema(Table table) {
-    	if (schema == null) {
-    		List<ColumnDefinition> colDefns = tables.get(table.getName().toLowerCase()).getColumnDefinitions();
-    		schema = new ColumnSchema[colDefns.size()];
-    		int i = 0;
-    		for (ColumnDefinition cd : colDefns) {
-    			schema[i] = new ColumnSchema(cd.getColumnName(), cd.getColDataType().getDataType());
-    			schema[i].setTableName(tableName);
+        if (schema == null) {
+            List<ColumnDefinition> colDefns = tables.get(table.getName().toLowerCase()).getColumnDefinitions();
+            schema = new ColumnSchema[colDefns.size()];
+            int i = 0;
+            for (ColumnDefinition cd : colDefns) {
+                schema[i] = new ColumnSchema(cd.getColumnName(), cd.getColDataType().getDataType());
+                schema[i].setTableName(tableName);
                 schema[i].setTableAlias(table.getAlias());
-    			i++;
-    		}
-    	}
+                i++;
+            }
+        }
     }
 
     @Override
@@ -87,16 +92,12 @@ public class ScanOperator implements Operator {
 
     @Override
     public void reset() {
-        input = new BufferedReader(getFileReader());
-    }
-
-    private FileReader getFileReader() {
         try {
-            return new FileReader(new File(dataDir.getAbsolutePath() + "//" + tableName + ".dat"));
-        } catch (FileNotFoundException e) {
+            fileInputStream.getChannel().position(0);
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        input = new BufferedReader(new InputStreamReader(fileInputStream));
     }
 
     @Override
@@ -104,7 +105,7 @@ public class ScanOperator implements Operator {
         return schema;
     }
 
-    public Long getTableSize() {
+    public Long getProbableTableSize() {
         return tableSize;
     }
 }

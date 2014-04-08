@@ -1,3 +1,9 @@
+--CREATE TABLE table1 (id1 int, name1 varchar(25));
+--CREATE TABLE table2 (id2 int, name2 varchar(25));
+--
+--select * from table1, table2
+--where id1=id2;
+
 --CREATE TABLE t1(ID int, NAME CHAR(25), C1 CHAR(5), C2 CHAR(5), V1 int, V2 int)
 --
 --insert into t1 values (1,   'n1',   'a', '1', 1,1)  ;
@@ -13,7 +19,7 @@
 --
 --select name, count (distinct c1), c2 from t1 group by c2
 
-
+--
 --schemas
 CREATE TABLE LINEITEM (
         orderkey       INT,
@@ -100,6 +106,7 @@ CREATE TABLE REGION (
         comment      VARCHAR(152)
     );
 
+
 select suppnation, custnation, sum(volume) as revenue
 from (
 select n1.name as suppnation, n2.name as custnation, lineitem.extendedprice * (1 - lineitem.discount) as volume
@@ -118,35 +125,3 @@ custnation
 order by
 suppnation,
 custnation;
-
---select customer.custkey, sum(lineitem.extendedprice * (1 - lineitem.discount)) as revenue, customer.acctbal, nation.name, customer.address, customer.phone, customer.comment
---from customer, orders, lineitem, nation
---where customer.custkey = orders.custkey
---and lineitem.orderkey = orders.orderkey
---and orders.orderdate >= date('1995-03-05')
---and orders.orderdate < date('1995-06-05')
---and lineitem.returnflag = 'R'
---and customer.nationkey = nation.nationkey
---group by customer.custkey, customer.acctbal, customer.phone, nation.name, customer.address, customer.comment
---order by revenue asc
---limit 20;
---
---select lineitem.shipmode, count(distinct orders.orderkey)
---from orders, lineitem
---where orders.orderkey = lineitem.orderkey
---and (lineitem.shipmode='AIR' or lineitem.shipmode='MAIL' or lineitem.shipmode='TRUCK' or lineitem.shipmode='SHIP')
---and orders.orderpriority <> '1-URGENT'
---and orders.orderpriority <> '2-HIGH'
---and lineitem.commitdate < lineitem.receiptdate
---and lineitem.shipdate < lineitem.commitdate
---and lineitem.receiptdate >= date('1995-03-05')
---and lineitem.receiptdate < date('1996-03-05')
---group by lineitem.shipmode
---order by lineitem.shipmode;
---
---select part.brand, part.type, part.size, count(distinct partsupp.suppkey) as suppliercount
---from partsupp, part
---where part.partkey = partsupp.partkey and part.brand <> 'Brand#11'
---group by part.brand, part.type, part.size
---order by suppliercount, part.brand, part.type, part.size;
-

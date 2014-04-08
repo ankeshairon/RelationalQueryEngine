@@ -46,7 +46,12 @@ public class OrderByOperator implements Operator {
 
     @Override
     public ColumnSchema[] getSchema() {
-        return null;
+        return input.getSchema();
+    }
+
+    @Override
+    public Long getProbableTableSize() {
+        return input.getProbableTableSize();
     }
 
 }

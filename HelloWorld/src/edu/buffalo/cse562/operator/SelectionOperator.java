@@ -50,12 +50,8 @@ public class SelectionOperator implements Operator {
         return input.getSchema();
     }
 
-    public Long getTableSize() {
-        if (input instanceof ScanOperator) {
-            return ((ScanOperator) input).getTableSize();
-        } else {
-            throw new UnsupportedOperationException("Unable to size check for selection operator");
-        }
+    public Long getProbableTableSize() {
+        return input.getProbableTableSize();
     }
 
 }

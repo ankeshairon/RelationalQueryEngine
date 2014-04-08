@@ -39,4 +39,9 @@ public class LimitOperator implements Operator {
 		return outputSchema;
 	}
 
+    @Override
+    public Long getProbableTableSize() {
+        return rowCount * 100;
+    }
+
 }

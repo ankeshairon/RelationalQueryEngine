@@ -223,4 +223,9 @@ public class HybridHashJoinOperator implements Operator {
         return outputSchema;
     }
 
+    @Override
+    public Long getProbableTableSize() {
+        throw new UnsupportedOperationException("Unable to determine probable size in hybrid hash join operator");
+    }
+
 }

@@ -71,4 +71,9 @@ public class NestedLoopJoinOperator implements Operator {
         return schema;
     }
 
+    @Override
+    public Long getProbableTableSize() {
+        return input1.getProbableTableSize() * input2.getProbableTableSize();
+    }
+
 }

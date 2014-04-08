@@ -50,16 +50,16 @@ public class Main {
         }
 
     }
-    
+
     public static void cleanSwap(File swapDir) {
-         String[] myFiles;      
-         if(swapDir.isDirectory()){  
-        	 myFiles = swapDir.list();  
-             for (int i=0; i<myFiles.length; i++) {  
-            	 File myFile = new File(swapDir, myFiles[i]);   
-                 myFile.delete();  
-             }  
-         }  
+        String[] myFiles;
+        if (swapDir != null && swapDir.isDirectory()) {
+            myFiles = swapDir.list();
+            for (int i = 0; i < myFiles.length; i++) {
+                File myFile = new File(swapDir, myFiles[i]);
+                myFile.delete();
+            }
+        }
     }
 
 }

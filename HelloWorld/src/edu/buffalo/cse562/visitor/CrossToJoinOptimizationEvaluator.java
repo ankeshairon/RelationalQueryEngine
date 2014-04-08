@@ -26,6 +26,9 @@ public class CrossToJoinOptimizationEvaluator extends AbstractExpressionVisitor 
         currentColumnSetToSave = new HashSet<>();
         pendingOrs = 0;
         whereExpression.accept(this);
+        if(!currentColumnSetToSave.isEmpty()){
+            conditionColumnMap.put(whereExpression, new ArrayList<>(currentColumnSetToSave));
+        }
     }
 
     public Map<Expression, List<Column>> getConditionColumnMap() {
