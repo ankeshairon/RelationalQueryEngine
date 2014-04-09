@@ -19,120 +19,131 @@ public class AggregationProcessor {
     private final ColumnSchema[] oldSchema;
     private final ColumnSchema[] newSchema;
 
-    private List<Datum[]> resultDatumWithUniqueValuesOfGroupByElements;
-
-    // <groupBy columnIndex,  <distinct column index, list of unique values>>>
-//    private Map<Integer, Map<Integer, Set<Datum>>> distinctElementsInGroupBy;
-
-
-    private Map<Integer, Set<Datum>> distinctElementsInGroupBy;
-    private Set<Integer> distinctColumnIndexes;
+    private List<AggregationTuple> aggregationTupleList;
+    private List<Integer> distinctColumnIndexes;
 
     //array of corresp old schema indexes
     private Integer[] relativeNewSchemaIndexes;
-    private TupleComparator tupleComparator;
+    private TupleComparator groupByComparator;
 
+    private Boolean isGroupByPresent;
 
-    public AggregationProcessor(ColumnSchema[] oldSchema, ColumnSchema[] newSchema, Integer[] relativeNewSchemaIndexes) {
+    private Map<Integer, String> aggregationNameAt;
+    private Map<Integer, Expression> aggregationExpressionAt;
+
+    public AggregationProcessor(ColumnSchema[] oldSchema, ColumnSchema[] newSchema, Integer[] relativeNewSchemaIndexesGroupBy, LinkedHashMap<Integer, Boolean> groupByColumnIndexes) {
+        isGroupByPresent = groupByColumnIndexes.size() != 0;
         this.oldSchema = oldSchema;
         this.newSchema = newSchema;
-        this.relativeNewSchemaIndexes = relativeNewSchemaIndexes;
-        tupleComparator = new TupleComparator(createLinkedHashMapOfIndexes());
-        resultDatumWithUniqueValuesOfGroupByElements = new ArrayList<>();
-        distinctElementsInGroupBy = new HashMap<>();
-        createDistinctColumnIndexes();
+        this.relativeNewSchemaIndexes = relativeNewSchemaIndexesGroupBy;
+        groupByComparator = new TupleComparator(groupByColumnIndexes);
+        distinctColumnIndexes = createDistinctColumnIndexes();
+        aggregationTupleList = createAggregationTupleList();
+        createAggregationNamesAndExpressionsMap();
     }
 
-    private void createDistinctColumnIndexes() {
-        distinctColumnIndexes = new TreeSet<>();
-//        for (int i = 0; i < oldSchema.length; i++) {
-//            if (oldSchema[i].IsDistinct()) {
-        for (int i = 0; i < newSchema.length; i++) {
-            if (newSchema[i].IsDistinct() != null && newSchema[i].IsDistinct()) {
-                distinctColumnIndexes.add(relativeNewSchemaIndexes[i]);
+    private void createAggregationNamesAndExpressionsMap() {
+        aggregationNameAt = new HashMap<>();
+        aggregationExpressionAt = new HashMap<>();
+
+        for (int i = 0; i < relativeNewSchemaIndexes.length; i++) {
+            if (relativeNewSchemaIndexes[i] < 0) {
+                aggregationNameAt.put(i, ((Function) newSchema[i].getExpression()).getName());
+            }
+            if (relativeNewSchemaIndexes[i].equals(SCHEMA_INDEX_INDICATING_EXPRESSION_INSIDE_FUNCTION)) {
+                aggregationExpressionAt.put(i, ((Expression) ((Function) newSchema[i].getExpression()).getParameters().getExpressions().get(0)));
             }
         }
+    }
+
+    private ArrayList<AggregationTuple> createAggregationTupleList() {
+        final ArrayList<AggregationTuple> aggregationTuples = new ArrayList<>();
+        if (!isGroupByPresent) {
+            aggregationTuples.add(new AggregationTuple(new Datum[newSchema.length], groupByComparator, distinctColumnIndexes));
+        }
+        return aggregationTuples;
+    }
+
+    private List<Integer> createDistinctColumnIndexes() {
+        List<Integer> distinctColumnIndexes = new ArrayList<>();
+        for (int i = 0; i < newSchema.length; i++) {
+            if (newSchema[i].isDistinct() != null && newSchema[i].isDistinct()) {
+//                distinctColumnIndexes.add(relativeNewSchemaIndexes[i]);
+                distinctColumnIndexes.add(i);
+            }
+        }
+        return distinctColumnIndexes;
     }
 
 
     public void process(Datum[] oldTuple) {
-        //check if the tuple received has resultDatumWithUniqueValuesOfGroupByElements
+        //check if the tuple received has aggregationTupleList
         //if yes, then update the corresponding data values
         //else add new and add corresponding data values
 
-        Datum[] newTuple = convertTupleToNewSchema(oldTuple);
+        Datum[] newRawTuple = convertTupleToNewSchema(oldTuple);
 
-        if (!(newTuple == null)) {
-            int index;
-            for (index = 0; index < resultDatumWithUniqueValuesOfGroupByElements.size(); index++) {
-                //compare tuple with saved group by columns
-                if (matchesTheCombinationOfGroupByElements(newTuple, index)) {
-                    Datum[] aggregatedDatum = resultDatumWithUniqueValuesOfGroupByElements.get(index);
-                    updateAggregatedTupleWithValuesFromNewTuple(newTuple, aggregatedDatum);
-                    resultDatumWithUniqueValuesOfGroupByElements.set(index, aggregatedDatum);
-                    break;
-                }
-            }
-            if (isANewUniqueCombinationOfGroupByElements(index)) {
-                Datum[] newAggregatedDatum = new Datum[newSchema.length];
-                for (int i = 0; i < relativeNewSchemaIndexes.length; i++) {
-//                    if (newTuple[i] == null) {
-//                        continue;
-//                    }
-                    if (relativeNewSchemaIndexes[i] >= 0) {
-                        newAggregatedDatum[i] = newTuple[i];
-                    } else {
-                        newAggregatedDatum[i] = getNewAggregateSpecificParams(i, newTuple[i]);
-                    }
+        AggregationTuple aggregationTuple;
+        int i = isGroupByPresent ? aggregationTupleList.indexOf(new AggregationTuple(newRawTuple, groupByComparator)) : 0;
 
-                    if (distinctColumnIndexes.contains(relativeNewSchemaIndexes[i])) {
-                        distinctElementsInGroupBy.put(relativeNewSchemaIndexes[i], newDistinctColumnValuesSet(newTuple[i]));
-//                        distinctElementsInGroupBy.put(relativeNewSchemaIndexes[i], newDistinctColumnValuesSet(i, newTuple[i]));
-                    }
-                }
-                resultDatumWithUniqueValuesOfGroupByElements.add(newAggregatedDatum);
-            }
+        if (i != -1) {
+            aggregationTuple = aggregationTupleList.get(i);
+            updateAggregatedTupleWithValuesFromNewTuple(newRawTuple, aggregationTuple);
+        } else {
+            Datum[] newAggregatedDatum = createNewAggregatedDatum(newRawTuple);
+            aggregationTuple = new AggregationTuple(newAggregatedDatum, groupByComparator, distinctColumnIndexes);
+            aggregationTuple.updateDistinctElementsSet(oldTuple);
+            aggregationTupleList.add(aggregationTuple);
         }
     }
 
-    private void updateAggregatedTupleWithValuesFromNewTuple(Datum[] newTuple, Datum[] aggregatedTuple) {
+    private Datum[] createNewAggregatedDatum(Datum[] newTuple) {
+        int i;
+        Datum[] newAggregatedDatum = new Datum[newSchema.length];
+
+        for (i = 0; i < relativeNewSchemaIndexes.length; i++) {
+            if (relativeNewSchemaIndexes[i] >= 0) {
+                newAggregatedDatum[i] = newTuple[i];
+            } else {
+                newAggregatedDatum[i] = getNewAggregateSpecificParams(i, newTuple[i]);
+            }
+        }
+        return newAggregatedDatum;
+    }
+
+    private void updateAggregatedTupleWithValuesFromNewTuple(Datum[] newTuple, AggregationTuple aggregationTuple) {
+        final Datum[] aggregatedTuple = aggregationTuple.getUnderlyingConsolidatedTuple();
         //iterate over each cell to update corresponding cell
         for (int i = 0; i < relativeNewSchemaIndexes.length; i++) {
-//                        if (newTuple[i] == null) {
-//                            continue;
-//                        }
             if (relativeNewSchemaIndexes[i] >= 0) {
                 aggregatedTuple[i] = newTuple[i];
             } else {
-                aggregatedTuple[i] = getUpdatedAggregateSpecificParams(aggregatedTuple[i], newTuple[i], i);
+                Datum result;
+                String aggregationName = aggregationNameAt.get(i);
+                if (newSchema[i].isDistinct()) {
+                    aggregationTuple.addToDistinctElementsSet(getOldColumnIndexReferencedByFunction (relativeNewSchemaIndexes[i]), newTuple[i]);
+                    result = getUpdatedAggregateSpecificDistinctParams(aggregationName, aggregationTuple, relativeNewSchemaIndexes[i]);
+                } else {
+                    result = getUpdatedAggregateSpecificNonDistinctParams(aggregationName, aggregatedTuple[i], newTuple[i]);
+                }
+                aggregatedTuple[i] = result;
             }
         }
     }
 
-//    private Set<Datum> newDistinctColumnValuesSet(Integer index, Datum datum) {
-    private Set<Datum> newDistinctColumnValuesSet(Datum datum) {
-        final Set<Datum> distinctColumnValuesSet = new HashSet<>();
-        distinctColumnValuesSet.add(datum);
-
-//        final HashMap<Integer, Set<Datum>> distinctColumnValuesMap = new HashMap<>();
-//        distinctColumnValuesMap.put(index, distinctColumnValuesSet);
-        return distinctColumnValuesSet;
-    }
-
     public List<Datum[]> getResult() {
-        return resultDatumWithUniqueValuesOfGroupByElements;
-    }
+        List<Datum[]> result = new ArrayList<>();
+        for (AggregationTuple aggregationTuple : aggregationTupleList) {
+            result.add(aggregationTuple.getUnderlyingConsolidatedTuple());
+        }
 
-    private boolean isANewUniqueCombinationOfGroupByElements(int index) {
-        return index == resultDatumWithUniqueValuesOfGroupByElements.size();
-    }
+        Collections.sort(result, groupByComparator);
 
-    private boolean matchesTheCombinationOfGroupByElements(Datum[] newTuple, int index) {
-        return tupleComparator.compare(resultDatumWithUniqueValuesOfGroupByElements.get(index), newTuple) == 0;
+        return result;
     }
 
     private Datum getNewAggregateSpecificParams(int newSchemaIndex, Datum offsetValue) {
-        String aggregationName = getAggregationName(newSchemaIndex);
+        String aggregationName = aggregationNameAt.get(newSchemaIndex);
         try {
             switch (aggregationName) {
                 case "sum":
@@ -151,16 +162,7 @@ public class AggregationProcessor {
         throw new UnsupportedOperationException("Unsupported aggregation received " + aggregationName);
     }
 
-    private Datum getUpdatedAggregateSpecificParams(Datum oldDatum, Datum offsetValue, int newColumnIndex) {
-        String aggregationName = getAggregationName(newColumnIndex);
-        if (distinctColumnIndexes.contains(getSchemaIndexForFunctionWithoutExpression(newColumnIndex))) {
-            return getUpdatedAggregateSpecificDistinctParams(aggregationName, oldDatum, newColumnIndex);
-        } else {
-            return getUpdatedAggregateSpecificNonDistinctParams(oldDatum, offsetValue, aggregationName);
-        }
-    }
-
-    private Datum getUpdatedAggregateSpecificNonDistinctParams(Datum oldDatum, Datum offsetValue, String aggregationName) {
+    private Datum getUpdatedAggregateSpecificNonDistinctParams(String aggregationName, Datum oldDatum, Datum offsetValue) {
         try {
             switch (aggregationName) {
                 case "sum":
@@ -182,17 +184,12 @@ public class AggregationProcessor {
         throw new UnsupportedOperationException("Unsupported aggregation received " + aggregationName);
     }
 
-    private Datum getUpdatedAggregateSpecificDistinctParams(String aggregationName, Datum oldDatum, int newColumnIndex) {
-        //  <distinct groupBy columnIndex, list of unique values>>>
-//         Map<Integer, Set<Datum>> distinctElementsInGroupBy;
-        final int distinctColumnIndex = getSchemaIndexForFunctionWithoutExpression(newColumnIndex);
-        distinctElementsInGroupBy.get(distinctColumnIndex).add(oldDatum);
-
+    private Datum getUpdatedAggregateSpecificDistinctParams(String aggregationName, AggregationTuple aggregationTuple, int index) {
+        int oldColumnIndex = getOldColumnIndexReferencedByFunction(index);
         if (aggregationName.equals("count") || aggregationName.equals("COUNT")) {
-            return new LONG(distinctElementsInGroupBy.get(distinctColumnIndex).size());
+            return new LONG(aggregationTuple.getNoOfDistinctValuesOfColumnWithIndex(oldColumnIndex));
         }
-
-        throw new UnsupportedOperationException("Unsupported aggregation received with distinct : " + newSchema[newColumnIndex].getExpression().toString());
+        throw new UnsupportedOperationException("Unsupported aggregation received with distinct " + aggregationName);
     }
 
     private Datum addDatums(Datum oldDatum, Datum offsetValue) {
@@ -208,21 +205,6 @@ public class AggregationProcessor {
         return null;
     }
 
-    private String getAggregationName(int newColumnIndex) {
-        return ((Function) newSchema[newColumnIndex].getExpression()).getName();
-    }
-
-    private LinkedHashMap<Integer, Boolean> createLinkedHashMapOfIndexes() {
-        LinkedHashMap<Integer, Boolean> indexMap = new LinkedHashMap<>();
-
-        for (int i = 0; i < relativeNewSchemaIndexes.length; i++) {
-            if (relativeNewSchemaIndexes[i] >= 0) {
-                indexMap.put(i, true);
-            }
-        }
-        return indexMap;
-    }
-
     private Datum[] convertTupleToNewSchema(Datum[] oldDatum) {
         Datum[] newDatum = new Datum[relativeNewSchemaIndexes.length];
 
@@ -230,16 +212,12 @@ public class AggregationProcessor {
             if (isSchemaIndexIndicatingFunctionWithoutExpression(relativeNewSchemaIndexes[i])) {
                 newDatum[i] = evaluateExpression(oldDatum, getExpression(i));
             } else if (relativeNewSchemaIndexes[i].equals(SCHEMA_INDEX_INDICATING_EXPRESSION_INSIDE_FUNCTION)) {
-                newDatum[i] = evaluateExpression(oldDatum, getExecutableExpressionInsideFunction(i));
+                newDatum[i] = evaluateExpression(oldDatum, aggregationExpressionAt.get(i));
             } else {
                 newDatum[i] = oldDatum[relativeNewSchemaIndexes[i]];
             }
         }
         return newDatum;
-    }
-
-    private Expression getExecutableExpressionInsideFunction(int index) {
-        return (Expression) ((Function) newSchema[index].getExpression()).getParameters().getExpressions().get(0);
     }
 
     private Expression getExpression(int i) {
@@ -278,4 +256,3 @@ public class AggregationProcessor {
         return floatDatum;
     }
 }
-

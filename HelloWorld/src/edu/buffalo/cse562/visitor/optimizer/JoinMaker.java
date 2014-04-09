@@ -25,14 +25,14 @@ public class JoinMaker {
 
 
     public Operator getOptimizedChainedJoinOperator() {
-        List<Map.Entry<Long, SelectionOperator>> operatorPriorityPairList = convertScanToSelectionOperators();
+        List<Map.Entry<Long, Operator>> operatorPriorityPairList = convertScanToSelectionOperators();
         sortInIncreasingOrderOfDataSize(operatorPriorityPairList);
 //        sortInDecreasingOrderOrNoOfConditions(operatorPriorityPairList);
         return chainSelectionIntoAJoinOperator(operatorPriorityPairList);
     }
 
-    private Operator chainSelectionIntoAJoinOperator(List<Map.Entry<Long, SelectionOperator>> operatorPriorityPairList) {
-        Iterator<Map.Entry<Long, SelectionOperator>> iterator = operatorPriorityPairList.iterator();
+    private Operator chainSelectionIntoAJoinOperator(List<Map.Entry<Long, Operator>> operatorPriorityPairList) {
+        Iterator<Map.Entry<Long, Operator>> iterator = operatorPriorityPairList.iterator();
         Operator chainedOperator = iterator.next().getValue();
         Operator o;
         do {
@@ -42,25 +42,29 @@ public class JoinMaker {
         return chainedOperator;
     }
 
-    private List<Map.Entry<Long, SelectionOperator>> convertScanToSelectionOperators() {
-        List<Map.Entry<Long, SelectionOperator>> operatorPriorityPairList = new ArrayList<>();
-        SelectionOperator hybridOperator;
+    private List<Map.Entry<Long,Operator>> convertScanToSelectionOperators() {
+        List<Map.Entry<Long, Operator>> operatorPriorityPairList = new ArrayList<>();
+        Operator hybridOperator;
         Long size;
+//        int size;
         for (Operator inputOperator : inputOperators) {
             List<Expression> exclusiveConditions = optimizer.getConditionsExclusiveToTable(inputOperator.getSchema());
-
-            hybridOperator = new SelectionOperator(inputOperator, exclusiveConditions);
+            if (exclusiveConditions.isEmpty()) {
+                hybridOperator = inputOperator;
+            } else {
+                hybridOperator = new SelectionOperator(inputOperator, exclusiveConditions);
+            }
 //            size = exclusiveConditions.size();
-            size = hybridOperator.getTableSize();
+            size = hybridOperator.getProbableTableSize();
             operatorPriorityPairList.add(new HashMap.SimpleEntry<>(size, hybridOperator));
         }
         return operatorPriorityPairList;
     }
 
-    private void sortInIncreasingOrderOfDataSize(List<Map.Entry<Long, SelectionOperator>> operatorPriorityPairList) {
-        Collections.sort(operatorPriorityPairList, new Comparator<Map.Entry<Long, SelectionOperator>>() {
+    private void sortInIncreasingOrderOfDataSize(List<Map.Entry<Long, Operator>> operatorPriorityPairList) {
+        Collections.sort(operatorPriorityPairList, new Comparator<Map.Entry<Long, Operator>>() {
             @Override
-            public int compare(Map.Entry<Long, SelectionOperator> e1, Map.Entry<Long, SelectionOperator> e2) {
+            public int compare(Map.Entry<Long, Operator> e1, Map.Entry<Long, Operator> e2) {
                 return e1.getKey().compareTo(e2.getKey());
             }
         });
@@ -76,6 +80,7 @@ public class JoinMaker {
     }*/
 
     private Operator getJoinOperator(Operator chainedOperator, Operator nextOperator) {
+        //todo uncomment this
         Integer[] indexes = optimizer.getIndexesOfJoinColumns(chainedOperator.getSchema(), nextOperator.getSchema());
 
         if (indexes != null) {
@@ -86,7 +91,7 @@ public class JoinMaker {
                 return null;
             }
         } else {
-            return new NestedLoopJoinOperator(chainedOperator, nextOperator);
+        return new NestedLoopJoinOperator(chainedOperator, nextOperator);
         }
     }
 

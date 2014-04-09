@@ -9,10 +9,6 @@ public class SchemaIndexConstants {
         return schemaIndex <= SCHEMA_INDEX_INDICATING_COLUMN_INSIDE_FUNCTION;
     }
 
-    public static int getSchemaIndexForFunctionWithoutExpression(int schemaIndex) {
-        return SCHEMA_INDEX_INDICATING_COLUMN_INSIDE_FUNCTION - schemaIndex;
-    }
-
     public static int getOldColumnIndexReferencedByFunction(int schemaIndex) {
         return SCHEMA_INDEX_INDICATING_COLUMN_INSIDE_FUNCTION - schemaIndex;
     }

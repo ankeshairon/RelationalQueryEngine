@@ -100,8 +100,7 @@ public class EvaluatorSelection extends AbstractExpressionVisitor {
                         result = floatLeft.equals(floatRight);
                         break;
                     case "<>":
-                        result = floatLeft.equals(floatRight);
-                        result = !result;
+                        result = !floatLeft.equals(floatRight);
                         break;
                     case ">":
                         if (floatLeft <= floatRight) result = false;

@@ -42,4 +42,9 @@ public class STRING extends Datum {
     public boolean equals(Object obj) {
         return (obj instanceof STRING) && s.equals(((STRING) obj).toSTRING());
     }
+
+    @Override
+    public int hashCode() {
+        return s.hashCode();
+    }
 }

@@ -47,13 +47,8 @@ public class BOOL extends Datum {
         }
     }
 
-    //    @Override
-//    public Number getNumber() {
-//        throw new ClassCastException("Cannot convert boolean to number");
-//    }
-//
-//    @Override
-//    public Datum multiply(Datum that) {
-//        return null;
-//    }
+    @Override
+    public int hashCode() {
+        return b.hashCode();
+    }
 }

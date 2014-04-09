@@ -54,4 +54,9 @@ public class LONG extends Datum {
             return false;
         }
     }
+
+    @Override
+    public int hashCode() {
+        return l.hashCode();
+    }
 }

@@ -3,16 +3,15 @@ package edu.buffalo.cse562.data;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class DATE extends Datum {
 
-    Date d;
+//    Date d;
     String s;
 
     public DATE(String s) throws ParseException {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        this.d = df.parse(s);
+//        this.d = df.parse(s);
         this.s = s;
     }
 
@@ -49,5 +48,10 @@ public class DATE extends Datum {
     @Override
     public boolean equals(Object obj) {
         return (obj instanceof DATE) && s.equals(((DATE) obj).toSTRING());
+    }
+
+    @Override
+    public int hashCode() {
+        return s.hashCode();
     }
 }

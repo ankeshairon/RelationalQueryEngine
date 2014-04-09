@@ -121,7 +121,7 @@ public class ColumnSchema {
         this.expr = expr;
     }
 
-    public Boolean IsDistinct() {
+    public Boolean isDistinct() {
         return isDistinct;
     }
 

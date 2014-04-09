@@ -48,7 +48,11 @@ public class FLOAT extends Datum {
         } catch (CastException e) {
             return false;
         }
+    }
 
+    @Override
+    public int hashCode() {
+        return f.hashCode();
     }
 }
 

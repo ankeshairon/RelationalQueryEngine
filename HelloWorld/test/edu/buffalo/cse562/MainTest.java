@@ -39,24 +39,28 @@ public class MainTest {
         System.setErr(new PrintStream(errContent));
     }
 
+    //never gives result  - perhaps tries to calculate expression inside sum again
     @Test
     public void checkpoint2_tpch07a() throws Exception {
         final String sqlFileName = "tpch07a";
         testQuery(sqlFileName);
     }
 
+    //never gives result  - perhaps tries to calculate expression inside sum again
     @Test
     public void checkpoint2_tpch10a() throws Exception {
         final String sqlFileName = "tpch10a";
         testQuery(sqlFileName);
     }
 
+    //empty result set - count distinct
     @Test
     public void checkpoint2_tpch12a() throws Exception {
         final String sqlFileName = "tpch12a";
         testQuery(sqlFileName);
     }
 
+    //empty result set - count distinct ?
     @Test
     public void checkpoint2_tpch16a() throws Exception {
         final String sqlFileName = "tpch16a";
@@ -67,7 +71,7 @@ public class MainTest {
         Main.main(new String[]{"--data", "resources/data_unittest", "resources/sql/" + sqlFileName + ".sql"});
         final String actualResult = outContent.toString().trim();
 
-        String expectedData = getExpectedData(sqlFileName);
+        String expectedData = getExpectedData(sqlFileName).trim();
 
         assertEquals("", errContent.toString());
         assertEquals(expectedData, actualResult);
@@ -77,7 +81,7 @@ public class MainTest {
         File file = new File("resources/expected/" + sqlFileName + ".expected.dat");
         FileInputStream fis = new FileInputStream(file);
         byte[] data = new byte[(int) file.length()];
-//        fis.read(data);
+        fis.read(data);
         fis.close();
         return new String(data, "UTF-8");
     }
