@@ -42,7 +42,7 @@ public class EvaluatorProjection extends AbstractExpressionVisitor {
     public void visit(Function function) {
         isAnAggregation = true;
 
-        indexes.add(getOldColumnIndexReferencedByFunction(currentIndex));
+        indexes.add(getOldIndexReferencedByFunction(currentIndex));
         String colName;
         if (alias == null) {
             colName = function.toString();
@@ -70,7 +70,7 @@ public class EvaluatorProjection extends AbstractExpressionVisitor {
                 ColumnSchema columnSchema = new ColumnSchema(inputSchema[i].getColName(), inputSchema[i].getType());
                 columnSchema.setColumnAlias(inputSchema[i].getColumnAlias());
                 if (isAnAggregation) {
-                    indexes.set(currentIndex, getOldColumnIndexReferencedByFunction(i));
+                    indexes.set(currentIndex, getOldIndexReferencedByFunction(i));
                     return;
                 }
                 outputSchema.add(columnSchema);

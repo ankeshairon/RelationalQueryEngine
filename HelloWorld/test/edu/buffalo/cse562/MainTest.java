@@ -44,7 +44,7 @@ public class MainTest {
         testQuery(sqlFileName);
     }
 
-    //never gives result  - perhaps tries to calculate expression inside sum again
+    //never gives result
     @Test
     public void checkpoint2_tpch10a() throws Exception {
         final String sqlFileName = "tpch10a";

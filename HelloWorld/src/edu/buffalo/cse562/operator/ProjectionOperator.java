@@ -3,18 +3,22 @@ package edu.buffalo.cse562.operator;
 import edu.buffalo.cse562.data.Datum;
 import edu.buffalo.cse562.schema.ColumnSchema;
 import edu.buffalo.cse562.visitor.EvaluatorAggregate;
-import net.sf.jsqlparser.expression.Expression;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProjectionOperator implements Operator {
 
     Operator input;
     ColumnSchema[] outputSchema;
     Integer[] indexes;
+    List<EvaluatorAggregate> aggregateEvaluators;
 
     public ProjectionOperator(Operator in, ColumnSchema[] outputSchema, Integer[] indexes) {
         input = in;
         this.outputSchema = outputSchema;
         this.indexes = indexes;
+        createEvaluatorsForAggregates();
     }
 
     @Override
@@ -26,7 +30,7 @@ public class ProjectionOperator implements Operator {
                 if (indexes[i] >= 0) {
                     ret[i] = tuple[indexes[i]];
                 } else {
-                    ret[i] = evaluateExpression(tuple, input.getSchema(), outputSchema[i].getExpression());
+                    ret[i] = aggregateEvaluators.get(i).executeStack(tuple);
                 }
             }
             return ret;
@@ -49,15 +53,13 @@ public class ProjectionOperator implements Operator {
         return input.getProbableTableSize();
     }
 
-    private Datum evaluateExpression(Datum[] oldDatum, ColumnSchema[] oldSchema, Expression expression) {
-        EvaluatorAggregate evalAggregate = new EvaluatorAggregate(oldDatum, oldSchema, expression);
-//        expression.accept(evalAggregate);
-        Datum floatDatum = null;
-        try {
-            floatDatum = evalAggregate.executeStack();
-        } catch (Datum.CastException e) {
-            e.printStackTrace();
+    private void createEvaluatorsForAggregates() {
+        aggregateEvaluators = new ArrayList<>();
+
+        for (int i = 0; i < indexes.length; i++) {
+            if (indexes[i] < 0) {
+                aggregateEvaluators.add(new EvaluatorAggregate(input.getSchema(), outputSchema[i].getExpression()));
+            }
         }
-        return floatDatum;
     }
 }

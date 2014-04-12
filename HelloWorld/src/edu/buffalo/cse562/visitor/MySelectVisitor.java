@@ -62,8 +62,8 @@ public class MySelectVisitor implements SelectVisitor {
                 orderByElement.accept(orderByVisitor);
             }
             //todo revert this
-            source = new ExternalSort(source, orderByVisitor.indexesOfColumnsToSortOn,swapDir);
-//            source = new OrderByOperator(source, orderByVisitor.indexesOfColumnsToSortOn);
+//            source = new ExternalSort(source, orderByVisitor.indexesOfColumnsToSortOn,swapDir);
+            source = new OrderByOperator(source, orderByVisitor.indexesOfColumnsToSortOn);
         }
     }
 

@@ -41,6 +41,7 @@ public class LimitOperator implements Operator {
 
     @Override
     public Long getProbableTableSize() {
+        //todo add a smarter logic based on tuple size
         return rowCount * 100;
     }
 

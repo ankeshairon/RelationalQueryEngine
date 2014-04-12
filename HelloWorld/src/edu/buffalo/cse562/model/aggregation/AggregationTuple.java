@@ -4,8 +4,8 @@ import edu.buffalo.cse562.data.Datum;
 
 import java.util.*;
 
-import static edu.buffalo.cse562.SchemaIndexConstants.getOldColumnIndexReferencedByFunction;
-import static edu.buffalo.cse562.SchemaIndexConstants.isSchemaIndexIndicatingFunctionWithoutExpression;
+import static edu.buffalo.cse562.SchemaIndexConstants.getOldIndexReferencedByFunction;
+import static edu.buffalo.cse562.SchemaIndexConstants.isFunctionWithoutExpression;
 
 public class AggregationTuple implements Comparable<AggregationTuple> {
 
@@ -34,8 +34,8 @@ public class AggregationTuple implements Comparable<AggregationTuple> {
 
         int index;
         for (int i = 0; i < indexesOfDistinctClausedColumnsInOldSchema.size(); i++) {
-            if (isSchemaIndexIndicatingFunctionWithoutExpression(indexesOfDistinctClausedColumnsInOldSchema.get(i))) {
-                index = getOldColumnIndexReferencedByFunction(indexesOfDistinctClausedColumnsInOldSchema.get(i));
+            if (isFunctionWithoutExpression(indexesOfDistinctClausedColumnsInOldSchema.get(i))) {
+                index = getOldIndexReferencedByFunction(indexesOfDistinctClausedColumnsInOldSchema.get(i));
             } else {
                 index = i;
             }

@@ -12,78 +12,62 @@ import net.sf.jsqlparser.expression.operators.arithmetic.Multiplication;
 import net.sf.jsqlparser.expression.operators.arithmetic.Subtraction;
 import net.sf.jsqlparser.schema.Column;
 
-import java.util.Stack;
-
 import static edu.buffalo.cse562.data.DatumUtilities.getInstance;
 
-public class EvaluatorAggregate extends AbstractExpressionVisitor {
+public class EvaluatorAggregate extends EvaluatorExecution {
 
-    private Datum[] tuple;
-    private ColumnSchema[] oldSchema;
-    private Stack<Datum> literals;
-    private Stack<String> symbols;
-    private Stack<Column> columns;
 
-    private Stack<Datum> persistentLiterals;
-    private Stack<String> persistentSymbols;
-    private Stack<Column> persistentColumns;
-
-    public EvaluatorAggregate(Datum[] tuple, ColumnSchema[] oldSchema, Expression evalExpresssion) {
-        this.tuple = tuple;
-        this.oldSchema = oldSchema;
-        literals = new Stack<>();
-        symbols = new Stack<>();
-        columns = new Stack<>();
-        evaluateExpression(evalExpresssion);
-
-    }
-
-    private void evaluateExpression(Expression expression) {
-        final String expressionString = expression.toString();
-
-        Datum columnTupleVal;
-        for (int i = 0; i < oldSchema.length; i++) {
-            if(oldSchema[i].matchColumnNameOnly(expressionString)){
-                columnTupleVal = tuple[i];
-                literals.push(columnTupleVal);
-                return;
-            }
-        }
+    public EvaluatorAggregate(ColumnSchema[] schema, Expression expression) {
+        this.oldSchema = schema;
         expression.accept(this);
+        persistentSymbols = symbols;
+        persistentLiterals = literals;
+        persistentColumnLiteralIndexes = columnLiteralsIndexes;
     }
 
-    public Datum executeStack() throws CastException {
+    public Datum executeStack(Datum[] tuple) {
+        loadSavedStacks();
+        this.tuple = tuple;
+
         while (!symbols.empty()) {
             literals.push(executeExpression());
         }
-        return literals.pop();
-
+        return safePopLiteral();
     }
 
-    private Datum executeExpression() throws CastException {
+    private Datum executeExpression() {
+        //order not to be changed
+        Datum dataLeft = safePopLiteral();
         String condition = symbols.pop();
-        Datum dataRight = literals.pop();
-        Datum dataLeft = literals.pop();
-        Float floatLeft = dataLeft.toFLOAT();
-        Float floatRight = dataRight.toFLOAT();
+        Datum dataRight = safePopLiteral();
 
+
+        Float floatLeft = null;
+        Float floatRight = null;
+        try {
+            floatLeft = dataLeft.toFLOAT();
+            floatRight = dataRight.toFLOAT();
+        } catch (CastException e) {
+            e.printStackTrace();
+        }
+        Float result;
         switch (condition) {
-            case "*":
-                literals.push(getInstance(floatLeft * floatRight, dataRight.getType()));
+            case MULTIPLY:
+                result = floatLeft * floatRight;
                 break;
-            case "/":
-                literals.push(getInstance(floatLeft / floatRight, dataRight.getType()));
+            case DIVIDE:
+                result = floatLeft / floatRight;
                 break;
-            case "-":
-                literals.push(getInstance(floatLeft - floatRight, dataRight.getType()));
+            case SUBTRACT:
+                result = floatLeft - floatRight;
                 break;
-            case "+":
-                literals.push(getInstance(floatLeft + floatRight, dataRight.getType()));
+            case ADD:
+                result = floatLeft + floatRight;
                 break;
             default:
                 throw new UnsupportedOperationException("Malformed stack exception");
         }
-        return literals.pop();
+        return getInstance(result, dataRight.getType());
     }
     /*
      * Binary Operators
@@ -91,37 +75,28 @@ public class EvaluatorAggregate extends AbstractExpressionVisitor {
 
     @Override
     public void visit(Addition arg0) {
-        symbols.push("+");
-        visitBinaryExpression(arg0);
+        visitBinaryExpression(arg0, ADD);
     }
 
     @Override
     public void visit(Division arg0) {
-        symbols.push("/");
-        visitBinaryExpression(arg0);
+        visitBinaryExpression(arg0, DIVIDE);
     }
 
     @Override
     public void visit(Multiplication arg0) {
-        symbols.push("*");
-        visitBinaryExpression(arg0);
+        visitBinaryExpression(arg0, MULTIPLY);
     }
 
     @Override
     public void visit(Subtraction arg0) {
-        symbols.push("-");
-        visitBinaryExpression(arg0);
+        visitBinaryExpression(arg0, SUBTRACT);
     }
 
     @Override
     public void visit(Parenthesis arg0) {
-        Expression expr = arg0.getExpression();
-        expr.accept(this);
-        try {
-            literals.push(executeExpression());
-        } catch (CastException e) {
-            e.printStackTrace();
-        }
+        arg0.getExpression().accept(this);
+        symbols.push(PARENTHESIS);
     }
 
 	/*
@@ -140,33 +115,32 @@ public class EvaluatorAggregate extends AbstractExpressionVisitor {
 
     @Override
     public void visit(Column column) {
-        Datum columnTupleVal;
+        literals.push(null);
+
         for (int i = 0; i < oldSchema.length; i++) {
-            if(oldSchema[i].matchColumn(column)){
-                columnTupleVal = tuple[i];
-                literals.push(columnTupleVal);
+            if (oldSchema[i].matchColumn(column)) {
+                columnLiteralsIndexes.push(i);
                 return;
             }
         }
-        throw new UnsupportedOperationException("Unable to read detect column " + column.toString() + " in schema " + printSchema());
+        throw new UnsupportedOperationException("Unable to read column " + column.toString() + " in oldSchema " + printSchema());
     }
 
-    private void visitBinaryExpression(BinaryExpression arg0) {
+    private void visitBinaryExpression(BinaryExpression arg0, String operation) {
         Expression leftExpression = arg0.getLeftExpression();
         Expression rightExpression = arg0.getRightExpression();
-        leftExpression.accept(this);
         rightExpression.accept(this);
+        symbols.push(operation);
+        leftExpression.accept(this);
     }
 
-    private String printSchema() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("[");
-        for (ColumnSchema s : oldSchema) {
-            stringBuilder.append(s.toString()).append(",\n");
+    private Datum safePopLiteral() {
+        if (!symbols.empty() && PARENTHESIS.equals(symbols.peek())) {
+            symbols.pop();
+            literals.push(executeExpression());
         }
-        stringBuilder.append("]");
-        return stringBuilder.toString();
+        Datum literalsPop = literals.pop();
+        return literalsPop == null ? popValueFromColumnStack() : literalsPop;
     }
-
 }
 

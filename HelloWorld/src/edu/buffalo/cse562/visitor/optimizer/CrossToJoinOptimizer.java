@@ -81,12 +81,6 @@ public class CrossToJoinOptimizer {
             }
         }
         return -1;
-//        for (ColumnSchema columnSchema : schema) {
-//            if (columnSchema.matchColumn(columnInCondition)) {
-//                return true;
-//            }
-//        }
-//        return false;
     }
 
     public Map<Expression, List<Column>> getNonExclusiveConditions() {

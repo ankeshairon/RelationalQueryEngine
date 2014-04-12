@@ -22,14 +22,14 @@ public class AggregationProcessor {
     private List<AggregationTuple> aggregationTupleList;
     private List<Integer> distinctColumnIndexes;
 
-    //array of corresp old schema indexes
+    //array of corresp old oldSchema indexes
     private Integer[] relativeNewSchemaIndexes;
     private TupleComparator groupByComparator;
 
     private Boolean isGroupByPresent;
 
     private Map<Integer, String> aggregationNameAt;
-    private Map<Integer, Expression> aggregationExpressionAt;
+    private Map<Integer, EvaluatorAggregate> aggregationEvaluators;
 
     public AggregationProcessor(ColumnSchema[] oldSchema, ColumnSchema[] newSchema, Integer[] relativeNewSchemaIndexesGroupBy, LinkedHashMap<Integer, Boolean> groupByColumnIndexes) {
         isGroupByPresent = groupByColumnIndexes.size() != 0;
@@ -44,14 +44,17 @@ public class AggregationProcessor {
 
     private void createAggregationNamesAndExpressionsMap() {
         aggregationNameAt = new HashMap<>();
-        aggregationExpressionAt = new HashMap<>();
+        aggregationEvaluators = new HashMap<>();
 
         for (int i = 0; i < relativeNewSchemaIndexes.length; i++) {
             if (relativeNewSchemaIndexes[i] < 0) {
                 aggregationNameAt.put(i, ((Function) newSchema[i].getExpression()).getName());
             }
-            if (relativeNewSchemaIndexes[i].equals(SCHEMA_INDEX_INDICATING_EXPRESSION_INSIDE_FUNCTION)) {
-                aggregationExpressionAt.put(i, ((Expression) ((Function) newSchema[i].getExpression()).getParameters().getExpressions().get(0)));
+            if (relativeNewSchemaIndexes[i].equals(SCHEMA_INDEX_INDICATING_EXPRESSION)) {
+                aggregationEvaluators.put(i, new EvaluatorAggregate(oldSchema, newSchema[i].getExpression()));
+            } else if (isAFunction(relativeNewSchemaIndexes[i])) {
+                final Expression expression = (Expression) ((Function) newSchema[i].getExpression()).getParameters().getExpressions().get(0);
+                aggregationEvaluators.put(i, new EvaluatorAggregate(oldSchema, getExecutableExpression(expression, i)));
             }
         }
     }
@@ -120,7 +123,7 @@ public class AggregationProcessor {
                 Datum result;
                 String aggregationName = aggregationNameAt.get(i);
                 if (newSchema[i].isDistinct()) {
-                    aggregationTuple.addToDistinctElementsSet(getOldColumnIndexReferencedByFunction (relativeNewSchemaIndexes[i]), newTuple[i]);
+                    aggregationTuple.addToDistinctElementsSet(getOldIndexReferencedByFunction(relativeNewSchemaIndexes[i]), newTuple[i]);
                     result = getUpdatedAggregateSpecificDistinctParams(aggregationName, aggregationTuple, relativeNewSchemaIndexes[i]);
                 } else {
                     result = getUpdatedAggregateSpecificNonDistinctParams(aggregationName, aggregatedTuple[i], newTuple[i]);
@@ -184,7 +187,7 @@ public class AggregationProcessor {
     }
 
     private Datum getUpdatedAggregateSpecificDistinctParams(String aggregationName, AggregationTuple aggregationTuple, int index) {
-        int oldColumnIndex = getOldColumnIndexReferencedByFunction(index);
+        int oldColumnIndex = getOldIndexReferencedByFunction(index);
         if (aggregationName.equals("count") || aggregationName.equals("COUNT")) {
             return new LONG(aggregationTuple.getNoOfDistinctValuesOfColumnWithIndex(oldColumnIndex));
         }
@@ -208,10 +211,8 @@ public class AggregationProcessor {
         Datum[] newDatum = new Datum[relativeNewSchemaIndexes.length];
 
         for (int i = 0; i < relativeNewSchemaIndexes.length; i++) {
-            if (isSchemaIndexIndicatingFunctionWithoutExpression(relativeNewSchemaIndexes[i])) {
-                newDatum[i] = evaluateExpression(oldDatum, getExpression(i));
-            } else if (relativeNewSchemaIndexes[i].equals(SCHEMA_INDEX_INDICATING_EXPRESSION_INSIDE_FUNCTION)) {
-                newDatum[i] = evaluateExpression(oldDatum, aggregationExpressionAt.get(i));
+            if (isAFunction(relativeNewSchemaIndexes[i])) {
+                newDatum[i] = aggregationEvaluators.get(i).executeStack(oldDatum);
             } else {
                 newDatum[i] = oldDatum[relativeNewSchemaIndexes[i]];
             }
@@ -219,14 +220,14 @@ public class AggregationProcessor {
         return newDatum;
     }
 
-    private Expression getExpression(int i) {
-        Function function = (Function) newSchema[i].getExpression();
-        if (function.getParameters() != null) {
-            Expression expression = (Expression) function.getParameters().getExpressions().get(0);
-            return getExecutableExpression(expression, i);
-        }
-        return null; //handling count(*)
-    }
+//    private Expression getExpression(int i) {
+//        Function function = (Function) newSchema[i].getExpression();
+//        if (function.getParameters() != null) {
+//            Expression expression = (Expression) function.getParameters().getExpressions().get(0);
+//            return getExecutableExpression(expression, i);
+//        }
+//        return null; //handling count(*)
+//    }
 
     private Expression getExecutableExpression(Expression expression, int i) {
         final String expressionString = expression.toString();
@@ -241,17 +242,12 @@ public class AggregationProcessor {
         throw new UnsupportedOperationException("No executable expression found");
     }
 
-    private Datum evaluateExpression(Datum[] oldDatum, Expression expression) {
-        if (expression == null) {
-            return new LONG(1l);
-        }
-        EvaluatorAggregate evalAggregate = new EvaluatorAggregate(oldDatum, oldSchema, expression);
-        Datum floatDatum = null;
-        try {
-            floatDatum = evalAggregate.executeStack();
-        } catch (Datum.CastException e) {
-            e.printStackTrace();
-        }
-        return floatDatum;
-    }
+//    private Datum evaluateExpression(Datum[] oldDatum, Expression expression) {
+//        if (expression == null) {
+//            return new LONG(1l);
+//        }
+//        EvaluatorAggregate evalAggregate = new EvaluatorAggregate(oldSchema, expression);
+//        Datum floatDatum = evalAggregate.executeStack(oldDatum);
+//        return floatDatum;
+//    }
 }
