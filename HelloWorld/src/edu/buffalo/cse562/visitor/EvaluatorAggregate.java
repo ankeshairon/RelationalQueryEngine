@@ -22,13 +22,20 @@ public class EvaluatorAggregate extends AbstractExpressionVisitor {
     private ColumnSchema[] oldSchema;
     private Stack<Datum> literals;
     private Stack<String> symbols;
+    private Stack<Column> columns;
+
+    private Stack<Datum> persistentLiterals;
+    private Stack<String> persistentSymbols;
+    private Stack<Column> persistentColumns;
 
     public EvaluatorAggregate(Datum[] tuple, ColumnSchema[] oldSchema, Expression evalExpresssion) {
         this.tuple = tuple;
         this.oldSchema = oldSchema;
         literals = new Stack<>();
         symbols = new Stack<>();
+        columns = new Stack<>();
         evaluateExpression(evalExpresssion);
+
     }
 
     private void evaluateExpression(Expression expression) {
@@ -96,21 +103,18 @@ public class EvaluatorAggregate extends AbstractExpressionVisitor {
 
     @Override
     public void visit(Multiplication arg0) {
-//    	System.out.println("*");
         symbols.push("*");
         visitBinaryExpression(arg0);
     }
 
     @Override
     public void visit(Subtraction arg0) {
-//    	System.out.println("-");
         symbols.push("-");
         visitBinaryExpression(arg0);
     }
 
     @Override
     public void visit(Parenthesis arg0) {
-//    	System.out.println("()");
         Expression expr = arg0.getExpression();
         expr.accept(this);
         try {
@@ -126,8 +130,7 @@ public class EvaluatorAggregate extends AbstractExpressionVisitor {
 
     @Override
     public void visit(DoubleValue arg0) {
-        FLOAT doubleVal = new FLOAT(arg0.toString());
-        literals.push(doubleVal);
+        literals.push(new FLOAT(arg0.toString()));
     }
 
     @Override
@@ -135,22 +138,6 @@ public class EvaluatorAggregate extends AbstractExpressionVisitor {
         literals.push(new LONG(arg0.getValue()));
     }
 
-    /*
-        @Override
-        public void visit(DateValue arg0) {
-            Date date = arg0.getValue();
-            STRING dateVal = new STRING(date.toString());
-            literals.push(dateVal);
-        }
-
-        @Override
-        public void visit(StringValue arg0) {
-            String str = arg0.toString();
-            str = str.replaceAll("'", "");
-            STRING stringVal = new STRING(str);
-            literals.push(stringVal);
-        }
-    */
     @Override
     public void visit(Column column) {
         Datum columnTupleVal;

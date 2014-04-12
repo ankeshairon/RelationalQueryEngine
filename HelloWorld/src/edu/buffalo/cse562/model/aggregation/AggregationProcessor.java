@@ -68,8 +68,7 @@ public class AggregationProcessor {
         List<Integer> distinctColumnIndexes = new ArrayList<>();
         for (int i = 0; i < newSchema.length; i++) {
             if (newSchema[i].isDistinct() != null && newSchema[i].isDistinct()) {
-//                distinctColumnIndexes.add(relativeNewSchemaIndexes[i]);
-                distinctColumnIndexes.add(i);
+                distinctColumnIndexes.add(relativeNewSchemaIndexes[i]);
             }
         }
         return distinctColumnIndexes;

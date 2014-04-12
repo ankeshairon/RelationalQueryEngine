@@ -14,31 +14,34 @@ public class AggregationTuple implements Comparable<AggregationTuple> {
 
     //set of distinct values for each column in distinct claused column
     private Map<Integer, Set<Datum>> distinctElements;
-    private List<Integer> indexesOfDistinctClausedColumns;
+    private List<Integer> indexesOfDistinctClausedColumnsInOldSchema;
 
     private Comparator<Datum[]> groupByComparator;
 
+    /**
+     * dummy constructor to compare this object with Datum[] with less setup
+     * */
     public AggregationTuple(Datum[] consolidatedTuple, Comparator<Datum[]> groupByComparator) {
         this.consolidatedTuple = consolidatedTuple;
         this.groupByComparator = groupByComparator;
     }
 
-    public AggregationTuple(Datum[] consolidatedTuple, Comparator<Datum[]> groupByComparator, List<Integer> indexesOfDistinctClausedColumns) {
+    public AggregationTuple(Datum[] consolidatedTuple, Comparator<Datum[]> groupByComparator, List<Integer> indexesOfDistinctClausedColumnsInOldSchema) {
         this.groupByComparator = groupByComparator;
         this.consolidatedTuple = consolidatedTuple;
-        this.indexesOfDistinctClausedColumns = new ArrayList<>();
+        this.indexesOfDistinctClausedColumnsInOldSchema = new ArrayList<>();
         distinctElements = new HashMap<>();
 
         int index;
-        for (int i = 0; i < indexesOfDistinctClausedColumns.size(); i++) {
-            if (isSchemaIndexIndicatingFunctionWithoutExpression(indexesOfDistinctClausedColumns.get(i))) {
-                index = getOldColumnIndexReferencedByFunction(indexesOfDistinctClausedColumns.get(i));
+        for (int i = 0; i < indexesOfDistinctClausedColumnsInOldSchema.size(); i++) {
+            if (isSchemaIndexIndicatingFunctionWithoutExpression(indexesOfDistinctClausedColumnsInOldSchema.get(i))) {
+                index = getOldColumnIndexReferencedByFunction(indexesOfDistinctClausedColumnsInOldSchema.get(i));
             } else {
                 index = i;
             }
 
             distinctElements.put(index, new HashSet<Datum>());
-            this.indexesOfDistinctClausedColumns.add(index);
+            this.indexesOfDistinctClausedColumnsInOldSchema.add(index);
         }
     }
 
@@ -47,13 +50,13 @@ public class AggregationTuple implements Comparable<AggregationTuple> {
     }
 
     public void updateDistinctElementsSet(Datum[] newTuple) {
-        for (Integer distinctIndex : indexesOfDistinctClausedColumns) {
+        for (Integer distinctIndex : indexesOfDistinctClausedColumnsInOldSchema) {
             distinctElements.get(distinctIndex).add(newTuple[distinctIndex]);
         }
     }
 
     public void addToDistinctElementsSet(Integer oldIndex, Datum newCell) {
-        if (indexesOfDistinctClausedColumns.contains(oldIndex)) {
+        if (indexesOfDistinctClausedColumnsInOldSchema.contains(oldIndex)) {
             distinctElements.get(oldIndex).add(newCell);
         }
     }

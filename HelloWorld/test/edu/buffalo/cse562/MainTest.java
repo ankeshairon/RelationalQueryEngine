@@ -31,15 +31,13 @@ import static org.junit.Assert.assertEquals;
 
 public class MainTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
 
     @Before
     public void setUp() throws Exception {
         System.setOut(new PrintStream(outContent));
-        System.setErr(new PrintStream(errContent));
     }
 
-    //never gives result  - perhaps tries to calculate expression inside sum again
+    //never gives result  - nested query
     @Test
     public void checkpoint2_tpch07a() throws Exception {
         final String sqlFileName = "tpch07a";
@@ -53,14 +51,12 @@ public class MainTest {
         testQuery(sqlFileName);
     }
 
-    //empty result set - count distinct
     @Test
     public void checkpoint2_tpch12a() throws Exception {
         final String sqlFileName = "tpch12a";
         testQuery(sqlFileName);
     }
 
-    //empty result set - count distinct ?
     @Test
     public void checkpoint2_tpch16a() throws Exception {
         final String sqlFileName = "tpch16a";
@@ -68,12 +64,23 @@ public class MainTest {
     }
 
     private void testQuery(String sqlFileName) throws IOException {
-        Main.main(new String[]{"--data", "resources/data_unittest", "resources/sql/" + sqlFileName + ".sql"});
+        BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(FileDescriptor.out), "ASCII"), 512);
+        final Long start = System.currentTimeMillis();
+
+        Main.main(new String[]{"--data", "resources/data_unittest", "resources/sql/" + sqlFileName + ".sql", "--swap", "resources/swap"});
+
+        final Long stop = System.currentTimeMillis();
+        float diff = stop - start;
+        float time =  diff/ (1000 * 60);
+        out.write("Execution time :" + time + " minutes");
+        out.write('\n');
+        out.flush();
+
         final String actualResult = outContent.toString().trim();
 
         String expectedData = getExpectedData(sqlFileName).trim();
 
-        assertEquals("", errContent.toString());
+//        assertEquals("", errContent.toString());
         assertEquals(expectedData, actualResult);
     }
 
