@@ -55,7 +55,7 @@ public class ColumnSchema {
     }
 
     public boolean matchColumn(String col) {
-        if (col.contains("\\.")) {
+        if (col.contains(".")) {
             String[] tokens = col.split("\\.");
             return matchTableAndColumnName(tokens[0], tokens[1]);
         } else {

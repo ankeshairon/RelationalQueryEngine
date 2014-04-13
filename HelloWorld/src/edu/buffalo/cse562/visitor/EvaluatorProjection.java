@@ -67,13 +67,14 @@ public class EvaluatorProjection extends AbstractExpressionVisitor {
     public void visit(Column arg0) {
         for (int i = 0; i < inputSchema.length; i++) {
             if (inputSchema[i].matchColumn(arg0)) {
-                ColumnSchema columnSchema = new ColumnSchema(inputSchema[i].getColName(), inputSchema[i].getType());
-                columnSchema.setColumnAlias(inputSchema[i].getColumnAlias());
+//                ColumnSchema columnSchema = new ColumnSchema(inputSchema[i].getColName(), inputSchema[i].getType());
+//                columnSchema.setColumnAlias(inputSchema[i].getColumnAlias());
                 if (isAnAggregation) {
                     indexes.set(currentIndex, getOldIndexReferencedByFunction(i));
                     return;
                 }
-                outputSchema.add(columnSchema);
+//                outputSchema.add(columnSchema);
+                outputSchema.add(inputSchema[i]);
                 indexes.add(i);
                 return;
             }

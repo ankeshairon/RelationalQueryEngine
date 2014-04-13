@@ -20,9 +20,12 @@ public class MyOrderByVisitor implements OrderByVisitor {
     @Override
     public void visit(OrderByElement orderBy) {
         ColumnSchema[] inSchema = in.getSchema();
+        final String orderByColumnName = orderBy.getExpression().toString();
+
         for (int i = 0; i < inSchema.length; i++) {
-            if (inSchema[i].matchColumn(orderBy.getExpression().toString())) {
+            if (inSchema[i].matchColumn(orderByColumnName)) {
                 indexesOfColumnsToSortOn.put(i, orderBy.isAsc());
+                break;
             }
         }
 
