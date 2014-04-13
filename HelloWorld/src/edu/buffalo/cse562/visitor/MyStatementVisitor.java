@@ -2,6 +2,8 @@ package edu.buffalo.cse562.visitor;
 
 import edu.buffalo.cse562.model.TableInfo;
 import edu.buffalo.cse562.operator.Operator;
+import edu.buffalo.cse562.visitor.optimizer.ScanOptimizer;
+import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.StatementVisitor;
 import net.sf.jsqlparser.statement.create.table.CreateTable;
 import net.sf.jsqlparser.statement.delete.Delete;
@@ -19,19 +21,21 @@ public class MyStatementVisitor implements StatementVisitor {
 
     private final File dataDir;
     private File swapDir;
-    private final HashMap<String, TableInfo> tables;
+    private final HashMap<String, TableInfo> tablesInfo;
     public Operator source;
 
     public MyStatementVisitor(File dataDir, File swapDir) {
         this.dataDir = dataDir;
         this.swapDir = swapDir;
-        tables = new HashMap<>();
+        tablesInfo = new HashMap<>();
     }
 
     @Override
-    public void visit(Select stmnt) {
-        MySelectVisitor myVisitor = new MySelectVisitor(dataDir, swapDir, tables);
-        stmnt.getSelectBody().accept(myVisitor);
+    public void visit(Select statement) {
+        new ScanOptimizer(tablesInfo, statement).populateRelevantColumnIndexes();
+
+        MySelectVisitor myVisitor = new MySelectVisitor(dataDir, swapDir, tablesInfo);
+        statement.getSelectBody().accept(myVisitor);
         source = myVisitor.source;
     }
 
@@ -67,8 +71,15 @@ public class MyStatementVisitor implements StatementVisitor {
 
     @Override
     public void visit(CreateTable stmnt) {
-        final String tableName = stmnt.getTable().getName().toLowerCase();
-        tables.put(tableName, new TableInfo(tableName, stmnt.getColumnDefinitions(), getFileSize(tableName)));
+        final Table table = stmnt.getTable();
+        final String alias = table.getAlias();
+        final String tableName = table.getName().toLowerCase();
+        final TableInfo tableInfo = new TableInfo(tableName, stmnt.getColumnDefinitions(), getFileSize(tableName));
+
+        tablesInfo.put(tableName, tableInfo);
+        if (alias != null) {
+            tablesInfo.put(alias, tableInfo);
+        }
     }
 
     private Long getFileSize(String tableName) {

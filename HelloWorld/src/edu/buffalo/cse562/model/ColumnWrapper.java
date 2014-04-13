@@ -18,19 +18,11 @@ public class ColumnWrapper extends Column {
     @Override
     public boolean equals(Object obj) {
         return (obj instanceof ColumnWrapper) && fullyQualifiedName.equals(((ColumnWrapper) obj).getFullyQualifiedName());
-//        if (!(obj instanceof ColumnWrapper)) {
-//            return false;
-//        }
-//        return fullyQualifiedName.equals(((ColumnWrapper) obj).getFullyQualifiedName());
     }
 
     public String getFullyQualifiedName() {
         return fullyQualifiedName;
     }
-
-//    public Column getColumn() {
-//        return parent;
-//    }
 
     @Override
     public String toString() {

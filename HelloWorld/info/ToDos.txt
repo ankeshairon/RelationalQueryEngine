@@ -1,3 +1,2 @@
-- push projections down to scan operator
+- check if aggregation require writing to file
 - make multithreaded hash
--delete join swap data

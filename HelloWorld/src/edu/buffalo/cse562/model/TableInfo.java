@@ -9,6 +9,7 @@ public class TableInfo {
     private String alias;
     private final Long size;
     private final List<ColumnDefinition> columnDefinitions;
+    private List<Integer> columnIndexesUsed;
 
     public TableInfo(String name, List<ColumnDefinition> columnDefinitions, Long size) {
         this.name = name;
@@ -34,6 +35,14 @@ public class TableInfo {
 
     public Long getSize() {
         return size;
+    }
+
+    public List<Integer> getColumnIndexesUsed() {
+        return columnIndexesUsed;
+    }
+
+    public void setColumnIndexesUsed(List<Integer> columnIndexesUsed) {
+        this.columnIndexesUsed = columnIndexesUsed;
     }
 
     @Override
