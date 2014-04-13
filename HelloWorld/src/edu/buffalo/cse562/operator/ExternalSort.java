@@ -309,5 +309,5 @@ class AppendingObjectOutputStream extends ObjectOutputStream {
 	    // do not write a header, but reset:
 		  reset();
 	  }
-
+ 
 }
