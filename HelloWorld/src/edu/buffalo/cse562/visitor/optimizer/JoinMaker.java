@@ -23,7 +23,7 @@ public class JoinMaker {
 
     public Operator getOptimizedChainedJoinOperator() {
         List<Map.Entry<Long, Operator>> operatorPriorityPairList = convertScanToSelectionOperators();
-        sortInIncreasingOrderOfDataSize(operatorPriorityPairList);
+        sortInDecreasingOrderOfDataSize(operatorPriorityPairList);
 //        sortInDecreasingOrderOrNoOfConditions(operatorPriorityPairList);
         return chainSelectionIntoAJoinOperator(operatorPriorityPairList);
     }
@@ -58,11 +58,11 @@ public class JoinMaker {
         return operatorPriorityPairList;
     }
 
-    private void sortInIncreasingOrderOfDataSize(List<Map.Entry<Long, Operator>> operatorPriorityPairList) {
+    private void sortInDecreasingOrderOfDataSize(List<Map.Entry<Long, Operator>> operatorPriorityPairList) {
         Collections.sort(operatorPriorityPairList, new Comparator<Map.Entry<Long, Operator>>() {
             @Override
             public int compare(Map.Entry<Long, Operator> e1, Map.Entry<Long, Operator> e2) {
-                return e1.getKey().compareTo(e2.getKey());
+                return e2.getKey().compareTo(e1.getKey());
             }
         });
     }
@@ -77,7 +77,6 @@ public class JoinMaker {
     }*/
 
     private Operator getJoinOperator(Operator chainedOperator, Operator nextOperator) {
-        //todo uncomment this
 //        Integer[] indexes = optimizer.getIndexesOfJoinColumns(chainedOperator.getSchema(), nextOperator.getSchema());
 //
 //        if (indexes != null) {

@@ -27,7 +27,6 @@ public class View {
                         break;
                     case FLOAT:
                         try {
-//                            result.append(new DecimalFormat("#.####").format(col.toFLOAT())).append("|");
                             result.append(col.toFLOAT()).append("|");
                         } catch (Datum.CastException e) {
                             e.printStackTrace();

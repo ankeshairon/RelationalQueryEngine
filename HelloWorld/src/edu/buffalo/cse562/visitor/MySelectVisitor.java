@@ -19,13 +19,13 @@ public class MySelectVisitor implements SelectVisitor {
     public Operator source;
     private ColumnSchema[] finalSchema;
     private final File dataDir;
-    private File swapDir;
-    private final HashMap<String, TableInfo> tables;
+    private final File swapDir;
+    private final HashMap<String, TableInfo> tablesInfo;
 
-    public MySelectVisitor(File dataDir, File swapDir, HashMap<String, TableInfo> tables) {
+    public MySelectVisitor(File dataDir, File swapDir, HashMap<String, TableInfo> tablesInfo) {
         this.dataDir = dataDir;
         this.swapDir = swapDir;
-        this.tables = tables;
+        this.tablesInfo = tablesInfo;
     }
 
     @Override
@@ -38,7 +38,7 @@ public class MySelectVisitor implements SelectVisitor {
 
     @Override
     public void visit(PlainSelect statement) {
-        MyFromItemVisitor myFromItemVisitor = new MyFromItemVisitor(dataDir, swapDir, tables, finalSchema);
+        MyFromItemVisitor myFromItemVisitor = new MyFromItemVisitor(dataDir, swapDir, tablesInfo, finalSchema);
 
         visitFromItems(statement, myFromItemVisitor);
         JoinMaker joinMaker = visitMultipleFromItems(statement, myFromItemVisitor);
@@ -108,7 +108,6 @@ public class MySelectVisitor implements SelectVisitor {
     }
 
     private JoinMaker visitMultipleFromItems(PlainSelect statement, MyFromItemVisitor myFromItemVisitor) {
-        FromItem fromItem;
         Expression where = statement.getWhere();
 
         List<Join> joins = statement.getJoins();
@@ -117,8 +116,7 @@ public class MySelectVisitor implements SelectVisitor {
             inputOperators.add(source);
 
             for (Join join : joins) {
-                fromItem = join.getRightItem();
-                fromItem.accept(myFromItemVisitor);
+                join.getRightItem().accept(myFromItemVisitor);
                 inputOperators.add(myFromItemVisitor.source);
             }
 

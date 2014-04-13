@@ -29,7 +29,9 @@ public class MyFromItemVisitor implements FromItemVisitor {
 
     @Override
     public void visit(Table table) {
-        source = new ScanOperator(dataDir, table, tables, finalSchema);
+        final TableInfo tableInfo = tables.get(table.getName());
+        tableInfo.setAlias(table.getAlias());
+        source = new ScanOperator(dataDir, tableInfo, finalSchema);
     }
 
     @Override
@@ -41,8 +43,7 @@ public class MyFromItemVisitor implements FromItemVisitor {
 
     @Override
     public void visit(SubJoin arg0) {
-
-
+        throw new UnsupportedOperationException("Subjoin not supported yet! Get coding!");
     }
 
 }

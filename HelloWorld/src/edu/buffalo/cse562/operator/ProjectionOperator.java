@@ -4,15 +4,12 @@ import edu.buffalo.cse562.data.Datum;
 import edu.buffalo.cse562.schema.ColumnSchema;
 import edu.buffalo.cse562.visitor.EvaluatorAggregate;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ProjectionOperator implements Operator {
 
     Operator input;
     ColumnSchema[] outputSchema;
     Integer[] indexes;
-    List<EvaluatorAggregate> aggregateEvaluators;
+    EvaluatorAggregate[] aggregateEvaluators;
 
     public ProjectionOperator(Operator in, ColumnSchema[] outputSchema, Integer[] indexes) {
         input = in;
@@ -30,7 +27,7 @@ public class ProjectionOperator implements Operator {
                 if (indexes[i] >= 0) {
                     ret[i] = tuple[indexes[i]];
                 } else {
-                    ret[i] = aggregateEvaluators.get(i).executeStack(tuple);
+                    ret[i] = aggregateEvaluators[i].executeStack(tuple);
                 }
             }
             return ret;
@@ -54,11 +51,11 @@ public class ProjectionOperator implements Operator {
     }
 
     private void createEvaluatorsForAggregates() {
-        aggregateEvaluators = new ArrayList<>();
+        aggregateEvaluators = new EvaluatorAggregate[indexes.length];
 
         for (int i = 0; i < indexes.length; i++) {
             if (indexes[i] < 0) {
-                aggregateEvaluators.add(new EvaluatorAggregate(input.getSchema(), outputSchema[i].getExpression()));
+                aggregateEvaluators[i] = new EvaluatorAggregate(input.getSchema(), outputSchema[i].getExpression());
             }
         }
     }
