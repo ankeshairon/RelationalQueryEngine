@@ -23,7 +23,7 @@ public class ExternalSort implements Operator{
     private static int originalBlocks;
     private static int extraBlocks = 0;
     private static int currentsize = 0;
-    private static int blocksize = 1000;
+    private static int blocksize = 100000;
     private static int originalsize;
     private static int writeBlock;
     private boolean externalSortActivated = false;
@@ -68,7 +68,7 @@ public class ExternalSort implements Operator{
             tupleList.add(tuple);
             counter++;
             if (counter >= blocksize){
-                Collections.sort(tupleList, tupleComparator);
+                Collections.sort(tupleList, new TupleComparator(indexesOfColumnsToSortOn));
                 externalSortActivated = true;
                 blockno++;
                 originalBlocks++;
@@ -147,14 +147,14 @@ public class ExternalSort implements Operator{
     				if (tuple1 != null && tuple2 != null) {
     					result = tupleComparator.compare(tuple1, tuple2);
     					if (result == 0 || result > 0) {
-    						this.sortMerge(tuple2);
-    						tuple2 = null;
-    						prevTuple2 = getNextDatum(ois2);
-    					}
-    					else if (result < 0) {
     						this.sortMerge(tuple1);
     						tuple1 = null;
     						prevTuple1 = getNextDatum(ois1);
+    					}
+    					else if (result < 0) {
+    						this.sortMerge(tuple2);
+    						tuple2 = null;
+    						prevTuple2 = getNextDatum(ois2);
     					}
     				}
     			}
@@ -178,8 +178,7 @@ public class ExternalSort implements Operator{
     			reader1.close();
     			reader2.close();
     		}
-    		catch (IOException e) { e.printStackTrace();}
-    		this.sortMerge(null);
+    		catch (IOException e) { e.printStackTrace();} 
     		KwaySort(readBlock2+1,readBlock2+2);
     		return;
     	}
@@ -190,7 +189,7 @@ public class ExternalSort implements Operator{
     			ois1 = new ObjectInputStream(reader1);
     			Datum[] data = getNextDatum(ois1);
     			while (data != null) {
-    				this.sortMerge(data);
+     				this.sortMerge(data);
     				data = getNextDatum(ois1);
     			}
     			this.sortMerge(null);
