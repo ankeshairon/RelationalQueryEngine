@@ -10,22 +10,26 @@ import java.util.*;
 public class HybridHashJoinOperator implements Operator {
 
     Operator R,S;
-
     ColumnSchema[] schemaR,schemaS,outputSchema;
-    List<Datum[]> result;
-    Iterator resultIter;
-    HashMap<Long,File> bucketR;
-    HashMap<Long,File> bucketS;
-
-    HashSet<Long> keySetR;
-    HashSet<Long> keySetS;
-
-    int indexR,indexS;
-
-    //LinkedList<File> bucketListR;
-    //LinkedList<File> bucketListS;
-
+    int indexR,indexS;	
     File swapDir;
+    int hashSize,hashSize2;
+    ArrayList<Datum[]> result;
+    Iterator<Datum[]> iter;
+    
+    File outputFile;
+    BufferedReader output;
+    
+    ArrayList<BufferedWriter> bwR;
+    ArrayList<BufferedWriter> bwS;
+    
+    ArrayList<BufferedReader> brR;
+    ArrayList<BufferedReader> brS;
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 
     public HybridHashJoinOperator(Operator R, Operator S, int indexR, int indexS, File swapDir) throws CastException, IOException{
 
@@ -33,19 +37,194 @@ public class HybridHashJoinOperator implements Operator {
         this.indexR = indexR; this.indexS = indexS;
         schemaR = R.getSchema(); schemaS = S.getSchema();
         this.swapDir = swapDir;
-        bucketR = new HashMap<>();
-        bucketS = new HashMap<>();
-        createBuckets(this.R,indexR, bucketR);
-        createBuckets(this.S,indexS, bucketS);
-        keySetR = (HashSet<Long>) bucketR.keySet();
-        keySetS = (HashSet<Long>) bucketS.keySet();
-
+        result = new ArrayList<Datum[]>();
+        
+        // Change these values to fine tune hash-function
+        hashSize = 1499;
+        hashSize2 = 401;
+        
+        bwR = new ArrayList<BufferedWriter>(hashSize);
+        bwS = new ArrayList<BufferedWriter>(hashSize);
+        
+        brR = new ArrayList<BufferedReader>(hashSize);
+        brS = new ArrayList<BufferedReader>(hashSize);
+        
+        createTempFiles(bwR,"R");
+        createTempFiles(bwS,"S");
+        
+        partitionData(R,indexR,bwR);
+        partitionData(S,indexS,bwS);
+        
+        closeWriters(bwR);
+        closeWriters(bwS);
+        
+        createReaders(brR,"R");
+        createReaders(brS,"S");
+        
+        outputFile = File.createTempFile("Result", "tmp", swapDir);
+        
         join();
+        
+        closeReaders(brR);
+        closeReaders(brS);
+        
         cleanup();
+        
         updateSchema();
-        resultIter = result.iterator();
+        
+        reset();
+        //iter = result.iterator();
     }
-
+    
+    public void closeReaders(ArrayList<BufferedReader> br) throws IOException{
+    	for(int i=0;i<hashSize;i++){
+    		BufferedReader temp = br.get(i);
+    		temp.close();
+    	}
+    }
+    
+    public void join() throws IOException{
+    	for(int i=0;i<hashSize;i++){
+    		BufferedReader br = brR.get(i);
+    		HashMap<Integer,ArrayList<Datum[]>> build = new HashMap<Integer,ArrayList<Datum[]>>(hashSize2);
+    		String line;
+    		// secondary hash build phase
+    		while((line = br.readLine())!=null){
+    			Datum[] tuple = parseLine(line,schemaR);
+    			int hashKey = hashFunction(tuple[indexR], hashSize2);
+    			ArrayList<Datum[]> list = build.get(hashKey);
+    			if(list == null){
+    				list = new ArrayList<Datum[]>();
+    			}
+    			list.add(tuple);
+    			build.put(hashKey, list);
+    		}
+    		
+    		BufferedWriter resultWriter = new BufferedWriter(new FileWriter(outputFile, true));
+    		Datum[] outTuple = new Datum[schemaR.length + schemaS.length];
+    		
+    		
+    		// probe phase
+    		br = brS.get(i);
+    		while((line = br.readLine())!=null){
+    			Datum[] tupleS = parseLine(line,schemaS);
+    			int hashKey = hashFunction(tupleS[indexS], hashSize2);
+    			ArrayList<Datum[]> list = build.get(hashKey);
+    			if(list == null){
+    				continue;
+    			}
+    			// perform join
+    			for(Datum[] tupleR : list){
+    				StringBuilder tempLine = new StringBuilder();
+    				if(tupleR[indexR].toSTRING().equals(tupleS[indexS].toSTRING())){
+    					int counter = 0;
+    					for(int j=0;j<tupleR.length;j++){
+    						tempLine.append(tupleR[j].toSTRING()+"|");
+    						//outTuple[counter] = tupleR[j];
+    						counter++;
+    					}
+    					for(int j=0;j<tupleS.length;j++){
+    						if(j==tupleS.length-1){
+    							tempLine.append(tupleS[j].toSTRING());
+    						}else{
+    							tempLine.append(tupleS[j].toSTRING()+"|");
+    						}
+    						//outTuple[counter] = tupleS[j];
+    						counter++;
+    					}
+    					resultWriter.write(tempLine.toString());
+    					resultWriter.newLine();
+    					//result.add(outTuple);
+    				}
+    			}
+    		}
+    		resultWriter.close();
+    	}
+    }
+    
+    public void createReaders(ArrayList<BufferedReader> br, String prefix){
+    	try {
+			for(int i=0;i<hashSize;i++){
+				BufferedReader temp = new BufferedReader(new FileReader(swapDir.getAbsolutePath()+"/"+prefix+i));
+				br.add(temp);
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+    }
+    
+    public void createTempFiles(ArrayList<BufferedWriter> bw, String prefix){
+    	for(int i=0;i<hashSize;i++){
+    		try {
+				BufferedWriter temp = new BufferedWriter(new FileWriter(swapDir.getAbsolutePath()+"/"+prefix+i,true));
+				bw.add(temp);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+    	}
+    }
+    
+    
+    public void partitionData(Operator Op, int index, ArrayList<BufferedWriter> bw){
+    	Datum[] tuple;
+    	
+    	while((tuple = Op.readOneTuple())!=null){
+    		int hashKey = hashFunction(tuple[index], hashSize);
+    		BufferedWriter temp = bw.get(hashKey);
+    		String record = makeRecord(tuple);
+    		try {
+				temp.write(record);
+				temp.newLine();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+    	}
+    }
+    
+    public String makeRecord(Datum[] tuple){
+    	int size = tuple.length;
+    	StringBuilder bld = new StringBuilder();
+    	for(int i=0;i<size;i++){
+    		if(i == size-1){
+    			bld.append(tuple[i].toSTRING());
+    		}else{
+    			bld.append(tuple[i].toSTRING()+"|");
+    		}
+    	}
+    	return bld.toString();
+    	
+    }
+    
+    public int hashFunction(Datum value, int size){
+    	try {
+			if(value.getType() == Datum.type.LONG){
+				return value.toLONG().intValue() % size;
+			}
+			else if(value.getType() == Datum.type.FLOAT){
+				return value.toFLOAT().intValue() % size;
+			}
+			else if(value.getType() == Datum.type.STRING || 
+					value.getType() == Datum.type.DATE){
+				return value.toSTRING().toString().length() % size;
+			}
+		} catch (CastException e) {
+			e.printStackTrace();
+		}
+    	
+    	return 0;
+    }
+    
+    public void closeWriters(ArrayList<BufferedWriter> bw){
+    	for(int i=0;i<bw.size();i++){
+    		BufferedWriter temp = bw.get(i);
+    		try {
+				temp.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+    	}
+    }
+    
     public void updateSchema(){
         outputSchema = new ColumnSchema[R.getSchema().length + S.getSchema().length];
         int i = 0;
@@ -59,102 +238,6 @@ public class HybridHashJoinOperator implements Operator {
         }
     }
 
-    public void createBuckets(Operator O, int index, HashMap<Long,File> bucket) throws CastException, IOException{
-        Datum[] tuple;
-        long key;
-        File file;
-        BufferedWriter bw;
-        StringBuilder buildTuple = new StringBuilder();
-        while((tuple = O.readOneTuple()) != null){
-            for(int i = 0; i<tuple.length; i++){
-                if(i == tuple.length - 1){
-                    buildTuple.append(tuple[i]);
-                }else{
-                    buildTuple.append(tuple[i]).append("|");
-                }
-            }
-            key = tuple[index].toLONG();
-
-            if(bucket.containsKey(key)){
-                file = bucket.get(key);
-                bw = new BufferedWriter(new FileWriter(file,true));
-                bw.write(buildTuple.toString());
-                bw.newLine();
-                bw.flush();
-                bw.close();
-            }
-            else{
-                file = File.createTempFile("bkt", "tmp", swapDir);
-                bw = new BufferedWriter(new FileWriter(file,true));
-                bw.write(buildTuple.toString());
-                bw.newLine();
-                bw.flush();
-                bw.close();
-                bucket.put(key, file);
-            }
-        }
-    }
-
-    public void join() throws IOException, CastException{
-        Iterator iterR = keySetR.iterator();
-        Datum[] outTuple = new Datum[R.getSchema().length + S.getSchema().length];
-        result = new LinkedList<>();
-        while(iterR.hasNext()){
-
-            Object key = iterR.next();
-            File bucketFileR = bucketR.get(key);
-            HashMap<Long, List<Datum[]>> build = new HashMap<>();
-            if(keySetS.contains(key)){
-                File bucketFileS = bucketS.get(key);
-                long size = bucketFileR.length();
-                BufferedReader br = new BufferedReader(new FileReader(bucketFileR), (int)size);
-                String line;
-                // build secondary hash
-                while((line = br.readLine())!= null){
-                    Datum[] tuple = parseLine(line, R.getSchema());
-                    List<Datum[]> r_list = build.get(tuple[indexR]);
-                    if(r_list == null){
-                        r_list = new LinkedList<>();
-                    }
-                    r_list.add(tuple);
-                    build.put(tuple[indexR].toLONG(), r_list);
-                }
-                br.close();
-                bucketR.remove(key);
-                bucketFileR.delete();
-
-                size = bucketFileS.length();
-                br = new BufferedReader(new FileReader(bucketFileS),(int)size);
-                // probing the hash table
-                while((line = br.readLine()) != null){
-                    Datum[] tupleS  = parseLine(line, S.getSchema());
-                    List<Datum[]> r_list = build.get(tupleS[indexS]);
-                    if(r_list != null){
-                        for(Datum[] tupleR : r_list){
-                            int counter = 0;
-                            for(int i = 0; i<tupleR.length; i++){
-                                outTuple[counter] = tupleR[i];
-                                counter++;
-                            }
-                            for(int i=0; i<tupleS.length; i++){
-                                outTuple[counter] = tupleS[i];
-                                counter++;
-                            }
-                            result.add(outTuple);
-                        }
-                    }
-                }
-                br.close();
-                bucketS.remove(key);
-                bucketFileS.delete();
-            }
-            else{
-
-                bucketR.remove(key);
-                bucketFileR.delete();
-            }
-        }
-    }
 
     public Datum[] parseLine(String line, ColumnSchema[] schema){
         Datum[] ret = new Datum[schema.length];
@@ -189,33 +272,47 @@ public class HybridHashJoinOperator implements Operator {
     }
 
     public void cleanup(){
-        File file;
-        Object key;
-        Iterator iter = keySetR.iterator();
-        while(iter.hasNext()){
-            key = iter.next();
-            file = bucketR.get(key);
-            file.delete();
-        }
-        iter = keySetS.iterator();
-        while(iter.hasNext()){
-            key = iter.next();
-            file = bucketS.get(key);
-            file.delete();
+        for(int i=0;i<hashSize;i++){
+        	File file = new File(swapDir.getAbsolutePath()+"/R"+i);
+        	file.delete();
+        	file = new File(swapDir.getAbsolutePath()+"/S"+i);
+        	file.delete();
         }
     }
 
     @Override
     public Datum[] readOneTuple() {
-        if(resultIter.hasNext()){
-            return (Datum[])resultIter.next();
-        }
-        return null;
+        //if(iter.hasNext()){
+        //    return (Datum[])iter.next();
+        //}
+    	
+    	if(output == null){
+    		return null;
+    	}
+    	String line = null;
+    	try {
+			line = output.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	if(line == null){
+    		return null;
+    	}
+    	Datum[] tuple = parseLine(line,outputSchema);
+        return tuple;
     }
 
     @Override
     public void reset() {
-        throw new UnsupportedOperationException("Reset not supported for " + this.getClass().getName());
+    	
+    	try {
+			output = new BufferedReader(new FileReader(outputFile));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+    	
+    	//iter = result.iterator();
+        //throw new UnsupportedOperationException("Reset not supported for " + this.getClass().getName());
     }
 
     @Override
@@ -225,7 +322,7 @@ public class HybridHashJoinOperator implements Operator {
 
     @Override
     public Long getProbableTableSize() {
-        throw new UnsupportedOperationException("Unable to determine probable size in hybrid hash join operator");
+        return R.getProbableTableSize() * S.getProbableTableSize();
     }
 
 }

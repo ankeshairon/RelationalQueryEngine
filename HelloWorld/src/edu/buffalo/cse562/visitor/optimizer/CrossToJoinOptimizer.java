@@ -52,11 +52,13 @@ public class CrossToJoinOptimizer {
     private Integer[] getIndexesOfBothTableColumnsForCondition(List<Column> columnsInConditionExpression, ColumnSchema[] schema1, ColumnSchema[] schema2) {
         Integer index1 = -1;
         Integer index2 = -1;
-        for (int i = 0; i < columnsInConditionExpression.size(); i++) {
-            if (indexOfColumnInConditionOfThisTable(columnsInConditionExpression.get(i), schema1) != -1) {
-                index1 = i;
-            } else if (indexOfColumnInConditionOfThisTable(columnsInConditionExpression.get(i), schema2) != -1) {
-                index2 = i;
+
+        Integer index;
+        for (Column columnInCondition : columnsInConditionExpression) {
+            if ((index = indexOfColumnInTable(columnInCondition, schema1)) != -1) {
+                index1 = index;
+            } else if ((index = indexOfColumnInTable(columnInCondition, schema2)) != -1) {
+                index2 = index;
             } else {
                 return null;
             }
@@ -67,14 +69,14 @@ public class CrossToJoinOptimizer {
 
     private boolean allColumnsForConditionOfThisTableOnly(List<Column> columnsInConditionExpression, ColumnSchema[] schema) {
         for (Column columnInCondition : columnsInConditionExpression) {
-            if (indexOfColumnInConditionOfThisTable(columnInCondition, schema) == -1) {
+            if (indexOfColumnInTable(columnInCondition, schema) == -1) {
                 return false;
             }
         }
         return true;
     }
 
-    private int indexOfColumnInConditionOfThisTable(Column columnInCondition, ColumnSchema[] schema) {
+    private int indexOfColumnInTable(Column columnInCondition, ColumnSchema[] schema) {
         for (int i = 0; i < schema.length; i++) {
             if (schema[i].matchColumn(columnInCondition)) {
                 return i;

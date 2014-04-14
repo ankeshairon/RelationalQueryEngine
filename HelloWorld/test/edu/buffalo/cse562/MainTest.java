@@ -37,14 +37,12 @@ public class MainTest {
         System.setOut(new PrintStream(outContent));
     }
 
-    //never gives result  - nested query
     @Test
     public void checkpoint2_tpch07a() throws Exception {
         final String sqlFileName = "tpch07a";
         testQuery(sqlFileName);
     }
 
-    //never gives result
     @Test
     public void checkpoint2_tpch10a() throws Exception {
         final String sqlFileName = "tpch10a";
