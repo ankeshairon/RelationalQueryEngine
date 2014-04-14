@@ -4,6 +4,9 @@ import edu.buffalo.cse562.data.Datum;
 import edu.buffalo.cse562.operator.Operator;
 
 public class View {
+
+    private static final String DELIMITER = "|";
+
     public static void dump(Operator source) {
         if (source == null) {
             return;
@@ -13,26 +16,7 @@ public class View {
         while (row != null) {
             StringBuilder result = new StringBuilder();
             for (Datum col : row) {
-                switch (col.getType()) {
-                    case LONG:
-                        try {
-                            result.append(col.toLONG()).append("|");
-                        } catch (Datum.CastException e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                    case STRING:
-                        result.append(col.toSTRING()).append("|");
-
-                        break;
-                    case FLOAT:
-                        try {
-                            result.append(col.toFLOAT()).append("|");
-                        } catch (Datum.CastException e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                }
+                result.append(col.toSTRING()).append(DELIMITER);
             }
 
             System.out.println(result.substring(0, result.length() - 1));

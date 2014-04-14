@@ -20,7 +20,7 @@ public abstract class Datum implements Comparable, Serializable {
 
     public abstract Long toLONG() throws CastException;
 
-    public abstract Float toFLOAT() throws CastException;
+    public abstract Double toFLOAT() throws CastException;
 
     public abstract type getType();
 }

@@ -1,13 +1,16 @@
 package edu.buffalo.cse562.data;
 
+import java.text.DecimalFormat;
+
 public class FLOAT extends Datum {
-    private Float f;
+    DecimalFormat decimalFormat = new DecimalFormat("#.####");
+    private Double f;
 
     public FLOAT(String s) {
-        this.f = Float.parseFloat(s);
+        this.f = Double.parseDouble(s);
     }
 
-    public FLOAT(float floatData) {
+    public FLOAT(Double floatData) {
         this.f = floatData;
     }
 
@@ -22,7 +25,7 @@ public class FLOAT extends Datum {
     }
 
     @Override
-    public Float toFLOAT() throws CastException {
+    public Double toFLOAT() throws CastException {
         return f;
     }
 
@@ -33,7 +36,7 @@ public class FLOAT extends Datum {
 
     @Override
     public String toSTRING() {
-        return Float.toString(f);
+        return decimalFormat.format(f);
     }
 
     @Override

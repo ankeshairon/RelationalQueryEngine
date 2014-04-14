@@ -76,8 +76,8 @@ public class EvaluatorSelection extends EvaluatorExecution {
             Datum dataRight = safePopLiteral();
 
             if (dataRight.getType() == Datum.type.FLOAT || dataRight.getType() == Datum.type.LONG) {
-                Float floatLeft = dataLeft.toFLOAT();
-                Float floatRight = dataRight.toFLOAT();
+                Double floatLeft = dataLeft.toFLOAT();
+                Double floatRight = dataRight.toFLOAT();
                 switch (condition) {
                     case "=":
                         result = floatLeft.equals(floatRight);
@@ -159,8 +159,8 @@ public class EvaluatorSelection extends EvaluatorExecution {
             return;
         }
 
-        Float floatLeft = dataLeft.toFLOAT();
-        Float floatRight = dataRight.toFLOAT();
+        Double floatLeft = dataLeft.toFLOAT();
+        Double floatRight = dataRight.toFLOAT();
 
         switch (arithmeticOperator) {
             case MULTIPLY:

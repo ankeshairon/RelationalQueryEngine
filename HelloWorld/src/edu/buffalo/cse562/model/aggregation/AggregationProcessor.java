@@ -156,7 +156,7 @@ public class AggregationProcessor {
                     return new LONG(1l);
                 case "avg":
                 case "AVG":
-                    return new FRACTION(offsetValue.toFLOAT(), 1f);
+                    return new FRACTION(offsetValue.toFLOAT(), 1d);
             }
         } catch (Datum.CastException e) {
             e.printStackTrace();

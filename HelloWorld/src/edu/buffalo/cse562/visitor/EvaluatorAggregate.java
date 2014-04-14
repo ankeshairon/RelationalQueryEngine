@@ -42,15 +42,15 @@ public class EvaluatorAggregate extends EvaluatorExecution {
         Datum dataRight = safePopLiteral();
 
 
-        Float floatLeft = null;
-        Float floatRight = null;
+        Double floatLeft = null;
+        Double floatRight = null;
         try {
             floatLeft = dataLeft.toFLOAT();
             floatRight = dataRight.toFLOAT();
         } catch (CastException e) {
             e.printStackTrace();
         }
-        Float result;
+        Double result;
         switch (condition) {
             case MULTIPLY:
                 result = floatLeft * floatRight;

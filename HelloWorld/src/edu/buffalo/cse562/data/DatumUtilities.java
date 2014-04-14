@@ -5,7 +5,7 @@ public class DatumUtilities {
         return new LONG(l);
     }
 
-    public static Datum getInstance(Float f, Datum.type type) {
+    public static Datum getInstance(Double f, Datum.type type) {
         return type == Datum.type.FLOAT ? new FLOAT(f) : new LONG(f.longValue());
     }
 }
