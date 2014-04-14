@@ -49,7 +49,7 @@ public class EvaluatorProjection extends AbstractExpressionVisitor {
         } else {
             colName = alias;
         }
-        ColumnSchema columnSchema = new ColumnSchema(colName, Datum.type.FLOAT);
+        ColumnSchema columnSchema = new ColumnSchema(colName, Datum.type.DOUBLE);
         columnSchema.setColumnAlias(alias);
         columnSchema.setExpression(function);
         columnSchema.setIsDistinct(function.isDistinct());
@@ -83,7 +83,7 @@ public class EvaluatorProjection extends AbstractExpressionVisitor {
         for (String alias : aliasExpressionMap.keySet()) {
             if (arg0.getColumnName().equalsIgnoreCase(alias)) {
                 indexes.add(currentIndex);
-                ColumnSchema columnSchema = new ColumnSchema(alias, Datum.type.FLOAT);
+                ColumnSchema columnSchema = new ColumnSchema(alias, Datum.type.DOUBLE);
                 columnSchema.setColumnAlias(alias);
                 columnSchema.setExpression(aliasExpressionMap.get(alias));
                 outputSchema.add(columnSchema);
@@ -119,7 +119,7 @@ public class EvaluatorProjection extends AbstractExpressionVisitor {
             return;
         }
 
-        ColumnSchema newColumnSchema = new ColumnSchema(binaryExpression.toString(), Datum.type.FLOAT);
+        ColumnSchema newColumnSchema = new ColumnSchema(binaryExpression.toString(), Datum.type.DOUBLE);
         newColumnSchema.setExpression(binaryExpression);
         if (alias != null) {
             aliasExpressionMap.put(alias, binaryExpression);

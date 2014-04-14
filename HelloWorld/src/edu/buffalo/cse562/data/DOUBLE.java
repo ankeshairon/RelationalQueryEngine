@@ -2,16 +2,16 @@ package edu.buffalo.cse562.data;
 
 import java.text.DecimalFormat;
 
-public class FLOAT extends Datum {
-    DecimalFormat decimalFormat = new DecimalFormat("#.####");
-    private Double f;
+public class DOUBLE extends Datum {
+    static DecimalFormat decimalFormat = new DecimalFormat("#.####");
+    private Double d;
 
-    public FLOAT(String s) {
-        this.f = Double.parseDouble(s);
+    public DOUBLE(String s) {
+        this.d = Double.parseDouble(s);
     }
 
-    public FLOAT(Double floatData) {
-        this.f = floatData;
+    public DOUBLE(Double floatData) {
+        this.d = floatData;
     }
 
     @Override
@@ -25,29 +25,29 @@ public class FLOAT extends Datum {
     }
 
     @Override
-    public Double toFLOAT() throws CastException {
-        return f;
+    public Double toDOUBLE() throws CastException {
+        return d;
     }
 
     @Override
     public type getType() {
-        return Datum.type.FLOAT;
+        return Datum.type.DOUBLE;
     }
 
     @Override
     public String toSTRING() {
-        return decimalFormat.format(f);
+        return decimalFormat.format(d);
     }
 
     @Override
     public int compareTo(Object o) {
-        return (f).compareTo(((FLOAT) o).f);
+        return (d).compareTo(((DOUBLE) o).d);
     }
 
     @Override
     public boolean equals(Object obj) {
         try {
-            return (obj instanceof FLOAT) && f.equals(((FLOAT) obj).toFLOAT());
+            return (obj instanceof DOUBLE) && d.equals(((DOUBLE) obj).toDOUBLE());
         } catch (CastException e) {
             return false;
         }
@@ -55,7 +55,7 @@ public class FLOAT extends Datum {
 
     @Override
     public int hashCode() {
-        return f.hashCode();
+        return d.hashCode();
     }
 }
 

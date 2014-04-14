@@ -20,7 +20,7 @@ public class ColumnSchema {
         if (type.equalsIgnoreCase("int")) {
             this.type = Datum.type.LONG;
         } else if (type.equalsIgnoreCase("float") || type.equalsIgnoreCase("decimal")) {
-            this.type = Datum.type.FLOAT;
+            this.type = Datum.type.DOUBLE;
         } else if (type.equalsIgnoreCase("date")) {
             this.type = Datum.type.DATE;
         } else if (type.equalsIgnoreCase("boolean")) {

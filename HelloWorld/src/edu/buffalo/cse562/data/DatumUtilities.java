@@ -6,6 +6,6 @@ public class DatumUtilities {
     }
 
     public static Datum getInstance(Double f, Datum.type type) {
-        return type == Datum.type.FLOAT ? new FLOAT(f) : new LONG(f.longValue());
+        return type == Datum.type.DOUBLE ? new DOUBLE(f) : new LONG(f.longValue());
     }
 }

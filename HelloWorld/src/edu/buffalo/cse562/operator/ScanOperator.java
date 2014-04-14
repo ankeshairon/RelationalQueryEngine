@@ -68,8 +68,8 @@ public class ScanOperator implements Operator {
                 case LONG:
                     tuple[i] = new LONG(cells[index]);
                     break;
-                case FLOAT:
-                    tuple[i] = new FLOAT(cells[index]);
+                case DOUBLE:
+                    tuple[i] = new DOUBLE(cells[index]);
                     break;
                 case BOOL:
                     tuple[i] = new BOOL(cells[index]);

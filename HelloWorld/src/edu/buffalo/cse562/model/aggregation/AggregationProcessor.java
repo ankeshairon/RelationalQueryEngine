@@ -1,8 +1,8 @@
 package edu.buffalo.cse562.model.aggregation;
 
 import edu.buffalo.cse562.comparator.TupleComparator;
+import edu.buffalo.cse562.data.DOUBLE;
 import edu.buffalo.cse562.data.Datum;
-import edu.buffalo.cse562.data.FLOAT;
 import edu.buffalo.cse562.data.FRACTION;
 import edu.buffalo.cse562.data.LONG;
 import edu.buffalo.cse562.schema.ColumnSchema;
@@ -156,7 +156,7 @@ public class AggregationProcessor {
                     return new LONG(1l);
                 case "avg":
                 case "AVG":
-                    return new FRACTION(offsetValue.toFLOAT(), 1d);
+                    return new FRACTION(offsetValue.toDOUBLE(), 1d);
             }
         } catch (Datum.CastException e) {
             e.printStackTrace();
@@ -176,7 +176,7 @@ public class AggregationProcessor {
                 case "avg":
                 case "AVG":
                     FRACTION fraction = (FRACTION) oldDatum;
-                    fraction.setNumerator(fraction.getNumerator() + offsetValue.toFLOAT());
+                    fraction.setNumerator(fraction.getNumerator() + offsetValue.toDOUBLE());
                     fraction.setDenominator(fraction.getDenominator() + 1f);
                     return fraction;
             }
@@ -196,8 +196,8 @@ public class AggregationProcessor {
 
     private Datum addDatums(Datum oldDatum, Datum offsetValue) {
         try {
-            if (oldDatum.getType() == Datum.type.FLOAT) {
-                return new FLOAT(oldDatum.toFLOAT() + offsetValue.toFLOAT());
+            if (oldDatum.getType() == Datum.type.DOUBLE) {
+                return new DOUBLE(oldDatum.toDOUBLE() + offsetValue.toDOUBLE());
             } else {
                 return new LONG(oldDatum.toLONG() + offsetValue.toLONG());
             }

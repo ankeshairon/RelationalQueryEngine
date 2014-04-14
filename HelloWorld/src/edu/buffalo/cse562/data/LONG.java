@@ -27,7 +27,7 @@ public class LONG extends Datum {
     }
 
     @Override
-    public Double toFLOAT() throws CastException {
+    public Double toDOUBLE() throws CastException {
         return (double) l;
     }
 

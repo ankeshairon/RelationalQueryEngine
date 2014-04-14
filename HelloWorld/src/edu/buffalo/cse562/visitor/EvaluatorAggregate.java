@@ -1,8 +1,8 @@
 package edu.buffalo.cse562.visitor;
 
+import edu.buffalo.cse562.data.DOUBLE;
 import edu.buffalo.cse562.data.Datum;
 import edu.buffalo.cse562.data.Datum.CastException;
-import edu.buffalo.cse562.data.FLOAT;
 import edu.buffalo.cse562.data.LONG;
 import edu.buffalo.cse562.schema.ColumnSchema;
 import net.sf.jsqlparser.expression.*;
@@ -45,8 +45,8 @@ public class EvaluatorAggregate extends EvaluatorExecution {
         Double floatLeft = null;
         Double floatRight = null;
         try {
-            floatLeft = dataLeft.toFLOAT();
-            floatRight = dataRight.toFLOAT();
+            floatLeft = dataLeft.toDOUBLE();
+            floatRight = dataRight.toDOUBLE();
         } catch (CastException e) {
             e.printStackTrace();
         }
@@ -105,7 +105,7 @@ public class EvaluatorAggregate extends EvaluatorExecution {
 
     @Override
     public void visit(DoubleValue arg0) {
-        literals.push(new FLOAT(arg0.toString()));
+        literals.push(new DOUBLE(arg0.toString()));
     }
 
     @Override

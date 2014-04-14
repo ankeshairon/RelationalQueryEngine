@@ -200,8 +200,8 @@ public class HybridHashJoinOperator implements Operator {
 			if(value.getType() == Datum.type.LONG){
 				return value.toLONG().intValue() % size;
 			}
-			else if(value.getType() == Datum.type.FLOAT){
-				return value.toFLOAT().intValue() % size;
+			else if(value.getType() == Datum.type.DOUBLE){
+				return value.toDOUBLE().intValue() % size;
 			}
 			else if(value.getType() == Datum.type.STRING || 
 					value.getType() == Datum.type.DATE){
@@ -247,8 +247,8 @@ public class HybridHashJoinOperator implements Operator {
                 case LONG:
                     ret[i] = new LONG(cols[i]);
                     break;
-                case FLOAT:
-                    ret[i] = new FLOAT(cols[i]);
+                case DOUBLE:
+                    ret[i] = new DOUBLE(cols[i]);
                     break;
                 case BOOL:
                     ret[i] = new BOOL(cols[i]);

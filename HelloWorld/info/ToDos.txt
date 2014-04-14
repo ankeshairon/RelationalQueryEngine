@@ -1,2 +1,4 @@
 - check if aggregation require writing to file
 - make multithreaded hash
+
+- check if custom decimal format for each column required

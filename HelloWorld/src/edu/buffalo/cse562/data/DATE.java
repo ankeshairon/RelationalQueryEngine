@@ -26,7 +26,7 @@ public class DATE extends Datum {
     }
 
     @Override
-    public Double toFLOAT() throws CastException {
+    public Double toDOUBLE() throws CastException {
         throw new CastException();
     }
 

@@ -19,7 +19,7 @@ public class STRING extends Datum {
     }
 
     @Override
-    public Double toFLOAT() throws CastException {
+    public Double toDOUBLE() throws CastException {
         throw new CastException();
     }
 

@@ -1,6 +1,6 @@
 package edu.buffalo.cse562.data;
 
-public class FRACTION extends FLOAT {
+public class FRACTION extends DOUBLE {
     Double numerator;
     Double denominator;
 
@@ -11,7 +11,7 @@ public class FRACTION extends FLOAT {
     }
 
     @Override
-    public Double toFLOAT() throws CastException {
+    public Double toDOUBLE() throws CastException {
         return numerator / denominator;
     }
 

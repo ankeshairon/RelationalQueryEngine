@@ -1,8 +1,8 @@
 package edu.buffalo.cse562.visitor;
 
+import edu.buffalo.cse562.data.DOUBLE;
 import edu.buffalo.cse562.data.Datum;
 import edu.buffalo.cse562.data.Datum.CastException;
-import edu.buffalo.cse562.data.FLOAT;
 import edu.buffalo.cse562.data.LONG;
 import edu.buffalo.cse562.data.STRING;
 import edu.buffalo.cse562.schema.ColumnSchema;
@@ -75,9 +75,9 @@ public class EvaluatorSelection extends EvaluatorExecution {
             Datum dataLeft = safePopLiteral();
             Datum dataRight = safePopLiteral();
 
-            if (dataRight.getType() == Datum.type.FLOAT || dataRight.getType() == Datum.type.LONG) {
-                Double floatLeft = dataLeft.toFLOAT();
-                Double floatRight = dataRight.toFLOAT();
+            if (dataRight.getType() == Datum.type.DOUBLE || dataRight.getType() == Datum.type.LONG) {
+                Double floatLeft = dataLeft.toDOUBLE();
+                Double floatRight = dataRight.toDOUBLE();
                 switch (condition) {
                     case "=":
                         result = floatLeft.equals(floatRight);
@@ -159,8 +159,8 @@ public class EvaluatorSelection extends EvaluatorExecution {
             return;
         }
 
-        Double floatLeft = dataLeft.toFLOAT();
-        Double floatRight = dataRight.toFLOAT();
+        Double floatLeft = dataLeft.toDOUBLE();
+        Double floatRight = dataRight.toDOUBLE();
 
         switch (arithmeticOperator) {
             case MULTIPLY:
@@ -288,7 +288,7 @@ public class EvaluatorSelection extends EvaluatorExecution {
 
     @Override
     public void visit(DoubleValue arg0) {
-        FLOAT doubleVal = new FLOAT(arg0.toString());
+        DOUBLE doubleVal = new DOUBLE(arg0.toString());
         literals.push(doubleVal);
     }
 
