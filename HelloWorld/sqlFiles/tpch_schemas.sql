@@ -12,9 +12,11 @@ CREATE TABLE LINEITEM (
         shipdate       DATE,
         commitdate     DATE,
         receiptdate    DATE,
-        shipinstruct   VARCHAR(25),
-        shipmode       VARCHAR(10),
-        comment        VARCHAR(44)
+        shipinstruct   CHAR(25),
+        shipmode       CHAR(10),
+        comment        VARCHAR(44),
+        PRIMARY KEY (orderkey, linenumber),
+        INDEX shipidx (shipdate)
     );
 
 
@@ -24,22 +26,25 @@ CREATE TABLE ORDERS (
         orderstatus    CHAR(1),
         totalprice     DECIMAL,
         orderdate      DATE,
-        orderpriority  VARCHAR(15),
-        clerk          VARCHAR(15),
+        orderpriority  CHAR(15),
+        clerk          CHAR(15),
         shippriority   INT,
-        comment        VARCHAR(79)
+        comment        VARCHAR(79),
+        PRIMARY KEY (orderkey),
+        INDEX orderidx (orderdate)
     );
 
 CREATE TABLE PART (
         partkey      INT,
         name         VARCHAR(55),
-        mfgr         VARCHAR(25),
-        brand        VARCHAR(10),
+        mfgr         CHAR(25),
+        brand        CHAR(10),
         type         VARCHAR(25),
         size         INT,
-        container    VARCHAR(10),
+        container    CHAR(10),
         retailprice  DECIMAL,
-        comment      VARCHAR(23)
+        comment      VARCHAR(23),
+        PRIMARY KEY (partkey)
     );
 
 CREATE TABLE CUSTOMER (
@@ -47,20 +52,22 @@ CREATE TABLE CUSTOMER (
         name         VARCHAR(25),
         address      VARCHAR(40),
         nationkey    INT,
-        phone        VARCHAR(15),
+        phone        CHAR(15),
         acctbal      DECIMAL,
-        mktsegment   VARCHAR(10),
-        comment      VARCHAR(117)
+        mktsegment   CHAR(10),
+        comment      VARCHAR(117),
+        PRIMARY KEY (custkey)
     );
 
 CREATE TABLE SUPPLIER (
         suppkey      INT,
-        name         VARCHAR(25),
+        name         CHAR(25),
         address      VARCHAR(40),
         nationkey    INT,
-        phone        VARCHAR(15),
+        phone        CHAR(15),
         acctbal      DECIMAL,
-        comment      VARCHAR(101)
+        comment      VARCHAR(101),
+        PRIMARY KEY (suppkey)
     );
 
 CREATE TABLE PARTSUPP (
@@ -68,19 +75,25 @@ CREATE TABLE PARTSUPP (
         suppkey      INT,
         availqty     INT,
         supplycost   DECIMAL,
-        comment      VARCHAR(199)
+        comment      VARCHAR(199),
+        PRIMARY KEY (partkey, suppkey),
+        INDEX suppliers(suppkey)
     );
 
 CREATE TABLE NATION (
         nationkey    INT,
-        name         VARCHAR(25),
+        name         CHAR(25),
         regionkey    INT,
-        comment      VARCHAR(152)
+        comment      VARCHAR(152),
+        PRIMARY KEY (nationkey),
+        INDEX nationname(name)
     );
 
 CREATE TABLE REGION (
         regionkey    INT,
-        name         VARCHAR(25),
-        comment      VARCHAR(152)
+        name         CHAR(25),
+        comment      VARCHAR(152),
+        PRIMARY KEY (regionkey),
+        INDEX regionname(name)
     );
 

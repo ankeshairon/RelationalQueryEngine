@@ -31,6 +31,8 @@ import static org.junit.Assert.assertEquals;
 
 public class MainTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    private final String LITTLE = "little";
+    private final String MEDIUM = "medium";
 
     @Before
     public void setUp() throws Exception {
@@ -38,52 +40,85 @@ public class MainTest {
     }
 
     @Test
-    public void checkpoint2_tpch07a() throws Exception {
+    public void checkpoint2_tpch07a_little() throws Exception {
         final String sqlFileName = "tpch07a";
-        testQuery(sqlFileName);
+        testLittleData(sqlFileName, LITTLE);
     }
 
     @Test
-    public void checkpoint2_tpch10a() throws Exception {
+    public void checkpoint2_tpch10a_little() throws Exception {
         final String sqlFileName = "tpch10a";
-        testQuery(sqlFileName);
+        testLittleData(sqlFileName, LITTLE);
     }
 
     @Test
-    public void checkpoint2_tpch12a() throws Exception {
+    public void checkpoint2_tpch12a_little() throws Exception {
         final String sqlFileName = "tpch12a";
-        testQuery(sqlFileName);
+        testLittleData(sqlFileName, LITTLE);
     }
 
     @Test
-    public void checkpoint2_tpch16a() throws Exception {
+    public void checkpoint2_tpch16a_little() throws Exception {
         final String sqlFileName = "tpch16a";
-        testQuery(sqlFileName);
+        testLittleData(sqlFileName, LITTLE);
     }
 
-    private void testQuery(String sqlFileName) throws IOException {
+    @Test
+    public void checkpoint2_tpch07a_medium() throws Exception {
+        final String sqlFileName = "tpch07a";
+        testLittleData(sqlFileName, MEDIUM);
+    }
+
+    @Test
+    public void checkpoint2_tpch10a_medium() throws Exception {
+        final String sqlFileName = "tpch10a";
+        testLittleData(sqlFileName, MEDIUM);
+    }
+
+    @Test
+    public void checkpoint2_tpch12a_medium() throws Exception {
+        final String sqlFileName = "tpch12a";
+        testLittleData(sqlFileName, MEDIUM);
+    }
+
+    @Test
+    public void checkpoint2_tpch16a_medium() throws Exception {
+        final String sqlFileName = "tpch16a";
+        testLittleData(sqlFileName, MEDIUM);
+    }
+
+    private void testLittleData(String sqlFileName, String size) throws IOException {
         BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(FileDescriptor.out), "ASCII"), 512);
         final Long start = System.currentTimeMillis();
 
-        Main.main(new String[]{"--data", "resources/data_unittest", "resources/sql/" + sqlFileName + ".sql", "--swap", "resources/swap"});
+        String[] args;
+        String folderName;
+        if (LITTLE.equals(size)) {
+            args = new String[]{"--data", "resources/little/data_files", "resources/sql/" + sqlFileName + ".sql", "--swap", "resources/swap"};
+            folderName = "resources/little/expected/";
+        } else {
+            args = new String[]{"--data", "resources/medium/data_files", "resources/sql/" + sqlFileName + ".sql", "--swap", "resources/swap"};
+            folderName = "resources/medium/expected/";
+        }
+        Main.main(args);
 
         final Long stop = System.currentTimeMillis();
         float diff = stop - start;
-        float time =  diff/ (1000 * 60);
+        float time = diff / (1000 * 60);
         out.write("Execution time :" + time + " minutes");
         out.write('\n');
         out.flush();
 
         final String actualResult = outContent.toString().trim();
 
-        String expectedData = getExpectedData(sqlFileName).trim();
+        String expectedData = getExpectedData(folderName, sqlFileName).trim();
 
 //        assertEquals("", errContent.toString());
         assertEquals(expectedData, actualResult);
     }
 
-    private String getExpectedData(String sqlFileName) throws IOException {
-        File file = new File("resources/expected/" + sqlFileName + ".expected.dat");
+    private String getExpectedData(String folderName, String sqlFileName) throws IOException {
+        File file = new File(folderName + sqlFileName + ".expected.dat");
         FileInputStream fis = new FileInputStream(file);
         byte[] data = new byte[(int) file.length()];
         fis.read(data);

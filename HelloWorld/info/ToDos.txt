@@ -2,3 +2,4 @@
 - make multithreaded hash
 
 - check if custom decimal format for each column required
+- test for 1GB data
