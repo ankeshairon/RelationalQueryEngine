@@ -21,12 +21,14 @@ public class MyStatementVisitor implements StatementVisitor {
 
     private final File dataDir;
     private File swapDir;
+    private File indexDir;
     private final HashMap<String, TableInfo> tablesInfo;
     public Operator source;
 
-    public MyStatementVisitor(File dataDir, File swapDir) {
+    public MyStatementVisitor(File dataDir, File swapDir, File indexDir) {
         this.dataDir = dataDir;
         this.swapDir = swapDir;
+        this.indexDir = indexDir;
         tablesInfo = new HashMap<>();
     }
 
@@ -34,7 +36,7 @@ public class MyStatementVisitor implements StatementVisitor {
     public void visit(Select statement) {
         new ScanOptimizer(tablesInfo, statement).populateRelevantColumnIndexes();
 
-        MySelectVisitor myVisitor = new MySelectVisitor(dataDir, swapDir, tablesInfo);
+        MySelectVisitor myVisitor = new MySelectVisitor(dataDir, swapDir, indexDir, tablesInfo);
         statement.getSelectBody().accept(myVisitor);
         source = myVisitor.source;
     }

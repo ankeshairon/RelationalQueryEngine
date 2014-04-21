@@ -16,7 +16,8 @@ public class Main {
 
         int i;
         File dataDir = null;
-        File swapDir = null; //not using as of now
+        File swapDir = null;
+        File indexDir = null;
         ArrayList<File> sqlFiles = new ArrayList<>();
         for (i = 0; i < args.length; i++) {
             if (args[i].equals("--data")) {
@@ -25,12 +26,15 @@ public class Main {
             } else if (args[i].equals("--swap")) {
                 swapDir = new File(args[i + 1]);
                 i++;
-            } else {
+            } else if(args[i].equals("--index")){
+            	indexDir = new File(args[i+1]);
+            }
+            else {
                 sqlFiles.add(new File(args[i]));
             }
         }
 
-        MyStatementVisitor myVisitor = new MyStatementVisitor(dataDir, swapDir);
+        MyStatementVisitor myVisitor = new MyStatementVisitor(dataDir, swapDir, indexDir);
 
         for (File sqlFile : sqlFiles) {
             try (FileReader reader = new FileReader(sqlFile)) {
