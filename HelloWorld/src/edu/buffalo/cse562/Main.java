@@ -28,6 +28,8 @@ public class Main {
                 i++;
             } else if(args[i].equals("--index")){
             	indexDir = new File(args[i+1]);
+            } else if(args[i].equals("--build")){
+            	//TODO: build code
             }
             else {
                 sqlFiles.add(new File(args[i]));
