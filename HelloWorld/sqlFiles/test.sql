@@ -1,27 +1,3 @@
---CREATE TABLE table1 (id1 int, name1 varchar(25));
-----CREATE TABLE table2 (id2 int, name2 varchar(25));
---
---select id1, count (distinct name1) from table1
---where name1<>'gonzalvaz' and name1<>'ramesh'
---group by id1;
-
---CREATE TABLE t1(ID int, NAME CHAR(25), C1 CHAR(5), C2 CHAR(5), V1 int, V2 int)
---
---insert into t1 values (1,   'n1',   'a', '1', 1,1)  ;
---insert into t1 values (11, 'n2',    'b', '1', 1,1) ;
---insert into t1 values (2,   'n3',    'b', '2', 1,1)  ;
---insert into t1 values (22,  'n4',   'c', '1', 1,1) ;
---insert into t1 values (3,    'n5',   'c', '2', 1,1)  ;
---insert into t1 values (33,  'n6', '  c', '3', 1,1) ;
---insert into t1 values (4,    'n7',   'd', '1', 1,1)  ;
---insert into t1 values (44,  'n8', '  d', '2', 1,1) ;
---insert into t1 values (5,    'n9',   'd', '3', 1,1) ;
---insert into t1 values (55,  'n10', 'd', '4', 1,1) ;
---
---select name, count (distinct c1), c2 from t1 group by c2
-
-
---schemas
 CREATE TABLE LINEITEM (
         orderkey       INT,
         partkey        INT,
@@ -36,43 +12,13 @@ CREATE TABLE LINEITEM (
         shipdate       DATE,
         commitdate     DATE,
         receiptdate    DATE,
-        shipinstruct   VARCHAR(25),
-        shipmode       VARCHAR(10),
-        comment        VARCHAR(44)
+        shipinstruct   CHAR(25),
+        shipmode       CHAR(10),
+        comment        VARCHAR(44),
+        PRIMARY KEY (orderkey, linenumber),
+        INDEX shipidx (shipdate)
     );
 
-CREATE TABLE PART (
-        partkey      INT,
-        name         VARCHAR(55),
-        mfgr         VARCHAR(25),
-        brand        VARCHAR(10),
-        type         VARCHAR(25),
-        size         INT,
-        container    VARCHAR(10),
-        retailprice  DECIMAL,
-        comment      VARCHAR(23)
-    );
-
-CREATE TABLE CUSTOMER (
-        custkey      INT,
-        name         VARCHAR(25),
-        address      VARCHAR(40),
-        nationkey    INT,
-        phone        VARCHAR(15),
-        acctbal      DECIMAL,
-        mktsegment   VARCHAR(10),
-        comment      VARCHAR(117)
-    );
-
-CREATE TABLE SUPPLIER (
-        suppkey      INT,
-        name         VARCHAR(25),
-        address      VARCHAR(40),
-        nationkey    INT,
-        phone        VARCHAR(15),
-        acctbal      DECIMAL,
-        comment      VARCHAR(101)
-    );
 
 CREATE TABLE ORDERS (
         orderkey       INT,
@@ -80,10 +26,48 @@ CREATE TABLE ORDERS (
         orderstatus    CHAR(1),
         totalprice     DECIMAL,
         orderdate      DATE,
-        orderpriority  VARCHAR(15),
-        clerk          VARCHAR(15),
+        orderpriority  CHAR(15),
+        clerk          CHAR(15),
         shippriority   INT,
-        comment        VARCHAR(79)
+        comment        VARCHAR(79),
+        PRIMARY KEY (orderkey),
+        INDEX orderidx (orderdate)
+    );
+
+CREATE TABLE PART (
+        partkey      INT,
+        name         VARCHAR(55),
+        mfgr         CHAR(25),
+        brand        CHAR(10),
+        type         VARCHAR(25),
+        size         INT,
+        container    CHAR(10),
+        retailprice  DECIMAL,
+        comment      VARCHAR(23),
+        PRIMARY KEY (partkey)
+    );
+
+CREATE TABLE CUSTOMER (
+        custkey      INT,
+        name         VARCHAR(25),
+        address      VARCHAR(40),
+        nationkey    INT,
+        phone        CHAR(15),
+        acctbal      DECIMAL,
+        mktsegment   CHAR(10),
+        comment      VARCHAR(117),
+        PRIMARY KEY (custkey)
+    );
+
+CREATE TABLE SUPPLIER (
+        suppkey      INT,
+        name         CHAR(25),
+        address      VARCHAR(40),
+        nationkey    INT,
+        phone        CHAR(15),
+        acctbal      DECIMAL,
+        comment      VARCHAR(101),
+        PRIMARY KEY (suppkey)
     );
 
 CREATE TABLE PARTSUPP (
@@ -91,37 +75,25 @@ CREATE TABLE PARTSUPP (
         suppkey      INT,
         availqty     INT,
         supplycost   DECIMAL,
-        comment      VARCHAR(199)
+        comment      VARCHAR(199),
+        PRIMARY KEY (partkey, suppkey),
+        INDEX suppliers(suppkey)
     );
 
 CREATE TABLE NATION (
         nationkey    INT,
-        name         VARCHAR(25),
+        name         CHAR(25),
         regionkey    INT,
-        comment      VARCHAR(152)
+        comment      VARCHAR(152),
+        PRIMARY KEY (nationkey),
+        INDEX nationname(name)
     );
 
 CREATE TABLE REGION (
         regionkey    INT,
-        name         VARCHAR(25),
-        comment      VARCHAR(152)
+        name         CHAR(25),
+        comment      VARCHAR(152),
+        PRIMARY KEY (regionkey),
+        INDEX regionname(name)
     );
 
-select suppnation, custnation, sum(volume) as revenue
-from (
-select n1.name as suppnation, n2.name as custnation, lineitem.extendedprice * (1 - lineitem.discount) as volume
-from supplier, lineitem, orders, customer, nation n1, nation n2
-where supplier.suppkey = lineitem.suppkey
-and orders.orderkey = lineitem.orderkey
-and customer.custkey = orders.custkey
-and supplier.nationkey = n1.nationkey
-and customer.nationkey = n2.nationkey
-and lineitem.shipdate >= date('1995-01-01')
-and lineitem.shipdate <= date('1996-12-31')
-) as shipping
-group by
-suppnation,
-custnation
-order by
-suppnation,
-custnation;
