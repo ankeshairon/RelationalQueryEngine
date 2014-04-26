@@ -31,12 +31,15 @@ import static org.junit.Assert.assertEquals;
 
 public class MainTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
+
     private final String LITTLE = "little";
     private final String MEDIUM = "medium";
 
     @Before
     public void setUp() throws Exception {
         System.setOut(new PrintStream(outContent));
+        System.setErr(new PrintStream(errContent));
     }
 
     @Test
@@ -64,50 +67,18 @@ public class MainTest {
     }
 
     @Test
-    public void checkpoint2_tpch07a_medium() throws Exception {
-        final String sqlFileName = "tpch07a";
-        testLittleData(sqlFileName, MEDIUM);
-    }
-
-    @Test
-    public void checkpoint2_tpch10a_medium() throws Exception {
-        final String sqlFileName = "tpch10a";
-        testLittleData(sqlFileName, MEDIUM);
-    }
-
-    @Test
-    public void checkpoint2_tpch12a_medium() throws Exception {
-        final String sqlFileName = "tpch12a";
-        testLittleData(sqlFileName, MEDIUM);
-    }
-
-    @Test
-    public void checkpoint2_tpch16a_medium() throws Exception {
-        final String sqlFileName = "tpch16a";
-        testLittleData(sqlFileName, MEDIUM);
+    public void testBuildPhase() throws Exception {
+        String[] args = new String[]{"--data", "data_100mb", "sqlFiles/tpch_schemas.sql", "--swap", "swap", "--index", "index", "--build"};
+        invokeTestClassWithArgs(args);
+        assertEquals("", errContent.toString());
     }
 
     private void testLittleData(String sqlFileName, String size) throws IOException {
-        BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(FileDescriptor.out), "ASCII"), 512);
-        final Long start = System.currentTimeMillis();
-
-        String[] args;
         String folderName;
-        if (LITTLE.equals(size)) {
-            args = new String[]{"--data", "resources/little/data_files", "resources/sql/" + sqlFileName + ".sql", "--swap", "resources/swap"};
-            folderName = "resources/little/expected/";
-        } else {
-            args = new String[]{"--data", "resources/medium/data_files", "resources/sql/" + sqlFileName + ".sql", "--swap", "resources/swap"};
-            folderName = "resources/medium/expected/";
-        }
-        Main.main(args);
+        String[] args = new String[]{"--data", "resources/little/data_files", "resources/sql/" + sqlFileName + ".sql", "--swap", "resources/swap", "--index", "index"};
+        folderName = "resources/little/expected/";
 
-        final Long stop = System.currentTimeMillis();
-        float diff = stop - start;
-        float time = diff / (1000 * 60);
-        out.write("Execution time :" + time + " minutes");
-        out.write('\n');
-        out.flush();
+        invokeTestClassWithArgs(args);
 
         final String actualResult = outContent.toString().trim();
 
@@ -115,6 +86,20 @@ public class MainTest {
 
 //        assertEquals("", errContent.toString());
         assertEquals(expectedData, actualResult);
+    }
+
+    private void invokeTestClassWithArgs(String[] args) throws IOException {
+        BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(FileDescriptor.out), "ASCII"), 512);
+
+        final Long start = System.currentTimeMillis();
+        Main.main(args);
+        final Long stop = System.currentTimeMillis();
+
+        float diff = stop - start;
+        float time = diff / (1000 * 60);
+        out.write("Execution time :" + time + " minutes");
+        out.write('\n');
+        out.flush();
     }
 
     private String getExpectedData(String folderName, String sqlFileName) throws IOException {

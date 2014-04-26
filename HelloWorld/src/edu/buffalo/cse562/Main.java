@@ -9,6 +9,7 @@ import net.sf.jsqlparser.statement.Statement;
 import net.sf.jsqlparser.statement.StatementVisitor;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ public class Main {
                 i++;
             } else if (args[i].equals("--index")) {
                 indexDir = new File(args[i + 1]);
+                i++;
             } else if (args[i].equals("--build")) {
                 isBuildPhase = true;
             } else {
@@ -40,8 +42,9 @@ public class Main {
         }
 
         if (isBuildPhase) {
-            IndexingStatementVisitor visitor  = new IndexingStatementVisitor();
+            IndexingStatementVisitor visitor  = new IndexingStatementVisitor(dataDir, indexDir);
             executeSqls(swapDir, sqlFiles, visitor, null);
+            visitor.cleanUp();
         } else {
             MyStatementVisitor myVisitor = new MyStatementVisitor(dataDir, swapDir, indexDir);
             executeSqls(swapDir, sqlFiles, myVisitor, myVisitor.source);
@@ -56,9 +59,11 @@ public class Main {
                 while ((stmnt = parser.Statement()) != null) {
                     stmnt.accept(myVisitor);
                     View.dump(source);
-                    cleanSwap(swapDir);
+                    cleanDir(swapDir);
                 }
             } catch (ParseException e) {
+                e.printStackTrace();
+            } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -66,13 +71,13 @@ public class Main {
         }
     }
 
-    public static void cleanSwap(File swapDir) {
+    public static void cleanDir(File dir) {
         String[] myFiles;
-        if (swapDir != null && swapDir.isDirectory()) {
-            myFiles = swapDir.list();
-            for (int i = 0; i < myFiles.length; i++) {
-                File myFile = new File(swapDir, myFiles[i]);
-                myFile.delete();
+        if (dir != null && dir.isDirectory()) {
+            myFiles = dir.list();
+            for (String fileName : myFiles) {
+                File file = new File(dir, fileName);
+                file.delete();
             }
         }
     }

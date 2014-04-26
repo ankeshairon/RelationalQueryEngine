@@ -6,7 +6,9 @@ import java.text.SimpleDateFormat;
 
 public class DATE extends Datum {
 
-//    Date d;
+    private static final long serialVersionUID = -4880592342416509L;
+
+    //    Date d;
     String s;
 
     public DATE(String s) throws ParseException {

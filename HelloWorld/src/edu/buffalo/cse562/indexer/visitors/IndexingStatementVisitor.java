@@ -1,5 +1,6 @@
 package edu.buffalo.cse562.indexer.visitors;
 
+import edu.buffalo.cse562.indexer.DataIndexer;
 import edu.buffalo.cse562.indexer.model.TableIndexingInfo;
 import net.sf.jsqlparser.statement.StatementVisitor;
 import net.sf.jsqlparser.statement.create.table.CreateTable;
@@ -12,19 +13,17 @@ import net.sf.jsqlparser.statement.select.Select;
 import net.sf.jsqlparser.statement.truncate.Truncate;
 import net.sf.jsqlparser.statement.update.Update;
 
-import java.util.HashMap;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
-import java.util.Map;
-
-import static edu.buffalo.cse562.schema.SchemaUtils.getColumnIndexIn;
 
 public class IndexingStatementVisitor implements StatementVisitor {
 
-    //tableName, random info
-    Map<String, TableIndexingInfo> tablesIndexingInfo;
+    private DataIndexer dataIndexer;
 
-    public IndexingStatementVisitor() {
-        tablesIndexingInfo = new HashMap<>();
+
+    public IndexingStatementVisitor(File dataDir, File indexDir) throws IOException {
+        dataIndexer = new DataIndexer(dataDir, indexDir);
     }
 
     @Override
@@ -64,17 +63,21 @@ public class IndexingStatementVisitor implements StatementVisitor {
 
     @Override
     public void visit(CreateTable createTable) {
-        final TableIndexingInfo tableIndexingInfo = new TableIndexingInfo();
+        TableIndexingInfo tableIndexingInfo = new TableIndexingInfo(createTable.getTable().getName(), createTable.getColumnDefinitions(), null);
 
-        final List<Index> indexedColumns = createTable.getIndexes();
-        for (Index indexedColumn : indexedColumns) {
-            tableIndexingInfo.addIndexColumn(indexedColumn.getType(),
-                                                                    indexedColumn.getName(),
-                                                                    getColumnIndexIn(createTable.getColumnDefinitions(),
-                                                                    indexedColumn.getName())
-                                                                   );
+        final List<Index> indexes = createTable.getIndexes();
+        if (indexes == null) {
+            return;
         }
-        tablesIndexingInfo.put(createTable.getTable().getName().toLowerCase(), tableIndexingInfo);
+
+        for (int i = 0; i < indexes.size(); i++) {
+            tableIndexingInfo.addIndex(indexes.get(i), i);
+        }
+
+        dataIndexer.buildIndexes(tableIndexingInfo);
     }
 
+    public void cleanUp() {
+        dataIndexer.cleanUp();
+    }
 }

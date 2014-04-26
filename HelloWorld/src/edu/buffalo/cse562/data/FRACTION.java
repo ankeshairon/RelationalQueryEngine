@@ -1,6 +1,8 @@
 package edu.buffalo.cse562.data;
 
 public class FRACTION extends DOUBLE {
+    private static final long serialVersionUID = -48801923424168509L;
+
     Double numerator;
     Double denominator;
 

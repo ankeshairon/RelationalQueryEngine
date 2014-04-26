@@ -75,10 +75,10 @@ public class MyStatementVisitor implements StatementVisitor {
     public void visit(CreateTable stmnt) {
         final Table table = stmnt.getTable();
         final String alias = table.getAlias();
-        final String tableName = table.getName().toLowerCase();
+        final String tableName = table.getName();
         final TableInfo tableInfo = new TableInfo(tableName, stmnt.getColumnDefinitions(), getFileSize(tableName));
 
-        tablesInfo.put(tableName, tableInfo);
+        tablesInfo.put(tableName.toLowerCase(), tableInfo);
         if (alias != null) {
             tablesInfo.put(alias, tableInfo);
         }

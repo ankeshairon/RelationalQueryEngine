@@ -312,7 +312,7 @@ public class HybridHashJoinOperator implements Operator {
 		}
     	
     	//iter = result.iterator();
-        //throw new UnsupportedOperationException("Reset not supported for " + this.getClass().getName());
+        //throw new UnsupportedOperationException("Reset not supported for " + this.getClass().getTableName());
     }
 
     @Override

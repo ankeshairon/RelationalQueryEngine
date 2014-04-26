@@ -1,6 +1,7 @@
 package edu.buffalo.cse562.data;
 
 public class LONG extends Datum {
+    private static final long serialVersionUID = -4880592342168509L;
 
     Long l;
 

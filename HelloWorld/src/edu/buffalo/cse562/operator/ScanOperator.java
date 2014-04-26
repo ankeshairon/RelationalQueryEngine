@@ -9,29 +9,28 @@ import java.io.*;
 import java.util.List;
 
 public class ScanOperator implements Operator {
-    public ColumnSchema[] schema;
-
-    private Long tableSize;
-    private BufferedReader input;
+    protected List<Integer> relevantColumnIndexes;
     private FileInputStream fileInputStream;
-    private List<Integer> relevantColumnIndexes;
+    public ColumnSchema[] schema;
+    protected BufferedReader input;
+    private Long tableSize;
 
     /**
-     *   requires table name and size only in tableInfo object if not passing null for finalSchema in the constructor
+     *   requires table tableName and size only in tableInfo object if not passing null for finalSchema in the constructor
     */
     public ScanOperator(File dataDir, TableInfo tableInfo, ColumnSchema[] finalSchema) {
         this.schema = finalSchema;
         tableSize = tableInfo.getSize();
         makeSchema(tableInfo);
         try {
-            fileInputStream = new FileInputStream(new File(dataDir.getAbsolutePath() + "//" + tableInfo.getName() + ".dat"));
+            fileInputStream = new FileInputStream(new File(dataDir.getAbsolutePath() + "//" + tableInfo.getTableName() + ".dat"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         reset();
     }
 
-    public void makeSchema(TableInfo tableInfo) {
+    private void makeSchema(TableInfo tableInfo) {
         if (schema == null) {
             final List<ColumnDefinition> allColumnDefinitions = tableInfo.getColumnDefinitions();
             relevantColumnIndexes = tableInfo.getColumnIndexesUsed();
@@ -41,7 +40,7 @@ public class ScanOperator implements Operator {
             for (int i = 0; i < relevantColumnIndexes.size(); i++) {
                 columnDefinition = allColumnDefinitions.get(relevantColumnIndexes.get(i));
                 schema[i] = new ColumnSchema(columnDefinition.getColumnName(), columnDefinition.getColDataType().getDataType());
-                schema[i].setTableName(tableInfo.getName());
+                schema[i].setTableName(tableInfo.getTableName());
                 schema[i].setTableAlias(tableInfo.getAlias());
             }
         }
@@ -49,7 +48,7 @@ public class ScanOperator implements Operator {
 
     @Override
     public Datum[] readOneTuple() {
-        String line = null;
+        String line= null;
         try {
             if ((line = input.readLine()) == null) {
                 return null;

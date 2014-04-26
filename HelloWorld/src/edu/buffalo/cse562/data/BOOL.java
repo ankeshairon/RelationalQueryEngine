@@ -2,6 +2,8 @@ package edu.buffalo.cse562.data;
 
 public class BOOL extends Datum {
 
+    private static final long serialVersionUID = -48805923424168509L;
+
     Boolean b;
 
     public BOOL(String s) {

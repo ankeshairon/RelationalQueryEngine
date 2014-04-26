@@ -3,6 +3,8 @@ package edu.buffalo.cse562.data;
 import java.text.DecimalFormat;
 
 public class DOUBLE extends Datum {
+    private static final long serialVersionUID = -4880923424168509L;
+
     static DecimalFormat decimalFormat = new DecimalFormat("#.####");
     private Double d;
 

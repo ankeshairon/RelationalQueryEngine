@@ -5,14 +5,14 @@ import net.sf.jsqlparser.statement.create.table.ColumnDefinition;
 import java.util.List;
 
 public class TableInfo {
-    private String name;
+    protected String tableName;
     private String alias;
     private final Long size;
-    private final List<ColumnDefinition> columnDefinitions;
-    private List<Integer> columnIndexesUsed;
+    protected final List<ColumnDefinition> columnDefinitions;
+    protected List<Integer> columnIndexesUsed;
 
-    public TableInfo(String name, List<ColumnDefinition> columnDefinitions, Long size) {
-        this.name = name;
+    public TableInfo(String tableName, List<ColumnDefinition> columnDefinitions, Long size) {
+        this.tableName = tableName.toLowerCase();
         this.columnDefinitions = columnDefinitions;
         this.size = size;
     }
@@ -21,8 +21,8 @@ public class TableInfo {
         return columnDefinitions;
     }
 
-    public String getName() {
-        return name;
+    public String getTableName() {
+        return tableName;
     }
 
     public String getAlias() {
@@ -52,14 +52,11 @@ public class TableInfo {
         }
 
         TableInfo that = (TableInfo) o;
-        if (!this.name.equals(that.name)) {
+        if (!this.tableName.equals(that.tableName)) {
             return false;
         }
 
-        if (this.alias == that.alias || (alias != null && alias.equals(that.alias))) {
-            return true;
-        }
-        return false;
+        return (alias != null) && alias.equals(that.alias);
     }
 }
 
