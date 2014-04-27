@@ -10,15 +10,10 @@ import java.io.IOException;
 public class DatumSerializer implements Serializer<Datum> {
     private static final long serialVersionUID = -3818545055661017388L;
 
-    public static final DatumSerializer INSTANCE = new DatumSerializer();
-
-    /**
-     * Construct a DefaultSerializer, is private to make sure every one uses INSTANCE
-     */
-    private DatumSerializer() {
-        // no op
+    public DatumSerializer() {
+        // todo pass schema to this
     }
-
+      //todo add smarter logic here
     public void serialize(SerializerOutput out, Datum datum) throws IOException {
         out.writeObject(datum);
     }

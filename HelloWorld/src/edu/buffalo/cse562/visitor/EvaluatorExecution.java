@@ -6,11 +6,11 @@ import edu.buffalo.cse562.schema.ColumnSchema;
 import java.util.Stack;
 
 public abstract class EvaluatorExecution extends AbstractExpressionVisitor {
-    protected final String ADD = "+";
-    protected final String DIVIDE = "/";
-    protected final String MULTIPLY = "*";
-    protected final String SUBTRACT = "-";
-    protected final String PARENTHESIS = "()";
+    protected final static String ADD = "+";
+    protected final static String DIVIDE = "/";
+    protected final static String MULTIPLY = "*";
+    protected final static String SUBTRACT = "-";
+    protected final static String PARENTHESIS = "()";
 
     protected Stack<Datum> persistentLiterals;
     protected Stack<String> persistentSymbols;

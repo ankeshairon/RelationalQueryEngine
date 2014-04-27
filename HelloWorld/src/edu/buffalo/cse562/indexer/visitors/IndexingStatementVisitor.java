@@ -1,6 +1,5 @@
 package edu.buffalo.cse562.indexer.visitors;
 
-import edu.buffalo.cse562.indexer.DataIndexer;
 import edu.buffalo.cse562.indexer.model.TableIndexingInfo;
 import net.sf.jsqlparser.statement.StatementVisitor;
 import net.sf.jsqlparser.statement.create.table.CreateTable;
@@ -13,17 +12,17 @@ import net.sf.jsqlparser.statement.select.Select;
 import net.sf.jsqlparser.statement.truncate.Truncate;
 import net.sf.jsqlparser.statement.update.Update;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class IndexingStatementVisitor implements StatementVisitor {
 
-    private DataIndexer dataIndexer;
+    private List<TableIndexingInfo> tableIndexingInfos;
 
 
-    public IndexingStatementVisitor(File dataDir, File indexDir) throws IOException {
-        dataIndexer = new DataIndexer(dataDir, indexDir);
+    public IndexingStatementVisitor() throws IOException {
+        tableIndexingInfos = new ArrayList<>();
     }
 
     @Override
@@ -74,10 +73,10 @@ public class IndexingStatementVisitor implements StatementVisitor {
             tableIndexingInfo.addIndex(indexes.get(i), i);
         }
 
-        dataIndexer.buildIndexes(tableIndexingInfo);
+        tableIndexingInfos.add(tableIndexingInfo);
     }
 
-    public void cleanUp() {
-        dataIndexer.cleanUp();
+    public List<TableIndexingInfo> getTableIndexingInfos() {
+        return tableIndexingInfos;
     }
 }

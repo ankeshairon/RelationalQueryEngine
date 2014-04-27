@@ -1,5 +1,6 @@
 package edu.buffalo.cse562;
 
+import edu.buffalo.cse562.indexer.Indexer;
 import edu.buffalo.cse562.indexer.visitors.IndexingStatementVisitor;
 import edu.buffalo.cse562.operator.Operator;
 import edu.buffalo.cse562.visitor.MyStatementVisitor;
@@ -42,9 +43,9 @@ public class Main {
         }
 
         if (isBuildPhase) {
-            IndexingStatementVisitor visitor  = new IndexingStatementVisitor(dataDir, indexDir);
+            IndexingStatementVisitor visitor = new IndexingStatementVisitor();
             executeSqls(swapDir, sqlFiles, visitor, null);
-            visitor.cleanUp();
+            new Indexer(visitor.getTableIndexingInfos(), dataDir, indexDir).createIndexes();
         } else {
             MyStatementVisitor myVisitor = new MyStatementVisitor(dataDir, swapDir, indexDir);
             executeSqls(swapDir, sqlFiles, myVisitor, myVisitor.source);

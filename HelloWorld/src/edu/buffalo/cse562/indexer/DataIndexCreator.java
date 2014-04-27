@@ -14,11 +14,11 @@ import java.util.List;
 
 import static edu.buffalo.cse562.indexer.IndexingConstants.INDEX_DATABASE_NAME;
 
-public class DataIndexer {
+public class DataIndexCreator {
     private final RecordManager recordManager;
     private final File dataDir;
 
-    public DataIndexer(File dataDir, File indexDir) throws IOException {
+    public DataIndexCreator(File dataDir, File indexDir) throws IOException {
         recordManager = RecordManagerFactory.createRecordManager(indexDir.getAbsolutePath() + "//" + INDEX_DATABASE_NAME);
         this.dataDir = dataDir;
     }
@@ -27,7 +27,11 @@ public class DataIndexer {
         final List<Integer> primaryIndexesColumnPositions = tableIndexingInfo.getPrimaryIndexesNewPositions();
         final String primaryRecordName = tableIndexingInfo.getPrimaryIndexName();
 
-        PrimaryTreeMap<Datum[], Datum[]> primaryTreeMap = recordManager.treeMap(tableIndexingInfo.getTableName() + "." + primaryRecordName, new SerializableTupleComparator(primaryIndexesColumnPositions), DatumArraySerializer.INSTANCE, DatumArraySerializer.INSTANCE);
+        PrimaryTreeMap<Datum[], Datum[]> primaryTreeMap =
+                recordManager.treeMap(tableIndexingInfo.getTableName() + "." + primaryRecordName,
+                                                           new SerializableTupleComparator(primaryIndexesColumnPositions),
+                                                            DatumArraySerializer.INSTANCE,
+                                                            DatumArraySerializer.INSTANCE);
 
         createSecondaryIndexIfAny(primaryTreeMap,
                                                     tableIndexingInfo.getSecondaryIndexNewPosition(),
@@ -47,7 +51,7 @@ public class DataIndexer {
 
         while ((tuple = scanOperator.readOneTuple()) != null) {
             primaryTreeMap.put(getPrimaryKey(tuple, primaryIndexesColumnPositions), tuple);
-            if (++commitCounter == 50000) {
+            if (++commitCounter == 1000) {
                 commit();
                 commitCounter = 0;
             }
@@ -65,7 +69,9 @@ public class DataIndexer {
                                                                     String secondaryIndexName,
                                                                     String tableName) {
         if (secondaryIndexNewPosition != null) {
-            primaryTreeMap.secondaryTreeMap(tableName + "." + secondaryIndexName, getSecondaryKeyExtractor(secondaryIndexNewPosition), DatumSerializer.INSTANCE);
+            primaryTreeMap.secondaryTreeMap(tableName + "." + secondaryIndexName,
+                                                                    getSecondaryKeyExtractor(secondaryIndexNewPosition),
+                                                                    DatumSerializer.INSTANCE);
             primaryTreeMap.clear();
         }
     }
