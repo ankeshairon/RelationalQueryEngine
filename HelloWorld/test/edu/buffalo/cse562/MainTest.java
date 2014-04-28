@@ -67,7 +67,14 @@ public class MainTest {
     }
 
     @Test
-    public void testBuildPhase() throws Exception {
+    public void testBuildPhaseFor100KB() throws Exception {
+        String[] args = new String[]{"--data", "data_100kb", "sqlFiles/tpch_schemas.sql", "--swap", "swap", "--index", "index", "--build"};
+        invokeTestClassWithArgs(args);
+        assertEquals("", errContent.toString());
+    }
+
+    @Test
+    public void testBuildPhaseFor100MB() throws Exception {
         String[] args = new String[]{"--data", "data_100mb", "sqlFiles/tpch_schemas.sql", "--swap", "swap", "--index", "index", "--build"};
         invokeTestClassWithArgs(args);
         assertEquals("", errContent.toString());

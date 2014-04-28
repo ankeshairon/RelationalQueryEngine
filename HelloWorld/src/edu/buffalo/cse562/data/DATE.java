@@ -1,9 +1,5 @@
 package edu.buffalo.cse562.data;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-
 public class DATE extends Datum {
 
     private static final long serialVersionUID = -4880592342416509L;
@@ -11,8 +7,11 @@ public class DATE extends Datum {
     //    Date d;
     String s;
 
-    public DATE(String s) throws ParseException {
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    /**
+     * use STRING type instead. DATES are being handled as STRINGS throughout the code
+     * */
+    private DATE(String s) {
+//        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 //        this.d = df.parse(s);
         this.s = s;
     }

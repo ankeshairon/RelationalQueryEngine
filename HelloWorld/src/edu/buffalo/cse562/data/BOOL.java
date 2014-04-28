@@ -10,6 +10,10 @@ public class BOOL extends Datum {
         this.b = Boolean.parseBoolean(s);
     }
 
+    public BOOL(Boolean b) {
+        this.b = b;
+    }
+
     @Override
     public boolean toBOOL() throws CastException {
         return b;

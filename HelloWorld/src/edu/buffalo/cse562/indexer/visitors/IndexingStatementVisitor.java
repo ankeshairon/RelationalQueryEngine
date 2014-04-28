@@ -70,7 +70,7 @@ public class IndexingStatementVisitor implements StatementVisitor {
         }
 
         for (int i = 0; i < indexes.size(); i++) {
-            tableIndexingInfo.addIndex(indexes.get(i), i);
+            tableIndexingInfo.addIndex(indexes.get(i));
         }
 
         tableIndexingInfos.add(tableIndexingInfo);

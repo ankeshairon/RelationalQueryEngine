@@ -8,6 +8,7 @@ import net.sf.jsqlparser.statement.create.table.ColumnDefinition;
 import java.io.*;
 import java.util.List;
 
+//todo see if this needs to be replaced with a scan operator that reads directly from indexes even when there's no selection predicate on top
 public class ScanOperator implements Operator {
     protected List<Integer> relevantColumnIndexes;
     private FileInputStream fileInputStream;

@@ -21,5 +21,6 @@ public class Indexer {
         for (TableIndexingInfo tableIndexingInfo : tableIndexingInfos) {
             dataIndexCreator.buildIndexes(tableIndexingInfo);
         }
+        dataIndexCreator.finish();
     }
 }

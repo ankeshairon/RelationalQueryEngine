@@ -22,9 +22,7 @@ public class TableIndexingInfo extends TableInfo {
 
     //separate
     private Integer secondaryIndexOldPosition;
-    private Integer secondaryIndexNewPosition;
     private String secondaryIndexName;
-
 
     public TableIndexingInfo(String tableName, List<ColumnDefinition> columnDefinitions, Long size) {
         super(tableName, columnDefinitions, size);
@@ -37,10 +35,9 @@ public class TableIndexingInfo extends TableInfo {
     }
 
 
-    public void addIndex(Index index, int i) {
+    public void addIndex(Index index) {
         final List<String> indexedColumnsNames = index.getColumnsNames();
         Integer oldSchemaPosition;
-        Integer newSchemaPosition = i;
 
         if (IndexingConstants.PRIMARY_KEY.equals(index.getType())) {
             if (indexedColumnsNames.size() == 1) {
@@ -48,14 +45,15 @@ public class TableIndexingInfo extends TableInfo {
                 primaryIndexName = indexedColumnsNames.get(0);
                 oldSchemaPosition = SchemaUtils.getColumnIndexIn(columnDefinitions, primaryIndexName);
                 primaryIndexesOldPositions.add(oldSchemaPosition);
-                primaryIndexesNewPositions.add(newSchemaPosition);
+                primaryIndexesNewPositions.add(0);
             } else {
                 //composite primary index
                 primaryIndexName = tableName + DEFAULT_PRIMARY_INDEX_NAME;
-                for (String indexedColumnName : indexedColumnsNames) {
+                for (int i1 = 0; i1 < indexedColumnsNames.size(); i1++) {
+                    String indexedColumnName = indexedColumnsNames.get(i1);
                     oldSchemaPosition = SchemaUtils.getColumnIndexIn(columnDefinitions, indexedColumnName);
                     primaryIndexesOldPositions.add(oldSchemaPosition);
-                    primaryIndexesNewPositions.add(newSchemaPosition);
+                    primaryIndexesNewPositions.add(i1);
                 }
                 primaryCumSecondaryIndexName = indexedColumnsNames.get(0);
             }
@@ -63,7 +61,6 @@ public class TableIndexingInfo extends TableInfo {
             secondaryIndexName = indexedColumnsNames.get(0);
             oldSchemaPosition = SchemaUtils.getColumnIndexIn(columnDefinitions, secondaryIndexName);
             secondaryIndexOldPosition = oldSchemaPosition;
-            secondaryIndexNewPosition = newSchemaPosition;
         } else {
             throw new UnsupportedOperationException("Woaaa! Some new index type encountered!");
         }
@@ -87,10 +84,6 @@ public class TableIndexingInfo extends TableInfo {
 
     public List<Integer> getPrimaryIndexesNewPositions() {
         return primaryIndexesNewPositions;
-    }
-
-    public Integer getSecondaryIndexNewPosition() {
-        return secondaryIndexNewPosition;
     }
 
     public String getPrimaryCumSecondaryIndexName() {

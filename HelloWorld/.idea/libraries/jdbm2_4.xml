@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="jdbm2.4">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/jdbm2.4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/lib" />
+    </SOURCES>
+  </library>
+</component>
