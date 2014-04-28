@@ -1,16 +1,26 @@
 package edu.buffalo.cse562.data;
 
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+
 public class LONG extends Datum {
     private static final long serialVersionUID = -4880592342168509L;
 
     Long l;
+
+    /**
+     * only to be used for externalization. Do not use this
+     */
+    public LONG() {
+    }
 
     public LONG(String s) {
         this.l = Long.parseLong(s);
     }
 
     public LONG(int i) {
-        l = (long)i ;
+        l = (long) i;
     }
 
     public LONG(Long l) {
@@ -24,7 +34,7 @@ public class LONG extends Datum {
 
     @Override
     public Long toLONG() throws CastException {
-        return l;
+        return l.longValue();
     }
 
     @Override
@@ -59,5 +69,15 @@ public class LONG extends Datum {
     @Override
     public int hashCode() {
         return l.hashCode();
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeLong(l);
+    }
+
+    @Override
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        l = in.readLong();
     }
 }

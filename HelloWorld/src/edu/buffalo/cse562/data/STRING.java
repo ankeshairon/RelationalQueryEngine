@@ -1,9 +1,19 @@
 package edu.buffalo.cse562.data;
 
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+
 public class STRING extends Datum {
     private static final long serialVersionUID = -48805923424168539L;
 
     String s;
+
+    /**
+     * only to be used for externalization. Do not use this
+     */
+    public STRING() {
+    }
 
     public STRING(String s) {
         this.s = s;
@@ -47,5 +57,15 @@ public class STRING extends Datum {
     @Override
     public int hashCode() {
         return s.hashCode();
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeUTF(s);
+    }
+
+    @Override
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        s = in.readUTF();
     }
 }

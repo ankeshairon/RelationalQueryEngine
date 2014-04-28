@@ -1,5 +1,9 @@
 package edu.buffalo.cse562.data;
 
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+
 public class DATE extends Datum {
 
     private static final long serialVersionUID = -4880592342416509L;
@@ -9,11 +13,17 @@ public class DATE extends Datum {
 
     /**
      * use STRING type instead. DATES are being handled as STRINGS throughout the code
-     * */
+     */
     private DATE(String s) {
 //        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 //        this.d = df.parse(s);
         this.s = s;
+    }
+
+    /**
+     * only to be used for externalization. Do not use this
+     */
+    public DATE() {
     }
 
     @Override
@@ -54,5 +64,15 @@ public class DATE extends Datum {
     @Override
     public int hashCode() {
         return s.hashCode();
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeUTF(s);
+    }
+
+    @Override
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        s = in.readUTF();
     }
 }

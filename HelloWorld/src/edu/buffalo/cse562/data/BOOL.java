@@ -1,10 +1,20 @@
 package edu.buffalo.cse562.data;
 
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+
 public class BOOL extends Datum {
 
     private static final long serialVersionUID = -48805923424168509L;
 
     Boolean b;
+
+    /**
+     * only to be used for externalization. Do not use this
+     */
+    public BOOL() {
+    }
 
     public BOOL(String s) {
         this.b = Boolean.parseBoolean(s);
@@ -41,7 +51,7 @@ public class BOOL extends Datum {
 
     @Override
     public int compareTo(Object o) {
-        return  b.compareTo(((BOOL) o).b);
+        return b.compareTo(((BOOL) o).b);
     }
 
     @Override
@@ -56,5 +66,15 @@ public class BOOL extends Datum {
     @Override
     public int hashCode() {
         return b.hashCode();
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeBoolean(b);
+    }
+
+    @Override
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        b = in.readBoolean();
     }
 }

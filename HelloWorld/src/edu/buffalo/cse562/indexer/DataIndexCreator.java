@@ -27,6 +27,7 @@ public class DataIndexCreator {
         this.dataDir = dataDir;
     }
 
+    //todo check for which table the indexes file bloats up
     public void buildIndexes(TableIndexingInfo tableIndexingInfo) {
         final List<Integer> primaryIndexesColumnNewPositions = tableIndexingInfo.getPrimaryIndexesNewPositions();
         final ScanOperator scanOperator = new ScanOperator(dataDir, tableIndexingInfo, null);
@@ -45,7 +46,7 @@ public class DataIndexCreator {
 
         while ((tuple = scanOperator.readOneTuple()) != null) {
             primaryTreeMap.put(getPrimaryKey(tuple, primaryIndexesColumnNewPositions), tuple);
-            if (++commitCounter == 1000) {
+            if (++commitCounter == 5000) {
                 commit();
                 commitCounter = 0;
             }
@@ -72,11 +73,14 @@ public class DataIndexCreator {
                                              List<Integer> primaryIndexesColumnPositions,
                                              PrimaryTreeMap<Datum[], Datum[]> primaryTreeMap,
                                              ColumnSchema[] schema) {
-        createSecondaryIndexIfAny(primaryTreeMap,
-                tableIndexingInfo.getSecondaryIndexOldPosition(),
-                tableIndexingInfo.getSecondaryIndexName(),
-                tableIndexingInfo.getTableName(),
-                schema[tableIndexingInfo.getSecondaryIndexOldPosition()]);
+
+        if (tableIndexingInfo.getSecondaryIndexName() != null) {
+            createSecondaryIndexIfAny(primaryTreeMap,
+                    tableIndexingInfo.getSecondaryIndexOldPosition(),
+                    tableIndexingInfo.getSecondaryIndexName(),
+                    tableIndexingInfo.getTableName(),
+                    schema[tableIndexingInfo.getSecondaryIndexOldPosition()]);
+        }
 
         if (primaryIndexesColumnPositions.size() > 1) {
             createSecondaryIndexIfAny(primaryTreeMap,
@@ -85,6 +89,7 @@ public class DataIndexCreator {
                     tableIndexingInfo.getTableName(),
                     schema[tableIndexingInfo.getPrimaryIndexesOldPositions().get(0)]);
         }
+        primaryTreeMap.clear();
     }
 
     private void createSecondaryIndexIfAny(PrimaryTreeMap<Datum[], Datum[]> primaryTreeMap,
@@ -96,7 +101,6 @@ public class DataIndexCreator {
             primaryTreeMap.secondaryTreeMap(tableName + "." + secondaryIndexName,
                     getSecondaryKeyExtractor(secondaryIndexOldPosition),
                     new DatumSerializer(secondaryKeyColumnSchema));
-            primaryTreeMap.clear();
         }
     }
 

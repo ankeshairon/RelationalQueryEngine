@@ -1,8 +1,8 @@
 package edu.buffalo.cse562.data;
 
-import java.io.Serializable;
+import java.io.Externalizable;
 
-public abstract class Datum implements Comparable, Serializable {
+public abstract class Datum implements Comparable, Externalizable {
 
     public static enum type {
         BOOL, LONG, DOUBLE, STRING, DATE
@@ -12,6 +12,9 @@ public abstract class Datum implements Comparable, Serializable {
         public CastException() {
             System.out.println("Cannot cast into type");
         }
+    }
+
+    protected Datum() {
     }
 
     public abstract String toSTRING();

@@ -6,6 +6,12 @@ public class FRACTION extends DOUBLE {
     Double numerator;
     Double denominator;
 
+    /**
+     * only to be used for externalization. Do not use this
+     */
+    public FRACTION() {
+    }
+
     public FRACTION(Double numerator, Double denominator) {
         super(numerator / denominator);
         this.numerator = numerator;
