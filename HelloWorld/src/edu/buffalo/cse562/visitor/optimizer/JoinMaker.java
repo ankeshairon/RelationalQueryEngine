@@ -42,7 +42,7 @@ public class JoinMaker {
         return chainedOperator;
     }
 
-    private List<Map.Entry<Long,Operator>> convertScanToSelectionOperators() {
+    private List<Map.Entry<Long, Operator>> convertScanToSelectionOperators() {
         List<Map.Entry<Long, Operator>> operatorPriorityPairList = new ArrayList<>();
         Operator hybridOperator;
         Long size;
@@ -90,7 +90,7 @@ public class JoinMaker {
                 return null;
             }
         } else {
-        return new NestedLoopJoinOperator(chainedOperator, nextOperator);
+            return new NestedLoopJoinOperator(chainedOperator, nextOperator);
         }
     }
 

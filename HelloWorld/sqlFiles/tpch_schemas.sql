@@ -16,7 +16,8 @@ CREATE TABLE LINEITEM (
         shipmode       CHAR(10),
         comment        VARCHAR(44),
         PRIMARY KEY (orderkey, linenumber),
-        INDEX shipidx (shipdate)
+        INDEX shipidx (shipdate),
+		INDEX orderlines (orderkey)
     );
 
 
@@ -77,7 +78,7 @@ CREATE TABLE PARTSUPP (
         supplycost   DECIMAL,
         comment      VARCHAR(199),
         PRIMARY KEY (partkey, suppkey),
-        INDEX suppliers(suppkey)
+        INDEX partsuppliers(partkey)
     );
 
 CREATE TABLE NATION (
@@ -85,15 +86,13 @@ CREATE TABLE NATION (
         name         CHAR(25),
         regionkey    INT,
         comment      VARCHAR(152),
-        PRIMARY KEY (nationkey),
-        INDEX nationname(name)
+        PRIMARY KEY (nationkey)
     );
 
 CREATE TABLE REGION (
         regionkey    INT,
         name         CHAR(25),
         comment      VARCHAR(152),
-        PRIMARY KEY (regionkey),
-        INDEX regionname(name)
+        PRIMARY KEY (regionkey)
     );
 

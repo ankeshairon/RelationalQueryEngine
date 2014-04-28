@@ -34,7 +34,11 @@ public class MyStatementVisitor implements StatementVisitor {
 
     @Override
     public void visit(Select statement) {
-        new ScanOptimizer(tablesInfo, statement).populateRelevantColumnIndexes();
+        if (tablesInfo.size() != 0) {
+            new ScanOptimizer(tablesInfo, statement).populateRelevantColumnIndexes();
+        } else {
+            throw new UnsupportedOperationException("Missing create table statements");
+        }
 
         MySelectVisitor myVisitor = new MySelectVisitor(dataDir, swapDir, indexDir, tablesInfo);
         statement.getSelectBody().accept(myVisitor);

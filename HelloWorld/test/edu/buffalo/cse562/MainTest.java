@@ -33,9 +33,9 @@ public class MainTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
 
-    private final String LITTLE = "little";
-    private final String MEDIUM = "medium";
+    private final String LITTLE = "little"; //8mb currently
 
+    //todo clear indexes after every run
     @Before
     public void setUp() throws Exception {
         System.setOut(new PrintStream(outContent));
@@ -44,52 +44,48 @@ public class MainTest {
 
     @Test
     public void checkpoint2_tpch07a_little() throws Exception {
-        final String sqlFileName = "tpch07a";
-        testLittleData(sqlFileName, LITTLE);
+        testForExpectedData("tpch07a", LITTLE);
     }
 
     @Test
     public void checkpoint2_tpch10a_little() throws Exception {
-        final String sqlFileName = "tpch10a";
-        testLittleData(sqlFileName, LITTLE);
+        testForExpectedData("tpch10a", LITTLE);
     }
 
     @Test
     public void checkpoint2_tpch12a_little() throws Exception {
-        final String sqlFileName = "tpch12a";
-        testLittleData(sqlFileName, LITTLE);
+        testForExpectedData("tpch12a", LITTLE);
     }
 
     @Test
     public void checkpoint2_tpch16a_little() throws Exception {
-        final String sqlFileName = "tpch16a";
-        testLittleData(sqlFileName, LITTLE);
+        testForExpectedData("tpch16a", LITTLE);
     }
 
     @Test
     public void testBuildPhaseFor10KB() throws Exception {
-        String[] args = new String[]{"--data", "data_10kb", "sqlFiles/tpch_schemas.sql", "--swap", "swap", "--index", "index", "--build"};
-        invokeTestClassWithArgs(args);
-        assertEquals("", errContent.toString());
+        testBuildPhaseWithDataFile("data_10kb");
     }
 
     @Test
     public void testBuildPhaseFor1MB() throws Exception {
-        String[] args = new String[]{"--data", "data_1mb", "sqlFiles/tpch_schemas.sql", "--swap", "swap", "--index", "index", "--build"};
-        invokeTestClassWithArgs(args);
-        assertEquals("", errContent.toString());
+        testBuildPhaseWithDataFile("data_1mb");
     }
 
     @Test
-    public void testBuildPhaseFor100MB() throws Exception {
-        String[] args = new String[]{"--data", "data_100mb", "sqlFiles/tpch_schemas.sql", "--swap", "swap", "--index", "index", "--build"};
+    public void testBuildPhaseFor8MB() throws Exception {
+        testBuildPhaseWithDataFile("resources/little/data_files");
+    }
+
+    private void testBuildPhaseWithDataFile(String dataFileArg) throws IOException {
+        String[] args = new String[]{"--data", dataFileArg, "sqlFiles/tpch_schemas.sql", "--swap", "swap", "--index", "index", "--build"};
         invokeTestClassWithArgs(args);
         assertEquals("", errContent.toString());
     }
 
-    private void testLittleData(String sqlFileName, String size) throws IOException {
+    private void testForExpectedData(String sqlFileName, String size) throws IOException {
         String folderName;
-        String[] args = new String[]{"--data", "resources/little/data_files", "resources/sql/" + sqlFileName + ".sql", "--swap", "resources/swap", "--index", "index"};
+        String[] args = new String[]{"--data", "resources/little/data_files", "sqlFiles/tpch_schemas.sql", "resources/sql/" + sqlFileName + ".sql", "--swap", "resources/swap", "--index", "index"};
         folderName = "resources/little/expected/";
 
         invokeTestClassWithArgs(args);
@@ -103,15 +99,20 @@ public class MainTest {
     }
 
     private void invokeTestClassWithArgs(String[] args) throws IOException {
-        BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(FileDescriptor.out), "ASCII"), 512);
 
         final Long start = System.currentTimeMillis();
         Main.main(args);
         final Long stop = System.currentTimeMillis();
 
         float diff = stop - start;
-        float time = diff / (1000 * 60);
-        out.write("Execution time :" + time + " minutes");
+        float time = diff / (1000);
+
+        print("Execution time :" + time + " seconds");
+    }
+
+    private void print(String stringToPrint) throws IOException {
+        BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(FileDescriptor.out), "ASCII"), 512);
+        out.write(stringToPrint);
         out.write('\n');
         out.flush();
     }
