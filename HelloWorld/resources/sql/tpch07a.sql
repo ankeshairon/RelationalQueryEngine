@@ -7,7 +7,11 @@ and orders.orderkey = lineitem.orderkey
 and customer.custkey = orders.custkey
 and supplier.nationkey = n1.nationkey
 and customer.nationkey = n2.nationkey
-and lineitem.shipdate >= date('1995-01-01') 
+and (
+  ( (n1.name = 'FRANCE') and (n2.name = 'GERMANY') ) or
+  ( (n1.name = 'GERMANY') and (n2.name = 'FRANCE') )
+)
+and lineitem.shipdate >= date('1995-01-01')
 and lineitem.shipdate <= date('1996-12-31')
 ) as shipping
 group by

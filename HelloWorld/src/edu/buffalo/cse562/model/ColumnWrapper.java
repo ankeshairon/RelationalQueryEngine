@@ -17,11 +17,7 @@ public class ColumnWrapper extends Column {
 
     @Override
     public boolean equals(Object obj) {
-        return (obj instanceof ColumnWrapper) && fullyQualifiedName.equals(((ColumnWrapper) obj).getFullyQualifiedName());
-    }
-
-    public String getFullyQualifiedName() {
-        return fullyQualifiedName;
+        return (obj instanceof ColumnWrapper) && fullyQualifiedName.equals(((ColumnWrapper) obj).fullyQualifiedName);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package edu.buffalo.cse562;
 
-import edu.buffalo.cse562.indexer.Indexer;
+import edu.buffalo.cse562.indexer.IndexBuilder;
+import edu.buffalo.cse562.indexer.constants.IndexingConstants;
 import edu.buffalo.cse562.indexer.visitors.IndexingStatementVisitor;
 import edu.buffalo.cse562.visitor.MyStatementVisitor;
 import net.sf.jsqlparser.parser.CCJSqlParser;
@@ -13,6 +14,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
@@ -43,19 +45,24 @@ public class Main {
 
         if (isBuildPhase) {
             IndexingStatementVisitor visitor = new IndexingStatementVisitor();
-            executeSqls(swapDir, sqlFiles, visitor);
-            new Indexer(visitor.getTableIndexingInfos(), dataDir, indexDir).createIndexes();
+
+            executeSqls(null, sqlFiles, visitor);
+            executeSqls(null, getQueryFiles(), visitor);
+
+            new IndexBuilder(visitor.getTableIndexingInfos(), dataDir, indexDir).createIndexes();
         } else {
             MyStatementVisitor myVisitor = new MyStatementVisitor(dataDir, swapDir, indexDir);
             executeSqls(swapDir, sqlFiles, myVisitor);
         }
     }
 
-    private static void executeSqls(File swapDir, ArrayList<File> sqlFiles, StatementVisitor myVisitor) {
+    public static void executeSqls(File swapDir, List<File> sqlFiles, StatementVisitor myVisitor) {
+        CCJSqlParser parser;
+        Statement stmnt;
+
         for (File sqlFile : sqlFiles) {
             try (FileReader reader = new FileReader(sqlFile)) {
-                CCJSqlParser parser = new CCJSqlParser(reader);
-                Statement stmnt;
+                parser = new CCJSqlParser(reader);
                 while ((stmnt = parser.Statement()) != null) {
                     stmnt.accept(myVisitor);
                     if (myVisitor instanceof MyStatementVisitor) {
@@ -73,7 +80,7 @@ public class Main {
         }
     }
 
-    public static void cleanDir(File dir) {
+    private static void cleanDir(File dir) {
         String[] myFiles;
         if (dir != null && dir.isDirectory()) {
             myFiles = dir.list();
@@ -82,6 +89,16 @@ public class Main {
                 file.delete();
             }
         }
+    }
+
+    private static List<File> getQueryFiles() {
+        final String pathname = "resources/sql/";
+        final List<File> filesToExecute = new ArrayList<>();
+
+        for (String queryFileName : IndexingConstants.queries) {
+            filesToExecute.add(new File(pathname + queryFileName));
+        }
+        return filesToExecute;
     }
 
 }

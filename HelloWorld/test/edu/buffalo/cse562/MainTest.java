@@ -16,16 +16,23 @@ import static org.junit.Assert.assertEquals;
  * - create a following folder structure
  * <p/>
  * Helloworld
- * |
+ * |---index
+ * |        |---<should be emptied after every run>     //todo clear indexes after every run
  * |---resources
- * |--data_unittest
- * |        |---<all dat files>
- * |
- * |--expected
- * |        |---<all expected.dat files>
- * |
- * |--sqlFiles
- * |        |---<all sql files>
+ * |        |---little      (for 8mb data)
+ * |        |         |---data_files
+ * |        |         |         |---<all dat files>
+ *          |         |--expected
+ * |        |                   |---<all expected.dat files>
+ * |        |---medium      (for 40mb data)
+ * |        |        |---data_files
+ * |        |        |          |---<all dat files>
+ *          |        |--expected
+ * |        |                   |---<all expected.dat files>
+ * |        |---sqlFiles
+ * |        |        |---<all sql query files>
+ *          |---swap
+ *                  |---<empty directory>
  * - might have to add junit to your path if it's not done by IDE automatically
  */
 
@@ -35,7 +42,6 @@ public class MainTest {
 
     private final String LITTLE = "little"; //8mb currently
 
-    //todo clear indexes after every run
     @Before
     public void setUp() throws Exception {
         System.setOut(new PrintStream(outContent));
@@ -77,13 +83,18 @@ public class MainTest {
         testBuildPhaseWithDataFile("resources/little/data_files");
     }
 
-    private void testBuildPhaseWithDataFile(String dataFileArg) throws IOException {
+    @Test
+    public void testBuildPhaseFor40MB() throws Exception {
+        testBuildPhaseWithDataFile("resources/normal/data_files");
+    }
+
+    private void testBuildPhaseWithDataFile(String dataFileArg) throws IOException, InterruptedException {
         String[] args = new String[]{"--data", dataFileArg, "sqlFiles/tpch_schemas.sql", "--swap", "swap", "--index", "index", "--build"};
         invokeTestClassWithArgs(args);
         assertEquals("", errContent.toString());
     }
 
-    private void testForExpectedData(String sqlFileName, String size) throws IOException {
+    private void testForExpectedData(String sqlFileName, String size) throws IOException, InterruptedException {
         String folderName;
         String[] args = new String[]{"--data", "resources/little/data_files", "sqlFiles/tpch_schemas.sql", "resources/sql/" + sqlFileName + ".sql", "--swap", "resources/swap", "--index", "index"};
         folderName = "resources/little/expected/";
@@ -98,7 +109,7 @@ public class MainTest {
         assertEquals(expectedData, actualResult);
     }
 
-    private void invokeTestClassWithArgs(String[] args) throws IOException {
+    private void invokeTestClassWithArgs(String[] args) throws IOException, InterruptedException {
 
         final Long start = System.currentTimeMillis();
         Main.main(args);

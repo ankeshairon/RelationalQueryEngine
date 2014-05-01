@@ -13,7 +13,7 @@ import net.sf.jsqlparser.schema.Column;
 
 import java.util.*;
 
-public class CrossToJoinOptimizationEvaluator extends AbstractExpressionVisitor {
+public class CrossToJoinOptimizationVisitor extends AbstractExpressionVisitor {
     private Map<Expression, List<Column>> conditionColumnMap;
     private Set<Column> currentColumnSetToSave;
     private int pendingOrs;
@@ -21,7 +21,7 @@ public class CrossToJoinOptimizationEvaluator extends AbstractExpressionVisitor 
     /*
     * This class is to extract a map of (expressions & columns involved in that expression) in the where clause
     * */
-    public CrossToJoinOptimizationEvaluator(Expression whereExpression) {
+    public CrossToJoinOptimizationVisitor(Expression whereExpression) {
         conditionColumnMap = new HashMap<>();
         currentColumnSetToSave = new HashSet<>();
         pendingOrs = 0;

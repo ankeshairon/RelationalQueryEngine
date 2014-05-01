@@ -12,7 +12,7 @@ import net.sf.jsqlparser.expression.operators.arithmetic.Multiplication;
 import net.sf.jsqlparser.expression.operators.arithmetic.Subtraction;
 import net.sf.jsqlparser.schema.Column;
 
-import static edu.buffalo.cse562.data.DatumUtilities.getInstance;
+import static edu.buffalo.cse562.data.DatumUtils.getInstance;
 
 public class EvaluatorAggregate extends EvaluatorExecution {
 

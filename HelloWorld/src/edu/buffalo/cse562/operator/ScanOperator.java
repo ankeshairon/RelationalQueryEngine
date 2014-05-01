@@ -1,6 +1,6 @@
 package edu.buffalo.cse562.operator;
 
-import edu.buffalo.cse562.data.*;
+import edu.buffalo.cse562.data.Datum;
 import edu.buffalo.cse562.model.TableInfo;
 import edu.buffalo.cse562.schema.ColumnSchema;
 import net.sf.jsqlparser.statement.create.table.ColumnDefinition;
@@ -8,7 +8,8 @@ import net.sf.jsqlparser.statement.create.table.ColumnDefinition;
 import java.io.*;
 import java.util.List;
 
-//todo see if this needs to be replaced with a scan operator that reads directly from indexes even when there's no selection predicate on top
+import static edu.buffalo.cse562.data.DatumUtils.getDatumOfTypeFromValue;
+
 public class ScanOperator implements Operator {
     protected List<Integer> relevantColumnIndexes;
     private FileInputStream fileInputStream;
@@ -17,8 +18,8 @@ public class ScanOperator implements Operator {
     private Long tableSize;
 
     /**
-     *   requires table tableName and size only in tableInfo object if not passing null for finalSchema in the constructor
-    */
+     * requires table tableName and size only in tableInfo object if not passing null for finalSchema in the constructor
+     */
     public ScanOperator(File dataDir, TableInfo tableInfo, ColumnSchema[] finalSchema) {
         this.schema = finalSchema;
         tableSize = tableInfo.getSize();
@@ -49,7 +50,7 @@ public class ScanOperator implements Operator {
 
     @Override
     public Datum[] readOneTuple() {
-        String line= null;
+        String line = null;
         try {
             if ((line = input.readLine()) == null) {
                 return null;
@@ -64,27 +65,7 @@ public class ScanOperator implements Operator {
         for (int i = 0; i < relevantColumnIndexes.size(); i++) {
             Integer index = relevantColumnIndexes.get(i);
 
-            switch (schema[i].getType()) {
-                case LONG:
-                    tuple[i] = new LONG(cells[index]);
-                    break;
-                case DOUBLE:
-                    tuple[i] = new DOUBLE(cells[index]);
-                    break;
-                case BOOL:
-                    tuple[i] = new BOOL(cells[index]);
-                    break;
-                case DATE:
-//                    try {
-//                        tuple[i] = new DATE(cells[index]);
-//                    } catch (ParseException e) {
-//                        e.printStackTrace();
-//                    }
-//                    break;
-                case STRING:
-                    tuple[i] = new STRING(cells[index]);
-                    break;
-            }
+            tuple[i] = getDatumOfTypeFromValue(schema[i].getType(), cells[index]);
         }
         return tuple;
     }

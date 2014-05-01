@@ -1,21 +1,21 @@
 package edu.buffalo.cse562.visitor.optimizer;
 
 import edu.buffalo.cse562.schema.ColumnSchema;
-import edu.buffalo.cse562.visitor.CrossToJoinOptimizationEvaluator;
+import edu.buffalo.cse562.visitor.CrossToJoinOptimizationVisitor;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.schema.Column;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CrossToJoinOptimizer {
 
     private Map<Expression, List<Column>> conditionColumnMap;
 
+    private Set<Column> conditionsUsedUp;
+
     public CrossToJoinOptimizer(Expression where) {
-        conditionColumnMap = new CrossToJoinOptimizationEvaluator(where).getConditionColumnMap();
+        conditionColumnMap = new CrossToJoinOptimizationVisitor(where).getConditionColumnMap();
+        conditionsUsedUp = new HashSet<>();
     }
 
     public List<Expression> getConditionsExclusiveToTable(ColumnSchema[] schema) {
@@ -28,6 +28,7 @@ public class CrossToJoinOptimizer {
             List<Column> columnsInConditionExpression = conditionColumnMap.get(condition);
             if (allColumnsForConditionOfThisTableOnly(columnsInConditionExpression, schema)) {
                 conditionalExpressions.add(condition);
+                conditionsUsedUp.addAll(conditionColumnMap.get(condition));
                 iterator.remove();
             }
         }
@@ -42,12 +43,28 @@ public class CrossToJoinOptimizer {
             List<Column> columnsInConditionExpression = conditionColumnMap.get(condition);
             final Integer[] indexesOfBothTableColumnsForCondition = getIndexesOfBothTableColumnsForCondition(columnsInConditionExpression, schema1, schema2);
             if (indexesOfBothTableColumnsForCondition != null) {
+                conditionsUsedUp.addAll(conditionColumnMap.get(condition));
                 iterator.remove();
                 return indexesOfBothTableColumnsForCondition;
             }
         }
         return null;
     }
+
+    public Map<Expression, List<Column>> getNonExclusiveConditions() {
+        return conditionColumnMap;
+    }
+
+    public Set<Column> getAllColumnsUsedInWhereClause() {
+        Set<Column> allColumns = new HashSet<>();
+        allColumns.addAll(conditionsUsedUp);
+
+        for (List<Column> columns : conditionColumnMap.values()) {
+            allColumns.addAll(columns);
+        }
+        return allColumns;
+    }
+
 
     private Integer[] getIndexesOfBothTableColumnsForCondition(List<Column> columnsInConditionExpression, ColumnSchema[] schema1, ColumnSchema[] schema2) {
         Integer index1 = -1;
@@ -66,7 +83,6 @@ public class CrossToJoinOptimizer {
         return (index1 != -1 && index2 != -1) ? new Integer[]{index1, index2} : null;
     }
 
-
     private boolean allColumnsForConditionOfThisTableOnly(List<Column> columnsInConditionExpression, ColumnSchema[] schema) {
         for (Column columnInCondition : columnsInConditionExpression) {
             if (indexOfColumnInTable(columnInCondition, schema) == -1) {
@@ -83,9 +99,5 @@ public class CrossToJoinOptimizer {
             }
         }
         return -1;
-    }
-
-    public Map<Expression, List<Column>> getNonExclusiveConditions() {
-        return conditionColumnMap;
     }
 }

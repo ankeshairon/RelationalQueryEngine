@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static edu.buffalo.cse562.data.DatumUtilities.getInstance;
+import static edu.buffalo.cse562.data.DatumUtils.getInstance;
 
 public class EvaluatorSelection extends EvaluatorExecution {
 

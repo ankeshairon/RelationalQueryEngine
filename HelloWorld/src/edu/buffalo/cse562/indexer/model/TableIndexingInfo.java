@@ -1,19 +1,18 @@
 package edu.buffalo.cse562.indexer.model;
 
-import edu.buffalo.cse562.indexer.IndexingConstants;
 import edu.buffalo.cse562.model.TableInfo;
 import edu.buffalo.cse562.schema.SchemaUtils;
+import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.statement.create.table.ColumnDefinition;
-import net.sf.jsqlparser.statement.create.table.Index;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
-import static edu.buffalo.cse562.indexer.IndexingConstants.DEFAULT_PRIMARY_INDEX_NAME;
+import java.util.Map;
 
 public class TableIndexingInfo extends TableInfo {
 
-    //composite indexing
+   /* //composite indexing
     private List<Integer> primaryIndexesOldPositions;
     private List<Integer> primaryIndexesNewPositions;
     private String primaryIndexName;
@@ -22,18 +21,35 @@ public class TableIndexingInfo extends TableInfo {
 
     //separate
     private Integer secondaryIndexOldPosition;
-    private String secondaryIndexName;
+    private String secondaryIndexName;*/
+
+    //name-oldPosition
+    private Map<String, Integer> indexes;
 
     public TableIndexingInfo(String tableName, List<ColumnDefinition> columnDefinitions, Long size) {
         super(tableName, columnDefinitions, size);
-        primaryIndexesOldPositions = new ArrayList<>();
-        primaryIndexesNewPositions = new ArrayList<>();
+//        primaryIndexesOldPositions = new ArrayList<>();
+//        primaryIndexesNewPositions = new ArrayList<>();
         columnIndexesUsed = new ArrayList<>();
         for (int i = 0; i < columnDefinitions.size(); i++) {
             columnIndexesUsed.add(i);
         }
+
+        indexes = new HashMap<>();
     }
 
+    public void addIndex(Column column) {
+        final String columnName = column.getColumnName();
+        final Integer oldPosition = SchemaUtils.getColumnIndexIn(columnDefinitions, columnName);
+        indexes.put(columnName, oldPosition);
+    }
+
+    public Map<String, Integer> getIndexes() {
+        return indexes;
+    }
+
+
+/*
 
     public void addIndex(Index index) {
         final List<String> indexedColumnsNames = index.getColumnsNames();
@@ -43,7 +59,7 @@ public class TableIndexingInfo extends TableInfo {
             if (indexedColumnsNames.size() == 1) {
                 //simple primary index
                 primaryIndexName = indexedColumnsNames.get(0);
-                oldSchemaPosition = SchemaUtils.getColumnIndexIn(columnDefinitions, primaryIndexName);
+                oldSchemaPosition = getColumnIndexIn(columnDefinitions, primaryIndexName);
                 primaryIndexesOldPositions.add(oldSchemaPosition);
                 primaryIndexesNewPositions.add(0);
             } else {
@@ -51,7 +67,7 @@ public class TableIndexingInfo extends TableInfo {
                 primaryIndexName = tableName + DEFAULT_PRIMARY_INDEX_NAME;
                 for (int i1 = 0; i1 < indexedColumnsNames.size(); i1++) {
                     String indexedColumnName = indexedColumnsNames.get(i1);
-                    oldSchemaPosition = SchemaUtils.getColumnIndexIn(columnDefinitions, indexedColumnName);
+                    oldSchemaPosition = getColumnIndexIn(columnDefinitions, indexedColumnName);
                     primaryIndexesOldPositions.add(oldSchemaPosition);
                     primaryIndexesNewPositions.add(i1);
                 }
@@ -59,7 +75,7 @@ public class TableIndexingInfo extends TableInfo {
             }
         } else if (IndexingConstants.INDEX_KEY.equals(index.getType())) {
             secondaryIndexName = indexedColumnsNames.get(0);
-            oldSchemaPosition = SchemaUtils.getColumnIndexIn(columnDefinitions, secondaryIndexName);
+            oldSchemaPosition = getColumnIndexIn(columnDefinitions, secondaryIndexName);
             secondaryIndexOldPosition = oldSchemaPosition;
         } else {
             throw new UnsupportedOperationException("Woaaa! Some new index type encountered!");
@@ -89,4 +105,5 @@ public class TableIndexingInfo extends TableInfo {
     public String getPrimaryCumSecondaryIndexName() {
         return primaryCumSecondaryIndexName;
     }
+*/
 }
