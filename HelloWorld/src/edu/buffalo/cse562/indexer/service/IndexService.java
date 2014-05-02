@@ -8,7 +8,6 @@ import jdbm.RecordManager;
 import jdbm.SecondaryTreeMap;
 
 import java.io.File;
-import java.util.Set;
 
 public class IndexService extends Indexer {
 
@@ -29,22 +28,7 @@ public class IndexService extends Indexer {
         final PrimaryStoreMap<Long, String> storeMap = getPrimaryStoreMap(recordManager, tableName);
         final SecondaryTreeMap<Datum, Long, String> secondaryMap = getSecondaryMap(storeMap, schema, columnPosition);
 
-        return new IndexedDataMap() {
-            @Override
-            public Set<Datum> keySet() {
-                return secondaryMap.keySet();
-            }
-
-            @Override
-            public Iterable<String> get(Datum key) {
-                return secondaryMap.getPrimaryValues(key);
-            }
-
-            @Override
-            public Iterable<Long> getRowIds(Datum key) {
-                return secondaryMap.get(key);
-            }
-        };
+        return new IndexedDataMap(secondaryMap);
     }
 
     public static IndexService getInstance() {

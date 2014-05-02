@@ -1,14 +1,33 @@
 package edu.buffalo.cse562.indexer.service;
 
 import edu.buffalo.cse562.data.Datum;
+import jdbm.SecondaryTreeMap;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-public interface IndexedDataMap {
+public class IndexedDataMap {
 
-    public Set<Datum> keySet();
+    private final SecondaryTreeMap<Datum, Long, String> secondaryMap;
 
-    public Iterable<String> get(Datum key);
+    public IndexedDataMap(SecondaryTreeMap<Datum, Long, String> secondaryMap) {
+        this.secondaryMap = secondaryMap;
+    }
 
-    public Iterable<Long> getRowIds(Datum key);
+    public List<Long> getRowIdsForKey(Datum key) {
+        return (List<Long>) secondaryMap.get(key);
+    }
+
+    public List<String> getTuplesForIds(List<Long> ids) {
+        List<String> tuples = new ArrayList<>();
+        for (Long id : ids) {
+            tuples.add(getTupleForId(id));
+        }
+        return tuples;
+    }
+
+    public String getTupleForId(Long id) {
+        return secondaryMap.getPrimaryValue(id);
+    }
+
 }

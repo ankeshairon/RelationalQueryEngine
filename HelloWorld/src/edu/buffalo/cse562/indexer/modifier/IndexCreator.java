@@ -10,7 +10,7 @@ import java.io.File;
 import java.util.Collection;
 import java.util.Iterator;
 
-public class IndexCreator extends Indexer implements Runnable {
+public class IndexCreator extends Indexer/* implements Runnable*/ {
     private Collection<TableIndexingInfo> tableIndexingInfos;
     private final File dataDir;
     private File indexDir;
@@ -21,7 +21,7 @@ public class IndexCreator extends Indexer implements Runnable {
         this.tableIndexingInfos = tableIndexingInfos;
     }
 
-    @Override
+//    @Override
     public void run() {
         RecordManager recordManager = getRecordManager(indexDir);
         PrimaryStoreMap<Long, String> storeMap;
