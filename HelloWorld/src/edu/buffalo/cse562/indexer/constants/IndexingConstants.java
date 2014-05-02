@@ -4,18 +4,17 @@ import java.util.Arrays;
 import java.util.List;
 
 public class IndexingConstants {
-    public static final String INDEX_KEY = "INDEX";
-    public static final String PRIMARY_KEY = "PRIMARY KEY";
-    //    public static final String INDEX_DATABASE_NAME = "RQE";
-    public static final String DEFAULT_PRIMARY_INDEX_NAME = "PRIMARY_INDEX";
+
+    public static final String RECORD_MANAGER_NAME = "RQE";
+    public static final String STORE_MAP = "storeMap";
 
     public static List<String> queries = Arrays.asList(
-            "tpch1.sql",
-            "tpch3.sql",
-            "tpch5.sql",
-            "tpch6.sql",
-            "tpch07a.sql",
-            "tpch10a.sql",
-            "tpch12a.sql",
-            "tpch16a.sql");
+            "tpch1.txt",
+            "tpch3.txt",
+            "tpch5.txt",
+            "tpch6.txt",
+            "tpch07a.txt",
+            "tpch10a.txt",
+            "tpch12a.txt",
+            "tpch16a.txt");
 }

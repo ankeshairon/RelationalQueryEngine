@@ -20,13 +20,11 @@ public class MySelectVisitor implements SelectVisitor {
     private ColumnSchema[] finalSchema;
     private final File dataDir;
     private final File swapDir;
-    private final File indexDir;
     private final HashMap<String, TableInfo> tablesInfo;
 
-    public MySelectVisitor(File dataDir, File swapDir, File indexDir, HashMap<String, TableInfo> tablesInfo) {
+    public MySelectVisitor(File dataDir, File swapDir, HashMap<String, TableInfo> tablesInfo) {
         this.dataDir = dataDir;
         this.swapDir = swapDir;
-        this.indexDir = indexDir;
         this.tablesInfo = tablesInfo;
     }
 
@@ -40,7 +38,7 @@ public class MySelectVisitor implements SelectVisitor {
 
     @Override
     public void visit(PlainSelect statement) {
-        MyFromItemVisitor myFromItemVisitor = new MyFromItemVisitor(dataDir, swapDir, indexDir, tablesInfo, finalSchema);
+        MyFromItemVisitor myFromItemVisitor = new MyFromItemVisitor(dataDir, swapDir, tablesInfo, finalSchema);
 
         visitFromItems(statement, myFromItemVisitor);
         JoinMaker joinMaker = visitMultipleFromItems(statement, myFromItemVisitor);

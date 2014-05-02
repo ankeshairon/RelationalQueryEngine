@@ -52,7 +52,7 @@ public class JoinMaker {
             if (exclusiveConditions.isEmpty()) {
                 hybridOperator = inputOperator;
             } else {
-                //todo instantiate index scan operator instead
+                //todo instantiate index scan operator instead & chain selection operators if required
                 hybridOperator = new SelectionOperator(inputOperator, exclusiveConditions);
             }
 //            size = exclusiveConditions.size();

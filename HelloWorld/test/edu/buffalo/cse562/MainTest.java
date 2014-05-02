@@ -88,6 +88,11 @@ public class MainTest {
         testBuildPhaseWithDataFile("resources/normal/data_files");
     }
 
+    @Test
+    public void testBuildPhaseFor100MB() throws Exception {
+        testBuildPhaseWithDataFile("resources/large/data_files");
+    }
+
     private void testBuildPhaseWithDataFile(String dataFileArg) throws IOException, InterruptedException {
         String[] args = new String[]{"--data", dataFileArg, "sqlFiles/tpch_schemas.sql", "--swap", "swap", "--index", "index", "--build"};
         invokeTestClassWithArgs(args);

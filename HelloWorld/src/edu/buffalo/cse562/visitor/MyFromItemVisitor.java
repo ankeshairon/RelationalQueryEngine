@@ -15,18 +15,16 @@ import java.util.HashMap;
 public class MyFromItemVisitor implements FromItemVisitor {
     private File dataDir;
     private File swapDir;
-    private File indexDir;
-    
+
     public Operator source;
     public ColumnSchema[] finalSchema;
 
     
     public HashMap<String, TableInfo> tables;
 
-    public MyFromItemVisitor(File dataDir, File swapDir, File indexDir, HashMap<String, TableInfo> tables, ColumnSchema[] finalSchema) {
+    public MyFromItemVisitor(File dataDir, File swapDir, HashMap<String, TableInfo> tables, ColumnSchema[] finalSchema) {
         this.dataDir = dataDir;
         this.swapDir = swapDir;
-        this.indexDir = indexDir;
         this.tables = tables;
         this.finalSchema = finalSchema;
     }
@@ -41,7 +39,7 @@ public class MyFromItemVisitor implements FromItemVisitor {
 
     @Override
     public void visit(SubSelect subSelect) {
-        MySelectVisitor selectVisitor = new MySelectVisitor(dataDir, swapDir, indexDir, tables);
+        MySelectVisitor selectVisitor = new MySelectVisitor(dataDir, swapDir, tables);
         subSelect.getSelectBody().accept(selectVisitor);
         source = selectVisitor.source;
     }

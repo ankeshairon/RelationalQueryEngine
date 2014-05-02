@@ -1,5 +1,6 @@
 package edu.buffalo.cse562.visitor;
 
+import edu.buffalo.cse562.indexer.service.IndexService;
 import edu.buffalo.cse562.model.TableInfo;
 import edu.buffalo.cse562.operator.Operator;
 import edu.buffalo.cse562.visitor.optimizer.ScanOptimizer;
@@ -21,14 +22,13 @@ public class MyStatementVisitor implements StatementVisitor {
 
     private final File dataDir;
     private File swapDir;
-    private File indexDir;
     private final HashMap<String, TableInfo> tablesInfo;
     public Operator source;
 
     public MyStatementVisitor(File dataDir, File swapDir, File indexDir) {
         this.dataDir = dataDir;
         this.swapDir = swapDir;
-        this.indexDir = indexDir;
+        IndexService.instantiate(indexDir);
         tablesInfo = new HashMap<>();
     }
 
@@ -40,7 +40,7 @@ public class MyStatementVisitor implements StatementVisitor {
             throw new UnsupportedOperationException("Missing create table statements");
         }
 
-        MySelectVisitor myVisitor = new MySelectVisitor(dataDir, swapDir, indexDir, tablesInfo);
+        MySelectVisitor myVisitor = new MySelectVisitor(dataDir, swapDir, tablesInfo);
         statement.getSelectBody().accept(myVisitor);
         source = myVisitor.source;
     }
