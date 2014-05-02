@@ -34,15 +34,14 @@ public class IndexCreator extends Indexer implements Runnable {
             storeMap = getPrimaryStoreMap(recordManager, tableIndexingInfo.getTableName());
             registerIndexes(storeMap, fileScanner.getSchema(), tableIndexingInfo);
 
-            int counter = 0;
+//            int counter = 0;
             while ((line = fileScanner.readOneLine()) != null) {
                 storeMap.putValue(line);
-                if (++counter == 1000) {
-                    commit(recordManager);
-                    counter = 0;
-                }
+//                if (++counter == 1000) {
+//                    commit(recordManager);
+//                    counter = 0;
+//                }
             }
-            //todo check if indexes being created properly (orders)
             commit(recordManager);
         }
         close(recordManager);
