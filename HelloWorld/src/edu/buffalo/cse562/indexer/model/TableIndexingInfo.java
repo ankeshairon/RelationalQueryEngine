@@ -6,11 +6,13 @@ import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.statement.create.table.ColumnDefinition;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class TableIndexingInfo extends TableInfo {
 
-    private List<Integer> indexPositions;
+    private Set<Integer> indexPositions;
 
     public TableIndexingInfo(String tableName, List<ColumnDefinition> columnDefinitions, Long size) {
         super(tableName, columnDefinitions, size);
@@ -19,7 +21,7 @@ public class TableIndexingInfo extends TableInfo {
             columnIndexesUsed.add(i);
         }
 
-        indexPositions = new ArrayList<>();
+        indexPositions = new HashSet<>();
     }
 
     public void addIndex(Column column) {
@@ -28,7 +30,7 @@ public class TableIndexingInfo extends TableInfo {
         indexPositions.add(oldPosition);
     }
 
-    public List<Integer> getIndexPositions() {
+    public Set<Integer> getIndexPositions() {
         return indexPositions;
     }
 

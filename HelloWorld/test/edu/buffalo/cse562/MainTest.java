@@ -22,17 +22,17 @@ import static org.junit.Assert.assertEquals;
  * |        |---little      (for 8mb data)
  * |        |         |---data_files
  * |        |         |         |---<all dat files>
- *          |         |--expected
+ * |         |--expected
  * |        |                   |---<all expected.dat files>
  * |        |---medium      (for 40mb data)
  * |        |        |---data_files
  * |        |        |          |---<all dat files>
- *          |        |--expected
+ * |        |--expected
  * |        |                   |---<all expected.dat files>
  * |        |---sqlFiles
  * |        |        |---<all sql query files>
- *          |---swap
- *                  |---<empty directory>
+ * |---swap
+ * |---<empty directory>
  * - might have to add junit to your path if it's not done by IDE automatically
  */
 
@@ -94,7 +94,7 @@ public class MainTest {
     }
 
     private void testBuildPhaseWithDataFile(String dataFileArg) throws IOException, InterruptedException {
-        String[] args = new String[]{"--data", dataFileArg, "sqlFiles/tpch_schemas.sql", "--swap", "swap", "--index", "index", "--build"};
+        String[] args = getArgsForBuildPhase(dataFileArg);
         invokeTestClassWithArgs(args);
         assertEquals("", errContent.toString());
     }
@@ -146,5 +146,32 @@ public class MainTest {
     public void tearDown() throws Exception {
         System.setOut(null);
         System.setErr(null);
+    }
+
+    private String[] getArgsForBuildPhase(String dataFileArg) {
+        return new String[]{"--data", dataFileArg, "sqlFiles/tpch_schemas.sql",
+                "resources/sql/tpch1.sql",
+                "resources/sql/tpch3.sql",
+                "resources/sql/tpch5.sql",
+                "resources/sql/tpch6.sql",
+                "resources/sql/tpch07a.sql",
+                "resources/sql/tpch07b.sql",
+                "resources/sql/tpch07c.sql",
+                "resources/sql/tpch07d.sql",
+                "resources/sql/tpch07e.sql",
+                "resources/sql/tpch07f.sql",
+                "resources/sql/tpch07g.sql",
+                "resources/sql/tpch10a.sql",
+                "resources/sql/tpch10b.sql",
+                "resources/sql/tpch10c.sql",
+                "resources/sql/tpch10d.sql",
+                "resources/sql/tpch12a.sql",
+                "resources/sql/tpch12b.sql",
+                "resources/sql/tpch12c.sql",
+                "resources/sql/tpch12d.sql",
+                "resources/sql/tpch16a.sql",
+                "resources/sql/tpch16b.sql",
+                "resources/sql/tpch16c.sql",
+                "resources/sql/tpch16d.sql", "--swap", "swap", "--index", "index", "--build"};
     }
 }
