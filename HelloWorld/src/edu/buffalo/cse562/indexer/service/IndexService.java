@@ -39,6 +39,11 @@ public class IndexService extends Indexer {
             public Iterable<String> get(Datum key) {
                 return secondaryMap.getPrimaryValues(key);
             }
+
+            @Override
+            public Iterable<Long> getRowIds(Datum key) {
+                return secondaryMap.get(key);
+            }
         };
     }
 

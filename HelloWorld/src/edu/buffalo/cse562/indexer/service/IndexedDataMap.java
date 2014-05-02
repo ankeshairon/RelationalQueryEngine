@@ -9,4 +9,6 @@ public interface IndexedDataMap {
     public Set<Datum> keySet();
 
     public Iterable<String> get(Datum key);
+
+    public Iterable<Long> getRowIds(Datum key);
 }
