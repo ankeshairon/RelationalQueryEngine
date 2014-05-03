@@ -6,7 +6,7 @@ import java.util.List;
 
 public class SchemaUtils {
 
-    public static Integer getColumnIndexIn(List<ColumnDefinition> schema, String columnName) {
+    public static Integer getColumnIndexInColDefn(List<ColumnDefinition> schema, String columnName) {
         for (int i = 0; i < schema.size(); i++) {
             if (columnName.equals(schema.get(i).getColumnName())) {
                 return i;
@@ -15,4 +15,13 @@ public class SchemaUtils {
         throw new ArrayIndexOutOfBoundsException("Column Name " + columnName + " not found in schema");
     }
 
+    public static Integer getColumnIndexInColSchema(ColumnSchema[] schema, String columnName) {
+        for (int i = 0; i < schema.length; i++) {
+            if (columnName.equals(schema[i].getColName())) {
+                return i;
+            }
+        }
+        throw new ArrayIndexOutOfBoundsException("Column Name " + columnName + " not found in schema");
+
+    }
 }

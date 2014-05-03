@@ -45,10 +45,19 @@ public class QueriesTest extends MainTest {
 
 
     private String query;
+    private final static String dataDirPath = "resources/little/data_files";
+    private final static String sqlDirPath = "resources/sql_query/";
+    private final static String indexDirPath = "index";
+    private final static String expectedDataFolderPath = "resources/little/expected/";
 
     public QueriesTest(String query) {
         this.query = query;
     }
+
+//    @Test
+//    public void buildIndexesOnce() throws Exception {
+//        invokeTestClassWithArgs(getArgsForBuildPhase(dataDirPath, sqlDirPath), "index building");
+//    }
 
     @Test
     public void checkpoint2_little_data() throws Exception {
@@ -57,18 +66,18 @@ public class QueriesTest extends MainTest {
     }
 
     private void testForExpectedData(String sqlFileName, String size) throws IOException, InterruptedException {
-        String folderName;
-        String[] args = new String[]{"--data", "resources/little/data_files", "sqlFiles/tpch_schemas.sql", "resources/sql_query/" + sqlFileName + ".sql", "--swap", "resources/swap", "--index", "index"};
-        folderName = "resources/little/expected/";
+        String[] args = new String[]{"--data", dataDirPath, "sqlFiles/tpch_schemas.sql", sqlDirPath + sqlFileName + ".sql", "--swap", "resources/swap", "--index", indexDirPath};
 
-        invokeTestClassWithArgs(args);
+        final String log = invokeTestClassWithArgs(args, sqlFileName);
 
         final String actualResult = outContent.toString().trim();
 
-        String expectedData = getExpectedData(folderName, sqlFileName).trim();
+        String expectedData = getExpectedData(expectedDataFolderPath, sqlFileName).trim();
 
 //        assertEquals("", errContent.toString());
         assertEquals(expectedData, actualResult);
+
+        logTime(log);
     }
 
 
@@ -85,29 +94,29 @@ public class QueriesTest extends MainTest {
     public static Collection<Object[]> data() {
         Object[][] queries =
                 {
-                        {"tpch1"},
-                        {"tpch3"},
-                        {"tpch5"},
-                        {"tpch6"},
-                        {"tpch07a"},
-                        {"tpch07b"},
-                        {"tpch07c"},
-                        {"tpch07d"},
-                        {"tpch07e"},
-                        {"tpch07f"},
-                        {"tpch07g"},
-                        {"tpch10a"},
-                        {"tpch10b"},
-                        {"tpch10c"},
-                        {"tpch10d"},
-                        {"tpch12a"},
-                        {"tpch12b"},
-                        {"tpch12c"},
-                        {"tpch12d"},
-                        {"tpch16a"},
-                        {"tpch16b"},
-                        {"tpch16c"},
-                        {"tpch16d"}
+                        {"tpch1"},            //   0
+                        {"tpch3"},            //   1
+                        {"tpch5"},            //   2
+                        {"tpch6"},            //   3
+                        {"tpch07a"},          // 4
+                        {"tpch07b"},          // 5
+                        {"tpch07c"},          // 6
+                        {"tpch07d"},          // 7
+                        {"tpch07e"},          // 8
+                        {"tpch07f"},          // 9
+                        {"tpch07g"},          // 10
+                        {"tpch10a"},          // 11
+                        {"tpch10b"},          // 12
+                        {"tpch10c"},          // 13
+                        {"tpch10d"},          // 14
+                        {"tpch12a"},          // 15
+                        {"tpch12b"},          // 16
+                        {"tpch12c"},          // 17
+                        {"tpch12d"},          // 18
+                        {"tpch16a"},          // 19
+                        {"tpch16b"},          // 20
+                        {"tpch16c"},          // 21
+                        {"tpch16d"}           // 22
                 };
 
         return Arrays.asList(queries);

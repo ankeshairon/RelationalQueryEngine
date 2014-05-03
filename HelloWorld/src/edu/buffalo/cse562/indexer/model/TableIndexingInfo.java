@@ -26,7 +26,7 @@ public class TableIndexingInfo extends TableInfo {
 
     public void addIndex(Column column) {
         final String columnName = column.getColumnName();
-        final Integer oldPosition = SchemaUtils.getColumnIndexIn(columnDefinitions, columnName);
+        final Integer oldPosition = SchemaUtils.getColumnIndexInColDefn(columnDefinitions, columnName);
         indexPositions.add(oldPosition);
     }
 

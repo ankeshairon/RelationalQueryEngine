@@ -11,18 +11,20 @@ import java.io.IOException;
 import static edu.buffalo.cse562.data.DatumUtils.getDatumOfTypeFromValue;
 import static edu.buffalo.cse562.indexer.constants.IndexingConstants.RECORD_MANAGER_NAME;
 
-public class Indexer {
+public abstract class Indexer {
 
-    protected RecordManager getRecordManager(File indexDir) {
+    private final RecordManager recordManager;
+
+    protected Indexer(File indexDir) {
         try {
-            return RecordManagerFactory.createRecordManager(indexDir.getAbsolutePath() + "//" + RECORD_MANAGER_NAME);
+            recordManager = RecordManagerFactory.createRecordManager(indexDir.getAbsolutePath() + "//" + RECORD_MANAGER_NAME);
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("Error creating record manager!");
         }
     }
 
-    protected PrimaryStoreMap<Long, String> getPrimaryStoreMap(RecordManager recordManager, String tableName) {
+    public PrimaryStoreMap<Long, String> getPrimaryStoreMap(String tableName) {
         return recordManager.storeMap(tableName);
     }
 
@@ -47,7 +49,7 @@ public class Indexer {
         };
     }
 
-    protected void commit(RecordManager recordManager) {
+    protected void commit() {
         try {
             recordManager.commit();
         } catch (IOException e) {
@@ -56,7 +58,7 @@ public class Indexer {
         }
     }
 
-    protected void close(RecordManager recordManager) {
+    protected void close() {
         try {
             recordManager.close();
         } catch (IOException e) {

@@ -4,7 +4,6 @@ import edu.buffalo.cse562.data.Datum;
 import edu.buffalo.cse562.indexer.modifier.Indexer;
 import edu.buffalo.cse562.schema.ColumnSchema;
 import jdbm.PrimaryStoreMap;
-import jdbm.RecordManager;
 import jdbm.SecondaryTreeMap;
 
 import java.io.File;
@@ -13,10 +12,8 @@ public class IndexService extends Indexer {
 
     private static IndexService indexService;
 
-    private RecordManager recordManager;
-
     private IndexService(File indexDir) {
-        recordManager = getRecordManager(indexDir);
+        super(indexDir);
     }
 
     /**
@@ -25,10 +22,10 @@ public class IndexService extends Indexer {
      */
     public IndexedDataMap getTuplesOfIndexesAsPer(String tableName, ColumnSchema[] schema, Integer columnPosition) {
 
-        final PrimaryStoreMap<Long, String> storeMap = getPrimaryStoreMap(recordManager, tableName);
+        final PrimaryStoreMap<Long, String> storeMap = getPrimaryStoreMap(tableName);
         final SecondaryTreeMap<Datum, Long, String> secondaryMap = getSecondaryMap(storeMap, schema, columnPosition);
 
-        return new IndexedDataMap(secondaryMap);
+        return new IndexedDataMap(secondaryMap, schema[columnPosition].getColName());
     }
 
     public static IndexService getInstance() {
@@ -46,6 +43,6 @@ public class IndexService extends Indexer {
 
     @Override
     protected void finalize() throws Throwable {
-        close(recordManager);
+        close();
     }
 }

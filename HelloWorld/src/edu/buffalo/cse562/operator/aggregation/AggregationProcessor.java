@@ -1,4 +1,4 @@
-package edu.buffalo.cse562.model.aggregation;
+package edu.buffalo.cse562.operator.aggregation;
 
 import edu.buffalo.cse562.comparator.TupleComparator;
 import edu.buffalo.cse562.data.DOUBLE;

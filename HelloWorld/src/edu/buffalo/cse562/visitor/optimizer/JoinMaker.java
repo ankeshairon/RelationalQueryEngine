@@ -4,8 +4,8 @@ import edu.buffalo.cse562.data.Datum;
 import edu.buffalo.cse562.operator.HybridHashJoinOperator;
 import edu.buffalo.cse562.operator.NestedLoopJoinOperator;
 import edu.buffalo.cse562.operator.Operator;
-import edu.buffalo.cse562.operator.SelectionOperator;
 import net.sf.jsqlparser.expression.Expression;
+import net.sf.jsqlparser.schema.Column;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,14 +48,13 @@ public class JoinMaker {
         Long size;
 //        int size;
         for (Operator inputOperator : inputOperators) {
-            List<Expression> exclusiveConditions = optimizer.getConditionsExclusiveToTable(inputOperator.getSchema());
-            if (exclusiveConditions.isEmpty()) {
+            Map<Expression, List<Column>> exclusiveConditionsColumnMap = optimizer.getConditionsExclusiveToTable(inputOperator.getSchema());
+            if (exclusiveConditionsColumnMap.isEmpty()) {
                 hybridOperator = inputOperator;
             } else {
-                //todo instantiate index scan operator instead & chain selection operators if required
-                hybridOperator = new SelectionOperator(inputOperator, exclusiveConditions);
+                hybridOperator = new IndexedOperatorOptimizer().getHybridOperator(inputOperator, exclusiveConditionsColumnMap);
             }
-//            size = exclusiveConditions.size();
+//            size = exclusiveConditionsColumnMap.size();
             size = hybridOperator.getProbableTableSize();
             operatorPriorityPairList.add(new HashMap.SimpleEntry<>(size, hybridOperator));
         }

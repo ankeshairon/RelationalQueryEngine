@@ -37,59 +37,32 @@ public class BuildPhaseTest extends MainTest {
 
     @Test
     public void testBuildPhaseFor10KB() throws Exception {
-        testBuildPhaseWithDataFile("data_10kb");
+        testBuildPhaseWithDataFile("data_10kb", "indexes building for 10kb");
     }
 
     @Test
     public void testBuildPhaseFor1MB() throws Exception {
-        testBuildPhaseWithDataFile("data_1mb");
+        testBuildPhaseWithDataFile("data_1mb", "indexes building for 1mb");
     }
 
     @Test
     public void testBuildPhaseFor8MB() throws Exception {
-        testBuildPhaseWithDataFile("resources/little/data_files");
+        testBuildPhaseWithDataFile("resources/little/data_files", "indexes building for 8mb");
     }
 
     @Test
     public void testBuildPhaseFor40MB() throws Exception {
-        testBuildPhaseWithDataFile("resources/normal/data_files");
+        testBuildPhaseWithDataFile("resources/normal/data_files", "indexes building for 40mb");
     }
 
     @Test
     public void testBuildPhaseFor100MB() throws Exception {
-        testBuildPhaseWithDataFile("resources/large/data_files");
+        testBuildPhaseWithDataFile("resources/large/data_files", "indexes building for 100mb");
     }
 
-    private void testBuildPhaseWithDataFile(String dataFileArg) throws IOException, InterruptedException {
-        String[] args = getArgsForBuildPhase(dataFileArg);
-        invokeTestClassWithArgs(args);
+    private void testBuildPhaseWithDataFile(String dataFileDirPath, String testName) throws IOException, InterruptedException {
+        String[] args = getArgsForBuildPhase(dataFileDirPath, "resources/sql_buildphase");
+        invokeTestClassWithArgs(args, testName);
         assertEquals("", errContent.toString());
-    }
-
-    private String[] getArgsForBuildPhase(String dataFileArg) {
-        return new String[]{"--data", dataFileArg, "sqlFiles/tpch_schemas.sql",
-                "resources/sql_buildphase/tpch1.sql",
-                "resources/sql_buildphase/tpch3.sql",
-                "resources/sql_buildphase/tpch5.sql",
-                "resources/sql_buildphase/tpch6.sql",
-                "resources/sql_buildphase/tpch07a.sql",
-                "resources/sql_buildphase/tpch07b.sql",
-                "resources/sql_buildphase/tpch07c.sql",
-                "resources/sql_buildphase/tpch07d.sql",
-                "resources/sql_buildphase/tpch07e.sql",
-                "resources/sql_buildphase/tpch07f.sql",
-                "resources/sql_buildphase/tpch07g.sql",
-                "resources/sql_buildphase/tpch10a.sql",
-                "resources/sql_buildphase/tpch10b.sql",
-                "resources/sql_buildphase/tpch10c.sql",
-                "resources/sql_buildphase/tpch10d.sql",
-                "resources/sql_buildphase/tpch12a.sql",
-                "resources/sql_buildphase/tpch12b.sql",
-                "resources/sql_buildphase/tpch12c.sql",
-                "resources/sql_buildphase/tpch12d.sql",
-                "resources/sql_buildphase/tpch16a.sql",
-                "resources/sql_buildphase/tpch16b.sql",
-                "resources/sql_buildphase/tpch16c.sql",
-                "resources/sql_buildphase/tpch16d.sql", "--swap", "swap", "--index", "index", "--build"};
     }
 }

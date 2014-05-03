@@ -4,7 +4,6 @@ import edu.buffalo.cse562.indexer.model.TableIndexingInfo;
 import edu.buffalo.cse562.operator.FileScanner;
 import edu.buffalo.cse562.schema.ColumnSchema;
 import jdbm.PrimaryStoreMap;
-import jdbm.RecordManager;
 
 import java.io.File;
 import java.util.Collection;
@@ -13,17 +12,15 @@ import java.util.Iterator;
 public class IndexCreator extends Indexer/* implements Runnable*/ {
     private Collection<TableIndexingInfo> tableIndexingInfos;
     private final File dataDir;
-    private File indexDir;
 
     public IndexCreator(File dataDir, File indexDir, Collection<TableIndexingInfo> tableIndexingInfos) {
-        this.indexDir = indexDir;
+        super(indexDir);
         this.dataDir = dataDir;
         this.tableIndexingInfos = tableIndexingInfos;
     }
 
 //    @Override
     public void run() {
-        RecordManager recordManager = getRecordManager(indexDir);
         PrimaryStoreMap<Long, String> storeMap;
         FileScanner fileScanner;
         String line;
@@ -31,7 +28,7 @@ public class IndexCreator extends Indexer/* implements Runnable*/ {
         for (TableIndexingInfo tableIndexingInfo : tableIndexingInfos) {
 
             fileScanner = new FileScanner(dataDir, tableIndexingInfo);
-            storeMap = getPrimaryStoreMap(recordManager, tableIndexingInfo.getTableName());
+            storeMap = getPrimaryStoreMap(tableIndexingInfo.getTableName());
             registerIndexes(storeMap, fileScanner.getSchema(), tableIndexingInfo);
 
 //            int counter = 0;
@@ -42,9 +39,9 @@ public class IndexCreator extends Indexer/* implements Runnable*/ {
 //                    counter = 0;
 //                }
             }
-            commit(recordManager);
+            commit();
         }
-        close(recordManager);
+        close();
     }
 
     private void registerIndexes(PrimaryStoreMap<Long, String> storeMap, ColumnSchema[] schema, TableIndexingInfo tableIndexingInfo) {
