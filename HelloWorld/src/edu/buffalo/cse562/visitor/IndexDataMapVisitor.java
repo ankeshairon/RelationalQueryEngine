@@ -139,7 +139,11 @@ public class IndexDataMapVisitor extends AbstractExpressionVisitor {
 
     @Override
     public void visit(Column arg0) {
-        assert (arg0.getColumnName().equals(colName));
+//        try {
+            assert (arg0.getColumnName().equals(colName));
+//        } catch (AssertionError e) {
+//            e.printStackTrace();
+//        }
     }
 
     public void populateColumnAndKey(BinaryExpression binaryExpression) {

@@ -6,9 +6,7 @@ import edu.buffalo.cse562.operator.indexscan.IndexScanOperator;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.schema.Column;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class IndexedOperatorOptimizer {
 
@@ -17,7 +15,7 @@ public class IndexedOperatorOptimizer {
 
         final List<Expression> conditionsForSelectionOperator = new ArrayList<>();
         final List<Expression> conditionsForIndexScanOperator = new ArrayList<>();
-        identifyConditionsToBePushedIn(exclusiveConditionsColumnMap, conditionsForSelectionOperator, conditionsForIndexScanOperator);
+        identifyConditionsForOperators(exclusiveConditionsColumnMap, conditionsForSelectionOperator, conditionsForIndexScanOperator);
 
         if (conditionsForIndexScanOperator.size() != 0) {
             resultantOperator = new IndexScanOperator(inputOperator, conditionsForIndexScanOperator);
@@ -25,29 +23,75 @@ public class IndexedOperatorOptimizer {
         if (conditionsForSelectionOperator.size() != 0) {
             resultantOperator = new SelectionOperator(resultantOperator, conditionsForSelectionOperator);
         }
-
         return resultantOperator;
-
     }
 
-    private void identifyConditionsToBePushedIn(Map<Expression, List<Column>> exclusiveConditionsColumnMap, List<Expression> conditionsForSelectionOperator, List<Expression> conditionsForIndexScanOperator) {
-        for (Expression condition : exclusiveConditionsColumnMap.keySet()) {
-            if (conditionsForIndexScanOperator.size() != 1 && conditionCanBeUsedInIndexScan(condition, exclusiveConditionsColumnMap.get(condition).size())) {
-                conditionsForIndexScanOperator.add(condition);
+    private void identifyConditionsForOperators(Map<Expression, List<Column>> exclusiveConditionsColumnMap,
+                                                List<Expression> conditionsForSelectionOperator,
+                                                List<Expression> conditionsForIndexScanOperator) {
+
+        List<Map.Entry<Expression,Integer>> conditionWeights = createConditionWeights(exclusiveConditionsColumnMap);
+        final Iterator<Map.Entry<Expression,Integer>> iterator = conditionWeights.iterator();
+
+        if (iterator.hasNext()) {
+            conditionsForIndexScanOperator.add(iterator.next().getKey());
+        }
+        while (iterator.hasNext()) {
+            conditionsForSelectionOperator.add(iterator.next().getKey());
+        }
+    }
+
+    private List<Map.Entry<Expression,Integer>> createConditionWeights(Map<Expression, List<Column>> exclusiveConditionsColumnMap) {
+        LinkedHashMap<Expression, Integer> conditionWeights = new LinkedHashMap<>();
+        Expression condition;
+        List<Column> columns;
+        Integer weightOffset;
+
+        for (Map.Entry<Expression, List<Column>> conditionColumnsEntry : exclusiveConditionsColumnMap.entrySet()) {
+            condition = conditionColumnsEntry.getKey();
+            columns = conditionColumnsEntry.getValue();
+            weightOffset = calculateWeightOffset(condition.toString(), columns);
+
+            if (conditionWeights.get(condition) == null) {
+                conditionWeights.put(condition, weightOffset);
             } else {
-                conditionsForSelectionOperator.add(condition);
+                conditionWeights.put(condition, conditionWeights.get(condition) + weightOffset);
             }
         }
+
+        List<Map.Entry<Expression, Integer>> priorityMap = new ArrayList<>();
+        priorityMap.addAll(conditionWeights.entrySet());
+
+        Collections.sort(priorityMap, new Comparator<Map.Entry<Expression, Integer>>() {
+            @Override
+            public int compare(Map.Entry<Expression, Integer> o1, Map.Entry<Expression, Integer> o2) {
+                return o2.getValue().compareTo(o1.getValue());
+            }
+        });
+        return priorityMap;
     }
+
+    private Integer calculateWeightOffset(String condition, List<Column> columns) {
+        if (condition.contains(" or ") || condition.contains(" OR ") || (columns.size() != 1)) {
+            return Integer.MIN_VALUE; //coz not supported
+        }
+
+//        final Column column = columns.get(0);
+        Integer offset = 0;
+//        if (column.getColumnName().contains("key")) {
+//            offset = offset + 20;
+//        }
+//        if (condition.contains("<")) {
+//            offset = offset - 20;
+//        }
+//        if (condition.contains(">")) {
+//            offset = offset - 20;
+//        }
+
+        return offset;
+    }
+
     //todo identify which condition is best
     //todo add support if expression is OR (and NOT AND) with only single column inside
-    private boolean conditionCanBeUsedInIndexScan(Expression condition, int noOfColumnsUsed) {
-        final String tabooForIndexScan1 = " or ";
-        final String tabooForIndexScan2 = " OR ";
-        if (condition.toString().contains(tabooForIndexScan1) || condition.toString().contains(tabooForIndexScan2) || (noOfColumnsUsed != 1)) {
-            return false;
-        } else {
-            return true;
-        }
-    }
+
 }
