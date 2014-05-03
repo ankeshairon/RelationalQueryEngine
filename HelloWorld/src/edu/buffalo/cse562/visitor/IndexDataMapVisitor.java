@@ -30,7 +30,11 @@ public class IndexDataMapVisitor extends AbstractExpressionVisitor {
 
     @Override
     public void visit(Function arg0) {
-        arg0.getParameters().getExpressions();
+        if (arg0.getName().equalsIgnoreCase("date")) {
+            ((Expression)arg0.getParameters().getExpressions().get(0)).accept(this);
+        } else {
+            throw new UnsupportedOperationException(arg0.getName() + " function not supported");
+        }
     }
 
     @Override
@@ -50,13 +54,14 @@ public class IndexDataMapVisitor extends AbstractExpressionVisitor {
 
     @Override
     public void visit(StringValue arg0) {
-        key = new STRING(arg0.toString());
+        key = new STRING(arg0.getValue());
     }
 
     @Override
     public void visit(EqualsTo arg0) {
         populateColumnAndKey(arg0);
-        addAllElementsFromSubmap(secondaryMap, secondaryMap.keySet().iterator());
+
+        rowIds = (ArrayList<Long>) secondaryMap.get(key);
     }
 
     @Override
@@ -134,11 +139,7 @@ public class IndexDataMapVisitor extends AbstractExpressionVisitor {
 
     @Override
     public void visit(Column arg0) {
-        try {
-            assert (arg0.getColumnName().equals(colName));
-        } catch (AssertionError e) {
-            e.printStackTrace();
-        }
+        assert (arg0.getColumnName().equals(colName));
     }
 
     public void populateColumnAndKey(BinaryExpression binaryExpression) {

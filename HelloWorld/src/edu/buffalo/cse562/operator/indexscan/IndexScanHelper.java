@@ -44,11 +44,11 @@ public class IndexScanHelper {
 
     private List<List<Long>> getRowIdsForAllConditions() {
         List<List<Long>> rowIdsForAllConditions = new ArrayList<>();
-        List<Long> rowIdForCondition;
+        List<Long> rowIdsForCondition;
 
         for (Expression condition : conditions) {
-            rowIdForCondition = getRowIdsForCondition(condition);
-            rowIdsForAllConditions.add(rowIdForCondition);
+            rowIdsForCondition = getRowIdsForCondition(condition);
+            rowIdsForAllConditions.add(rowIdsForCondition);
         }
         return rowIdsForAllConditions;
     }

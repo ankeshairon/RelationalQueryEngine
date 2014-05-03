@@ -32,7 +32,7 @@ public class MainTest {
         float diff = stop - start;
         float time = diff / (1000);
 
-        return "Execution time for " + testFileName + " :" + time + " seconds";
+        return "Execution time for little " + testFileName + " :" + time + " seconds";
     }
 
     protected void logTime(String log) throws IOException {

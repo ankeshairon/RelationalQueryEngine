@@ -77,6 +77,7 @@ public class QueriesTest extends MainTest {
 //        assertEquals("", errContent.toString());
         assertEquals(expectedData, actualResult);
 
+        print(log);
         logTime(log);
     }
 

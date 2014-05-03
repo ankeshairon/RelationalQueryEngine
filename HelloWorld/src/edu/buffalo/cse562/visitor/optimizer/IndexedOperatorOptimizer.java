@@ -32,14 +32,14 @@ public class IndexedOperatorOptimizer {
 
     private void identifyConditionsToBePushedIn(Map<Expression, List<Column>> exclusiveConditionsColumnMap, List<Expression> conditionsForSelectionOperator, List<Expression> conditionsForIndexScanOperator) {
         for (Expression condition : exclusiveConditionsColumnMap.keySet()) {
-            if (false && conditionsForIndexScanOperator.size() != 1 && conditionCanBeUsedInIndexScan(condition, exclusiveConditionsColumnMap.get(condition).size())) {
+            if (conditionsForIndexScanOperator.size() != 1 && conditionCanBeUsedInIndexScan(condition, exclusiveConditionsColumnMap.get(condition).size())) {
                 conditionsForIndexScanOperator.add(condition);
             } else {
                 conditionsForSelectionOperator.add(condition);
             }
         }
     }
-
+    //todo identify which condition is best
     //todo add support if expression is OR (and NOT AND) with only single column inside
     private boolean conditionCanBeUsedInIndexScan(Expression condition, int noOfColumnsUsed) {
         final String tabooForIndexScan1 = " or ";
