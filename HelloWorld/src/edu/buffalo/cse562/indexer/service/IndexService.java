@@ -41,8 +41,6 @@ public class IndexService extends Indexer {
     public static void instantiate(File indexDir) {
         if (indexService == null) {
             indexService = new IndexService(indexDir);
-        } else {
-            throw new RuntimeException("Index service already instantiated!");
         }
     }
 

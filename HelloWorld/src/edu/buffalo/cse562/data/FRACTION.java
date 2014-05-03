@@ -13,7 +13,6 @@ public class FRACTION extends DOUBLE {
     }
 
     public FRACTION(Double numerator, Double denominator) {
-        super(numerator / denominator);
         this.numerator = numerator;
         this.denominator = denominator;
     }
@@ -37,6 +36,11 @@ public class FRACTION extends DOUBLE {
 
     public void setDenominator(Double denominator) {
         this.denominator = denominator;
+    }
+
+    @Override
+    public String toSTRING() {
+        return decimalFormat.format(numerator/denominator);
     }
 
     @Override

@@ -1,17 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/aggregation/AggregationProcessor.java" line="244" />
-    <bookmark url="file://$PROJECT_DIR$/test/edu/buffalo/cse562/MainTest.java" line="82" mnemonic="1" />
-    <bookmark url="file://$PROJECT_DIR$/src/edu/buffalo/cse562/indexer/modifier/IndexCreator.java" line="44" mnemonic="2" />
-    <bookmark url="file://$PROJECT_DIR$/test/edu/buffalo/cse562/MainTest.java" line="96" mnemonic="9" />
+    <bookmark url="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/aggregation/AggregationProcessor.java" line="258" />
+    <bookmark url="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/ScanOptimizationVisitor.java" line="279" mnemonic="2" />
+    <bookmark url="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/ScanOptimizationVisitor.java" line="184" mnemonic="1" />
   </component>
   <component name="ChangeListManager">
     <list id="2da21c68-e60c-4b6c-8a9b-3668fe4bc79a" name="hashjoin" comment="hashjoin" />
-    <list default="true" id="46d9145c-6972-47b4-8d26-ac4e1b417396" name="indexing" comment="Ankesh - supporting row ids for indexes">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/indexer/modifier/IndexCreator.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/indexer/modifier/IndexCreator.java" />
+    <list default="true" id="46d9145c-6972-47b4-8d26-ac4e1b417396" name="indexing" comment="Ankesh - Fixing checkpoint 1 queries &amp; adding tests">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/edu/buffalo/cse562/BuildPhaseTest.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/sql/tpch07a.sql" afterPath="$PROJECT_DIR$/resources/sql_buildphase/tpch07a.sql" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/sql/tpch07b.sql" afterPath="$PROJECT_DIR$/resources/sql_buildphase/tpch07b.sql" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/sql/tpch07c.sql" afterPath="$PROJECT_DIR$/resources/sql_buildphase/tpch07c.sql" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/sql/tpch07d.sql" afterPath="$PROJECT_DIR$/resources/sql_buildphase/tpch07d.sql" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/sql/tpch07e.sql" afterPath="$PROJECT_DIR$/resources/sql_buildphase/tpch07e.sql" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/sql/tpch07f.sql" afterPath="$PROJECT_DIR$/resources/sql_buildphase/tpch07f.sql" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/sql/tpch07g.sql" afterPath="$PROJECT_DIR$/resources/sql_buildphase/tpch07g.sql" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/sql/tpch1.sql" afterPath="$PROJECT_DIR$/resources/sql_buildphase/tpch1.sql" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/sql/tpch10a.sql" afterPath="$PROJECT_DIR$/resources/sql_buildphase/tpch10a.sql" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/sql/tpch10b.sql" afterPath="$PROJECT_DIR$/resources/sql_buildphase/tpch10b.sql" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/sql/tpch10c.sql" afterPath="$PROJECT_DIR$/resources/sql_buildphase/tpch10c.sql" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/sql/tpch10d.sql" afterPath="$PROJECT_DIR$/resources/sql_buildphase/tpch10d.sql" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/sql/tpch12a.sql" afterPath="$PROJECT_DIR$/resources/sql_buildphase/tpch12a.sql" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/sql/tpch12b.sql" afterPath="$PROJECT_DIR$/resources/sql_buildphase/tpch12b.sql" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/sql/tpch12c.sql" afterPath="$PROJECT_DIR$/resources/sql_buildphase/tpch12c.sql" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/sql/tpch12d.sql" afterPath="$PROJECT_DIR$/resources/sql_buildphase/tpch12d.sql" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/sql/tpch16a.sql" afterPath="$PROJECT_DIR$/resources/sql_buildphase/tpch16a.sql" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/sql/tpch16b.sql" afterPath="$PROJECT_DIR$/resources/sql_buildphase/tpch16b.sql" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/sql/tpch16c.sql" afterPath="$PROJECT_DIR$/resources/sql_buildphase/tpch16c.sql" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/sql/tpch16d.sql" afterPath="$PROJECT_DIR$/resources/sql_buildphase/tpch16d.sql" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/sql/tpch3.sql" afterPath="$PROJECT_DIR$/resources/sql_buildphase/tpch3.sql" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/sql/tpch5.sql" afterPath="$PROJECT_DIR$/resources/sql_buildphase/tpch5.sql" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/sql/tpch6.sql" afterPath="$PROJECT_DIR$/resources/sql_buildphase/tpch6.sql" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test/edu/buffalo/cse562/MainTest.java" afterPath="$PROJECT_DIR$/test/edu/buffalo/cse562/QueriesTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/aggregation/AggregationProcessor.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/model/aggregation/AggregationProcessor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/schema/ColumnSchema.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/schema/ColumnSchema.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/data/DOUBLE.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/data/DOUBLE.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/EvaluatorProjection.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/EvaluatorProjection.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/data/FRACTION.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/data/FRACTION.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/indexer/service/IndexService.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/indexer/service/IndexService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/indexer/service/IndexedDataMap.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/indexer/service/IndexedDataMap.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/edu/buffalo/cse562/MainTest.java" afterPath="$PROJECT_DIR$/test/edu/buffalo/cse562/MainTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/ScanOptimizationVisitor.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/ScanOptimizationVisitor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/SchemaIndexConstants.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/SchemaIndexConstants.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="HelloWorld.iws" />
@@ -81,7 +111,7 @@
         <option name="CONDITION" value="&#13;&#13;JAVA" />
         <option name="LOG_MESSAGE" value="&#13;&#13;JAVA" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/EvaluatorProjection.java" line="84" class="edu.buffalo.cse562.visitor.EvaluatorProjection" package="edu.buffalo.cse562.visitor">
+      <breakpoint url="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/EvaluatorProjection.java" line="87" class="edu.buffalo.cse562.visitor.EvaluatorProjection" package="edu.buffalo.cse562.visitor">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -112,6 +142,66 @@
         <option name="LOG_MESSAGE" value="&#13;&#13;JAVA" />
       </breakpoint>
       <breakpoint url="file://$PROJECT_DIR$/src/edu/buffalo/cse562/indexer/modifier/IndexCreator.java" line="44" class="edu.buffalo.cse562.indexer.modifier.IndexCreator" package="edu.buffalo.cse562.indexer.modifier">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/optimizer/ScanOptimizer.java" line="54" class="edu.buffalo.cse562.visitor.optimizer.ScanOptimizer" package="edu.buffalo.cse562.visitor.optimizer">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/EvaluatorSelection.java" line="325" class="edu.buffalo.cse562.visitor.EvaluatorSelection" package="edu.buffalo.cse562.visitor">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/aggregation/AggregationTuple.java" line="69" class="edu.buffalo.cse562.model.aggregation.AggregationTuple" package="edu.buffalo.cse562.model.aggregation">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/edu/buffalo/cse562/data/DOUBLE.java" line="53" class="edu.buffalo.cse562.data.DOUBLE" package="edu.buffalo.cse562.data">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -173,41 +263,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="IndexedDataMap.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/indexer/service/IndexedDataMap.java">
+      <file leaf-file-name="QueriesTest.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/test/edu/buffalo/cse562/QueriesTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="0" selection-start="397" selection-end="397" vertical-scroll-proportion="0.0" vertical-offset="350" max-vertical-offset="1248">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="IndexCreator.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/indexer/modifier/IndexCreator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="0" selection-start="757" selection-end="757" vertical-scroll-proportion="0.0" vertical-offset="181" max-vertical-offset="1856">
+            <state line="23" column="92" selection-start="555" selection-end="591" vertical-scroll-proportion="0.24507658" vertical-offset="192" max-vertical-offset="3616">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Indexer.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/indexer/modifier/Indexer.java">
+      <file leaf-file-name="BuildPhaseTest.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test/edu/buffalo/cse562/BuildPhaseTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="13" selection-start="437" selection-end="437" vertical-scroll-proportion="0.0" vertical-offset="309" max-vertical-offset="2240">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="IndexService.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/indexer/service/IndexService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="30" column="45" selection-start="1136" selection-end="1136" vertical-scroll-proportion="0.53674835" vertical-offset="254" max-vertical-offset="1632">
+            <state line="29" column="30" selection-start="903" selection-end="903" vertical-scroll-proportion="0.0" vertical-offset="97" max-vertical-offset="3104">
               <folding />
             </state>
           </provider>
@@ -228,45 +296,45 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/resources/sql/tpch07a.sql" />
-        <option value="$PROJECT_DIR$/resources/sql/tpch10a.sql" />
-        <option value="$PROJECT_DIR$/resources/sql/tpch12a.sql" />
-        <option value="$PROJECT_DIR$/info/ToDos.txt" />
-        <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/data/DatumUtilities.java" />
-        <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/operator/ScanOperator.java" />
-        <option value="$PROJECT_DIR$/test/edu/buffalo/cse562/indexer/DataIndexCreatorTest.java" />
-        <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/indexer/DataIndexCreator.java" />
-        <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/indexer/service/IndexServiceImpl.java" />
-        <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/indexer/service/IndexRetriever.java" />
-        <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/indexer/modifier/DataIndexCreator.java" />
-        <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/Main.java" />
-        <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/operator/FileScanner.java" />
-        <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/indexer/visitors/IndexingStatementVisitor.java" />
-        <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/indexer/modifier/IndexModifier.java" />
-        <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/optimizer/JoinMaker.java" />
-        <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/indexer/modifier/IndexRetriever.java" />
-        <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/indexer/modifier/IndexServiceImpl.java" />
-        <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/Utils/ObjectSizeFetcher.java" />
-        <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/indexer/IndexBuilder.java" />
-        <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/indexer/modifier/Indexer.java" />
-        <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/indexer/service/IndexMap.java" />
-        <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/MyStatementVisitor.java" />
-        <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/MySelectVisitor.java" />
-        <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/MyFromItemVisitor.java" />
-        <option value="$PROJECT_DIR$/test/edu/buffalo/cse562/MainTest.java" />
-        <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/indexer/model/TableIndexingInfo.java" />
-        <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/indexer/constants/IndexingConstants.java" />
-        <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/indexer/service/IndexService.java" />
-        <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/indexer/modifier/IndexCreator.java" />
-        <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/indexer/service/IndexedDataMap.java" />
+        <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/schema/ColumnSchema.java" />
+        <option value="$PROJECT_DIR$/sqlFiles/tpch_schemas.sql" />
+        <option value="$PROJECT_DIR$/resources/sql_query/tpch1.sql" />
+        <option value="$PROJECT_DIR$/resources/little/expected/tpch3.expected.dat" />
+        <option value="$PROJECT_DIR$/resources/little/expected/tpch5.expected.dat" />
+        <option value="$PROJECT_DIR$/resources/little/expected/tpch10a.expected.dat" />
+        <option value="$PROJECT_DIR$/resources/little/expected/tpch10b.expected.dat" />
+        <option value="$PROJECT_DIR$/resources/little/expected/tpch10c.expected.dat" />
+        <option value="$PROJECT_DIR$/resources/little/expected/tpch10d.expected.dat" />
+        <option value="$PROJECT_DIR$/resources/little/expected/tpch12a.expected.dat" />
+        <option value="$PROJECT_DIR$/resources/little/expected/tpch12b.expected.dat" />
+        <option value="$PROJECT_DIR$/resources/little/expected/tpch12c.expected.dat" />
+        <option value="$PROJECT_DIR$/resources/little/expected/tpch12d.expected.dat" />
+        <option value="$PROJECT_DIR$/resources/little/expected/tpch16a.expected.dat" />
+        <option value="$PROJECT_DIR$/resources/little/expected/tpch16b.expected.dat" />
+        <option value="$PROJECT_DIR$/resources/little/expected/tpch16c.expected.dat" />
+        <option value="$PROJECT_DIR$/resources/little/expected/tpch16d.expected.dat" />
+        <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/ScanOptimizationVisitor.java" />
+        <option value="$PROJECT_DIR$/resources/little/expected/tpch07a.expected.dat" />
+        <option value="$PROJECT_DIR$/resources/little/expected/tpch07b.expected.dat" />
+        <option value="$PROJECT_DIR$/resources/little/expected/tpch07c.expected.dat" />
+        <option value="$PROJECT_DIR$/resources/little/expected/tpch07d.expected.dat" />
+        <option value="$PROJECT_DIR$/resources/little/expected/tpch07e.expected.dat" />
+        <option value="$PROJECT_DIR$/resources/little/expected/tpch07f.expected.dat" />
+        <option value="$PROJECT_DIR$/resources/little/expected/tpch07g.expected.dat" />
+        <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/model/aggregation/AggregationProcessor.java" />
+        <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/data/DOUBLE.java" />
+        <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/data/FRACTION.java" />
+        <option value="$PROJECT_DIR$/resources/little/expected/tpch1.expected.dat" />
+        <option value="$PROJECT_DIR$/test/edu/buffalo/cse562/QueriesTest.java" />
+        <option value="$PROJECT_DIR$/test/edu/buffalo/cse562/BuildPhaseTest.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="65" />
-    <option name="y" value="24" />
-    <option name="width" value="1849" />
-    <option name="height" value="1056" />
+    <option name="x" value="64" />
+    <option name="y" value="-4" />
+    <option name="width" value="1857" />
+    <option name="height" value="1085" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -562,6 +630,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -577,6 +646,32 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="HelloWorld" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HelloWorld" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HelloWorld" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="edu" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="buffalo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cse562" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -698,13 +793,38 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="sql" />
+              <option name="myItemId" value="little" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="expected" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HelloWorld" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HelloWorld" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="little" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="data_files" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -775,8 +895,8 @@
       <recent name="$PROJECT_DIR$/info" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.MainTest.testBuildPhaseFor40MB">
-    <configuration default="false" name="MainTest.testBuildPhaseFor8MB" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.QueriesTest">
+    <configuration default="false" name="QueriesTest.testBuildPhaseFor8MB" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
           <option name="PATTERN" value="edu.buffalo.cse562.*" />
@@ -787,7 +907,7 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="edu.buffalo.cse562" />
-      <option name="MAIN_CLASS_NAME" value="edu.buffalo.cse562.MainTest" />
+      <option name="MAIN_CLASS_NAME" value="edu.buffalo.cse562.QueriesTest" />
       <option name="METHOD_NAME" value="testBuildPhaseFor8MB" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea" />
@@ -810,7 +930,7 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <configuration default="false" name="MainTest.testBuildPhaseFor40MB" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration default="false" name="QueriesTest.testBuildPhaseFor40MB" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
           <option name="PATTERN" value="edu.buffalo.cse562.*" />
@@ -821,7 +941,7 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="edu.buffalo.cse562" />
-      <option name="MAIN_CLASS_NAME" value="edu.buffalo.cse562.MainTest" />
+      <option name="MAIN_CLASS_NAME" value="edu.buffalo.cse562.QueriesTest" />
       <option name="METHOD_NAME" value="testBuildPhaseFor40MB" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea" />
@@ -844,7 +964,7 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <configuration default="false" name="MainTest.testBuildPhaseFor10KB" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration default="false" name="QueriesTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
           <option name="PATTERN" value="edu.buffalo.cse562.*" />
@@ -855,37 +975,9 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="edu.buffalo.cse562" />
-      <option name="MAIN_CLASS_NAME" value="edu.buffalo.cse562.MainTest" />
-      <option name="METHOD_NAME" value="testBuildPhaseFor10KB" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <envs />
-      <patterns />
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method />
-    </configuration>
-    <configuration default="false" name="MainTest.testBuildPhaseFor1MB" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="edu.buffalo.cse562.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <module name="HelloWorld" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="edu.buffalo.cse562" />
-      <option name="MAIN_CLASS_NAME" value="edu.buffalo.cse562.MainTest" />
-      <option name="METHOD_NAME" value="testBuildPhaseFor1MB" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="MAIN_CLASS_NAME" value="edu.buffalo.cse562.QueriesTest" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
@@ -906,7 +998,7 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <configuration default="false" name="MainTest.testBuildPhaseFor100MB" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration default="false" name="QueriesTest.checkpoint2_little_data" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
           <option name="PATTERN" value="edu.buffalo.cse562.*" />
@@ -917,8 +1009,8 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="edu.buffalo.cse562" />
-      <option name="MAIN_CLASS_NAME" value="edu.buffalo.cse562.MainTest" />
-      <option name="METHOD_NAME" value="testBuildPhaseFor100MB" />
+      <option name="MAIN_CLASS_NAME" value="edu.buffalo.cse562.QueriesTest" />
+      <option name="METHOD_NAME" value="checkpoint2_little_data" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" />
@@ -930,13 +1022,35 @@
       </option>
       <envs />
       <patterns />
-      <RunnerSettings RunnerId="Debug">
-        <option name="DEBUG_PORT" value="" />
-        <option name="TRANSPORT" value="0" />
-        <option name="LOCAL" value="true" />
-      </RunnerSettings>
       <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Debug" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="QueriesTest.data" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="edu.buffalo.cse562.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="HelloWorld" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="edu.buffalo.cse562" />
+      <option name="MAIN_CLASS_NAME" value="edu.buffalo.cse562.QueriesTest" />
+      <option name="METHOD_NAME" value="data" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
@@ -1232,7 +1346,7 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <configuration default="false" name="MainTest.checkpoint2" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+    <configuration default="false" name="QueriesTest.checkpoint2" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
           <option name="PATTERN" value="edu.buffalo.cse562.*" />
@@ -1243,7 +1357,7 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
       <option name="PACKAGE_NAME" value="edu.buffalo.cse562" />
-      <option name="MAIN_CLASS_NAME" value="edu.buffalo.cse562.MainTest" />
+      <option name="MAIN_CLASS_NAME" value="edu.buffalo.cse562.QueriesTest" />
       <option name="METHOD_NAME" value="checkpoint2" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea -Xmx1024m -Xms1024m " />
@@ -1266,7 +1380,7 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <configuration default="false" name="MainTest.checkpoint2_tpch07a_little" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+    <configuration default="false" name="QueriesTest.checkpoint2_tpch07a_little" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
           <option name="PATTERN" value="edu.buffalo.cse562.*" />
@@ -1277,7 +1391,7 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="edu.buffalo.cse562" />
-      <option name="MAIN_CLASS_NAME" value="edu.buffalo.cse562.MainTest" />
+      <option name="MAIN_CLASS_NAME" value="edu.buffalo.cse562.QueriesTest" />
       <option name="METHOD_NAME" value="checkpoint2_tpch07a_little" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea" />
@@ -1308,21 +1422,21 @@
       <item index="4" class="java.lang.String" itemvalue="Application.data_1mb" />
       <item index="5" class="java.lang.String" itemvalue="Application.data_fake" />
       <item index="6" class="java.lang.String" itemvalue="Application.test_new_schema_build_phase" />
-      <item index="7" class="java.lang.String" itemvalue="JUnit.MainTest.checkpoint2" />
-      <item index="8" class="java.lang.String" itemvalue="JUnit.MainTest.checkpoint2_tpch07a_little" />
-      <item index="9" class="java.lang.String" itemvalue="JUnit.MainTest.testBuildPhaseFor8MB" />
-      <item index="10" class="java.lang.String" itemvalue="JUnit.MainTest.testBuildPhaseFor40MB" />
-      <item index="11" class="java.lang.String" itemvalue="JUnit.MainTest.testBuildPhaseFor10KB" />
-      <item index="12" class="java.lang.String" itemvalue="JUnit.MainTest.testBuildPhaseFor1MB" />
-      <item index="13" class="java.lang.String" itemvalue="JUnit.MainTest.testBuildPhaseFor100MB" />
+      <item index="7" class="java.lang.String" itemvalue="JUnit.QueriesTest.checkpoint2" />
+      <item index="8" class="java.lang.String" itemvalue="JUnit.QueriesTest.checkpoint2_tpch07a_little" />
+      <item index="9" class="java.lang.String" itemvalue="JUnit.QueriesTest.testBuildPhaseFor8MB" />
+      <item index="10" class="java.lang.String" itemvalue="JUnit.QueriesTest.testBuildPhaseFor40MB" />
+      <item index="11" class="java.lang.String" itemvalue="JUnit.QueriesTest" />
+      <item index="12" class="java.lang.String" itemvalue="JUnit.QueriesTest.checkpoint2_little_data" />
+      <item index="13" class="java.lang.String" itemvalue="JUnit.QueriesTest.data" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="JUnit.MainTest.testBuildPhaseFor40MB" />
-        <item index="1" class="java.lang.String" itemvalue="JUnit.MainTest.testBuildPhaseFor8MB" />
-        <item index="2" class="java.lang.String" itemvalue="JUnit.MainTest.testBuildPhaseFor100MB" />
-        <item index="3" class="java.lang.String" itemvalue="JUnit.MainTest.testBuildPhaseFor1MB" />
-        <item index="4" class="java.lang.String" itemvalue="JUnit.MainTest.testBuildPhaseFor10KB" />
+        <item index="0" class="java.lang.String" itemvalue="JUnit.QueriesTest" />
+        <item index="1" class="java.lang.String" itemvalue="JUnit.QueriesTest.data" />
+        <item index="2" class="java.lang.String" itemvalue="JUnit.QueriesTest.checkpoint2_little_data" />
+        <item index="3" class="java.lang.String" itemvalue="JUnit.QueriesTest.testBuildPhaseFor40MB" />
+        <item index="4" class="java.lang.String" itemvalue="JUnit.QueriesTest.testBuildPhaseFor8MB" />
       </list>
     </recent_temporary>
     <configuration name="&lt;template&gt;" type="TestNG" default="true" selected="false">
@@ -1377,7 +1491,8 @@
       <workItem from="1398879098631" duration="15605000" />
       <workItem from="1398912916910" duration="26684000" />
       <workItem from="1398985319382" duration="265000" />
-      <workItem from="1398985594787" duration="23824000" />
+      <workItem from="1398985594787" duration="29603000" />
+      <workItem from="1399069533908" duration="12821000" />
     </task>
     <task id="LOCAL-00001" summary="Ankesh - Full blown optimizer that pulls exclusive where conditions and turns cross to join - attempt 1&#10;">
       <created>1393824512793</created>
@@ -1583,11 +1698,15 @@
       <created>1399043732744</created>
       <updated>1399043732744</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <task id="LOCAL-00052" summary="Ankesh - modified the way indexed data is retrieved">
+      <created>1399049474785</created>
+      <updated>1399049474785</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="542289000" />
+    <option name="totallyTimeSpent" value="563977000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1610,27 +1729,27 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="65" y="24" width="1849" height="1056" extended-state="0" />
+    <frame x="64" y="-4" width="1857" height="1085" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.41039824" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.40840518" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290461" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32480535" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32435346" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32946378" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32814237" sideWeight="0.76451075" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.44480172" sideWeight="0.23548922" order="4" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.40948275" sideWeight="0.76425016" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.40948275" sideWeight="0.23574986" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32626426" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32258064" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32219827" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CafeBabe" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32914847" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32703003" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2498618" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22178988" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.46941045" sideWeight="0.904367" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22136137" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.46875" sideWeight="0.7930271" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="true" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" x="177" y="224" width="1655" height="856" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32946378" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
@@ -1643,26 +1762,26 @@
     <layout-to-restore>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="true" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" x="177" y="224" width="1655" height="856" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.41039824" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.40840518" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32946378" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.44480172" sideWeight="0.23548922" order="4" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.40948275" sideWeight="0.23574986" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32626426" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32946378" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32703003" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22178988" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.46941045" sideWeight="0.904367" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22136137" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.46875" sideWeight="0.7930271" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="7" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290461" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32480535" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32814237" sideWeight="0.76451075" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32435346" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.40948275" sideWeight="0.76425016" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32258064" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32219827" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CafeBabe" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32914847" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2498618" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -1683,7 +1802,6 @@
       <TodoPanelSettings />
     </option>
     <option name="SHORT_DIFF_HORIZONTALLY" value="false" />
-    <MESSAGE value="Ankesh - adding object sizer" />
     <MESSAGE value="Ankesh - adding fix for join optimizer" />
     <MESSAGE value="Ankesh - fixing aggregation and distinct &#10;" />
     <MESSAGE value="Ankesh - Fixing aggregation&#10;" />
@@ -1708,7 +1826,8 @@
     <MESSAGE value="Ankesh - faster Index creation" />
     <MESSAGE value="Ankesh - compact index creation" />
     <MESSAGE value="Ankesh - supporting row ids for indexes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Ankesh - supporting row ids for indexes" />
+    <MESSAGE value="Ankesh - modified the way indexed data is retrieved" />
+    <option name="LAST_COMMIT_MESSAGE" value="Ankesh - modified the way indexed data is retrieved" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1718,226 +1837,234 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/indexer/serializer/DatumSerializer.java">
+    <entry file="file://$PROJECT_DIR$/sqlFiles/allqueries.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="11" selection-start="423" selection-end="423" vertical-scroll-proportion="0.23920266" vertical-offset="0" max-vertical-offset="903" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/indexer/serializer/SerializerUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1269" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/data/DatumUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="24" selection-start="321" selection-end="321" vertical-scroll-proportion="0.32894737" vertical-offset="122" max-vertical-offset="1215" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/ColumnWrapper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1782" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/optimizer/CrossToJoinOptimizer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="76" selection-start="688" selection-end="688" vertical-scroll-proportion="0.0" vertical-offset="244" max-vertical-offset="2889" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/CrossToJoinOptimizationVisitor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4212">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/EvaluatorAggregate.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3780" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/EvaluatorSelection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="9099">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/operator/FileScanner.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="32" selection-start="751" selection-end="751" vertical-scroll-proportion="0.4079096" vertical-offset="0" max-vertical-offset="1026">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/schema/ColumnSchema.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="13" selection-start="176" selection-end="176" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2242">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/indexer/visitors/IndexingStatementVisitor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="72" column="50" selection-start="1981" selection-end="1981" vertical-scroll-proportion="0.5089087" vertical-offset="444" max-vertical-offset="2091">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/operator/SelectionOperator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="11" selection-start="379" selection-end="379" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="870">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/operator/Operator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="898">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/indexer/IndexBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="65" selection-start="888" selection-end="888" vertical-scroll-proportion="0.0" vertical-offset="92" max-vertical-offset="1056">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/MyStatementVisitor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="50" selection-start="1575" selection-end="1575" vertical-scroll-proportion="0.9470199" vertical-offset="0" max-vertical-offset="1870">
+        <state line="123" column="0" selection-start="2992" selection-end="2992" vertical-scroll-proportion="-6.442589" vertical-offset="7022" max-vertical-offset="7936">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/MyFromItemVisitor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="29" selection-start="920" selection-end="920" vertical-scroll-proportion="0.56125826" vertical-offset="1" max-vertical-offset="960">
-          <folding />
+        <state line="36" column="0" selection-start="1128" selection-end="1128" vertical-scroll-proportion="0.0" vertical-offset="509" max-vertical-offset="1536">
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/MySelectVisitor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="96" column="18" selection-start="3838" selection-end="3838" vertical-scroll-proportion="0.0" vertical-offset="1669" max-vertical-offset="2728">
+        <state line="117" column="0" selection-start="4644" selection-end="4644" vertical-scroll-proportion="0.3699187" vertical-offset="3210" max-vertical-offset="3968">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/optimizer/JoinMaker.java">
+    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/MyStatementVisitor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="54" column="18" selection-start="2217" selection-end="2217" vertical-scroll-proportion="0.0" vertical-offset="474" max-vertical-offset="1425">
-          <folding />
+        <state line="37" column="0" selection-start="1323" selection-end="1323" vertical-scroll-proportion="0.0" vertical-offset="490" max-vertical-offset="2720">
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/operator/LimitOperator.java">
+    <entry file="file://$PROJECT_DIR$/resources/sql_query/tpch07a.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="10" selection-start="816" selection-end="816" vertical-scroll-proportion="0.0" vertical-offset="146" max-vertical-offset="750">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/info/ToDos.txt">
-      <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="800">
+        <state line="7" column="25" selection-start="382" selection-end="382" vertical-scroll-proportion="0.45528457" vertical-offset="0" max-vertical-offset="768">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sqlFiles/tpch_schemas.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="95" column="8" selection-start="2483" selection-end="2483" vertical-scroll-proportion="0.6792873" vertical-offset="2430" max-vertical-offset="3328">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/sql/tpch07a.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="898">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3328">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="52" column="61" selection-start="1828" selection-end="1828" vertical-scroll-proportion="1.1759466" vertical-offset="192" max-vertical-offset="3072">
+        <state line="62" column="0" selection-start="2129" selection-end="2129" vertical-scroll-proportion="0.3699187" vertical-offset="1386" max-vertical-offset="3072">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/jsqlparser-0.8.0-sources.jar!/net/sf/jsqlparser/schema/Table.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="87" column="0" selection-start="2357" selection-end="2357" vertical-scroll-proportion="0.0" vertical-offset="1482" max-vertical-offset="2208">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/jsqlparser-0.8.0-sources.jar!/net/sf/jsqlparser/statement/select/SubSelect.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="39" column="0" selection-start="1636" selection-end="1636" vertical-scroll-proportion="0.0" vertical-offset="330" max-vertical-offset="1408">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/jsqlparser-0.8.0-sources.jar!/net/sf/jsqlparser/statement/select/PlainSelect.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="106" column="0" selection-start="2637" selection-end="2637" vertical-scroll-proportion="0.0" vertical-offset="1802" max-vertical-offset="6400">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/little/expected/tpch07a.expected.dat">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="624" column="27" selection-start="17672" selection-end="17672" vertical-scroll-proportion="0.0" vertical-offset="19668" max-vertical-offset="20160">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/little/expected/tpch07b.expected.dat">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="624" column="27" selection-start="17697" selection-end="17697" vertical-scroll-proportion="0.0" vertical-offset="19540" max-vertical-offset="20160">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/little/expected/tpch07c.expected.dat">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="624" column="27" selection-start="17629" selection-end="17629" vertical-scroll-proportion="0.0" vertical-offset="19540" max-vertical-offset="20160">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/little/expected/tpch07d.expected.dat">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="624" column="27" selection-start="17651" selection-end="17651" vertical-scroll-proportion="0.0" vertical-offset="19540" max-vertical-offset="20160">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/little/expected/tpch07e.expected.dat">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="624" column="27" selection-start="17657" selection-end="17657" vertical-scroll-proportion="0.0" vertical-offset="19540" max-vertical-offset="20160">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/little/expected/tpch07f.expected.dat">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="623" column="27" selection-start="17610" selection-end="17610" vertical-scroll-proportion="0.0" vertical-offset="19508" max-vertical-offset="20128">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/little/expected/tpch07g.expected.dat">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="615" column="27" selection-start="17352" selection-end="17352" vertical-scroll-proportion="0.3495935" vertical-offset="19508" max-vertical-offset="20128">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/sql_buildphase/tpch1.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="832">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/aggregation/AggregationProcessor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="192" column="74" selection-start="8380" selection-end="8380" vertical-scroll-proportion="0.6301969" vertical-offset="5184" max-vertical-offset="8064">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/ScanOptimizationVisitor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="176" column="0" selection-start="4777" selection-end="4777" vertical-scroll-proportion="0.0" vertical-offset="5130" max-vertical-offset="10176">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/optimizer/ScanOptimizer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="0" selection-start="1246" selection-end="1246" vertical-scroll-proportion="0.19633226" vertical-offset="650" max-vertical-offset="2176">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/model/aggregation/AggregationTuple.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="74" column="0" selection-start="2781" selection-end="2781" vertical-scroll-proportion="0.68490154" vertical-offset="1518" max-vertical-offset="2432">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/data/STRING.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="43" column="0" selection-start="851" selection-end="851" vertical-scroll-proportion="0.19633226" vertical-offset="1066" max-vertical-offset="2336">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/View.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="0" selection-start="459" selection-end="459" vertical-scroll-proportion="0.48220065" vertical-offset="97" max-vertical-offset="1024">
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/operator/ScanOperator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="67" column="24" selection-start="2521" selection-end="2521" vertical-scroll-proportion="1.7817372" vertical-offset="288" max-vertical-offset="2720">
+        <state line="23" column="0" selection-start="819" selection-end="819" vertical-scroll-proportion="0.0" vertical-offset="298" max-vertical-offset="2720">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/data/DOUBLE.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="51" column="41" selection-start="1101" selection-end="1121" vertical-scroll-proportion="0.26537216" vertical-offset="1226" max-vertical-offset="2880">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/data/FRACTION.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="42" column="57" selection-start="988" selection-end="988" vertical-scroll-proportion="0.7583603" vertical-offset="641" max-vertical-offset="1824">
           <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#2939#2940#0" expanded="false" />
-            <element signature="e#2968#2969#0" expanded="false" />
-            <element signature="e#3010#3011#0" expanded="false" />
-            <element signature="e#3042#3043#0" expanded="false" />
+            <element signature="e#587#588#0" expanded="true" />
+            <element signature="e#619#620#0" expanded="true" />
+            <element signature="e#669#670#0" expanded="true" />
+            <element signature="e#711#712#0" expanded="true" />
+            <element signature="e#749#750#0" expanded="true" />
+            <element signature="e#783#784#0" expanded="true" />
+            <element signature="e#837#838#0" expanded="true" />
+            <element signature="e#883#884#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/indexer/constants/IndexingConstants.java">
+    <entry file="file://$PROJECT_DIR$/resources/little/expected/tpch1.expected.dat">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="26" selection-start="407" selection-end="407" vertical-scroll-proportion="0.3507795" vertical-offset="133" max-vertical-offset="1216">
+        <state line="1" column="80" selection-start="160" selection-end="160" vertical-scroll-proportion="0.034519956" vertical-offset="0" max-vertical-offset="927">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test/edu/buffalo/cse562/MainTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="87" column="42" selection-start="2530" selection-end="2530" vertical-scroll-proportion="-0.040677965" vertical-offset="2628" max-vertical-offset="5664">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1504">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/indexer/model/TableIndexingInfo.java">
+    <entry file="file://$PROJECT_DIR$/test/edu/buffalo/cse562/BuildPhaseTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="41" selection-start="833" selection-end="833" vertical-scroll-proportion="0.39420936" vertical-offset="478" max-vertical-offset="1376">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1081#1082#0" expanded="true" />
-            <element signature="e#1118#1119#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/indexer/service/IndexedDataMap.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="0" selection-start="397" selection-end="397" vertical-scroll-proportion="0.0" vertical-offset="350" max-vertical-offset="1248">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/indexer/modifier/Indexer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="13" selection-start="437" selection-end="437" vertical-scroll-proportion="0.0" vertical-offset="309" max-vertical-offset="2240">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/indexer/modifier/IndexCreator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="0" selection-start="757" selection-end="757" vertical-scroll-proportion="0.0" vertical-offset="181" max-vertical-offset="1856">
+        <state line="29" column="30" selection-start="903" selection-end="903" vertical-scroll-proportion="0.0" vertical-offset="97" max-vertical-offset="3104">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/indexer/service/IndexService.java">
+    <entry file="file://$PROJECT_DIR$/test/edu/buffalo/cse562/QueriesTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="45" selection-start="1136" selection-end="1136" vertical-scroll-proportion="0.53674835" vertical-offset="254" max-vertical-offset="1632">
+        <state line="23" column="92" selection-start="555" selection-end="591" vertical-scroll-proportion="0.24507658" vertical-offset="192" max-vertical-offset="3616">
           <folding />
         </state>
       </provider>

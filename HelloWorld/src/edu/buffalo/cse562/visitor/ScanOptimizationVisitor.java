@@ -17,6 +17,8 @@ public class ScanOptimizationVisitor implements OrderByVisitor, SelectItemVisito
     Map<String, Set<Column>> columnsToProject;
     Map<String, String> aliasNameMap;
 
+    private String singletonTableName;
+
     public ScanOptimizationVisitor(Select statement) {
         columnsToProject = new HashMap<>();
         aliasNameMap = new HashMap<>();
@@ -30,7 +32,10 @@ public class ScanOptimizationVisitor implements OrderByVisitor, SelectItemVisito
 
     @Override
     public void visit(Function function) {
-        ((Expression) function.getParameters().getExpressions().get(0)).accept(this);
+        final ExpressionList parameters = function.getParameters();
+        if (parameters != null) {
+            ((Expression) parameters.getExpressions().get(0)).accept(this);
+        }
     }
 
     @Override
@@ -160,10 +165,12 @@ public class ScanOptimizationVisitor implements OrderByVisitor, SelectItemVisito
 
     @Override
     public void visit(Column tableColumn) {
-        final String tableName = tableColumn.getTable().getName();
+        String tableName = tableColumn.getTable().getName();
 
+        if (tableName == null) {
+            tableName = singletonTableName;
+        }
         if (tableName != null) {
-
             Set<Column> columnSet = columnsToProject.get(tableName);
             if (columnSet == null) {
                 columnSet = new HashSet<>();
@@ -175,9 +182,12 @@ public class ScanOptimizationVisitor implements OrderByVisitor, SelectItemVisito
 
     @Override
     public void visit(Table table) {
+        final String name = table.getName();
+        singletonTableName = name;
+
         final String alias = table.getAlias();
         if (alias != null) {
-            aliasNameMap.put(alias, table.getName());
+            aliasNameMap.put(alias, name);
         }
     }
 
@@ -263,6 +273,13 @@ public class ScanOptimizationVisitor implements OrderByVisitor, SelectItemVisito
 
     @Override
     public void visit(PlainSelect plainSelect) {
+        final List<Join> joins = plainSelect.getJoins();
+        final FromItem fromItem = plainSelect.getFromItem();
+        if (joins == null && (fromItem instanceof Table)) {
+            //to extract table name if single table used in query
+            fromItem.accept(this);
+        }
+
         final Expression where = plainSelect.getWhere();
         if (where != null) {
             where.accept(this);
@@ -282,9 +299,7 @@ public class ScanOptimizationVisitor implements OrderByVisitor, SelectItemVisito
             }
         }
 
-        plainSelect.getFromItem().accept(this);
-
-        final List<Join> joins = plainSelect.getJoins();
+        fromItem.accept(this);
         if (joins != null) {
             for (Join join : joins) {
                 join.getRightItem().accept(this);
