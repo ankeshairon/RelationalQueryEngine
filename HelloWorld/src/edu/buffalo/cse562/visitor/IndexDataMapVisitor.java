@@ -107,7 +107,7 @@ public class IndexDataMapVisitor extends AbstractExpressionVisitor {
         addAllElementsFromSubmap(submap, iterator);
 
         if (isInclusive) {
-            final Iterable<Long> rowIds = submap.get(key);
+            final Iterable<Long> rowIds = secondaryMap.get(key);
             if (rowIds != null) {
                 this.rowIds.addAll((List<Long>) rowIds);
             }

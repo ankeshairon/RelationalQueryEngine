@@ -19,12 +19,6 @@ public class IndexedDataMap extends AbstractExpressionVisitor {
         this.colName = colName;
     }
 
-    /**
-     * param logicalOperator is the logical comparison (=, <, >, <>, <=, etc)
-     * param value is the value to which it is being compared
-     *
-     * e.g. To return tuple where C < 3, use getRowIdsWhereColumnIsXThanValue("<", new Datum(3))
-     */
     public List<Long> getRowIdsWhereColumnIsXThanValue(Expression condition) {
         IndexDataMapVisitor visitor = new IndexDataMapVisitor(secondaryMap, colName);
         condition.accept(visitor);

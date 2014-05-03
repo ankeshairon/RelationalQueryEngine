@@ -45,19 +45,14 @@ public class QueriesTest extends MainTest {
 
 
     private String query;
-    private final static String dataDirPath = "resources/little/data_files";
-    private final static String sqlDirPath = "resources/sql_query/";
+    public final static String dataDirPath = "resources/little/data_files";
+    public final static String sqlDirPath = "resources/sql_query/";
     private final static String indexDirPath = "index";
     private final static String expectedDataFolderPath = "resources/little/expected/";
 
     public QueriesTest(String query) {
         this.query = query;
     }
-
-//    @Test
-//    public void buildIndexesOnce() throws Exception {
-//        invokeTestClassWithArgs(getArgsForBuildPhase(dataDirPath, sqlDirPath), "index building");
-//    }
 
     @Test
     public void checkpoint2_little_data() throws Exception {
