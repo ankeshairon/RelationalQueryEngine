@@ -2,13 +2,12 @@ package edu.buffalo.cse562.operator;
 
 import edu.buffalo.cse562.data.Datum;
 import edu.buffalo.cse562.model.TableInfo;
+import edu.buffalo.cse562.operator.utils.ScanUtils;
 import edu.buffalo.cse562.schema.ColumnSchema;
 import net.sf.jsqlparser.statement.create.table.ColumnDefinition;
 
 import java.io.*;
 import java.util.List;
-
-import static edu.buffalo.cse562.data.DatumUtils.getDatumOfTypeFromValue;
 
 public class ScanOperator implements Operator {
     protected List<Integer> relevantColumnIndexes;
@@ -59,16 +58,11 @@ public class ScanOperator implements Operator {
             e.printStackTrace();
         }
 
-        String[] cells = line.split("\\|");
-        Datum[] tuple = new Datum[relevantColumnIndexes.size()];
-
-        for (int i = 0; i < relevantColumnIndexes.size(); i++) {
-            Integer index = relevantColumnIndexes.get(i);
-
-            tuple[i] = getDatumOfTypeFromValue(schema[i].getType(), cells[index]);
-        }
+        Datum[] tuple = ScanUtils.getDatumsForRelevantColumnPositions(line, relevantColumnIndexes, schema);
         return tuple;
     }
+
+
 
     @Override
     public void reset() {
@@ -87,5 +81,9 @@ public class ScanOperator implements Operator {
 
     public Long getProbableTableSize() {
         return tableSize;
+    }
+
+    public List<Integer> getRelevantColumnIndexes() {
+        return relevantColumnIndexes;
     }
 }

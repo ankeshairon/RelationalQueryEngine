@@ -2,45 +2,14 @@ package edu.buffalo.cse562;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
 
 import java.io.*;
 
-import static org.junit.Assert.assertEquals;
-
-/**
- * Local test setup
- * <p/>
- * How to setup  -
- * - Download LittleBigDataEvaluation.zip from piazza resources
- * - create a following folder structure
- * <p/>
- * Helloworld
- * |---index
- * |        |---<should be emptied after every run>     //todo clear indexes after every run
- * |---resources
- * |        |---little      (for 8mb data)
- * |        |         |---data_files
- * |        |         |         |---<all dat files>
- *          |         |--expected
- * |        |                   |---<all expected.dat files>
- * |        |---medium      (for 40mb data)
- * |        |        |---data_files
- * |        |        |          |---<all dat files>
- *          |        |--expected
- * |        |                   |---<all expected.dat files>
- * |        |---sqlFiles
- * |        |        |---<all sql query files>
- *          |---swap
- *                  |---<empty directory>
- * - might have to add junit to your path if it's not done by IDE automatically
- */
-
 public class MainTest {
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
+    protected final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    protected final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
 
-    private final String LITTLE = "little"; //8mb currently
+    protected final String LITTLE = "little"; //8mb currently
 
     @Before
     public void setUp() throws Exception {
@@ -48,68 +17,13 @@ public class MainTest {
         System.setErr(new PrintStream(errContent));
     }
 
-    @Test
-    public void checkpoint2_tpch07a_little() throws Exception {
-        testForExpectedData("tpch07a", LITTLE);
+    @After
+    public void tearDown() throws Exception {
+        System.setOut(null);
+        System.setErr(null);
     }
 
-    @Test
-    public void checkpoint2_tpch10a_little() throws Exception {
-        testForExpectedData("tpch10a", LITTLE);
-    }
-
-    @Test
-    public void checkpoint2_tpch12a_little() throws Exception {
-        testForExpectedData("tpch12a", LITTLE);
-    }
-
-    @Test
-    public void checkpoint2_tpch16a_little() throws Exception {
-        testForExpectedData("tpch16a", LITTLE);
-    }
-
-    @Test
-    public void testBuildPhaseFor10KB() throws Exception {
-        testBuildPhaseWithDataFile("data_10kb");
-    }
-
-    @Test
-    public void testBuildPhaseFor1MB() throws Exception {
-        testBuildPhaseWithDataFile("data_1mb");
-    }
-
-    @Test
-    public void testBuildPhaseFor8MB() throws Exception {
-        testBuildPhaseWithDataFile("resources/little/data_files");
-    }
-
-    @Test
-    public void testBuildPhaseFor40MB() throws Exception {
-        testBuildPhaseWithDataFile("resources/normal/data_files");
-    }
-
-    private void testBuildPhaseWithDataFile(String dataFileArg) throws IOException, InterruptedException {
-        String[] args = new String[]{"--data", dataFileArg, "sqlFiles/tpch_schemas.sql", "--swap", "swap", "--index", "index", "--build"};
-        invokeTestClassWithArgs(args);
-        assertEquals("", errContent.toString());
-    }
-
-    private void testForExpectedData(String sqlFileName, String size) throws IOException, InterruptedException {
-        String folderName;
-        String[] args = new String[]{"--data", "resources/little/data_files", "sqlFiles/tpch_schemas.sql", "resources/sql/" + sqlFileName + ".sql", "--swap", "resources/swap", "--index", "index"};
-        folderName = "resources/little/expected/";
-
-        invokeTestClassWithArgs(args);
-
-        final String actualResult = outContent.toString().trim();
-
-        String expectedData = getExpectedData(folderName, sqlFileName).trim();
-
-//        assertEquals("", errContent.toString());
-        assertEquals(expectedData, actualResult);
-    }
-
-    private void invokeTestClassWithArgs(String[] args) throws IOException, InterruptedException {
+    protected String invokeTestClassWithArgs(String[] args, String testFileName) throws IOException, InterruptedException {
 
         final Long start = System.currentTimeMillis();
         Main.main(args);
@@ -118,28 +32,48 @@ public class MainTest {
         float diff = stop - start;
         float time = diff / (1000);
 
-        print("Execution time :" + time + " seconds");
+        return "Execution time for little " + testFileName + " :" + time + " seconds";
     }
 
-    private void print(String stringToPrint) throws IOException {
+    protected void logTime(String log) throws IOException {
+        try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("TimeLog.txt", true)))) {
+            out.println(log);
+        } catch (IOException e) {
+            print(e.getMessage());
+        }
+    }
+
+    protected void print(String stringToPrint) throws IOException {
         BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(FileDescriptor.out), "ASCII"), 512);
         out.write(stringToPrint);
         out.write('\n');
         out.flush();
     }
 
-    private String getExpectedData(String folderName, String sqlFileName) throws IOException {
-        File file = new File(folderName + sqlFileName + ".expected.dat");
-        FileInputStream fis = new FileInputStream(file);
-        byte[] data = new byte[(int) file.length()];
-        fis.read(data);
-        fis.close();
-        return new String(data, "UTF-8");
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        System.setOut(null);
-        System.setErr(null);
+    protected String[] getArgsForBuildPhase(String dataFileDirPath, String sqlFileDirPath) {
+        return new String[]{"--data", dataFileDirPath, "sqlFiles/tpch_schemas.sql",
+                sqlFileDirPath + "/tpch1.sql",
+                sqlFileDirPath + "/tpch3.sql",
+                sqlFileDirPath + "/tpch5.sql",
+                sqlFileDirPath + "/tpch6.sql",
+                sqlFileDirPath + "/tpch07a.sql",
+                sqlFileDirPath + "/tpch07b.sql",
+                sqlFileDirPath + "/tpch07c.sql",
+                sqlFileDirPath + "/tpch07d.sql",
+                sqlFileDirPath + "/tpch07e.sql",
+                sqlFileDirPath + "/tpch07f.sql",
+                sqlFileDirPath + "/tpch07g.sql",
+                sqlFileDirPath + "/tpch10a.sql",
+                sqlFileDirPath + "/tpch10b.sql",
+                sqlFileDirPath + "/tpch10c.sql",
+                sqlFileDirPath + "/tpch10d.sql",
+                sqlFileDirPath + "/tpch12a.sql",
+                sqlFileDirPath + "/tpch12b.sql",
+                sqlFileDirPath + "/tpch12c.sql",
+                sqlFileDirPath + "/tpch12d.sql",
+                sqlFileDirPath + "/tpch16a.sql",
+                sqlFileDirPath + "/tpch16b.sql",
+                sqlFileDirPath + "/tpch16c.sql",
+                sqlFileDirPath + "/tpch16d.sql", "--swap", "swap", "--index", "index", "--build"};
     }
 }

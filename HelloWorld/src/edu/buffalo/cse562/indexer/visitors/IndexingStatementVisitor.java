@@ -70,15 +70,6 @@ public class IndexingStatementVisitor implements StatementVisitor, SelectVisitor
         final String tableName = createTable.getTable().getName().toLowerCase();
         final TableIndexingInfo tableIndexingInfo = new TableIndexingInfo(tableName, createTable.getColumnDefinitions(), null);
 
-//        final List<Index> indexes = createTable.getIndexes();
-//        if (indexes == null) {
-//            return;
-//        }
-//
-//        for (int i = 0; i < indexes.size(); i++) {
-//            tableIndexingInfo.addIndex(indexes.get(i));
-//        }
-
         tableIndexingInfos.put(tableName, tableIndexingInfo);
     }
 

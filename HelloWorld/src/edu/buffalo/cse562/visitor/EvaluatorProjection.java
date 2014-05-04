@@ -10,6 +10,7 @@ import net.sf.jsqlparser.expression.operators.arithmetic.Addition;
 import net.sf.jsqlparser.expression.operators.arithmetic.Division;
 import net.sf.jsqlparser.expression.operators.arithmetic.Multiplication;
 import net.sf.jsqlparser.expression.operators.arithmetic.Subtraction;
+import net.sf.jsqlparser.expression.operators.relational.ExpressionList;
 import net.sf.jsqlparser.schema.Column;
 
 import java.util.HashMap;
@@ -55,7 +56,12 @@ public class EvaluatorProjection extends AbstractExpressionVisitor {
         columnSchema.setIsDistinct(function.isDistinct());
         outputSchema.add(columnSchema);
 
-        ((Expression) function.getParameters().getExpressions().get(0)).accept(this);
+        final ExpressionList parameters = function.getParameters();
+        if (parameters != null) {
+            ((Expression) parameters.getExpressions().get(0)).accept(this);
+        } else{
+            indexes.set(currentIndex, SCHEMA_INDEX_INDICATING_STAR_INSIDE_FUNCTION);
+        }
     }
 
     @Override
@@ -67,13 +73,10 @@ public class EvaluatorProjection extends AbstractExpressionVisitor {
     public void visit(Column arg0) {
         for (int i = 0; i < inputSchema.length; i++) {
             if (inputSchema[i].matchColumn(arg0)) {
-//                ColumnSchema columnSchema = new ColumnSchema(inputSchema[i].getColName(), inputSchema[i].getType());
-//                columnSchema.setColumnAlias(inputSchema[i].getColumnAlias());
                 if (isAnAggregation) {
                     indexes.set(currentIndex, getOldIndexReferencedByFunction(i));
                     return;
                 }
-//                outputSchema.add(columnSchema);
                 outputSchema.add(inputSchema[i]);
                 indexes.add(i);
                 return;

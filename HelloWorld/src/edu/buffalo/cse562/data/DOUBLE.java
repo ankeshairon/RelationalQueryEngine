@@ -47,7 +47,13 @@ public class DOUBLE extends Datum {
 
     @Override
     public String toSTRING() {
-        return decimalFormat.format(d);
+        String format = null;
+        try {
+            format = decimalFormat.format(d);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return format;
     }
 
     @Override

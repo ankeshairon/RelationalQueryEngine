@@ -17,16 +17,35 @@ public class ColumnSchema {
     public ColumnSchema(String colName, String type) {
         this.colName = colName.toLowerCase();
         fullQualifiedName = this.colName;
-        if (type.equalsIgnoreCase("int")) {
-            this.type = Datum.type.LONG;
-        } else if (type.equalsIgnoreCase("float") || type.equalsIgnoreCase("decimal")) {
-            this.type = Datum.type.DOUBLE;
-        } else if (type.equalsIgnoreCase("date")) {
-            this.type = Datum.type.DATE;
-        } else if (type.equalsIgnoreCase("boolean")) {
-            this.type = Datum.type.BOOL;
-        } else if (type.equalsIgnoreCase("char") || type.equalsIgnoreCase("varchar") || type.equalsIgnoreCase("string")) {
-            this.type = Datum.type.STRING;
+        switch (type) {
+            case "int":
+            case "INT":
+                this.type = Datum.type.LONG;
+                break;
+            case "float":
+            case "FLOAT":
+            case "decimal":
+            case "DECIMAL":
+                this.type = Datum.type.DOUBLE;
+                break;
+            case "date":
+            case "DATE":
+                this.type = Datum.type.DATE;
+                break;
+            case "boolean":
+            case "BOOLEAN":
+                this.type = Datum.type.BOOL;
+                break;
+            case "char":
+            case "CHAR":
+            case "varchar":
+            case "VARCHAR":
+            case "string":
+            case "STRING":
+                this.type = Datum.type.STRING;
+                break;
+            default:
+                throw new UnsupportedOperationException(type + " type not supported!");
         }
         isDistinct = false;
     }
@@ -75,7 +94,7 @@ public class ColumnSchema {
         return columnName.equalsIgnoreCase(colName) || columnName.equals(columnAlias);
     }
 
-    public boolean matchFullQualifiedName(String columnName){
+    public boolean matchFullQualifiedName(String columnName) {
         return columnName.equalsIgnoreCase(fullQualifiedName);
     }
 

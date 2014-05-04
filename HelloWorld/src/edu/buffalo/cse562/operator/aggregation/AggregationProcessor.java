@@ -1,4 +1,4 @@
-package edu.buffalo.cse562.model.aggregation;
+package edu.buffalo.cse562.operator.aggregation;
 
 import edu.buffalo.cse562.comparator.TupleComparator;
 import edu.buffalo.cse562.data.DOUBLE;
@@ -18,6 +18,8 @@ public class AggregationProcessor {
 
     private final ColumnSchema[] oldSchema;
     private final ColumnSchema[] newSchema;
+
+    private AggregationTuple singleAggregationTuple;
 
     private List<AggregationTuple> aggregationTupleList;
     private List<Integer> distinctColumnIndexes;
@@ -52,7 +54,7 @@ public class AggregationProcessor {
             }
             if (relativeNewSchemaIndexes[i].equals(SCHEMA_INDEX_INDICATING_EXPRESSION)) {
                 aggregationEvaluators.put(i, new EvaluatorAggregate(oldSchema, newSchema[i].getExpression()));
-            } else if (isAFunction(relativeNewSchemaIndexes[i])) {
+            } else if (isExpressionInsideFunction(relativeNewSchemaIndexes[i])) {
                 final Expression expression = (Expression) ((Function) newSchema[i].getExpression()).getParameters().getExpressions().get(0);
                 aggregationEvaluators.put(i, new EvaluatorAggregate(oldSchema, getExecutableExpression(expression, i)));
             }
@@ -86,16 +88,24 @@ public class AggregationProcessor {
         Datum[] newRawTuple = convertTupleToNewSchema(oldTuple);
 
         AggregationTuple aggregationTuple;
-        int i = isGroupByPresent ? aggregationTupleList.indexOf(new AggregationTuple(newRawTuple, groupByComparator)) : 0;
 
-        if (i != -1) {
-            aggregationTuple = aggregationTupleList.get(i);
-            updateAggregatedTupleWithValuesFromNewTuple(newRawTuple, aggregationTuple);
+        if (isGroupByPresent) {
+            int i = aggregationTupleList.indexOf(new AggregationTuple(newRawTuple, groupByComparator));
+            if (i == -1) {
+                Datum[] newAggregatedDatum = createNewAggregatedDatum(newRawTuple);
+                aggregationTuple = new AggregationTuple(newAggregatedDatum, groupByComparator, distinctColumnIndexes);
+                aggregationTuple.updateDistinctElementsSet(oldTuple);
+                aggregationTupleList.add(aggregationTuple);
+            } else {
+                aggregationTuple = aggregationTupleList.get(i);
+                updateAggregatedTupleWithValuesFromNewTuple(newRawTuple, aggregationTuple);
+            }
         } else {
-            Datum[] newAggregatedDatum = createNewAggregatedDatum(newRawTuple);
-            aggregationTuple = new AggregationTuple(newAggregatedDatum, groupByComparator, distinctColumnIndexes);
-            aggregationTuple.updateDistinctElementsSet(oldTuple);
-            aggregationTupleList.add(aggregationTuple);
+            if (singleAggregationTuple == null) {
+                singleAggregationTuple = new AggregationTuple(newRawTuple, groupByComparator);
+            } else {
+                updateAggregatedTupleWithValuesFromNewTuple(newRawTuple, singleAggregationTuple);
+            }
         }
     }
 
@@ -135,12 +145,15 @@ public class AggregationProcessor {
 
     public List<Datum[]> getResult() {
         List<Datum[]> result = new ArrayList<>();
-        for (AggregationTuple aggregationTuple : aggregationTupleList) {
-            result.add(aggregationTuple.getUnderlyingConsolidatedTuple());
+
+        if (singleAggregationTuple == null) {
+            for (AggregationTuple aggregationTuple : aggregationTupleList) {
+                result.add(aggregationTuple.getUnderlyingConsolidatedTuple());
+            }
+            Collections.sort(result, groupByComparator);
+        } else {
+            result.add(singleAggregationTuple.getUnderlyingConsolidatedTuple());
         }
-
-        Collections.sort(result, groupByComparator);
-
         return result;
     }
 
@@ -177,7 +190,7 @@ public class AggregationProcessor {
                 case "AVG":
                     FRACTION fraction = (FRACTION) oldDatum;
                     fraction.setNumerator(fraction.getNumerator() + offsetValue.toDOUBLE());
-                    fraction.setDenominator(fraction.getDenominator() + 1f);
+                    fraction.setDenominator(fraction.getDenominator() + 1d);
                     return fraction;
             }
         } catch (Datum.CastException e) {
@@ -211,8 +224,10 @@ public class AggregationProcessor {
         Datum[] newDatum = new Datum[relativeNewSchemaIndexes.length];
 
         for (int i = 0; i < relativeNewSchemaIndexes.length; i++) {
-            if (isAFunction(relativeNewSchemaIndexes[i])) {
+            if (isExpressionInsideFunction(relativeNewSchemaIndexes[i])) {
                 newDatum[i] = aggregationEvaluators.get(i).executeStack(oldDatum);
+            } else if (isStarInsideFunction(relativeNewSchemaIndexes[i])) {
+                newDatum[i] = getNewAggregateSpecificParams(i, null);
             } else {
                 newDatum[i] = oldDatum[relativeNewSchemaIndexes[i]];
             }
@@ -241,13 +256,4 @@ public class AggregationProcessor {
         }
         throw new UnsupportedOperationException("No executable expression found");
     }
-
-//    private Datum evaluateExpression(Datum[] oldDatum, Expression expression) {
-//        if (expression == null) {
-//            return new LONG(1l);
-//        }
-//        EvaluatorAggregate evalAggregate = new EvaluatorAggregate(oldSchema, expression);
-//        Datum floatDatum = evalAggregate.executeStack(oldDatum);
-//        return floatDatum;
-//    }
 }

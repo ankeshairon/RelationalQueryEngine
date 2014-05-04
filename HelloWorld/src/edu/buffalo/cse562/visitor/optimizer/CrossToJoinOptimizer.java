@@ -18,8 +18,8 @@ public class CrossToJoinOptimizer {
         conditionsUsedUp = new HashSet<>();
     }
 
-    public List<Expression> getConditionsExclusiveToTable(ColumnSchema[] schema) {
-        List<Expression> conditionalExpressions = new ArrayList<>();
+    public Map<Expression, List<Column>> getConditionsExclusiveToTable(ColumnSchema[] schema) {
+        Map<Expression, List<Column>> conditionColumnMapExclusiveTo = new HashMap<>();
 
         Iterator<Expression> iterator = conditionColumnMap.keySet().iterator();
         Expression condition;
@@ -27,12 +27,12 @@ public class CrossToJoinOptimizer {
             condition = iterator.next();
             List<Column> columnsInConditionExpression = conditionColumnMap.get(condition);
             if (allColumnsForConditionOfThisTableOnly(columnsInConditionExpression, schema)) {
-                conditionalExpressions.add(condition);
+                conditionColumnMapExclusiveTo.put(condition, conditionColumnMap.get(condition));
                 conditionsUsedUp.addAll(conditionColumnMap.get(condition));
                 iterator.remove();
             }
         }
-        return conditionalExpressions;
+        return conditionColumnMapExclusiveTo;
     }
 
     public Integer[] getIndexesOfJoinColumns(ColumnSchema[] schema1, ColumnSchema[] schema2) {
