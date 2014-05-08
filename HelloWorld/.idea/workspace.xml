@@ -4,12 +4,11 @@
     <bookmark url="file://$PROJECT_DIR$/src/edu/buffalo/cse562/operator/aggregation/AggregationProcessor.java" line="258" />
     <bookmark url="file://$PROJECT_DIR$/src/edu/buffalo/cse562/operator/indexscan/IndexScanHelper.java" line="23" mnemonic="2" />
     <bookmark url="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/IndexDataMapVisitor.java" line="33" mnemonic="9" />
-    <bookmark url="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/optimizer/JoinMaker.java" line="20" mnemonic="1" />
+    <bookmark url="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/optimizer/JoinMaker.java" line="22" mnemonic="1" />
   </component>
   <component name="ChangeListManager">
     <list id="2da21c68-e60c-4b6c-8a9b-3668fe4bc79a" name="hashjoin" comment="hashjoin" />
-    <list default="true" id="46d9145c-6972-47b4-8d26-ac4e1b417396" name="indexing" comment="Ankesh - activating in memory sort">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/operator/InMemoryHashJoin.java" />
+    <list default="true" id="46d9145c-6972-47b4-8d26-ac4e1b417396" name="indexing" comment="Subhendu - In memory hash">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/optimizer/JoinMaker.java" afterPath="$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/optimizer/JoinMaker.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -319,10 +318,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="JoinMaker.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="JoinMaker.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/optimizer/JoinMaker.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="84" column="0" selection-start="3797" selection-end="3797" vertical-scroll-proportion="0.0" vertical-offset="2148" max-vertical-offset="3008">
+            <state line="91" column="9" selection-start="4116" selection-end="4116" vertical-scroll-proportion="0.60190475" vertical-offset="2148" max-vertical-offset="3008">
               <folding />
             </state>
           </provider>
@@ -401,10 +400,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="InMemoryHashJoin.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="InMemoryHashJoin.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/operator/InMemoryHashJoin.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="109" column="0" selection-start="3220" selection-end="3220" vertical-scroll-proportion="4.5961905" vertical-offset="1075" max-vertical-offset="4096">
+            <state line="46" column="25" selection-start="1453" selection-end="1453" vertical-scroll-proportion="0.0" vertical-offset="1075" max-vertical-offset="4096">
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#711#739#0" expanded="true" />
@@ -458,9 +457,9 @@
         <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/optimizer/IndexedOperatorOptimizer.java" />
         <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/MySelectVisitor.java" />
         <option value="$PROJECT_DIR$/TimeLog.txt" />
-        <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/optimizer/JoinMaker.java" />
         <option value="$PROJECT_DIR$/test/edu/buffalo/cse562/QueriesTest.java" />
         <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/operator/InMemoryHashJoin.java" />
+        <option value="$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/optimizer/JoinMaker.java" />
       </list>
     </option>
   </component>
@@ -1883,7 +1882,7 @@
       <workItem from="1398985594787" duration="29603000" />
       <workItem from="1399069533908" duration="27631000" />
       <workItem from="1399130244826" duration="33439000" />
-      <workItem from="1399418293106" duration="8605000" />
+      <workItem from="1399418293106" duration="8861000" />
     </task>
     <task id="LOCAL-00001" summary="Ankesh - Full blown optimizer that pulls exclusive where conditions and turns cross to join - attempt 1&#10;">
       <created>1393824512793</created>
@@ -2117,11 +2116,15 @@
       <created>1399419894636</created>
       <updated>1399419894636</updated>
     </task>
-    <option name="localTasksCounter" value="59" />
+    <task id="LOCAL-00059" summary="Subhendu - In memory hash">
+      <created>1399526790341</created>
+      <updated>1399526790341</updated>
+    </task>
+    <option name="localTasksCounter" value="60" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="620831000" />
+    <option name="totallyTimeSpent" value="621087000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -2145,10 +2148,10 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="64" y="-4" width="1857" height="1085" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.4076923" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.4076923" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290461" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -2217,7 +2220,6 @@
       <TodoPanelSettings />
     </option>
     <option name="SHORT_DIFF_HORIZONTALLY" value="false" />
-    <MESSAGE value="Ankesh - optimization | pushing projection down to scan operator to save parsing costs for irrelevant data" />
     <MESSAGE value="Ankesh - changing order of joins - bigger tables are given priority now" />
     <MESSAGE value="Ankesh - fixing order by visitor for handle tablename.columnname format" />
     <MESSAGE value="Ankesh - fixing indexes being fed to hashjoin operator" />
@@ -2242,7 +2244,8 @@
     <MESSAGE value="Ankesh - Index scan fixed - attempt 2" />
     <MESSAGE value="Ankesh - Prority Index scan - attempt 3" />
     <MESSAGE value="Ankesh - activating in memory sort" />
-    <option name="LAST_COMMIT_MESSAGE" value="Ankesh - activating in memory sort" />
+    <MESSAGE value="Subhendu - In memory hash" />
+    <option name="LAST_COMMIT_MESSAGE" value="Subhendu - In memory hash" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2493,22 +2496,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/optimizer/JoinMaker.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="84" column="0" selection-start="3797" selection-end="3797" vertical-scroll-proportion="0.0" vertical-offset="2148" max-vertical-offset="3008">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/operator/InMemoryHashJoin.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="109" column="0" selection-start="3220" selection-end="3220" vertical-scroll-proportion="4.5961905" vertical-offset="1075" max-vertical-offset="4096">
+        <state line="46" column="25" selection-start="1453" selection-end="1453" vertical-scroll-proportion="0.0" vertical-offset="1075" max-vertical-offset="4096">
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#711#739#0" expanded="true" />
             <element signature="e#3313#3314#0" expanded="true" />
             <element signature="e#3348#3349#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/buffalo/cse562/visitor/optimizer/JoinMaker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="91" column="9" selection-start="4116" selection-end="4116" vertical-scroll-proportion="0.60190475" vertical-offset="2148" max-vertical-offset="3008">
+          <folding />
         </state>
       </provider>
     </entry>
