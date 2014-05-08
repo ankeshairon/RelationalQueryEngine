@@ -25,7 +25,7 @@ public class InMemoryHashJoin implements Operator {
 
         HashMap<Integer,ArrayList<Datum[]>> build = new HashMap<Integer,ArrayList<Datum[]>>(401);
 
-        Datum[] outTpl = new Datum[R.getSchema().length + S.getSchema().length];
+        Datum[] outTpl;
 
         //build phase
         Datum[] tuple;
@@ -46,8 +46,9 @@ public class InMemoryHashJoin implements Operator {
             if(list == null)
                 continue;
             for(Datum[] tplR : list){
-                if(tplR[indexR].toSTRING().equals(tuple[indexS].toSTRING())){
+                if(tplR[indexR].equals(tuple[indexS])){
                     int counter = 0;
+                    outTpl = new Datum[R.getSchema().length + S.getSchema().length];
                     for(Datum val : tplR){
                         outTpl[counter] = val;
                         counter++;
