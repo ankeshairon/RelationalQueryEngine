@@ -1,8 +1,14 @@
-- check if aggregation require writing to file
-- make multithreaded hash
+- index scan
+- hash join modification
+- INLJ
 
-- check if custom decimal format for each column required
-- test for 1GB data
+
+- secondary indices? 
+
+-indexing framework
+
+- interface for index framework
+ 
 
 
 lineitem - shipdate, orderkey, quantity, discount, suppkey, returnflag, shipmode, commitdate, receiptdate

@@ -16,6 +16,8 @@ public class FileScanner {
         makeSchema(tableIndexingInfo.getColumnDefinitions());
         try {
             input = new BufferedReader(new InputStreamReader(new FileInputStream(new File(dataDir.getAbsolutePath() + "//" + tableIndexingInfo.getTableName() + ".dat"))));
+            input = new BufferedReader(new InputStreamReader(new FileInputStream
+                    (new File(dataDir.getAbsolutePath() + "//" + tableIndexingInfo.getTableName() + ".dat"))));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
