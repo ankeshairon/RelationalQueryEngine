@@ -50,6 +50,8 @@ public class MyStatementVisitor implements StatementVisitor {
     public void visit(Delete arg0) {
         Table fromTable = arg0.getTable();
         Expression exp = arg0.getWhere();
+        MyDeleteItemsVisitor myVisitor = new MyDeleteItemsVisitor(dataDir, tablesInfo);
+        myVisitor.deleteFrom(arg0.getTable(),arg0.getWhere());
     }
 
     @Override

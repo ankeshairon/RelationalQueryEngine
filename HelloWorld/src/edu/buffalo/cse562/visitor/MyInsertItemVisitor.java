@@ -26,7 +26,7 @@ public class MyInsertItemVisitor {
                 PrintWriter insertoperator =
                         new PrintWriter(
                                 new BufferedWriter(
-                                        new FileWriter(dataDir.getAbsolutePath() + "/" + table.getName() + ".dat",
+                                        new FileWriter(dataDir.getAbsolutePath() + "//" + table.getName() + ".dat",
                                                 true)
                                 )
                         );
