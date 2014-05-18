@@ -22,7 +22,10 @@ public class MyInsertItemVisitor {
 
     public void insertInto(Table table, ItemsList itemsList){
         if(tablesInfo.containsKey(table.getWholeTableName())) {
-            try {
+
+
+
+            /*try {
                 PrintWriter insertoperator =
                         new PrintWriter(
                                 new BufferedWriter(
@@ -34,7 +37,7 @@ public class MyInsertItemVisitor {
                 insertoperator.close();
             } catch (IOException e) {
                 e.printStackTrace();
-            }
+            }*/
         }
     }
 
