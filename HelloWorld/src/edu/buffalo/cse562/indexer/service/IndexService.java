@@ -7,6 +7,8 @@ import jdbm.PrimaryStoreMap;
 import jdbm.SecondaryTreeMap;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class IndexService extends Indexer {
 
@@ -28,6 +30,16 @@ public class IndexService extends Indexer {
         return new IndexedDataMap(secondaryMap, schema[columnPosition].getColName());
     }
 
+    public List<Long> getAllTupleIds(String tableName) {
+        final PrimaryStoreMap<Long, String> storeMap = getPrimaryStoreMap(tableName);
+        return new ArrayList<>(storeMap.keySet());
+    }
+
+    public void addTupleToTable(String tableName, String tuple){
+        final PrimaryStoreMap<Long, String> storeMap = getPrimaryStoreMap(tableName);
+        storeMap.putValue(tuple);
+    }
+
     public static IndexService getInstance() {
         if (indexService == null) {
             throw new RuntimeException("Index service never instantiated!");
@@ -39,10 +51,5 @@ public class IndexService extends Indexer {
         if (indexService == null) {
             indexService = new IndexService(indexDir);
         }
-    }
-
-    @Override
-    protected void finalize() throws Throwable {
-        close();
     }
 }
