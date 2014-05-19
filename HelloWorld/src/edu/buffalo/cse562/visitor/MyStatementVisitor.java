@@ -5,6 +5,7 @@ import edu.buffalo.cse562.model.TableInfo;
 import edu.buffalo.cse562.operator.Operator;
 import edu.buffalo.cse562.visitor.optimizer.ScanOptimizer;
 import net.sf.jsqlparser.expression.Expression;
+import net.sf.jsqlparser.expression.operators.relational.ItemsList;
 import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.StatementVisitor;
 import net.sf.jsqlparser.statement.create.table.CreateTable;
@@ -60,8 +61,9 @@ public class MyStatementVisitor implements StatementVisitor {
 
     @Override
     public void visit(Insert arg0) {
-        MyInsertItemVisitor myVisitor = new MyInsertItemVisitor(dataDir, tablesInfo);
-        myVisitor.insertInto(arg0.getTable(),arg0.getItemsList());
+        InsertItemsListVisitor itemsListVisitor = new InsertItemsListVisitor(arg0.getTable());
+        ItemsList itemsList = arg0.getItemsList();
+        itemsList.accept(itemsListVisitor);
     }
 
     @Override
