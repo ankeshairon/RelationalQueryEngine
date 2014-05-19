@@ -10,6 +10,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class interacts directly with PrimaryStoreMap & has methods not requiring any column names (SecondaryIndexes)
+ */
 public class IndexService extends Indexer {
 
     private static IndexService indexService;
@@ -22,7 +25,7 @@ public class IndexService extends Indexer {
      * Input param - tableName, input schema, position of indexed column in schema
      * returns Map<Datum, List<<String>> where Datum is the key on which it is indexed & List<String> is the list of raw tuples
      */
-    public IndexedDataMap getTuplesOfIndexesAsPer(String tableName, ColumnSchema[] schema, Integer columnPosition) {
+    public IndexedDataMap getIndexedDataFor(String tableName, ColumnSchema[] schema, Integer columnPosition) {
 
         final PrimaryStoreMap<Long, String> storeMap = getPrimaryStoreMap(tableName);
         final SecondaryTreeMap<Datum, Long, String> secondaryMap = getSecondaryMap(storeMap, schema, columnPosition);
@@ -35,9 +38,34 @@ public class IndexService extends Indexer {
         return new ArrayList<>(storeMap.keySet());
     }
 
-    public void addTupleToTable(String tableName, String tuple){
+    /**
+     * For better efficiency use ->  addTuplesToTable(String tableName, List<String> tuples)
+     */
+    public void addTupleToTable(String tableName, String tuple) {
         final PrimaryStoreMap<Long, String> storeMap = getPrimaryStoreMap(tableName);
         storeMap.putValue(tuple);
+    }
+
+    public void addTuplesToTable(String tableName, List<String> tuples) {
+        final PrimaryStoreMap<Long, String> storeMap = getPrimaryStoreMap(tableName);
+        for (String tuple : tuples) {
+            storeMap.putValue(tuple);
+        }
+    }
+
+    /**
+     * For better efficiency use ->  deleteTuplesFromTable(String tableName, List<Long> rowIds)
+     */
+    public void deleteTupleFromTable(String tableName, Long rowId) {
+        final PrimaryStoreMap<Long, String> storeMap = getPrimaryStoreMap(tableName);
+        storeMap.remove(rowId);
+    }
+
+    public void deleteTuplesFromTable(String tableName, List<Long> rowIds) {
+        final PrimaryStoreMap<Long, String> storeMap = getPrimaryStoreMap(tableName);
+        for (Long rowId : rowIds) {
+            storeMap.remove(rowId);
+        }
     }
 
     public static IndexService getInstance() {

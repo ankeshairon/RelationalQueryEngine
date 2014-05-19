@@ -1,14 +1,5 @@
-- index scan
-- hash join modification
 - INLJ
 
-
-- secondary indices? 
-
--indexing framework
-
-- interface for index framework
- 
 
 
 lineitem - shipdate, orderkey, quantity, discount, suppkey, returnflag, shipmode, commitdate, receiptdate
@@ -19,8 +10,3 @@ nation - nationkey, regionkey, name
 supplier - suppkey, nationkey
 partsupp - partkey
 part - partkey, brand
-
-
-
-FileScanner
-Storemap POC

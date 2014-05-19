@@ -1,6 +1,7 @@
 package edu.buffalo.cse562;
 
 import edu.buffalo.cse562.indexer.IndexBuilder;
+import edu.buffalo.cse562.indexer.service.IndexService;
 import edu.buffalo.cse562.indexer.visitors.IndexingStatementVisitor;
 import edu.buffalo.cse562.visitor.MyStatementVisitor;
 import net.sf.jsqlparser.parser.CCJSqlParser;
@@ -66,7 +67,7 @@ public class Main {
                     stmnt.accept(myVisitor);
                     if (myVisitor instanceof MyStatementVisitor) {
                         View.dump(((MyStatementVisitor) myVisitor).source);
-                        cleanDir(swapDir);
+//                        cleanDir(swapDir);
                     }
                 }
             } catch (ParseException e) {
@@ -77,6 +78,7 @@ public class Main {
                 e.printStackTrace();
             }
         }
+        IndexService.getInstance().commit();
     }
 
     private static void cleanDir(File dir) {

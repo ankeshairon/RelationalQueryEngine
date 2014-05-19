@@ -49,7 +49,7 @@ public abstract class Indexer {
         };
     }
 
-    protected void commit() {
+    public void commit() {
         try {
             recordManager.commit();
         } catch (IOException e) {

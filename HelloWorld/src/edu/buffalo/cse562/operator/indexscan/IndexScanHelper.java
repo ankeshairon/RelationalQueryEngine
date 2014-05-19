@@ -60,7 +60,7 @@ public class IndexScanHelper {
     private List<Long> getRowIdsForCondition(Expression condition) {
         IndexedDataMap indexedDataMap;
 
-        indexedDataMap = indexService.getTuplesOfIndexesAsPer(
+        indexedDataMap = indexService.getIndexedDataFor(
                 schema[0].getTblName(),
                 schema,
                 SchemaUtils.getColumnIndexInColSchema(schema, getColumnName(condition))

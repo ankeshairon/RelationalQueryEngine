@@ -9,6 +9,9 @@ import net.sf.jsqlparser.expression.Expression;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class interacts with SecondaryStoreMap & has methods requiring column names (SecondaryIndexes)
+ */
 public class IndexedDataMap extends AbstractExpressionVisitor {
 
     private final SecondaryTreeMap<Datum, Long, String> secondaryMap;
