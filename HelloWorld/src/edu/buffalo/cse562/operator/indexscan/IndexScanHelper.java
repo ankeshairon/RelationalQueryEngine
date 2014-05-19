@@ -46,9 +46,13 @@ public class IndexScanHelper {
         List<List<Long>> rowIdsForAllConditions = new ArrayList<>();
         List<Long> rowIdsForCondition;
 
-        for (Expression condition : conditions) {
-            rowIdsForCondition = getRowIdsForCondition(condition);
-            rowIdsForAllConditions.add(rowIdsForCondition);
+        if (conditions != null) {
+            for (Expression condition : conditions) {
+                rowIdsForCondition = getRowIdsForCondition(condition);
+                rowIdsForAllConditions.add(rowIdsForCondition);
+            }
+        } else {
+            rowIdsForAllConditions.add(indexService.getAllTupleIds(schema[0].getTblName()));
         }
         return rowIdsForAllConditions;
     }

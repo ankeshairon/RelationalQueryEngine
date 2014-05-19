@@ -9,6 +9,11 @@ import net.sf.jsqlparser.statement.create.table.ColumnDefinition;
 import java.io.*;
 import java.util.List;
 
+/**
+ *DO NOT USE THIS CLASS .. always use IndexScanOperator instead
+ * This is being deprecated to enable record additions & deletions
+*/
+
 public class ScanOperator implements Operator {
     protected List<Integer> relevantColumnIndexes;
     private FileInputStream fileInputStream;
@@ -19,7 +24,7 @@ public class ScanOperator implements Operator {
     /**
      * requires table tableName and size only in tableInfo object if not passing null for finalSchema in the constructor
      */
-    public ScanOperator(File dataDir, TableInfo tableInfo, ColumnSchema[] finalSchema) {
+    private ScanOperator(File dataDir, TableInfo tableInfo, ColumnSchema[] finalSchema) {
         this.schema = finalSchema;
         tableSize = tableInfo.getSize();
         makeSchema(tableInfo);

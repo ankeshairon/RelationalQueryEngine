@@ -96,3 +96,5 @@ CREATE TABLE REGION (
         PRIMARY KEY (regionkey)
     );
 
+
+INSERT INTO REGION VALUES (1, 'regionname', 'some comments');

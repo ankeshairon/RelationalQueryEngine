@@ -2,7 +2,7 @@ package edu.buffalo.cse562.visitor;
 
 import edu.buffalo.cse562.model.TableInfo;
 import edu.buffalo.cse562.operator.Operator;
-import edu.buffalo.cse562.operator.ScanOperator;
+import edu.buffalo.cse562.operator.indexscan.IndexScanOperator;
 import edu.buffalo.cse562.schema.ColumnSchema;
 import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.select.FromItemVisitor;
@@ -34,7 +34,7 @@ public class MyFromItemVisitor implements FromItemVisitor {
     public void visit(Table table) {
         final TableInfo tableInfo = tables.get(table.getName());
         tableInfo.setAlias(table.getAlias());
-        source = new ScanOperator(dataDir, tableInfo, finalSchema);
+        source = new IndexScanOperator(tableInfo, finalSchema);
     }
 
     @Override

@@ -18,7 +18,9 @@ public class IndexedOperatorOptimizer {
         identifyConditionsForOperators(exclusiveConditionsColumnMap, conditionsForSelectionOperator, conditionsForIndexScanOperator);
 
         if (conditionsForIndexScanOperator.size() != 0) {
-            resultantOperator = new IndexScanOperator(inputOperator, conditionsForIndexScanOperator);
+            if (resultantOperator instanceof IndexScanOperator) {
+                ((IndexScanOperator) resultantOperator).setConditionsToFilterDataOn(conditionsForIndexScanOperator);
+            }
         }
         if (conditionsForSelectionOperator.size() != 0) {
             resultantOperator = new SelectionOperator(resultantOperator, conditionsForSelectionOperator);
@@ -30,8 +32,8 @@ public class IndexedOperatorOptimizer {
                                                 List<Expression> conditionsForSelectionOperator,
                                                 List<Expression> conditionsForIndexScanOperator) {
 
-        List<Map.Entry<Expression,Integer>> conditionWeights = createConditionWeights(exclusiveConditionsColumnMap);
-        final Iterator<Map.Entry<Expression,Integer>> iterator = conditionWeights.iterator();
+        List<Map.Entry<Expression, Integer>> conditionWeights = createConditionWeights(exclusiveConditionsColumnMap);
+        final Iterator<Map.Entry<Expression, Integer>> iterator = conditionWeights.iterator();
 
         if (iterator.hasNext()) {
             conditionsForIndexScanOperator.add(iterator.next().getKey());
@@ -41,7 +43,7 @@ public class IndexedOperatorOptimizer {
         }
     }
 
-    private List<Map.Entry<Expression,Integer>> createConditionWeights(Map<Expression, List<Column>> exclusiveConditionsColumnMap) {
+    private List<Map.Entry<Expression, Integer>> createConditionWeights(Map<Expression, List<Column>> exclusiveConditionsColumnMap) {
         LinkedHashMap<Expression, Integer> conditionWeights = new LinkedHashMap<>();
         Expression condition;
         List<Column> columns;

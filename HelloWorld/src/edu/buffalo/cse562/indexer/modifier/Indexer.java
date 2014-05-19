@@ -66,4 +66,10 @@ public abstract class Indexer {
             throw new RuntimeException("Error closing record manager!");
         }
     }
+
+    @Override
+    protected void finalize() throws Throwable {
+        close();
+        super.finalize();
+    }
 }
