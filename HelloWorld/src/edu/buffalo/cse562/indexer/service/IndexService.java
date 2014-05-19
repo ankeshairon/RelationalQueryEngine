@@ -17,7 +17,7 @@ public class IndexService extends Indexer {
 
     private static IndexService indexService;
 
-    private IndexService(File indexDir) {
+    public IndexService(File indexDir) {
         super(indexDir);
     }
 
