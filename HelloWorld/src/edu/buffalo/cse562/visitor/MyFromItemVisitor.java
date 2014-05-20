@@ -32,7 +32,7 @@ public class MyFromItemVisitor implements FromItemVisitor {
 
 	@Override
     public void visit(Table table) {
-        final TableInfo tableInfo = tables.get(table.getName());
+        final TableInfo tableInfo = tables.get(table.getName().toLowerCase());
         tableInfo.setAlias(table.getAlias());
         source = new IndexScanOperator(tableInfo, finalSchema);
     }

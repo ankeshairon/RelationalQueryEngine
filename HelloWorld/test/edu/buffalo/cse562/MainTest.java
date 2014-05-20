@@ -9,7 +9,8 @@ public class MainTest {
     protected final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     protected final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
 
-    protected final String LITTLE = "little"; //8mb currently
+    protected final String LITTLE = "little"; //checkpoint3
+    protected final String MEDIUM = "medium"; //checkpoint4
 
     @Before
     public void setUp() throws Exception {
@@ -50,7 +51,7 @@ public class MainTest {
         out.flush();
     }
 
-    protected String[] getArgsForBuildPhase(String dataFileDirPath, String sqlFileDirPath) {
+    protected String[] getArgsForBuildPhaseOfCheckpoint3(String dataFileDirPath, String sqlFileDirPath) {
         return new String[]{"--data", dataFileDirPath, "sqlFiles/tpch_schemas.sql",
                 sqlFileDirPath + "/tpch1.sql",
                 sqlFileDirPath + "/tpch3.sql",
@@ -75,5 +76,26 @@ public class MainTest {
                 sqlFileDirPath + "/tpch16b.sql",
                 sqlFileDirPath + "/tpch16c.sql",
                 sqlFileDirPath + "/tpch16d.sql", "--swap", "swap", "--index", "index", "--build"};
+    }
+
+    protected String[] getArgsForBuildPhaseOfCheckpoint4(String dataFileDirPath, String sqlFileDirPath) {
+        return new String[]{"--data", dataFileDirPath, "sqlFiles/tpch_schemas.sql",
+                sqlFileDirPath + "/query01.sql",
+                sqlFileDirPath + "/query02.sql",
+                sqlFileDirPath + "/query03.sql",
+                sqlFileDirPath + "/query04.sql",
+                sqlFileDirPath + "/query05.sql",
+                sqlFileDirPath + "/query06.sql", "--swap", "swap", "--index", "index", "--build"};
+    }
+
+    protected void cleanDir(File dir) {
+        String[] myFiles;
+        if (dir != null && dir.isDirectory()) {
+            myFiles = dir.list();
+            for (String fileName : myFiles) {
+                File file = new File(dir, fileName);
+                file.delete();
+            }
+        }
     }
 }

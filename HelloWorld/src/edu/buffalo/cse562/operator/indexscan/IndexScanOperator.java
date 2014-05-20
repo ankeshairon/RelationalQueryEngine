@@ -11,7 +11,9 @@ import net.sf.jsqlparser.statement.create.table.ColumnDefinition;
 import java.util.List;
 import java.util.ListIterator;
 
+import static edu.buffalo.cse562.operator.utils.ScanUtils.getDatumsForAllColumnPositions;
 import static edu.buffalo.cse562.operator.utils.ScanUtils.getDatumsForRelevantColumnPositions;
+import static edu.buffalo.cse562.schema.SchemaUtils.createSchemaFromTableInfo;
 
 public class IndexScanOperator implements Operator {
 
@@ -23,7 +25,11 @@ public class IndexScanOperator implements Operator {
     private List<Long> keyList;
 
     public IndexScanOperator(TableInfo tableInfo, ColumnSchema[] finalSchema) {
-        makeSchema(tableInfo, finalSchema);
+        if (finalSchema == null) {
+            makeSchema(tableInfo);
+        } else {
+            schema = finalSchema;
+        }
         setConditionsToFilterDataOn(null);
     }
 
@@ -33,10 +39,16 @@ public class IndexScanOperator implements Operator {
             return null;
         }
 
-        return getDatumsForRelevantColumnPositions(
-                storeMap.get(keyListIterator.next()),
-                relevantColumnIndexes,
-                schema);
+        if (relevantColumnIndexes != null) {
+            return getDatumsForRelevantColumnPositions(
+                    storeMap.get(keyListIterator.next()),
+                    relevantColumnIndexes,
+                    schema);
+        } else {
+            return getDatumsForAllColumnPositions(
+                    storeMap.get(keyListIterator.next()),
+                    schema);
+        }
     }
 
     public void setConditionsToFilterDataOn(List<Expression> conditions) {
@@ -46,13 +58,13 @@ public class IndexScanOperator implements Operator {
         reset();
     }
 
-    private void makeSchema(TableInfo tableInfo, ColumnSchema[] finalSchema) {
-        if (finalSchema == null) {
+    private void makeSchema(TableInfo tableInfo) {
+        ColumnDefinition columnDefinition;
+
+        if ((relevantColumnIndexes = tableInfo.getColumnIndexesUsed()) != null) {
             final List<ColumnDefinition> allColumnDefinitions = tableInfo.getColumnDefinitions();
-            relevantColumnIndexes = tableInfo.getColumnIndexesUsed();
             schema = new ColumnSchema[relevantColumnIndexes.size()];
 
-            ColumnDefinition columnDefinition;
             for (int i = 0; i < relevantColumnIndexes.size(); i++) {
                 columnDefinition = allColumnDefinitions.get(relevantColumnIndexes.get(i));
                 schema[i] = new ColumnSchema(columnDefinition.getColumnName(), columnDefinition.getColDataType().getDataType());
@@ -60,7 +72,7 @@ public class IndexScanOperator implements Operator {
                 schema[i].setTableAlias(tableInfo.getAlias());
             }
         } else {
-            schema = finalSchema;
+            schema = createSchemaFromTableInfo(tableInfo);
         }
     }
 
@@ -76,6 +88,6 @@ public class IndexScanOperator implements Operator {
 
     @Override
     public Long getProbableTableSize() {
-        return Long.valueOf(keyList.size() * 100);
+        return (long) (keyList.size() * 100);
     }
 }

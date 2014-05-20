@@ -29,7 +29,7 @@ public class ScanOptimizer {
         addTableAliasMappingsToTablesInfo(aliasNameMap);
 
         for (String tableName : columnsToProject.keySet()) {
-            tableInfo = tablesInfo.get(tableName);
+            tableInfo = tablesInfo.get(tableName.toLowerCase());
             allColumns = tableInfo.getColumnDefinitions();
             columnsToKeep = columnsToProject.get(tableName);
             indexes = getIndexesOfColumnsToProject(allColumns, columnsToKeep);
@@ -56,7 +56,7 @@ public class ScanOptimizer {
         indexes = new ArrayList<>();
         for (Column columnToKeep : columnsToKeep) {
             for (int i = 0; i < allColumns.size(); i++) {
-                if (allColumns.get(i).getColumnName().equals(columnToKeep.getColumnName())) {
+                if (allColumns.get(i).getColumnName().equalsIgnoreCase(columnToKeep.getColumnName())) {
                     indexes.add(i);
                     break;
                 }

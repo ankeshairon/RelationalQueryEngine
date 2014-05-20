@@ -17,8 +17,12 @@ public class IndexService extends Indexer {
 
     private static IndexService indexService;
 
-    public IndexService(File indexDir) {
-        super(indexDir);
+    //use this to get an object.. This has been instantiated once at the beginning of execution & will always give a valid object inside the program
+    public static IndexService getInstance() {
+        if (indexService == null) {
+            throw new RuntimeException("Index service never instantiated!");
+        }
+        return indexService;
     }
 
     /**
@@ -42,7 +46,7 @@ public class IndexService extends Indexer {
      * For better efficiency use ->  addTuplesToTable(String tableName, List<String> tuples)
      */
     public void addTupleToTable(String tableName, String tuple) {
-        final PrimaryStoreMap<Long, String> storeMap = getPrimaryStoreMap(tableName);
+        final PrimaryStoreMap<Long, String> storeMap = getPrimaryStoreMap(tableName.toLowerCase());
         storeMap.putValue(tuple);
     }
 
@@ -68,16 +72,14 @@ public class IndexService extends Indexer {
         }
     }
 
-    public static IndexService getInstance() {
+    public static IndexService instantiate(File indexDir) {
         if (indexService == null) {
-            throw new RuntimeException("Index service never instantiated!");
+            indexService = new IndexService(indexDir);
         }
         return indexService;
     }
 
-    public static void instantiate(File indexDir) {
-        if (indexService == null) {
-            indexService = new IndexService(indexDir);
-        }
+    private IndexService(File indexDir) {
+        super(indexDir);
     }
 }

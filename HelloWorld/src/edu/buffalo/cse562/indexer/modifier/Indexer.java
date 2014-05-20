@@ -58,7 +58,7 @@ public abstract class Indexer {
         }
     }
 
-    protected void close() {
+    public void close() {
         try {
             recordManager.close();
         } catch (IOException e) {

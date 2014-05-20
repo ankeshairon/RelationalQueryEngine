@@ -52,7 +52,8 @@ public class IndexScanHelper {
                 rowIdsForAllConditions.add(rowIdsForCondition);
             }
         } else {
-            rowIdsForAllConditions.add(indexService.getAllTupleIds(schema[0].getTblName()));
+            final List<Long> allTupleIds = indexService.getAllTupleIds(schema[0].getTblName());
+            rowIdsForAllConditions.add(allTupleIds);
         }
         return rowIdsForAllConditions;
     }
@@ -66,7 +67,7 @@ public class IndexScanHelper {
                 SchemaUtils.getColumnIndexInColSchema(schema, getColumnName(condition))
         );
 
-        return indexedDataMap.getRowIdsWhereColumnIsXThanValue(condition);
+        return indexedDataMap.getRowIdsForCondition(condition);
     }
 
 

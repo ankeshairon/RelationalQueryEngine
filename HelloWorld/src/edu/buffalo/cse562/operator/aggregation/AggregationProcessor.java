@@ -102,7 +102,7 @@ public class AggregationProcessor {
             }
         } else {
             if (singleAggregationTuple == null) {
-                singleAggregationTuple = new AggregationTuple(newRawTuple, groupByComparator);
+                singleAggregationTuple = new AggregationTuple(createNewAggregatedDatum(newRawTuple), groupByComparator);
             } else {
                 updateAggregatedTupleWithValuesFromNewTuple(newRawTuple, singleAggregationTuple);
             }

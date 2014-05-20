@@ -19,4 +19,15 @@ public class ScanUtils {
         }
         return tuple;
     }
+
+    public static Datum[] getDatumsForAllColumnPositions(String line, ColumnSchema[] schema) {
+        String[] cells = line.split("\\|");
+        Datum[] tuple = new Datum[schema.length];
+
+        for (int i = 0; i < schema.length; i++) {
+            tuple[i] = getDatumOfTypeFromValue(schema[i].getType(), cells[i]);
+        }
+        return tuple;
+    }
+
 }

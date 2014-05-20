@@ -98,12 +98,12 @@ public class IndexingStatementVisitor implements StatementVisitor, SelectVisitor
 
         String tableName = null;
         if (allColumns.iterator().next().getTable().getName() == null) {
-            tableName = plainSelect.getFromItem().toString();
+            tableName = plainSelect.getFromItem().toString().toLowerCase();
         }
 
         if (tableName == null) {
             for (Column column : allColumns) {
-                tableIndexingInfos.get(column.getTable().getName()).addIndex(column);
+                tableIndexingInfos.get(column.getTable().getName().toLowerCase()).addIndex(column);
             }
         } else {
             final TableIndexingInfo tableIndexingInfo = tableIndexingInfos.get(tableName);

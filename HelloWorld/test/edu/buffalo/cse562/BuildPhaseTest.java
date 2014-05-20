@@ -61,7 +61,7 @@ public class BuildPhaseTest extends MainTest {
     }
 
     private void testBuildPhaseWithDataFile(String dataFileDirPath, String testName) throws IOException, InterruptedException {
-        String[] args = getArgsForBuildPhase(dataFileDirPath, "resources/sql_buildphase");
+        String[] args = getArgsForBuildPhaseOfCheckpoint3(dataFileDirPath, "resources/sql_buildphase");
         invokeTestClassWithArgs(args, testName);
         assertEquals("", errContent.toString());
     }

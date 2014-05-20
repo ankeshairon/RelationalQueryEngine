@@ -46,20 +46,21 @@ public class Main {
         if (isBuildPhase) {
             IndexingStatementVisitor visitor = new IndexingStatementVisitor();
 
-            executeSqls(null, sqlFiles, visitor);
+            executeSqls(null, sqlFiles, visitor, indexDir);
 //            executeSqls(null, getQueryFiles(dataDir), visitor);
 
             new IndexBuilder(visitor.getTableIndexingInfos(), dataDir, indexDir).createIndexes();
         } else {
-            MyStatementVisitor myVisitor = new MyStatementVisitor(dataDir, swapDir, indexDir);
-            executeSqls(swapDir, sqlFiles, myVisitor);
+            MyStatementVisitor myVisitor = new MyStatementVisitor(dataDir, swapDir);
+            executeSqls(swapDir, sqlFiles, myVisitor, indexDir);
         }
     }
 
-    public static void executeSqls(File swapDir, List<File> sqlFiles, StatementVisitor myVisitor) {
+    public static void executeSqls(File swapDir, List<File> sqlFiles, StatementVisitor myVisitor, File indexDir) {
         CCJSqlParser parser;
         Statement stmnt;
 
+        final IndexService indexService = IndexService.instantiate(indexDir);
         for (File sqlFile : sqlFiles) {
             try (FileReader reader = new FileReader(sqlFile)) {
                 parser = new CCJSqlParser(reader);
@@ -79,6 +80,7 @@ public class Main {
             }
         }
         IndexService.getInstance().commit();
+        IndexService.getInstance().close();
     }
 
     private static void cleanDir(File dir) {

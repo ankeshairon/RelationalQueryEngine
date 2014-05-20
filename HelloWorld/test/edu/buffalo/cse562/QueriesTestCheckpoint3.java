@@ -41,21 +41,21 @@ import static org.junit.Assert.assertEquals;
  */
 
 @RunWith(value = Parameterized.class)
-public class QueriesTest extends MainTest {
+public class QueriesTestCheckpoint3 extends MainTest {
 
 
     private String query;
     public final static String dataDirPath = "resources/little/data_files";
     public final static String sqlDirPath = "resources/sql_query/";
-    private final static String indexDirPath = "index";
+    public final static String indexDirPath = "index";
     private final static String expectedDataFolderPath = "resources/little/expected/";
 
-    public QueriesTest(String query) {
+    public QueriesTestCheckpoint3(String query) {
         this.query = query;
     }
 
     @Test
-    public void checkpoint2_little_data() throws Exception {
+    public void testCheckpoint3Queries() throws Exception {
         print(query);
         testForExpectedData(query, LITTLE);
     }
@@ -112,7 +112,7 @@ public class QueriesTest extends MainTest {
                         {"tpch16a"},          // 19
                         {"tpch16b"},          // 20
                         {"tpch16c"},          // 21
-                        {"tpch16d"}           // 22
+                        {"tpch16d"}
                 };
 
         return Arrays.asList(queries);

@@ -25,14 +25,15 @@ public class InsertItemsListVisitor implements ItemsListVisitor {
     @Override
     public void visit(ExpressionList expressionList) {
         List<Expression> expressions = expressionList.getExpressions();
+        InsertItemVisitor insertItemVisitor = new InsertItemVisitor();
         StringBuilder sb = new StringBuilder();
-        InsertItemVisitor evalVisitor = new InsertItemVisitor();
+        String value;
 
         for (Expression expression : expressions) {
-            expression.accept(evalVisitor);
-            String value = evalVisitor.getKey();
+            expression.accept(insertItemVisitor);
+            value = insertItemVisitor.getKey();
             sb.append("|").append(value);
         }
-        IndexService.getInstance().addTupleToTable(table.getName(), sb.toString().substring(1, sb.length()));
+        IndexService.getInstance().addTupleToTable(table.getName(), sb.substring(1, sb.length()));
     }
 }

@@ -16,10 +16,10 @@ public class View {
         while (row != null) {
             StringBuilder result = new StringBuilder();
             for (Datum col : row) {
-                result.append(col.toSTRING()).append(DELIMITER);
+                result.append(DELIMITER).append(col.toSTRING());
             }
 
-            System.out.println(result.substring(0, result.length() - 1));
+            System.out.println(result.substring(1, result.length()));
             row = source.readOneTuple();
         }
 

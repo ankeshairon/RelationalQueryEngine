@@ -22,7 +22,7 @@ public class IndexedDataMap extends AbstractExpressionVisitor {
         this.colName = colName;
     }
 
-    public List<Long> getRowIdsWhereColumnIsXThanValue(Expression condition) {
+    public List<Long> getRowIdsForCondition(Expression condition) {
         IndexDataMapVisitor visitor = new IndexDataMapVisitor(secondaryMap, colName);
         condition.accept(visitor);
         return visitor.getRowIds();

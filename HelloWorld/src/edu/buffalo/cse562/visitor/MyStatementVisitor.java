@@ -1,11 +1,9 @@
 package edu.buffalo.cse562.visitor;
 
-import edu.buffalo.cse562.indexer.service.IndexService;
 import edu.buffalo.cse562.model.TableInfo;
 import edu.buffalo.cse562.operator.DeleteItem;
 import edu.buffalo.cse562.operator.Operator;
 import edu.buffalo.cse562.visitor.optimizer.ScanOptimizer;
-import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.operators.relational.ItemsList;
 import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.StatementVisitor;
@@ -25,15 +23,12 @@ public class MyStatementVisitor implements StatementVisitor {
 
     private final File dataDir;
     private File swapDir;
-    private File indexDir;
     private final HashMap<String, TableInfo> tablesInfo;
     public Operator source;
 
-    public MyStatementVisitor(File dataDir, File swapDir, File indexDir) {
+    public MyStatementVisitor(File dataDir, File swapDir) {
         this.dataDir = dataDir;
         this.swapDir = swapDir;
-        this.indexDir = indexDir;
-        IndexService.instantiate(indexDir);
         tablesInfo = new HashMap<>();
     }
 
@@ -52,15 +47,13 @@ public class MyStatementVisitor implements StatementVisitor {
 
     @Override
     public void visit(Delete arg0) {
-    	DeleteItem delItem = new DeleteItem(arg0,tablesInfo.get(arg0.getTable().toString()),indexDir);
+    	DeleteItem delItem = new DeleteItem(arg0,tablesInfo.get(arg0.getTable().toString()));
     	delItem.remove();
     }
 
     @Override
     public void visit(Update arg0) {
-        Table fromTable = arg0.getTable();
-        Expression exp = arg0.getWhere();
-
+        throw new UnsupportedOperationException("Update not supported yet");
     }
 
     @Override
