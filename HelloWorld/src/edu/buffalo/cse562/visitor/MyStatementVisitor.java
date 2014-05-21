@@ -4,6 +4,8 @@ import edu.buffalo.cse562.model.TableInfo;
 import edu.buffalo.cse562.operator.Operator;
 import edu.buffalo.cse562.operator.TupleUpdater;
 import edu.buffalo.cse562.visitor.optimizer.ScanOptimizer;
+import net.sf.jsqlparser.expression.Expression;
+import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.create.table.CreateTable;
 import net.sf.jsqlparser.statement.delete.Delete;
@@ -55,7 +57,7 @@ public class MyStatementVisitor extends AbstractStatementVisitor {
     public void visit(Update arg0) {
         final String tableName = arg0.getTable().toString().toLowerCase();
         TupleUpdater tupleUpdater = new TupleUpdater(tablesInfo.get(tableName), arg0.getWhere());
-        tupleUpdater.updateValueOfToForTuples(arg0.getColumns(), arg0.getExpressions());
+        tupleUpdater.updateValueOfToForTuples((Column) arg0.getColumns().get(0), (Expression) arg0.getExpressions().get(0));
     }
 
     @Override

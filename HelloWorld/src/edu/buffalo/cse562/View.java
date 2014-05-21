@@ -26,13 +26,13 @@ public class View {
             for (Datum col : row) {
                 tupleBuilder.append(DELIMITER).append(col.toSTRING());
             }
-            collectedTuples.append(tupleBuilder.substring(1)).append("\n");
+            collectedTuples.append("\n").append(tupleBuilder.substring(1));
             row = source.readOneTuple();
 //                ++counter;
 //            }
 //            System.out.println(collectedTuples.toString());
 //            counter = 0;
         }
-        System.out.println(collectedTuples.toString());
+        System.out.println(collectedTuples.substring(1));
     }
 }

@@ -11,59 +11,57 @@ import jdbm.PrimaryStoreMap;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.schema.Column;
 
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static edu.buffalo.cse562.schema.SchemaUtils.createSchemaFromTableInfo;
 
 public class TupleUpdater {
 
+    private final IndexService indexService;
     private TableInfo tableInfo;
     private List<Long> rowIds;
 
     public TupleUpdater(TableInfo tableInfo, Expression where) {
         this.tableInfo = tableInfo;
+        indexService = IndexService.getInstance();
+
         ColumnSchema[] tableSchema = createSchemaFromTableInfo(tableInfo);
         Integer columnPosition = SchemaUtils.getColumnIndexInColSchema(tableSchema, ExpressionUtils.getColumnName(where));
-        IndexedDataMap indexedDataMap = IndexService.getInstance().getIndexedDataFor(tableInfo.getTableName(), tableSchema, columnPosition);
+        IndexedDataMap indexedDataMap = indexService.getIndexedDataFor(tableInfo.getTableName(), tableSchema, columnPosition);
         rowIds = indexedDataMap.getRowIdsForCondition(where);
     }
 
     public void removeTuples() {
-        IndexService.getInstance().deleteTuplesFromTable(tableInfo.getTableName(), rowIds);
+        indexService.deleteTuplesFromTable(tableInfo, rowIds);
     }
 
-    public void updateValueOfToForTuples(List<Column> columns, List<Expression> expressions) {
-        final Iterator<Column> columnIterator = columns.iterator();
-        final Iterator<Expression> expressionIterator = expressions.iterator();
-        Expression expression;
-        Column column;
+    public void updateValueOfToForTuples(Column column, Expression expression) {
+        final Integer columnPosition = SchemaUtils.getColumnIndexInColDefn(tableInfo.getColumnDefinitions(), column.getColumnName());
 
-        while (columnIterator.hasNext()) {
-            column = columnIterator.next();
-            expression = expressionIterator.next();
+        final StringValueExtractor stringValueExtractor = new StringValueExtractor();
+        expression.accept(stringValueExtractor);
+        String newValue = stringValueExtractor.getValue();
 
-            final Integer columnPosition = SchemaUtils.getColumnIndexInColDefn(tableInfo.getColumnDefinitions(), column.getColumnName());
-
-            final StringValueExtractor stringValueExtractor = new StringValueExtractor();
-            expression.accept(stringValueExtractor);
-            String newValue = stringValueExtractor.getValue();
-
-            replaceForAllTuplesCellAtPositionWith(columnPosition, newValue);
-        }
+        Map<Long, String> updatedTuples = getTuplesToBeReplacedForAllTuplesCellAtPositionWith(columnPosition, newValue);
+        indexService.updateTuples(tableInfo, updatedTuples);
 
     }
 
-    private void replaceForAllTuplesCellAtPositionWith(Integer columnPosition, String newValue) {
-        final PrimaryStoreMap<Long, String> primaryStoreMap = IndexService.getInstance().getPrimaryStoreMap(tableInfo.getTableName());
+    private Map<Long, String> getTuplesToBeReplacedForAllTuplesCellAtPositionWith(Integer columnPosition, String newValue) {
+        final PrimaryStoreMap<Long, String> primaryStoreMap = indexService.getPrimaryStoreMap(tableInfo.getTableName());
+        Map<Long, String> updatedTuples = new HashMap<>();
+
         String[] cells;
         String updatedTuple;
 
         for (Long rowId : rowIds) {
             cells = getUpdateCellValuesForTupleWithId(columnPosition, newValue, primaryStoreMap, rowId);
             updatedTuple = createUpdatedTuple(cells);
-            primaryStoreMap.put(rowId, updatedTuple);
+            updatedTuples.put(rowId, updatedTuple);
         }
+        return updatedTuples;
     }
 
     private String createUpdatedTuple(String[] cells) {

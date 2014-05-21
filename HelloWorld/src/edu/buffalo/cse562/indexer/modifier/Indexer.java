@@ -51,7 +51,7 @@ public abstract class Indexer {
         };
     }
 
-    protected void registerSecondaryIndexes(PrimaryStoreMap<Long, String> storeMap, ColumnSchema[] schema, Collection<Integer> indexPositions) {
+    public void registerSecondaryIndexes(PrimaryStoreMap<Long, String> storeMap, ColumnSchema[] schema, Collection<Integer> indexPositions) {
         final Iterator<Integer> iterator = indexPositions.iterator();
         Integer position;
 

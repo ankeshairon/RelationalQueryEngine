@@ -1,7 +1,6 @@
 package edu.buffalo.cse562;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
@@ -83,7 +82,6 @@ public class QueriesTestCheckpoint4 extends MainTest {
         testForExpectedData(query);
     }
 
-    @Ignore
     @Test
     public void testCheckpoint4Query5() throws Exception {
         query = "query05";
@@ -91,7 +89,6 @@ public class QueriesTestCheckpoint4 extends MainTest {
         testForExpectedData(query);
     }
 
-    @Ignore
     @Test
     public void testCheckpoint4Query6() throws Exception {
         query = "query06";

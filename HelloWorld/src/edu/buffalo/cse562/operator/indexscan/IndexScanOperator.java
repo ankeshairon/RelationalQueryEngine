@@ -40,11 +40,11 @@ public class IndexScanOperator implements Operator {
         }
 
         Long rowId = keyListIterator.next();
-        while (!storeMap.containsKey(rowId)) {
-            if (keyListIterator.hasNext()) {
-                rowId = keyListIterator.next();
-            }
-        }
+//        while (!storeMap.containsKey(rowId)) {
+//            if (keyListIterator.hasNext()) {
+//                rowId = keyListIterator.next();
+//            }
+//        }
 
         if (relevantColumnIndexes != null) {
             return getDatumsForRelevantColumnPositions(

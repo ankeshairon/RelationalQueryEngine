@@ -10,6 +10,7 @@ import jdbm.SecondaryTreeMap;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static edu.buffalo.cse562.schema.SchemaUtils.createSchemaFromTableInfo;
 
@@ -68,10 +69,7 @@ public class IndexService extends Indexer {
         storeMap.putValue(tuple);
     }*/
     public void addTuplesToTable(TableInfo tableInfo, List<String> tuples) {
-        final PrimaryStoreMap<Long, String> storeMap = getPrimaryStoreMap(tableInfo.getTableName());
-        ColumnSchema[] schema = createSchemaFromTableInfo(tableInfo);
-
-        registerSecondaryIndexes(storeMap, schema, tableInfo.getIndexesForAllColumnDefinitions());
+        final PrimaryStoreMap<Long, String> storeMap = registerSecondaryMapsAndGetPrimaryMap(tableInfo);
 
         for (String tuple : tuples) {
             storeMap.putValue(tuple);
@@ -86,11 +84,29 @@ public class IndexService extends Indexer {
         final PrimaryStoreMap<Long, String> storeMap = getPrimaryStoreMap(tableName);
         storeMap.remove(rowId);
     }*/
-    public void deleteTuplesFromTable(String tableName, List<Long> rowIds) {
-        final PrimaryStoreMap<Long, String> storeMap = getPrimaryStoreMap(tableName);
+    public void deleteTuplesFromTable(TableInfo tableInfo, List<Long> rowIds) {
+        final PrimaryStoreMap<Long, String> storeMap = registerSecondaryMapsAndGetPrimaryMap(tableInfo);
+
         for (Long rowId : rowIds) {
             storeMap.remove(rowId);
         }
+    }
+
+    public void updateTuples(TableInfo tableInfo, Map<Long, String> updatedTuples) {
+        final PrimaryStoreMap<Long, String> storeMap = registerSecondaryMapsAndGetPrimaryMap(tableInfo);
+
+        for (Map.Entry<Long, String> updatedTuple : updatedTuples.entrySet()) {
+            storeMap.put(updatedTuple.getKey(), updatedTuple.getValue());
+        }
+
+    }
+
+    private PrimaryStoreMap<Long, String> registerSecondaryMapsAndGetPrimaryMap(TableInfo tableInfo) {
+        final PrimaryStoreMap<Long, String> storeMap = getPrimaryStoreMap(tableInfo.getTableName());
+        ColumnSchema[] schema = createSchemaFromTableInfo(tableInfo);
+
+        registerSecondaryIndexes(storeMap, schema, tableInfo.getIndexesForAllColumnDefinitions());
+        return storeMap;
     }
 
     @Override
