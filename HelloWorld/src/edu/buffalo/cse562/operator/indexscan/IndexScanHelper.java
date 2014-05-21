@@ -5,20 +5,19 @@ import edu.buffalo.cse562.indexer.service.IndexedDataMap;
 import edu.buffalo.cse562.schema.ColumnSchema;
 import edu.buffalo.cse562.schema.SchemaUtils;
 import jdbm.PrimaryStoreMap;
-import net.sf.jsqlparser.expression.BinaryExpression;
 import net.sf.jsqlparser.expression.Expression;
-import net.sf.jsqlparser.schema.Column;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class IndexScanHelper {
-    private IndexService indexService;
-    private List<Long> filteredRowIds;
+import static edu.buffalo.cse562.utils.ExpressionUtils.getColumnName;
 
+public class IndexScanHelper {
     private final List<Expression> conditions;
     private final ColumnSchema[] schema;
+    private IndexService indexService;
+    private List<Long> filteredRowIds;
 
     public IndexScanHelper(ColumnSchema[] schema, List<Expression> conditions) {
         indexService = IndexService.getInstance();
@@ -34,6 +33,7 @@ public class IndexScanHelper {
         if (iterator.hasNext()) {
             filteredRowIds = iterator.next();
         } else {
+            filteredRowIds = new ArrayList<>();
             return;
         }
 
@@ -70,26 +70,9 @@ public class IndexScanHelper {
         return indexedDataMap.getRowIdsForCondition(condition);
     }
 
-
-    private String getColumnName(Expression expression) {
-        if (expression instanceof Column) {
-            return ((Column) expression).getColumnName();
-        } else if (expression instanceof BinaryExpression) {
-            final BinaryExpression binaryExpression = (BinaryExpression) expression;
-            if (binaryExpression.getLeftExpression() instanceof Column) {
-                return getColumnName(binaryExpression.getLeftExpression());
-            } else {
-                return getColumnName(binaryExpression.getRightExpression());
-            }
-        } else {
-            throw new UnsupportedOperationException("Unable to find column name in expression");
-        }
-    }
-
     public List<Long> getFilteredRowIds() {
         return filteredRowIds;
     }
-
 
     public PrimaryStoreMap<Long, String> getStoreMap() {
         return indexService.getPrimaryStoreMap(schema[0].getTblName());

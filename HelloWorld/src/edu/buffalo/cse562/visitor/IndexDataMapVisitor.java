@@ -7,6 +7,7 @@ import edu.buffalo.cse562.data.STRING;
 import jdbm.SecondaryTreeMap;
 import jdbm.btree.BTreeSecondarySortedMap;
 import net.sf.jsqlparser.expression.*;
+import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
 import net.sf.jsqlparser.expression.operators.relational.*;
 import net.sf.jsqlparser.schema.Column;
 
@@ -21,7 +22,8 @@ public class IndexDataMapVisitor extends AbstractExpressionVisitor {
     private String colName;
 
     private List<Long> rowIds;
-    private Datum key;
+    private Datum key1;
+    private Datum key2;
 
     public IndexDataMapVisitor(SecondaryTreeMap<Datum, Long, String> secondaryMap, String colName) {
         this.secondaryMap = (BTreeSecondarySortedMap<Datum, Long, String>) secondaryMap;
@@ -31,7 +33,7 @@ public class IndexDataMapVisitor extends AbstractExpressionVisitor {
     @Override
     public void visit(Function arg0) {
         if (arg0.getName().equalsIgnoreCase("date")) {
-            ((Expression)arg0.getParameters().getExpressions().get(0)).accept(this);
+            ((Expression) arg0.getParameters().getExpressions().get(0)).accept(this);
         } else {
             throw new UnsupportedOperationException(arg0.getName() + " function not supported");
         }
@@ -39,29 +41,39 @@ public class IndexDataMapVisitor extends AbstractExpressionVisitor {
 
     @Override
     public void visit(DoubleValue arg0) {
-        key = new DOUBLE(arg0.getValue());
+        saveKeyValue(new DOUBLE(arg0.getValue()));
     }
 
     @Override
     public void visit(LongValue arg0) {
-        key = new LONG(arg0.getValue());
+        saveKeyValue(new LONG(arg0.getValue()));
     }
 
     @Override
     public void visit(DateValue arg0) {
-        key = new STRING(arg0.toString());
+        saveKeyValue(new STRING(arg0.toString()));
     }
 
     @Override
     public void visit(StringValue arg0) {
-        key = new STRING(arg0.getValue());
+        saveKeyValue(new STRING(arg0.getValue()));
+    }
+
+    @Override
+    public void visit(AndExpression arg0) {
+        arg0.getLeftExpression().accept(this);
+        List<Long> rowIds1 = rowIds;
+        rowIds = null;
+
+        arg0.getRightExpression().accept(this);
+        rowIds.retainAll(rowIds1);
     }
 
     @Override
     public void visit(EqualsTo arg0) {
         populateColumnAndKey(arg0);
 
-        rowIds = (ArrayList<Long>) secondaryMap.get(key);
+        rowIds = (ArrayList<Long>) secondaryMap.get(key1);
     }
 
     @Override
@@ -76,18 +88,6 @@ public class IndexDataMapVisitor extends AbstractExpressionVisitor {
         addRowIdsGreaterThanKey(true);
     }
 
-    private void addRowIdsGreaterThanKey(boolean isInclusive) {
-        final SortedMap<Datum, Iterable<Long>> submap = secondaryMap.tailMap(key); //keys are greater than OR EQUAL
-        final Iterator<Datum> iterator = submap.keySet().iterator();
-
-        if (!isInclusive) {
-            if (iterator.hasNext()) {
-                iterator.next();    //skip the first element
-            }
-        }
-        addAllElementsFromSubmap(submap, iterator);
-    }
-
     @Override
     public void visit(MinorThan arg0) {
         populateColumnAndKey(arg0);
@@ -100,20 +100,6 @@ public class IndexDataMapVisitor extends AbstractExpressionVisitor {
         addRowIdsLesserThanKey(true);
     }
 
-    private void addRowIdsLesserThanKey(boolean isInclusive) {
-        final SortedMap<Datum, Iterable<Long>> submap = secondaryMap.headMap(key); //keys are STRICTLY LESS THAN
-        final Iterator<Datum> iterator = submap.keySet().iterator();
-
-        addAllElementsFromSubmap(submap, iterator);
-
-        if (isInclusive) {
-            final Iterable<Long> rowIds = secondaryMap.get(key);
-            if (rowIds != null) {
-                this.rowIds.addAll((List<Long>) rowIds);
-            }
-        }
-    }
-
     @Override
     public void visit(NotEqualsTo arg0) {
         populateColumnAndKey(arg0);
@@ -124,8 +110,56 @@ public class IndexDataMapVisitor extends AbstractExpressionVisitor {
 
         while (iterator.hasNext()) {
             iteratorKey = iterator.next();
-            if (!iteratorKey.equals(key)) {
+            if (!iteratorKey.equals(key1)) {
                 rowIds.addAll((List<Long>) secondaryMap.get(iteratorKey));
+            }
+        }
+    }
+
+    @Override
+    public void visit(Column arg0) {
+//        try {
+        assert (arg0.getColumnName().equalsIgnoreCase(colName));
+//        } catch (AssertionError e) {
+//            e.printStackTrace();
+//        }
+    }
+
+    private void saveKeyValue(Datum key) {
+//        if (key1 == null) {
+//            key1 = key;
+//        } else {
+//            if (key1.compareTo(key) <= 0) {
+//                key2 = key;
+//            } else {
+//                key2 = key1;
+        key1 = key;
+//            }
+//        }
+    }
+
+    private void addRowIdsGreaterThanKey(boolean isInclusive) {
+        final SortedMap<Datum, Iterable<Long>> submap = secondaryMap.tailMap(key1); //keys are greater than OR EQUAL
+        final Iterator<Datum> iterator = submap.keySet().iterator();
+
+        if (!isInclusive) {
+            if (iterator.hasNext()) {
+                iterator.next();    //skip the first element
+            }
+        }
+        addAllElementsFromSubmap(submap, iterator);
+    }
+
+    private void addRowIdsLesserThanKey(boolean isInclusive) {
+        final SortedMap<Datum, Iterable<Long>> submap = secondaryMap.headMap(key1); //keys are STRICTLY LESS THAN
+        final Iterator<Datum> iterator = submap.keySet().iterator();
+
+        addAllElementsFromSubmap(submap, iterator);
+
+        if (isInclusive) {
+            final Iterable<Long> rowIds = secondaryMap.get(key1);
+            if (rowIds != null) {
+                this.rowIds.addAll((List<Long>) rowIds);
             }
         }
     }
@@ -135,15 +169,6 @@ public class IndexDataMapVisitor extends AbstractExpressionVisitor {
         while (keySetIterator.hasNext()) {
             rowIds.addAll((List<Long>) submap.get(keySetIterator.next()));
         }
-    }
-
-    @Override
-    public void visit(Column arg0) {
-//        try {
-            assert (arg0.getColumnName().equals(colName));
-//        } catch (AssertionError e) {
-//            e.printStackTrace();
-//        }
     }
 
     public void populateColumnAndKey(BinaryExpression binaryExpression) {

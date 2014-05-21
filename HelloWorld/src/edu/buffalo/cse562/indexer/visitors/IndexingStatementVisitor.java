@@ -37,32 +37,26 @@ public class IndexingStatementVisitor implements StatementVisitor, SelectVisitor
 
     @Override
     public void visit(Delete delete) {
-
     }
 
     @Override
     public void visit(Update update) {
-
     }
 
     @Override
     public void visit(Insert insert) {
-
     }
 
     @Override
     public void visit(Replace replace) {
-
     }
 
     @Override
     public void visit(Drop drop) {
-
     }
 
     @Override
     public void visit(Truncate truncate) {
-
     }
 
     @Override
@@ -115,7 +109,6 @@ public class IndexingStatementVisitor implements StatementVisitor, SelectVisitor
 
     @Override
     public void visit(Union union) {
-
     }
 
     @Override
@@ -133,6 +126,5 @@ public class IndexingStatementVisitor implements StatementVisitor, SelectVisitor
 
     @Override
     public void visit(SubJoin subjoin) {
-
     }
 }

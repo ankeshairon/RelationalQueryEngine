@@ -13,15 +13,26 @@ public class View {
         }
 
         Datum[] row = source.readOneTuple();
+        StringBuilder collectedTuples;
+        StringBuilder tupleBuilder;
+//        int counter = 0;
+
+//        while (row != null) {
+        collectedTuples = new StringBuilder();
+
+//            while (row != null && counter != 1000) {
         while (row != null) {
-            StringBuilder result = new StringBuilder();
+            tupleBuilder = new StringBuilder();
             for (Datum col : row) {
-                result.append(DELIMITER).append(col.toSTRING());
+                tupleBuilder.append(DELIMITER).append(col.toSTRING());
             }
-
-            System.out.println(result.substring(1, result.length()));
+            collectedTuples.append(tupleBuilder.substring(1)).append("\n");
             row = source.readOneTuple();
+//                ++counter;
+//            }
+//            System.out.println(collectedTuples.toString());
+//            counter = 0;
         }
-
+        System.out.println(collectedTuples.toString());
     }
 }

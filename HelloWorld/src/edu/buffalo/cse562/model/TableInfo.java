@@ -2,14 +2,16 @@ package edu.buffalo.cse562.model;
 
 import net.sf.jsqlparser.statement.create.table.ColumnDefinition;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TableInfo {
-    protected String tableName;
-    private String alias;
-    private final Long size;
+
     protected final List<ColumnDefinition> columnDefinitions;
+    private final Long size;
+    protected String tableName;
     protected List<Integer> columnIndexesUsed;
+    private String alias;
 
     public TableInfo(String tableName, List<ColumnDefinition> columnDefinitions, Long size) {
         this.tableName = tableName.toLowerCase();
@@ -57,6 +59,14 @@ public class TableInfo {
         }
 
         return (alias != null) && alias.equals(that.alias);
+    }
+
+    public List<Integer> getIndexesForAllColumnDefinitions() {
+        List<Integer> indexesForAllColumnDefinitions = new ArrayList<>();
+        for (int i = 0; i < columnDefinitions.size(); i++) {
+            indexesForAllColumnDefinitions.add(i);
+        }
+        return indexesForAllColumnDefinitions;
     }
 }
 

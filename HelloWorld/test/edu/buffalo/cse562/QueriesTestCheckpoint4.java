@@ -1,6 +1,7 @@
 package edu.buffalo.cse562;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
@@ -40,11 +41,11 @@ import static org.junit.Assert.assertEquals;
 public class QueriesTestCheckpoint4 extends MainTest {
 
 
-    private String query;
     public final static String dataDirPath = "resources/normal/data_files";
     public final static String sqlDirPath = "resources/sql_query/";
     public final static String indexDirPath = "index";
     private final static String expectedDataFolderPath = "resources/normal/expected/";
+    private String query;
 
     @Override
     @Before
@@ -82,6 +83,7 @@ public class QueriesTestCheckpoint4 extends MainTest {
         testForExpectedData(query);
     }
 
+    @Ignore
     @Test
     public void testCheckpoint4Query5() throws Exception {
         query = "query05";
@@ -89,6 +91,7 @@ public class QueriesTestCheckpoint4 extends MainTest {
         testForExpectedData(query);
     }
 
+    @Ignore
     @Test
     public void testCheckpoint4Query6() throws Exception {
         query = "query06";

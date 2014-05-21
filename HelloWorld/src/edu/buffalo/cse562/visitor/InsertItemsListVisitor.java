@@ -1,20 +1,19 @@
 package edu.buffalo.cse562.visitor;
 
-import edu.buffalo.cse562.indexer.service.IndexService;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.operators.relational.ExpressionList;
 import net.sf.jsqlparser.expression.operators.relational.ItemsListVisitor;
-import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.select.SubSelect;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class InsertItemsListVisitor implements ItemsListVisitor {
-    Table table;
+    List<String> newTuples;
 
-    public InsertItemsListVisitor(Table table) {
-        this.table = table;
+    public InsertItemsListVisitor() {
+        newTuples = new ArrayList<>();
     }
 
     @Override
@@ -25,15 +24,19 @@ public class InsertItemsListVisitor implements ItemsListVisitor {
     @Override
     public void visit(ExpressionList expressionList) {
         List<Expression> expressions = expressionList.getExpressions();
-        InsertItemVisitor insertItemVisitor = new InsertItemVisitor();
+        StringValueExtractor stringValueExtractor = new StringValueExtractor();
         StringBuilder sb = new StringBuilder();
         String value;
 
         for (Expression expression : expressions) {
-            expression.accept(insertItemVisitor);
-            value = insertItemVisitor.getKey();
+            expression.accept(stringValueExtractor);
+            value = stringValueExtractor.getValue();
             sb.append("|").append(value);
         }
-        IndexService.getInstance().addTupleToTable(table.getName(), sb.substring(1, sb.length()));
+        newTuples.add(sb.substring(1));
+    }
+
+    public List<String> getNewTuples() {
+        return newTuples;
     }
 }

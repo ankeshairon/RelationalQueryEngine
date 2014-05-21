@@ -7,6 +7,8 @@ import jdbm.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Iterator;
 
 import static edu.buffalo.cse562.data.DatumUtils.getDatumOfTypeFromValue;
 import static edu.buffalo.cse562.indexer.constants.IndexingConstants.RECORD_MANAGER_NAME;
@@ -47,6 +49,16 @@ public abstract class Indexer {
                 return getDatumOfTypeFromValue(columnSchema.getType(), cellValue);
             }
         };
+    }
+
+    protected void registerSecondaryIndexes(PrimaryStoreMap<Long, String> storeMap, ColumnSchema[] schema, Collection<Integer> indexPositions) {
+        final Iterator<Integer> iterator = indexPositions.iterator();
+        Integer position;
+
+        while (iterator.hasNext()) {
+            position = iterator.next();
+            getSecondaryMap(storeMap, schema, position);
+        }
     }
 
     public void commit() {

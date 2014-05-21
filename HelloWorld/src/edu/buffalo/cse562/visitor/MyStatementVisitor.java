@@ -1,39 +1,38 @@
 package edu.buffalo.cse562.visitor;
 
 import edu.buffalo.cse562.model.TableInfo;
-import edu.buffalo.cse562.operator.DeleteItem;
 import edu.buffalo.cse562.operator.Operator;
+import edu.buffalo.cse562.operator.TupleUpdater;
 import edu.buffalo.cse562.visitor.optimizer.ScanOptimizer;
-import net.sf.jsqlparser.expression.operators.relational.ItemsList;
 import net.sf.jsqlparser.schema.Table;
-import net.sf.jsqlparser.statement.StatementVisitor;
 import net.sf.jsqlparser.statement.create.table.CreateTable;
 import net.sf.jsqlparser.statement.delete.Delete;
-import net.sf.jsqlparser.statement.drop.Drop;
 import net.sf.jsqlparser.statement.insert.Insert;
-import net.sf.jsqlparser.statement.replace.Replace;
 import net.sf.jsqlparser.statement.select.Select;
-import net.sf.jsqlparser.statement.truncate.Truncate;
 import net.sf.jsqlparser.statement.update.Update;
 
 import java.io.File;
 import java.util.HashMap;
 
-public class MyStatementVisitor implements StatementVisitor {
+public class MyStatementVisitor extends AbstractStatementVisitor {
 
-    private final File dataDir;
-    private File swapDir;
     private final HashMap<String, TableInfo> tablesInfo;
+    private final File dataDir;
     public Operator source;
+    private File swapDir;
+
+    private BatchInsertVisitor batchInsertVisitor;
 
     public MyStatementVisitor(File dataDir, File swapDir) {
         this.dataDir = dataDir;
         this.swapDir = swapDir;
         tablesInfo = new HashMap<>();
+        batchInsertVisitor = new BatchInsertVisitor(tablesInfo);
     }
 
     @Override
     public void visit(Select statement) {
+        batchInsertVisitor.finishPendingOperations();
         if (tablesInfo.size() != 0) {
             new ScanOptimizer(tablesInfo, statement).populateRelevantColumnIndexes();
         } else {
@@ -47,35 +46,21 @@ public class MyStatementVisitor implements StatementVisitor {
 
     @Override
     public void visit(Delete arg0) {
-    	DeleteItem delItem = new DeleteItem(arg0,tablesInfo.get(arg0.getTable().toString()));
-    	delItem.remove();
+        final String tableName = arg0.getTable().toString().toLowerCase();
+        TupleUpdater tupleUpdater = new TupleUpdater(tablesInfo.get(tableName), arg0.getWhere());
+        tupleUpdater.removeTuples();
     }
 
     @Override
     public void visit(Update arg0) {
-        throw new UnsupportedOperationException("Update not supported yet");
+        final String tableName = arg0.getTable().toString().toLowerCase();
+        TupleUpdater tupleUpdater = new TupleUpdater(tablesInfo.get(tableName), arg0.getWhere());
+        tupleUpdater.updateValueOfToForTuples(arg0.getColumns(), arg0.getExpressions());
     }
 
     @Override
-    public void visit(Insert arg0) {
-        InsertItemsListVisitor itemsListVisitor = new InsertItemsListVisitor(arg0.getTable());
-        ItemsList itemsList = arg0.getItemsList();
-        itemsList.accept(itemsListVisitor);
-    }
-
-    @Override
-    public void visit(Replace arg0) {
-        throw new UnsupportedOperationException("Replace not supported");
-    }
-
-    @Override
-    public void visit(Drop arg0) {
-        throw new UnsupportedOperationException("Drop not supported");
-    }
-
-    @Override
-    public void visit(Truncate arg0) {
-        throw new UnsupportedOperationException("Truncate not supported");
+    public void visit(Insert insert) {
+        batchInsertVisitor.addInsertItem(insert);
     }
 
     @Override

@@ -2,6 +2,7 @@ package edu.buffalo.cse562.indexer.service;
 
 import edu.buffalo.cse562.data.Datum;
 import edu.buffalo.cse562.indexer.modifier.Indexer;
+import edu.buffalo.cse562.model.TableInfo;
 import edu.buffalo.cse562.schema.ColumnSchema;
 import jdbm.PrimaryStoreMap;
 import jdbm.SecondaryTreeMap;
@@ -10,6 +11,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import static edu.buffalo.cse562.schema.SchemaUtils.createSchemaFromTableInfo;
+
+//todo deprecate all single tuple operations
+//todo in batch operations register all secondary indexes once before batch operation
+
 /**
  * This class interacts directly with PrimaryStoreMap & has methods not requiring any column names (SecondaryIndexes)
  */
@@ -17,10 +23,21 @@ public class IndexService extends Indexer {
 
     private static IndexService indexService;
 
+    private IndexService(File indexDir) {
+        super(indexDir);
+    }
+
     //use this to get an object.. This has been instantiated once at the beginning of execution & will always give a valid object inside the program
     public static IndexService getInstance() {
         if (indexService == null) {
             throw new RuntimeException("Index service never instantiated!");
+        }
+        return indexService;
+    }
+
+    public static IndexService instantiate(File indexDir) {
+        if (indexService == null) {
+            indexService = new IndexService(indexDir);
         }
         return indexService;
     }
@@ -45,13 +62,17 @@ public class IndexService extends Indexer {
     /**
      * For better efficiency use ->  addTuplesToTable(String tableName, List<String> tuples)
      */
-    public void addTupleToTable(String tableName, String tuple) {
+    //NOT TO BE USED.. requires extracting secondary index maps for every tuple
+   /* public void addTupleToTable(String tableName, String tuple) {
         final PrimaryStoreMap<Long, String> storeMap = getPrimaryStoreMap(tableName.toLowerCase());
         storeMap.putValue(tuple);
-    }
+    }*/
+    public void addTuplesToTable(TableInfo tableInfo, List<String> tuples) {
+        final PrimaryStoreMap<Long, String> storeMap = getPrimaryStoreMap(tableInfo.getTableName());
+        ColumnSchema[] schema = createSchemaFromTableInfo(tableInfo);
 
-    public void addTuplesToTable(String tableName, List<String> tuples) {
-        final PrimaryStoreMap<Long, String> storeMap = getPrimaryStoreMap(tableName);
+        registerSecondaryIndexes(storeMap, schema, tableInfo.getIndexesForAllColumnDefinitions());
+
         for (String tuple : tuples) {
             storeMap.putValue(tuple);
         }
@@ -60,11 +81,11 @@ public class IndexService extends Indexer {
     /**
      * For better efficiency use ->  deleteTuplesFromTable(String tableName, List<Long> rowIds)
      */
-    public void deleteTupleFromTable(String tableName, Long rowId) {
+    //NOT TO BE USED.. requires extracting secondary index maps for every tuple
+    /*public void deleteTupleFromTable(String tableName, Long rowId) {
         final PrimaryStoreMap<Long, String> storeMap = getPrimaryStoreMap(tableName);
         storeMap.remove(rowId);
-    }
-
+    }*/
     public void deleteTuplesFromTable(String tableName, List<Long> rowIds) {
         final PrimaryStoreMap<Long, String> storeMap = getPrimaryStoreMap(tableName);
         for (Long rowId : rowIds) {
@@ -72,14 +93,9 @@ public class IndexService extends Indexer {
         }
     }
 
-    public static IndexService instantiate(File indexDir) {
-        if (indexService == null) {
-            indexService = new IndexService(indexDir);
-        }
-        return indexService;
-    }
-
-    private IndexService(File indexDir) {
-        super(indexDir);
+    @Override
+    public void close() {
+        super.close();
+        indexService = null;
     }
 }

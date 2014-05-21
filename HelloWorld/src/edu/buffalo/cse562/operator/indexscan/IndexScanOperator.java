@@ -39,16 +39,39 @@ public class IndexScanOperator implements Operator {
             return null;
         }
 
+        Long rowId = keyListIterator.next();
+        while (!storeMap.containsKey(rowId)) {
+            if (keyListIterator.hasNext()) {
+                rowId = keyListIterator.next();
+            }
+        }
+
         if (relevantColumnIndexes != null) {
             return getDatumsForRelevantColumnPositions(
-                    storeMap.get(keyListIterator.next()),
+                    storeMap.get(rowId),
                     relevantColumnIndexes,
                     schema);
+
         } else {
             return getDatumsForAllColumnPositions(
-                    storeMap.get(keyListIterator.next()),
+                    storeMap.get(rowId),
                     schema);
         }
+    }
+
+    @Override
+    public void reset() {
+        keyListIterator = keyList.listIterator();
+    }
+
+    @Override
+    public ColumnSchema[] getSchema() {
+        return schema;
+    }
+
+    @Override
+    public Long getProbableTableSize() {
+        return (long) (keyList.size() * 100);
     }
 
     public void setConditionsToFilterDataOn(List<Expression> conditions) {
@@ -74,20 +97,5 @@ public class IndexScanOperator implements Operator {
         } else {
             schema = createSchemaFromTableInfo(tableInfo);
         }
-    }
-
-    @Override
-    public void reset() {
-        keyListIterator = keyList.listIterator();
-    }
-
-    @Override
-    public ColumnSchema[] getSchema() {
-        return schema;
-    }
-
-    @Override
-    public Long getProbableTableSize() {
-        return (long) (keyList.size() * 100);
     }
 }
