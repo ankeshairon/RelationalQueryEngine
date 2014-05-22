@@ -25,9 +25,17 @@ public class IndexDataMapVisitor extends AbstractExpressionVisitor {
     private Datum key1;
     private Datum key2;
 
+    private Boolean isRangeLookup;
+    private Boolean isInclusive1;
+    private Boolean isInclusive2;
+
+    private int currentVariable;
+
     public IndexDataMapVisitor(SecondaryTreeMap<Datum, Long, String> secondaryMap, String colName) {
         this.secondaryMap = (BTreeSecondarySortedMap<Datum, Long, String>) secondaryMap;
         this.colName = colName;
+        isRangeLookup = false;
+        currentVariable = 0;
     }
 
     @Override
@@ -61,12 +69,33 @@ public class IndexDataMapVisitor extends AbstractExpressionVisitor {
 
     @Override
     public void visit(AndExpression arg0) {
-        arg0.getLeftExpression().accept(this);
-        List<Long> rowIds1 = rowIds;
-        rowIds = null;
+        isRangeLookup = true;
 
+        currentVariable = 1;
+        arg0.getLeftExpression().accept(this);
+
+        currentVariable = 2;
         arg0.getRightExpression().accept(this);
-        rowIds.retainAll(rowIds1);
+
+        if (key2.compareTo(key1) < 0) {
+            Boolean tempIsInclusive;
+            Datum tempKey;
+
+            tempKey = key2;
+            key2 = key1;
+            key1 = tempKey;
+
+            tempIsInclusive = isInclusive2;
+            isInclusive2 = isInclusive1;
+            isInclusive1 = tempIsInclusive;
+        }
+
+        final SortedMap<Datum, Iterable<Long>> submap = secondaryMap.subMap(key1, key2); //key1 inclusive key2 exclusive
+        final Iterator<Datum> iterator = submap.keySet().iterator();
+
+        skipFirstElementIfNotInclusive(isInclusive1, iterator);
+        addAllElementsFromSubmap(submap, iterator);
+        addLastElementIfIsInclusive(isInclusive2, key2);
     }
 
     @Override
@@ -126,41 +155,65 @@ public class IndexDataMapVisitor extends AbstractExpressionVisitor {
     }
 
     private void saveKeyValue(Datum key) {
-//        if (key1 == null) {
-//            key1 = key;
-//        } else {
-//            if (key1.compareTo(key) <= 0) {
-//                key2 = key;
-//            } else {
-//                key2 = key1;
-        key1 = key;
-//            }
-//        }
+        if (isRangeLookup) {
+            if (currentVariable == 1) {
+                key1 = key;
+            } else {
+                key2 = key;
+            }
+        } else {
+            key1 = key;
+        }
     }
 
     private void addRowIdsGreaterThanKey(boolean isInclusive) {
+        if (isRangeLookup) {
+            setIsInclusive(isInclusive);
+            return;
+        }
+
         final SortedMap<Datum, Iterable<Long>> submap = secondaryMap.tailMap(key1); //keys are greater than OR EQUAL
         final Iterator<Datum> iterator = submap.keySet().iterator();
 
+        skipFirstElementIfNotInclusive(isInclusive, iterator);
+        addAllElementsFromSubmap(submap, iterator);
+    }
+
+    private void skipFirstElementIfNotInclusive(boolean isInclusive, Iterator<Datum> iterator) {
         if (!isInclusive) {
             if (iterator.hasNext()) {
                 iterator.next();    //skip the first element
             }
         }
-        addAllElementsFromSubmap(submap, iterator);
     }
 
     private void addRowIdsLesserThanKey(boolean isInclusive) {
+        if (isRangeLookup) {
+            setIsInclusive(isInclusive);
+            return;
+        }
+
         final SortedMap<Datum, Iterable<Long>> submap = secondaryMap.headMap(key1); //keys are STRICTLY LESS THAN
         final Iterator<Datum> iterator = submap.keySet().iterator();
 
         addAllElementsFromSubmap(submap, iterator);
+        addLastElementIfIsInclusive(isInclusive, key1);
+    }
 
+    private void addLastElementIfIsInclusive(boolean isInclusive, Datum key) {
         if (isInclusive) {
-            final Iterable<Long> rowIds = secondaryMap.get(key1);
+            final Iterable<Long> rowIds = secondaryMap.get(key);
             if (rowIds != null) {
                 this.rowIds.addAll((List<Long>) rowIds);
             }
+        }
+    }
+
+    private void setIsInclusive(boolean isInclusive) {
+        if (currentVariable == 1) {
+            isInclusive1 = isInclusive;
+        } else {
+            isInclusive2 = isInclusive;
         }
     }
 

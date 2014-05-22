@@ -1,3 +1,5 @@
+- support range lookup in IndexDataMapVisitor
+- push range lookup conditions inside
 - INLJ
 
 
