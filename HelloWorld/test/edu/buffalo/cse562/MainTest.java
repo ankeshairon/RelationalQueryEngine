@@ -79,13 +79,14 @@ public class MainTest {
     }
 
     protected String[] getArgsForBuildPhaseOfCheckpoint4(String dataFileDirPath, String sqlFileDirPath) {
-        return new String[]{"--data", dataFileDirPath, "sqlFiles/tpch_schemas.sql",
+        return new String[]{"--data", dataFileDirPath, "sqlFiles/tpch_schemas.sql", "--swap", "swap", "--index", "index", "--build"};
+        /*return new String[]{"--data", dataFileDirPath, "sqlFiles/tpch_schemas.sql",
                 sqlFileDirPath + "/query01.sql",
                 sqlFileDirPath + "/query02.sql",
                 sqlFileDirPath + "/query03.sql",
                 sqlFileDirPath + "/query04.sql",
                 sqlFileDirPath + "/query05.sql",
-                sqlFileDirPath + "/query06.sql", "--swap", "swap", "--index", "index", "--build"};
+                sqlFileDirPath + "/query06.sql", "--swap", "swap", "--index", "index", "--build"};*/
     }
 
     protected void cleanDir(File dir) {

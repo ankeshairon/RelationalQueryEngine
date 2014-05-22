@@ -1,6 +1,7 @@
 package edu.buffalo.cse562;
 
 import edu.buffalo.cse562.indexer.IndexBuilder;
+import edu.buffalo.cse562.indexer.constants.IndexingConstants;
 import edu.buffalo.cse562.indexer.service.IndexService;
 import edu.buffalo.cse562.indexer.visitors.IndexingStatementVisitor;
 import edu.buffalo.cse562.visitor.MyStatementVisitor;
@@ -45,6 +46,7 @@ public class Main {
 
         if (isBuildPhase) {
             IndexingStatementVisitor visitor = new IndexingStatementVisitor();
+            sqlFiles.addAll(getQueryFiles());
             executeSqls(null, sqlFiles, visitor, indexDir);
             new IndexBuilder(visitor.getTableIndexingInfos(), dataDir, indexDir).createIndexes();
         } else {
@@ -91,14 +93,14 @@ public class Main {
         }
     }
 
-    /*private static List<File> getQueryFiles(File dataDir) {
-        final String pathname = "resources/sql/";
+    private static List<File> getQueryFiles() {
+        final String pathname = "resources/sql_query/";
         final List<File> filesToExecute = new ArrayList<>();
 
         for (String queryFileName : IndexingConstants.queries) {
             filesToExecute.add(new File(pathname + queryFileName));
         }
         return filesToExecute;
-    }*/
+    }
 
 }
