@@ -29,7 +29,7 @@ public class IndexCreator extends Indexer/* implements Runnable*/ {
             fileScanner = new FileScanner(dataDir, tableIndexingInfo);
             tableName = tableIndexingInfo.getTableName();
             storeMap = getPrimaryStoreMap(tableName);
-            registerSecondaryIndexes(storeMap, fileScanner.getSchema(), tableIndexingInfo.getIndexPositions(), tableName);
+            registerSecondaryIndexes(storeMap, fileScanner.getSchema(), tableIndexingInfo.getIndexesForAllColumnDefinitions(), tableName);
 
 //            int counter = 0;
             while ((line = fileScanner.readOneLine()) != null) {

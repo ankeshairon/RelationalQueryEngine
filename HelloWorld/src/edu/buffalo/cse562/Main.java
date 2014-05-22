@@ -46,7 +46,7 @@ public class Main {
 
         if (isBuildPhase) {
             IndexingStatementVisitor visitor = new IndexingStatementVisitor();
-            sqlFiles.addAll(getQueryFiles());
+//            sqlFiles.addAll(getQueryFiles());
             executeSqls(null, sqlFiles, visitor, indexDir);
             new IndexBuilder(visitor.getTableIndexingInfos(), dataDir, indexDir).createIndexes();
         } else {
