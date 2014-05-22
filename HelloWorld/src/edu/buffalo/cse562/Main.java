@@ -10,10 +10,7 @@ import net.sf.jsqlparser.parser.ParseException;
 import net.sf.jsqlparser.statement.Statement;
 import net.sf.jsqlparser.statement.StatementVisitor;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,15 +44,15 @@ public class Main {
         if (isBuildPhase) {
             IndexingStatementVisitor visitor = new IndexingStatementVisitor();
 //            sqlFiles.addAll(getQueryFiles());
-            executeSqls(null, sqlFiles, visitor, indexDir);
+            executeSqls(null, sqlFiles, visitor, indexDir, isBuildPhase);
             new IndexBuilder(visitor.getTableIndexingInfos(), dataDir, indexDir).createIndexes();
         } else {
             MyStatementVisitor myVisitor = new MyStatementVisitor(dataDir, swapDir);
-            executeSqls(swapDir, sqlFiles, myVisitor, indexDir);
+            executeSqls(swapDir, sqlFiles, myVisitor, indexDir, isBuildPhase);
         }
     }
 
-    public static void executeSqls(File swapDir, List<File> sqlFiles, StatementVisitor myVisitor, File indexDir) {
+    public static void executeSqls(File swapDir, List<File> sqlFiles, StatementVisitor visitor, File indexDir, Boolean isBuildPhase) {
         CCJSqlParser parser;
         Statement stmnt;
 
@@ -63,12 +60,9 @@ public class Main {
         for (File sqlFile : sqlFiles) {
             try (FileReader reader = new FileReader(sqlFile)) {
                 parser = new CCJSqlParser(reader);
-                while ((stmnt = parser.Statement()) != null) {
-                    stmnt.accept(myVisitor);
-                    if (myVisitor instanceof MyStatementVisitor) {
-                        View.dump(((MyStatementVisitor) myVisitor).source);
-//                        cleanDir(swapDir);
-                    }
+                executeParsedStatements(visitor, parser);
+                if (isBuildPhase) {
+                    parseQueriesForOptimization(visitor);
                 }
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -82,6 +76,23 @@ public class Main {
         IndexService.getInstance().close();
     }
 
+    private static void parseQueriesForOptimization(StatementVisitor visitor) throws ParseException {
+        InputStream queriesStream = new ByteArrayInputStream(IndexingConstants.queries.getBytes());
+        CCJSqlParser sqlParser = new CCJSqlParser(queriesStream);
+        executeParsedStatements(visitor, sqlParser);
+    }
+
+    private static void executeParsedStatements(StatementVisitor visitor, CCJSqlParser parser) throws ParseException {
+        Statement stmnt;
+        while ((stmnt = parser.Statement()) != null) {
+            stmnt.accept(visitor);
+            if (visitor instanceof MyStatementVisitor) {
+                View.dump(((MyStatementVisitor) visitor).source);
+//                        cleanDir(swapDir);
+            }
+        }
+    }
+
     private static void cleanDir(File dir) {
         String[] myFiles;
         if (dir != null && dir.isDirectory()) {
@@ -93,7 +104,7 @@ public class Main {
         }
     }
 
-    private static List<File> getQueryFiles() {
+   /* private static List<File> getQueryFiles() {
         final String pathname = "resources/sql_query/";
         final List<File> filesToExecute = new ArrayList<>();
 
@@ -102,5 +113,5 @@ public class Main {
         }
         return filesToExecute;
     }
-
+*/
 }
