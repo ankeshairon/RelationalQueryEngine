@@ -15,12 +15,9 @@ public class View {
         Datum[] row = source.readOneTuple();
         StringBuilder collectedTuples;
         StringBuilder tupleBuilder;
-//        int counter = 0;
 
-//        while (row != null) {
         collectedTuples = new StringBuilder();
 
-//            while (row != null && counter != 1000) {
         while (row != null) {
             tupleBuilder = new StringBuilder();
             for (Datum col : row) {
@@ -28,11 +25,9 @@ public class View {
             }
             collectedTuples.append("\n").append(tupleBuilder.substring(1));
             row = source.readOneTuple();
-//                ++counter;
-//            }
-//            System.out.println(collectedTuples.toString());
-//            counter = 0;
         }
-        System.out.println(collectedTuples.substring(1));
+        if (collectedTuples.length() > 0) {
+            System.out.println(collectedTuples.substring(1));
+        }
     }
 }
