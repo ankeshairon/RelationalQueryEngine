@@ -14,9 +14,6 @@ import java.util.Map;
 
 import static edu.buffalo.cse562.schema.SchemaUtils.createSchemaFromTableInfo;
 
-//todo deprecate all single tuple operations
-//todo in batch operations register all secondary indexes once before batch operation
-
 /**
  * This class interacts directly with PrimaryStoreMap & has methods not requiring any column names (SecondaryIndexes)
  */
@@ -50,7 +47,7 @@ public class IndexService extends Indexer {
     public IndexedDataMap getIndexedDataFor(String tableName, ColumnSchema[] schema, Integer columnPosition) {
 
         final PrimaryStoreMap<Long, String> storeMap = getPrimaryStoreMap(tableName);
-        final SecondaryTreeMap<Datum, Long, String> secondaryMap = getSecondaryMap(storeMap, schema, columnPosition);
+        final SecondaryTreeMap<Datum, Long, String> secondaryMap = getSecondaryMap(storeMap, schema, columnPosition, tableName);
 
         return new IndexedDataMap(secondaryMap, schema[columnPosition].getColName());
     }
@@ -105,7 +102,7 @@ public class IndexService extends Indexer {
         final PrimaryStoreMap<Long, String> storeMap = getPrimaryStoreMap(tableInfo.getTableName());
         ColumnSchema[] schema = createSchemaFromTableInfo(tableInfo);
 
-        registerSecondaryIndexes(storeMap, schema, tableInfo.getIndexesForAllColumnDefinitions());
+        registerSecondaryIndexes(storeMap, schema, tableInfo.getIndexesForAllColumnDefinitions(), tableInfo.getTableName());
         return storeMap;
     }
 

@@ -2,10 +2,14 @@ package edu.buffalo.cse562;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
 
@@ -37,14 +41,18 @@ import static org.junit.Assert.assertEquals;
  * - might have to add junit to your path if it's not done by IDE automatically
  */
 
+@RunWith(value = Parameterized.class)
 public class QueriesTestCheckpoint4 extends MainTest {
-
 
     public final static String dataDirPath = "resources/normal/data_files";
     public final static String sqlDirPath = "resources/sql_query/";
     public final static String indexDirPath = "index";
     private final static String expectedDataFolderPath = "resources/normal/expected/";
     private String query;
+
+    public QueriesTestCheckpoint4(String query) {
+        this.query = query;
+    }
 
     @Override
     @Before
@@ -56,12 +64,12 @@ public class QueriesTestCheckpoint4 extends MainTest {
 
     @Test
     public void testCheckpoint4Query1() throws Exception {
-        query = "query01";
+//        query = "query01";
         print(query);
         testForExpectedData(query);
     }
 
-    @Test
+   /* @Test
     public void testCheckpoint4Query2() throws Exception {
         query = "query02";
         print(query);
@@ -94,7 +102,7 @@ public class QueriesTestCheckpoint4 extends MainTest {
         query = "query06";
         print(query);
         testForExpectedData(query);
-    }
+    }*/
 
     private void testForExpectedData(String sqlFileName) throws Exception {
         String[] args = new String[]{"--data", dataDirPath, "sqlFiles/tpch_schemas.sql", sqlDirPath + sqlFileName + ".sql", "--swap", "resources/swap", "--index", indexDirPath};
@@ -116,6 +124,22 @@ public class QueriesTestCheckpoint4 extends MainTest {
         fis.read(data);
         fis.close();
         return new String(data, "UTF-8");
+    }
+
+    @Parameterized.Parameters
+    public static Collection<Object[]> data() {
+        Object[][] queries =
+                {
+                        {"query01"},            //   0
+                        {"query02"},            //   1
+                        {"query03"},            //   2
+                        {"query04"},            //   3
+                        {"query05"},            //   4
+                        {"query06"},            //   5
+                };
+
+        return Arrays.asList(queries);
+
     }
 
 }

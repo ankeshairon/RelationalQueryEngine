@@ -17,17 +17,19 @@ public class IndexCreator extends Indexer/* implements Runnable*/ {
         this.tableIndexingInfos = tableIndexingInfos;
     }
 
-//    @Override
+    //    @Override
     public void run() {
         PrimaryStoreMap<Long, String> storeMap;
         FileScanner fileScanner;
+        String tableName;
         String line;
 
         for (TableIndexingInfo tableIndexingInfo : tableIndexingInfos) {
 
             fileScanner = new FileScanner(dataDir, tableIndexingInfo);
-            storeMap = getPrimaryStoreMap(tableIndexingInfo.getTableName());
-            registerSecondaryIndexes(storeMap, fileScanner.getSchema(), tableIndexingInfo.getIndexPositions());
+            tableName = tableIndexingInfo.getTableName();
+            storeMap = getPrimaryStoreMap(tableName);
+            registerSecondaryIndexes(storeMap, fileScanner.getSchema(), tableIndexingInfo.getIndexPositions(), tableName);
 
 //            int counter = 0;
             while ((line = fileScanner.readOneLine()) != null) {

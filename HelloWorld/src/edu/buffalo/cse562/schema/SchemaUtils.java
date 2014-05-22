@@ -13,7 +13,8 @@ public class SchemaUtils {
                 return i;
             }
         }
-        throw new ArrayIndexOutOfBoundsException("Column Name " + columnName + " not found in schema");
+        return -1;
+//        throw new ArrayIndexOutOfBoundsException("Column Name " + columnName + " not found in schema");
     }
 
     public static Integer getColumnIndexInColSchema(ColumnSchema[] schema, String columnName) {

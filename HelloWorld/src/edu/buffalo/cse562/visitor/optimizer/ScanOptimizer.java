@@ -14,7 +14,7 @@ public class ScanOptimizer {
 
     public ScanOptimizer(HashMap<String, TableInfo> tablesInfo, Select statement) {
         this.tablesInfo = tablesInfo;
-        scanOptimizationVisitor = new ScanOptimizationVisitor(statement);
+        scanOptimizationVisitor = new ScanOptimizationVisitor(statement, tablesInfo);
     }
 
     public void populateRelevantColumnIndexes() {

@@ -1,6 +1,7 @@
 package edu.buffalo.cse562.visitor;
 
 import edu.buffalo.cse562.model.ColumnWrapper;
+import edu.buffalo.cse562.model.TableInfo;
 import net.sf.jsqlparser.expression.*;
 import net.sf.jsqlparser.expression.operators.arithmetic.*;
 import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
@@ -12,14 +13,19 @@ import net.sf.jsqlparser.statement.select.*;
 
 import java.util.*;
 
+import static edu.buffalo.cse562.schema.SchemaUtils.getColumnIndexInColDefn;
+
 public class ScanOptimizationVisitor implements OrderByVisitor, SelectItemVisitor, ExpressionVisitor, FromItemVisitor, SelectVisitor {
 
-    Map<String, Set<Column>> columnsToProject;
-    Map<String, String> aliasNameMap;
+    private HashMap<String, TableInfo> tablesInfo;
+
+    private Map<String, Set<Column>> columnsToProject;
+    private Map<String, String> aliasNameMap;
 
     private String singletonTableName;
 
-    public ScanOptimizationVisitor(Select statement) {
+    public ScanOptimizationVisitor(Select statement, HashMap<String, TableInfo> tablesInfo) {
+        this.tablesInfo = tablesInfo;
         columnsToProject = new HashMap<>();
         aliasNameMap = new HashMap<>();
         statement.getSelectBody().accept(this);
@@ -168,7 +174,11 @@ public class ScanOptimizationVisitor implements OrderByVisitor, SelectItemVisito
         String tableName = tableColumn.getTable().getName();
 
         if (tableName == null) {
-            tableName = singletonTableName;
+            if (singletonTableName != null) {
+                tableName = singletonTableName;
+            } else {
+                tableName = searchForColumnInKnownTables(tableColumn.getColumnName());
+            }
         }
         if (tableName != null) {
             Set<Column> columnSet = columnsToProject.get(tableName);
@@ -323,5 +333,16 @@ public class ScanOptimizationVisitor implements OrderByVisitor, SelectItemVisito
     private void visitBinaryExpression(BinaryExpression binaryExpression) {
         binaryExpression.getRightExpression().accept(this);
         binaryExpression.getLeftExpression().accept(this);
+    }
+
+    private String searchForColumnInKnownTables(String columnName) {
+        TableInfo tableInfo;
+        for (String tableName : columnsToProject.keySet()) {
+            tableInfo = tablesInfo.get(tableName.toLowerCase());
+            if (getColumnIndexInColDefn(tableInfo.getColumnDefinitions(), columnName) != -1) {
+                return tableName;
+            }
+        }
+        return null;
     }
 }
