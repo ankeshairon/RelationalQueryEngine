@@ -41,6 +41,14 @@ public class IndexingStatementVisitor implements StatementVisitor, SelectVisitor
 
     @Override
     public void visit(Update update) {
+        final String tableName = update.getTable().getName().toLowerCase();
+
+        final Set<Column> allColumns = new CrossToJoinOptimizer(update.getWhere()).getAllColumnsUsedInWhereClause();
+        allColumns.addAll(update.getColumns());
+
+        for (Column column : allColumns) {
+            tableIndexingInfos.get(tableName).addIndex(column);
+        }
     }
 
     @Override
