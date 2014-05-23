@@ -45,6 +45,11 @@ public class BOOL extends Datum {
     }
 
     @Override
+    public int customHash(int hashFactor) {
+        throw new UnsupportedOperationException("Custom hash not supported for BOOL");
+    }
+
+    @Override
     public String toSTRING() {
         return String.valueOf(b);
     }

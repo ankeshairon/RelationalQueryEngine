@@ -47,6 +47,11 @@ public class DATE extends Datum {
     }
 
     @Override
+    public int customHash(int hashFactor) {
+        return s.length() % hashFactor;
+    }
+
+    @Override
     public String toSTRING() {
         return s;
     }

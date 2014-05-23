@@ -1,4 +1,3 @@
-- INLJ
 -delay IndexScan tuple read until the tuple is actually read
 
 

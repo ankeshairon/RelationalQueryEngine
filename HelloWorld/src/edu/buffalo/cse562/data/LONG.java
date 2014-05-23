@@ -48,6 +48,11 @@ public class LONG extends Datum {
     }
 
     @Override
+    public int customHash(int hashFactor) {
+        return l.intValue() % hashFactor;
+    }
+
+    @Override
     public String toSTRING() {
         return Long.toString(l);
     }

@@ -1,7 +1,6 @@
 package edu.buffalo.cse562.operator.joins;
 
 import edu.buffalo.cse562.data.Datum;
-import edu.buffalo.cse562.data.Datum.CastException;
 import edu.buffalo.cse562.operator.abstractoperators.JoinOperator;
 import edu.buffalo.cse562.operator.abstractoperators.Operator;
 
@@ -25,13 +24,15 @@ public class InMemoryHashJoinOperator extends JoinOperator {
 
         HashMap<Integer, ArrayList<Datum[]>> build = new HashMap<>(401);
 
+        ArrayList<Datum[]> list;
         Datum[] outTpl;
+        int hashKey;
 
         //build phase
         Datum[] tuple;
         while ((tuple = R.readOneTuple()) != null) {
-            int hashKey = hashFunction(tuple[indexR], 401);
-            ArrayList<Datum[]> list = build.get(hashKey);
+            hashKey = tuple[indexR].customHash(401);
+            list = build.get(hashKey);
             if (list == null) {
                 list = new ArrayList<>();
             }
@@ -41,8 +42,8 @@ public class InMemoryHashJoinOperator extends JoinOperator {
 
         //probe phase
         while ((tuple = S.readOneTuple()) != null) {
-            int hashKey = hashFunction(tuple[indexS], 401);
-            ArrayList<Datum[]> list = build.get(hashKey);
+            hashKey = tuple[indexS].customHash(401);
+            list = build.get(hashKey);
             if (list == null)
                 continue;
             for (Datum[] tplR : list) {
@@ -55,24 +56,6 @@ public class InMemoryHashJoinOperator extends JoinOperator {
             }
         }
         reset();
-
-    }
-
-    public int hashFunction(Datum value, int size) {
-        try {
-            if (value.getType() == Datum.type.LONG) {
-                return value.toLONG().intValue() % size;
-            } else if (value.getType() == Datum.type.DOUBLE) {
-                return value.toDOUBLE().intValue() % size;
-            } else if (value.getType() == Datum.type.STRING ||
-                    value.getType() == Datum.type.DATE) {
-                return value.toSTRING().toString().length() % size;
-            }
-        } catch (CastException e) {
-            e.printStackTrace();
-        }
-
-        return 0;
     }
 
     @Override

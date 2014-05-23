@@ -46,6 +46,11 @@ public class DOUBLE extends Datum {
     }
 
     @Override
+    public int customHash(int hashFactor) {
+        return d.intValue() % hashFactor;
+    }
+
+    @Override
     public String toSTRING() {
         String format = null;
         try {

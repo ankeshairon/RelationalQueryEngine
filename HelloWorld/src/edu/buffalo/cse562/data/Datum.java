@@ -26,4 +26,6 @@ public abstract class Datum implements Comparable<Datum>, Externalizable {
     public abstract Double toDOUBLE() throws CastException;
 
     public abstract type getType();
+
+    public abstract int customHash(int hashFactor);
 }
