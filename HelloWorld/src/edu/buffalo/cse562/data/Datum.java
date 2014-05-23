@@ -2,7 +2,7 @@ package edu.buffalo.cse562.data;
 
 import java.io.Externalizable;
 
-public abstract class Datum implements Comparable, Externalizable {
+public abstract class Datum implements Comparable<Datum>, Externalizable {
 
     public static enum type {
         BOOL, LONG, DOUBLE, STRING, DATE

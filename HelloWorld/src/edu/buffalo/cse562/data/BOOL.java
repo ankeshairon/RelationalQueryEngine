@@ -50,7 +50,7 @@ public class BOOL extends Datum {
     }
 
     @Override
-    public int compareTo(Object o) {
+    public int compareTo(Datum o) {
         return b.compareTo(((BOOL) o).b);
     }
 

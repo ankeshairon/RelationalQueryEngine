@@ -52,7 +52,7 @@ public class DATE extends Datum {
     }
 
     @Override
-    public int compareTo(Object datum) {
+    public int compareTo(Datum datum) {
         return s.compareTo(((DATE) datum).s);
     }
 

@@ -40,11 +40,11 @@ public class FRACTION extends DOUBLE {
 
     @Override
     public String toSTRING() {
-        return decimalFormat.format(numerator/denominator);
+        return decimalFormat.format(numerator / denominator);
     }
 
     @Override
-    public int compareTo(Object o) {
+    public int compareTo(Datum o) {
         FRACTION that = (FRACTION) o;
         return ((Double) (numerator / denominator)).compareTo(that.numerator / that.denominator);
     }

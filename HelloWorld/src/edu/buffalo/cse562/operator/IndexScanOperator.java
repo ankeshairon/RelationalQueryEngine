@@ -12,8 +12,7 @@ import net.sf.jsqlparser.statement.create.table.ColumnDefinition;
 import java.util.List;
 import java.util.ListIterator;
 
-import static edu.buffalo.cse562.operator.utils.scan.ScanUtils.getDatumsForAllColumnPositions;
-import static edu.buffalo.cse562.operator.utils.scan.ScanUtils.getDatumsForRelevantColumnPositions;
+import static edu.buffalo.cse562.operator.utils.scan.ScanUtils.getDataForRelevantColumnIndexes;
 import static edu.buffalo.cse562.schema.SchemaUtils.createSchemaFromTableInfo;
 
 public class IndexScanOperator implements FilterOperator {
@@ -40,25 +39,7 @@ public class IndexScanOperator implements FilterOperator {
         if (!keyListIterator.hasNext()) {
             return null;
         }
-
-        Long rowId = keyListIterator.next();
-//        while (!storeMap.containsKey(rowId)) {
-//            if (keyListIterator.hasNext()) {
-//                rowId = keyListIterator.next();
-//            }
-//        }
-
-        if (relevantColumnIndexes != null) {
-            return getDatumsForRelevantColumnPositions(
-                    storeMap.get(rowId),
-                    relevantColumnIndexes,
-                    schema);
-
-        } else {
-            return getDatumsForAllColumnPositions(
-                    storeMap.get(rowId),
-                    schema);
-        }
+        return getDataForRelevantColumnIndexes(keyListIterator.next(), relevantColumnIndexes, storeMap, schema);
     }
 
     @Override
@@ -105,5 +86,10 @@ public class IndexScanOperator implements FilterOperator {
     @Override
     public List<Expression> getConditions() {
         return conditions;
+    }
+
+    @Override
+    public List<Integer> getRelevantColumnIndexes() {
+        return relevantColumnIndexes;
     }
 }

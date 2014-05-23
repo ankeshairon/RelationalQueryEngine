@@ -68,4 +68,9 @@ public class SelectionOperator implements FilterOperator {
         }
         return allConditions;
     }
+
+    @Override
+    public List<Integer> getRelevantColumnIndexes() {
+        return ((FilterOperator) input).getRelevantColumnIndexes();
+    }
 }

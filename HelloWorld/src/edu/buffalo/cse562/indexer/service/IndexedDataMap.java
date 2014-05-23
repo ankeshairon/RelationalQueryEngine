@@ -8,6 +8,7 @@ import net.sf.jsqlparser.expression.Expression;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * This class interacts with SecondaryStoreMap & has methods requiring column names (SecondaryIndexes)
@@ -44,4 +45,7 @@ public class IndexedDataMap extends AbstractExpressionVisitor {
         return secondaryMap.getPrimaryValue(id);
     }
 
+    public Set<Datum> getAllSecondaryKeys() {
+        return secondaryMap.keySet();
+    }
 }

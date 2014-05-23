@@ -53,7 +53,7 @@ public class LONG extends Datum {
     }
 
     @Override
-    public int compareTo(Object o) {
+    public int compareTo(Datum o) {
         return (l).compareTo(((LONG) o).l);
     }
 

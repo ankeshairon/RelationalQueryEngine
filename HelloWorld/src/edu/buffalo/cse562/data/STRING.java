@@ -45,7 +45,7 @@ public class STRING extends Datum {
     }
 
     @Override
-    public int compareTo(Object o) {
+    public int compareTo(Datum o) {
         return s.compareTo(((STRING) o).s);
     }
 
