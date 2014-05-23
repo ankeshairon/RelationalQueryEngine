@@ -1,8 +1,8 @@
 package edu.buffalo.cse562.visitor.optimizer;
 
-import edu.buffalo.cse562.operator.JoinOperator;
-import edu.buffalo.cse562.operator.Operator;
 import edu.buffalo.cse562.operator.SelectionOperator;
+import edu.buffalo.cse562.operator.abstractoperators.JoinOperator;
+import edu.buffalo.cse562.operator.abstractoperators.Operator;
 import edu.buffalo.cse562.visitor.optimizer.model.JoinPlan;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.schema.Column;

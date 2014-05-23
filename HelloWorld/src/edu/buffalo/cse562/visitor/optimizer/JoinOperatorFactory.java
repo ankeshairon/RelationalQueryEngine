@@ -1,8 +1,12 @@
 package edu.buffalo.cse562.visitor.optimizer;
 
 import edu.buffalo.cse562.model.Pair;
-import edu.buffalo.cse562.operator.*;
-import edu.buffalo.cse562.operator.indexscan.IndexScanOperator;
+import edu.buffalo.cse562.operator.abstractoperators.FilterOperator;
+import edu.buffalo.cse562.operator.abstractoperators.JoinOperator;
+import edu.buffalo.cse562.operator.abstractoperators.Operator;
+import edu.buffalo.cse562.operator.joins.InMemoryHashJoinOperator;
+import edu.buffalo.cse562.operator.joins.IndexNestedLoopJoinOperator;
+import edu.buffalo.cse562.operator.utils.NestedLoopJoinOperator;
 import edu.buffalo.cse562.visitor.optimizer.model.JoinPlan;
 import net.sf.jsqlparser.expression.Expression;
 
@@ -24,25 +28,29 @@ public class JoinOperatorFactory {
 
         if (positionsOfJoinColumns == null) {
             return new NestedLoopJoinOperator(operator1, operator2);
-//        } else if (counter == 0) {
-//            addConditionsAboutToRenderedUnused(operator1);
-//            addConditionsAboutToRenderedUnused(operator2);
-//            return new IndexNestedLoopJoinOperator(operator1, operator2, positionsOfJoinColumns.getFirst(), positionsOfJoinColumns.getSecond());
+        } else if (counter == 0) {
+            final FilterOperator filterOperator1 = addConditionsAboutToRenderedUnused(operator1);
+            final FilterOperator filterOperator2 = addConditionsAboutToRenderedUnused(operator2);
+            return new IndexNestedLoopJoinOperator(filterOperator1, filterOperator2, positionsOfJoinColumns.getFirst(), positionsOfJoinColumns.getSecond());
         } else {
             return new InMemoryHashJoinOperator(operator1, operator2, positionsOfJoinColumns.getFirst(), positionsOfJoinColumns.getSecond());
         }
     }
 
-    private void addConditionsAboutToRenderedUnused(Operator operator) {
+    private FilterOperator addConditionsAboutToRenderedUnused(Operator operator) {
         List<Expression> conditions = null;
-        if (operator instanceof SelectionOperator) {
-            conditions = ((SelectionOperator) operator).getConditions();
-        } else if (operator instanceof IndexScanOperator) {
-            conditions = ((IndexScanOperator) operator).getConditions();
+        FilterOperator filterOperator = null;
+
+        if (operator instanceof FilterOperator) {
+            filterOperator = (FilterOperator) operator;
+            conditions = filterOperator.getConditions();
+        } else {
+            throw new RuntimeException("Filter operator expected");
         }
         if (conditions != null) {
             conditionsRenderedUnused.addAll(conditions);
         }
+        return filterOperator;
     }
 
     public List<Expression> getConditionsRenderedUnused() {

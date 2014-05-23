@@ -1,9 +1,9 @@
 package edu.buffalo.cse562.visitor;
 
 import edu.buffalo.cse562.model.TableInfo;
-import edu.buffalo.cse562.operator.Operator;
-import edu.buffalo.cse562.operator.TupleUpdater;
+import edu.buffalo.cse562.operator.abstractoperators.Operator;
 import edu.buffalo.cse562.visitor.optimizer.ScanOptimizer;
+import edu.buffalo.cse562.visitor.utils.TupleUpdater;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.schema.Table;

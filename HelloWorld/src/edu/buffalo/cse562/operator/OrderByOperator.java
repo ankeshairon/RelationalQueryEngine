@@ -2,6 +2,7 @@ package edu.buffalo.cse562.operator;
 
 import edu.buffalo.cse562.comparator.TupleComparator;
 import edu.buffalo.cse562.data.Datum;
+import edu.buffalo.cse562.operator.abstractoperators.Operator;
 import edu.buffalo.cse562.schema.ColumnSchema;
 
 import java.util.*;

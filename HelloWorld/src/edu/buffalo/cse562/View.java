@@ -1,7 +1,7 @@
 package edu.buffalo.cse562;
 
 import edu.buffalo.cse562.data.Datum;
-import edu.buffalo.cse562.operator.Operator;
+import edu.buffalo.cse562.operator.abstractoperators.Operator;
 
 public class View {
 

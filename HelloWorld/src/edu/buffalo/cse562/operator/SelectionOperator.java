@@ -1,13 +1,16 @@
 package edu.buffalo.cse562.operator;
 
 import edu.buffalo.cse562.data.Datum;
+import edu.buffalo.cse562.operator.abstractoperators.FilterOperator;
+import edu.buffalo.cse562.operator.abstractoperators.Operator;
 import edu.buffalo.cse562.schema.ColumnSchema;
 import edu.buffalo.cse562.visitor.EvaluatorSelection;
 import net.sf.jsqlparser.expression.Expression;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class SelectionOperator implements Operator {
+public class SelectionOperator implements FilterOperator {
     private List<Expression> conditions;
 
     Operator input;
@@ -56,7 +59,13 @@ public class SelectionOperator implements Operator {
         return input.getProbableTableSize();
     }
 
+    @Override
     public List<Expression> getConditions() {
-        return conditions;
+        List<Expression> allConditions = new ArrayList<>();
+        allConditions.addAll(conditions);
+        if (input instanceof IndexScanOperator) {
+            allConditions.addAll(((IndexScanOperator) input).getConditions());
+        }
+        return allConditions;
     }
 }

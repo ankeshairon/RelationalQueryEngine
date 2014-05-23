@@ -1,4 +1,4 @@
-package edu.buffalo.cse562.operator;
+package edu.buffalo.cse562.operator.utils.scan;
 
 import edu.buffalo.cse562.indexer.model.TableIndexingInfo;
 import edu.buffalo.cse562.schema.ColumnSchema;

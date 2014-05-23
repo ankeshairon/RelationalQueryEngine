@@ -1,8 +1,8 @@
 package edu.buffalo.cse562.visitor.optimizer;
 
-import edu.buffalo.cse562.operator.Operator;
+import edu.buffalo.cse562.operator.IndexScanOperator;
 import edu.buffalo.cse562.operator.SelectionOperator;
-import edu.buffalo.cse562.operator.indexscan.IndexScanOperator;
+import edu.buffalo.cse562.operator.abstractoperators.Operator;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.schema.Column;
 

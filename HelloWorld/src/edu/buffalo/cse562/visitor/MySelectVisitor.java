@@ -3,7 +3,7 @@ package edu.buffalo.cse562.visitor;
 
 import edu.buffalo.cse562.model.TableInfo;
 import edu.buffalo.cse562.operator.*;
-import edu.buffalo.cse562.operator.aggregation.AggregationOperator;
+import edu.buffalo.cse562.operator.abstractoperators.Operator;
 import edu.buffalo.cse562.schema.ColumnSchema;
 import edu.buffalo.cse562.visitor.optimizer.JoinMaker;
 import net.sf.jsqlparser.expression.Expression;

@@ -1,7 +1,7 @@
 package edu.buffalo.cse562.indexer.modifier;
 
 import edu.buffalo.cse562.indexer.model.TableIndexingInfo;
-import edu.buffalo.cse562.operator.FileScanner;
+import edu.buffalo.cse562.operator.utils.scan.FileScanner;
 import jdbm.PrimaryStoreMap;
 
 import java.io.File;

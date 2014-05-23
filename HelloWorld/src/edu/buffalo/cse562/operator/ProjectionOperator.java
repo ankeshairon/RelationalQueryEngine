@@ -1,6 +1,7 @@
 package edu.buffalo.cse562.operator;
 
 import edu.buffalo.cse562.data.Datum;
+import edu.buffalo.cse562.operator.abstractoperators.Operator;
 import edu.buffalo.cse562.schema.ColumnSchema;
 import edu.buffalo.cse562.visitor.EvaluatorAggregate;
 

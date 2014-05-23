@@ -1,4 +1,4 @@
-package edu.buffalo.cse562.operator.aggregation;
+package edu.buffalo.cse562.operator.utils.aggregation;
 
 import edu.buffalo.cse562.data.Datum;
 
@@ -20,7 +20,7 @@ public class AggregationTuple implements Comparable<AggregationTuple> {
 
     /**
      * dummy constructor to compare this object with Datum[] with less setup
-     * */
+     */
     public AggregationTuple(Datum[] consolidatedTuple, Comparator<Datum[]> groupByComparator) {
         this.consolidatedTuple = consolidatedTuple;
         this.groupByComparator = groupByComparator;

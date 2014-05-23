@@ -1,22 +1,22 @@
-package edu.buffalo.cse562.operator;
+package edu.buffalo.cse562.operator.joins;
 
 import edu.buffalo.cse562.data.*;
 import edu.buffalo.cse562.data.Datum.CastException;
+import edu.buffalo.cse562.operator.abstractoperators.JoinOperator;
+import edu.buffalo.cse562.operator.abstractoperators.Operator;
 import edu.buffalo.cse562.schema.ColumnSchema;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
 public class HybridHashJoinOperator extends JoinOperator {
 
-    ColumnSchema[] schemaR, schemaS, outputSchema;
+    ColumnSchema[] schemaR, schemaS;
     int indexR, indexS;
     File swapDir;
     int hashSize, hashSize2;
     ArrayList<Datum[]> result;
-    Iterator<Datum[]> iter;
 
     File outputFile;
     BufferedReader output;
@@ -71,8 +71,6 @@ public class HybridHashJoinOperator extends JoinOperator {
         closeReaders(brS);
 
         cleanup();
-
-        updateSchema();
 
         reset();
         //iter = result.iterator();
@@ -225,20 +223,6 @@ public class HybridHashJoinOperator extends JoinOperator {
         }
     }
 
-    public void updateSchema() {
-        outputSchema = new ColumnSchema[R.getSchema().length + S.getSchema().length];
-        int i = 0;
-        for (ColumnSchema schema : R.getSchema()) {
-            outputSchema[i] = schema;
-            i++;
-        }
-        for (ColumnSchema schema : S.getSchema()) {
-            outputSchema[i] = schema;
-            i++;
-        }
-    }
-
-
     public Datum[] parseLine(String line, ColumnSchema[] schema) {
         Datum[] ret = new Datum[schema.length];
         String[] cols = line.split("\\|");
@@ -313,16 +297,6 @@ public class HybridHashJoinOperator extends JoinOperator {
 
         //iter = result.iterator();
         //throw new UnsupportedOperationException("Reset not supported for " + this.getClass().getTableName());
-    }
-
-    @Override
-    public ColumnSchema[] getSchema() {
-        return outputSchema;
-    }
-
-    @Override
-    public Long getProbableTableSize() {
-        return R.getProbableTableSize() * S.getProbableTableSize();
     }
 
 }

@@ -1,39 +1,23 @@
-package edu.buffalo.cse562.operator;
+package edu.buffalo.cse562.operator.utils;
 
 import edu.buffalo.cse562.data.Datum;
-import edu.buffalo.cse562.schema.ColumnSchema;
+import edu.buffalo.cse562.operator.abstractoperators.JoinOperator;
+import edu.buffalo.cse562.operator.abstractoperators.Operator;
 
 public class NestedLoopJoinOperator extends JoinOperator {
     Datum[] temp1;
     Datum[] temp2;
-    ColumnSchema[] schema;
 
     public NestedLoopJoinOperator(Operator R, Operator S) {
         super(R, S);
-        updateSchema();
         temp1 = new Datum[R.getSchema().length];
         temp2 = new Datum[S.getSchema().length];
         temp1 = R.readOneTuple();
     }
 
-    public void updateSchema() {
-        int size1 = R.getSchema().length;
-        int size2 = S.getSchema().length;
-        schema = new ColumnSchema[size1 + size2];
-        int i = 0;
-        for (ColumnSchema cs : R.getSchema()) {
-            schema[i] = cs;
-            i++;
-        }
-        for (ColumnSchema cs : S.getSchema()) {
-            schema[i] = cs;
-            i++;
-        }
-    }
-
     @Override
     public Datum[] readOneTuple() {
-        Datum[] ret = new Datum[schema.length];
+        Datum[] ret = new Datum[outputSchema.length];
 
 
         while (temp1 != null) {
@@ -62,15 +46,4 @@ public class NestedLoopJoinOperator extends JoinOperator {
         S.reset();
         temp1 = R.readOneTuple();
     }
-
-    @Override
-    public ColumnSchema[] getSchema() {
-        return schema;
-    }
-
-    @Override
-    public Long getProbableTableSize() {
-        return R.getProbableTableSize() * S.getProbableTableSize();
-    }
-
 }

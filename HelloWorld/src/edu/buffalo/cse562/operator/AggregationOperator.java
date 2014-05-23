@@ -1,7 +1,8 @@
-package edu.buffalo.cse562.operator.aggregation;
+package edu.buffalo.cse562.operator;
 
 import edu.buffalo.cse562.data.Datum;
-import edu.buffalo.cse562.operator.Operator;
+import edu.buffalo.cse562.operator.abstractoperators.Operator;
+import edu.buffalo.cse562.operator.utils.aggregation.AggregationProcessor;
 import edu.buffalo.cse562.schema.ColumnSchema;
 import edu.buffalo.cse562.visitor.optimizer.ObjectSizer;
 import net.sf.jsqlparser.schema.Column;

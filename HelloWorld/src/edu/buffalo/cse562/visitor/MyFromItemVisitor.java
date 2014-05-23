@@ -1,8 +1,8 @@
 package edu.buffalo.cse562.visitor;
 
 import edu.buffalo.cse562.model.TableInfo;
-import edu.buffalo.cse562.operator.Operator;
-import edu.buffalo.cse562.operator.indexscan.IndexScanOperator;
+import edu.buffalo.cse562.operator.IndexScanOperator;
+import edu.buffalo.cse562.operator.abstractoperators.Operator;
 import edu.buffalo.cse562.schema.ColumnSchema;
 import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.select.FromItemVisitor;
@@ -19,7 +19,7 @@ public class MyFromItemVisitor implements FromItemVisitor {
     public Operator source;
     public ColumnSchema[] finalSchema;
 
-    
+
     public HashMap<String, TableInfo> tables;
 
     public MyFromItemVisitor(File dataDir, File swapDir, HashMap<String, TableInfo> tables, ColumnSchema[] finalSchema) {
@@ -30,7 +30,7 @@ public class MyFromItemVisitor implements FromItemVisitor {
     }
 
 
-	@Override
+    @Override
     public void visit(Table table) {
         final TableInfo tableInfo = tables.get(table.getName().toLowerCase());
         tableInfo.setAlias(table.getAlias());

@@ -1,6 +1,6 @@
 package edu.buffalo.cse562.visitor;
 
-import edu.buffalo.cse562.operator.Operator;
+import edu.buffalo.cse562.operator.abstractoperators.Operator;
 import edu.buffalo.cse562.schema.ColumnSchema;
 import net.sf.jsqlparser.statement.select.OrderByElement;
 import net.sf.jsqlparser.statement.select.OrderByVisitor;

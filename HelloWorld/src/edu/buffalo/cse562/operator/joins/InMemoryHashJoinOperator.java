@@ -1,8 +1,9 @@
-package edu.buffalo.cse562.operator;
+package edu.buffalo.cse562.operator.joins;
 
 import edu.buffalo.cse562.data.Datum;
 import edu.buffalo.cse562.data.Datum.CastException;
-import edu.buffalo.cse562.schema.ColumnSchema;
+import edu.buffalo.cse562.operator.abstractoperators.JoinOperator;
+import edu.buffalo.cse562.operator.abstractoperators.Operator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,7 +12,6 @@ import java.util.Iterator;
 public class InMemoryHashJoinOperator extends JoinOperator {
 
     int indexR, indexS;
-    ColumnSchema[] outputSchema;
 
     ArrayList<Datum[]> result;
     Iterator<Datum[]> iter;
@@ -22,7 +22,6 @@ public class InMemoryHashJoinOperator extends JoinOperator {
         this.indexS = indexS;
 
         result = new ArrayList<>();
-        updateSchema();
 
         HashMap<Integer, ArrayList<Datum[]>> build = new HashMap<>(401);
 
@@ -59,12 +58,6 @@ public class InMemoryHashJoinOperator extends JoinOperator {
 
     }
 
-    public void updateSchema() {
-        outputSchema = new ColumnSchema[R.getSchema().length + S.getSchema().length];
-        System.arraycopy(R.getSchema(), 0, outputSchema, 0, R.getSchema().length);
-        System.arraycopy(S.getSchema(), 0, outputSchema, R.getSchema().length, S.getSchema().length);
-    }
-
     public int hashFunction(Datum value, int size) {
         try {
             if (value.getType() == Datum.type.LONG) {
@@ -94,15 +87,4 @@ public class InMemoryHashJoinOperator extends JoinOperator {
     public void reset() {
         iter = result.iterator();
     }
-
-    @Override
-    public ColumnSchema[] getSchema() {
-        return outputSchema;
-    }
-
-    @Override
-    public Long getProbableTableSize() {
-        return R.getProbableTableSize() * S.getProbableTableSize();
-    }
-
 }

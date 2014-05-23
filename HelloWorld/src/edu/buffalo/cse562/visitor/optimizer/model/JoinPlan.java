@@ -1,7 +1,7 @@
 package edu.buffalo.cse562.visitor.optimizer.model;
 
 import edu.buffalo.cse562.model.Pair;
-import edu.buffalo.cse562.operator.Operator;
+import edu.buffalo.cse562.operator.abstractoperators.Operator;
 import edu.buffalo.cse562.schema.ColumnSchema;
 import edu.buffalo.cse562.visitor.optimizer.CrossToJoinOptimizer;
 import net.sf.jsqlparser.expression.Expression;

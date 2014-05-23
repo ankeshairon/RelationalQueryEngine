@@ -1,4 +1,4 @@
-package edu.buffalo.cse562.operator.indexscan;
+package edu.buffalo.cse562.operator.utils.indexscan;
 
 import edu.buffalo.cse562.indexer.service.IndexService;
 import edu.buffalo.cse562.indexer.service.IndexedDataMap;

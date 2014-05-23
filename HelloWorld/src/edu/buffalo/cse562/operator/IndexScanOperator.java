@@ -1,8 +1,9 @@
-package edu.buffalo.cse562.operator.indexscan;
+package edu.buffalo.cse562.operator;
 
 import edu.buffalo.cse562.data.Datum;
 import edu.buffalo.cse562.model.TableInfo;
-import edu.buffalo.cse562.operator.Operator;
+import edu.buffalo.cse562.operator.abstractoperators.FilterOperator;
+import edu.buffalo.cse562.operator.utils.indexscan.IndexScanHelper;
 import edu.buffalo.cse562.schema.ColumnSchema;
 import jdbm.PrimaryStoreMap;
 import net.sf.jsqlparser.expression.Expression;
@@ -11,11 +12,11 @@ import net.sf.jsqlparser.statement.create.table.ColumnDefinition;
 import java.util.List;
 import java.util.ListIterator;
 
-import static edu.buffalo.cse562.operator.utils.ScanUtils.getDatumsForAllColumnPositions;
-import static edu.buffalo.cse562.operator.utils.ScanUtils.getDatumsForRelevantColumnPositions;
+import static edu.buffalo.cse562.operator.utils.scan.ScanUtils.getDatumsForAllColumnPositions;
+import static edu.buffalo.cse562.operator.utils.scan.ScanUtils.getDatumsForRelevantColumnPositions;
 import static edu.buffalo.cse562.schema.SchemaUtils.createSchemaFromTableInfo;
 
-public class IndexScanOperator implements Operator {
+public class IndexScanOperator implements FilterOperator {
     private ColumnSchema[] schema;
     private List<Integer> relevantColumnIndexes;
 
@@ -101,6 +102,7 @@ public class IndexScanOperator implements Operator {
         }
     }
 
+    @Override
     public List<Expression> getConditions() {
         return conditions;
     }

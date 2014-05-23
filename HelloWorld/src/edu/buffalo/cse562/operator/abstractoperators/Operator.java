@@ -1,4 +1,4 @@
-package edu.buffalo.cse562.operator;
+package edu.buffalo.cse562.operator.abstractoperators;
 
 import edu.buffalo.cse562.data.Datum;
 import edu.buffalo.cse562.schema.ColumnSchema;

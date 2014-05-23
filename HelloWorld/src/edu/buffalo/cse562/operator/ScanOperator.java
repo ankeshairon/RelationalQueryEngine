@@ -2,7 +2,8 @@ package edu.buffalo.cse562.operator;
 
 import edu.buffalo.cse562.data.Datum;
 import edu.buffalo.cse562.model.TableInfo;
-import edu.buffalo.cse562.operator.utils.ScanUtils;
+import edu.buffalo.cse562.operator.abstractoperators.Operator;
+import edu.buffalo.cse562.operator.utils.scan.ScanUtils;
 import edu.buffalo.cse562.schema.ColumnSchema;
 import net.sf.jsqlparser.statement.create.table.ColumnDefinition;
 
@@ -10,9 +11,9 @@ import java.io.*;
 import java.util.List;
 
 /**
- *DO NOT USE THIS CLASS .. always use IndexScanOperator instead
+ * DO NOT USE THIS CLASS .. always use IndexScanOperator instead
  * This is being deprecated to enable record additions & deletions
-*/
+ */
 
 public class ScanOperator implements Operator {
     protected List<Integer> relevantColumnIndexes;
@@ -66,7 +67,6 @@ public class ScanOperator implements Operator {
         Datum[] tuple = ScanUtils.getDatumsForRelevantColumnPositions(line, relevantColumnIndexes, schema);
         return tuple;
     }
-
 
 
     @Override
