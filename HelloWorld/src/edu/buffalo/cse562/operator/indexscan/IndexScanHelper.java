@@ -64,7 +64,7 @@ public class IndexScanHelper {
         indexedDataMap = indexService.getIndexedDataFor(
                 schema[0].getTblName(),
                 schema,
-                SchemaUtils.getColumnIndexInColSchema(schema, getColumnName(condition))
+                SchemaUtils.getColumnIndexInSchema(schema, getColumnName(condition))
         );
 
         return indexedDataMap.getRowIdsForCondition(condition);

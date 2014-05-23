@@ -8,12 +8,14 @@ import net.sf.jsqlparser.expression.Expression;
 import java.util.List;
 
 public class SelectionOperator implements Operator {
+    private List<Expression> conditions;
 
     Operator input;
     EvaluatorSelection evaluatorSelection;
 
     public SelectionOperator(Operator input, List<Expression> conditions) {
         this.input = input;
+        this.conditions = conditions;
         evaluatorSelection = new EvaluatorSelection(input.getSchema(), conditions);
     }
 
@@ -54,4 +56,7 @@ public class SelectionOperator implements Operator {
         return input.getProbableTableSize();
     }
 
+    public List<Expression> getConditions() {
+        return conditions;
+    }
 }

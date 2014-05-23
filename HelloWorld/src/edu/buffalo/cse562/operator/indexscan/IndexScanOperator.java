@@ -16,13 +16,14 @@ import static edu.buffalo.cse562.operator.utils.ScanUtils.getDatumsForRelevantCo
 import static edu.buffalo.cse562.schema.SchemaUtils.createSchemaFromTableInfo;
 
 public class IndexScanOperator implements Operator {
-
     private ColumnSchema[] schema;
     private List<Integer> relevantColumnIndexes;
 
     private PrimaryStoreMap<Long, String> storeMap;
     private ListIterator<Long> keyListIterator;
     private List<Long> keyList;
+
+    private List<Expression> conditions;
 
     public IndexScanOperator(TableInfo tableInfo, ColumnSchema[] finalSchema) {
         if (finalSchema == null) {
@@ -75,6 +76,7 @@ public class IndexScanOperator implements Operator {
     }
 
     public void setConditionsToFilterDataOn(List<Expression> conditions) {
+        this.conditions = conditions;
         final IndexScanHelper helper = new IndexScanHelper(schema, conditions);
         keyList = helper.getFilteredRowIds();
         storeMap = helper.getStoreMap();
@@ -97,5 +99,9 @@ public class IndexScanOperator implements Operator {
         } else {
             schema = createSchemaFromTableInfo(tableInfo);
         }
+    }
+
+    public List<Expression> getConditions() {
+        return conditions;
     }
 }

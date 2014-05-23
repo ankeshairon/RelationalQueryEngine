@@ -74,9 +74,12 @@ public class IndexedOperatorOptimizer {
     }
 
     private Integer calculateWeightOffset(String condition, List<Column> columns) {
-        if (condition.contains(" or ") || condition.contains(" OR ") || (columns.size() != 1)) {
+        if (condition.contains(" or ") || condition.contains(" OR ") || condition.contains(" <> ") || columns.size() != 1) {
             return Integer.MIN_VALUE; //coz not supported
+        } else if (condition.contains(" and ") || condition.contains(" AND ")) {
+            return Integer.MAX_VALUE;
         }
+
 
 //        final Column column = columns.get(0);
         Integer offset = 0;

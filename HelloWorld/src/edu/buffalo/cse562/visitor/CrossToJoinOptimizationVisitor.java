@@ -1,6 +1,7 @@
 package edu.buffalo.cse562.visitor;
 
 import edu.buffalo.cse562.model.ColumnWrapper;
+import edu.buffalo.cse562.visitor.optimizer.RangeConditionOptimizer;
 import net.sf.jsqlparser.expression.*;
 import net.sf.jsqlparser.expression.operators.arithmetic.Addition;
 import net.sf.jsqlparser.expression.operators.arithmetic.Division;
@@ -26,12 +27,15 @@ public class CrossToJoinOptimizationVisitor extends AbstractExpressionVisitor {
         currentColumnSetToSave = new HashSet<>();
         pendingOrs = 0;
         whereExpression.accept(this);
-        if(!currentColumnSetToSave.isEmpty()){
+        if (!currentColumnSetToSave.isEmpty()) {
             conditionColumnMap.put(whereExpression, new ArrayList<>(currentColumnSetToSave));
         }
     }
 
     public Map<Expression, List<Column>> getConditionColumnMap() {
+        if (conditionColumnMap != null && conditionColumnMap.size() != 0) {
+            new RangeConditionOptimizer(conditionColumnMap).mergeRangeConditions();
+        }
         return conditionColumnMap;
     }
 

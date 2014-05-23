@@ -28,7 +28,7 @@ public class TupleUpdater {
         indexService = IndexService.getInstance();
 
         ColumnSchema[] tableSchema = createSchemaFromTableInfo(tableInfo);
-        Integer columnPosition = SchemaUtils.getColumnIndexInColSchema(tableSchema, ExpressionUtils.getColumnName(where));
+        Integer columnPosition = SchemaUtils.getColumnIndexInSchema(tableSchema, ExpressionUtils.getColumnName(where));
         IndexedDataMap indexedDataMap = indexService.getIndexedDataFor(tableInfo.getTableName(), tableSchema, columnPosition);
         rowIds = indexedDataMap.getRowIdsForCondition(where);
     }

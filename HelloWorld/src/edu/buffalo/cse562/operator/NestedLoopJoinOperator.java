@@ -3,32 +3,29 @@ package edu.buffalo.cse562.operator;
 import edu.buffalo.cse562.data.Datum;
 import edu.buffalo.cse562.schema.ColumnSchema;
 
-public class NestedLoopJoinOperator implements Operator {
-    Operator input1;
-    Operator input2;
+public class NestedLoopJoinOperator extends JoinOperator {
     Datum[] temp1;
     Datum[] temp2;
     ColumnSchema[] schema;
 
-    public NestedLoopJoinOperator(Operator input1, Operator input2) {
-        this.input1 = input1;
-        this.input2 = input2;
+    public NestedLoopJoinOperator(Operator R, Operator S) {
+        super(R, S);
         updateSchema();
-        temp1 = new Datum[input1.getSchema().length];
-        temp2 = new Datum[input2.getSchema().length];
-        temp1 = input1.readOneTuple();
+        temp1 = new Datum[R.getSchema().length];
+        temp2 = new Datum[S.getSchema().length];
+        temp1 = R.readOneTuple();
     }
 
     public void updateSchema() {
-        int size1 = input1.getSchema().length;
-        int size2 = input2.getSchema().length;
+        int size1 = R.getSchema().length;
+        int size2 = S.getSchema().length;
         schema = new ColumnSchema[size1 + size2];
         int i = 0;
-        for (ColumnSchema cs : input1.getSchema()) {
+        for (ColumnSchema cs : R.getSchema()) {
             schema[i] = cs;
             i++;
         }
-        for (ColumnSchema cs : input2.getSchema()) {
+        for (ColumnSchema cs : S.getSchema()) {
             schema[i] = cs;
             i++;
         }
@@ -40,7 +37,7 @@ public class NestedLoopJoinOperator implements Operator {
 
 
         while (temp1 != null) {
-            while ((temp2 = input2.readOneTuple()) != null) {
+            while ((temp2 = S.readOneTuple()) != null) {
                 int counter = 0;
                 for (Datum aTemp1 : temp1) {
                     ret[counter] = aTemp1;
@@ -52,8 +49,8 @@ public class NestedLoopJoinOperator implements Operator {
                 }
                 return ret;
             }
-            temp1 = input1.readOneTuple();
-            input2.reset();
+            temp1 = R.readOneTuple();
+            S.reset();
         }
 
         return null;
@@ -61,9 +58,9 @@ public class NestedLoopJoinOperator implements Operator {
 
     @Override
     public void reset() {
-        input1.reset();
-        input2.reset();
-        temp1 = input1.readOneTuple();
+        R.reset();
+        S.reset();
+        temp1 = R.readOneTuple();
     }
 
     @Override
@@ -73,7 +70,7 @@ public class NestedLoopJoinOperator implements Operator {
 
     @Override
     public Long getProbableTableSize() {
-        return input1.getProbableTableSize() * input2.getProbableTableSize();
+        return R.getProbableTableSize() * S.getProbableTableSize();
     }
 
 }

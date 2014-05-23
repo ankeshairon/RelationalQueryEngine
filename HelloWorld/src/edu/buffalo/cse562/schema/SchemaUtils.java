@@ -1,6 +1,7 @@
 package edu.buffalo.cse562.schema;
 
 import edu.buffalo.cse562.model.TableInfo;
+import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.statement.create.table.ColumnDefinition;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class SchemaUtils {
 //        throw new ArrayIndexOutOfBoundsException("Column Name " + columnName + " not found in schema");
     }
 
-    public static Integer getColumnIndexInColSchema(ColumnSchema[] schema, String columnName) {
+    public static Integer getColumnIndexInSchema(ColumnSchema[] schema, String columnName) {
         for (int i = 0; i < schema.length; i++) {
             if (columnName.equalsIgnoreCase(schema[i].getColName())) {
                 return i;
@@ -25,6 +26,15 @@ public class SchemaUtils {
         }
         throw new ArrayIndexOutOfBoundsException("Column Name " + columnName + " not found in schema");
 
+    }
+
+    public static int getColIndexInSchema(Column columnInCondition, ColumnSchema[] schema) {
+        for (int i = 0; i < schema.length; i++) {
+            if (schema[i].matchColumn(columnInCondition)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     public static ColumnSchema[] createSchemaFromTableInfo(TableInfo tableInfo) {

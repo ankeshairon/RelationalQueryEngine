@@ -8,31 +8,31 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-public class InMemoryHashJoin implements Operator {
+public class InMemoryHashJoinOperator extends JoinOperator {
 
-    Operator R,S;
-    int indexR,indexS;
+    int indexR, indexS;
     ColumnSchema[] outputSchema;
 
     ArrayList<Datum[]> result;
     Iterator<Datum[]> iter;
 
-    public InMemoryHashJoin(Operator R,Operator S,int indexR,int indexS){
-        this.R = R;this.S = S;
-        this.indexR = indexR; this.indexS = indexS;
+    public InMemoryHashJoinOperator(Operator R, Operator S, int indexR, int indexS) {
+        super(R, S);
+        this.indexR = indexR;
+        this.indexS = indexS;
 
         result = new ArrayList<Datum[]>();
 
-        HashMap<Integer,ArrayList<Datum[]>> build = new HashMap<Integer,ArrayList<Datum[]>>(401);
+        HashMap<Integer, ArrayList<Datum[]>> build = new HashMap<Integer, ArrayList<Datum[]>>(401);
 
         Datum[] outTpl;
 
         //build phase
         Datum[] tuple;
-        while((tuple = R.readOneTuple())!=null){
-            int hashKey = hashFunction(tuple[indexR],401);
+        while ((tuple = R.readOneTuple()) != null) {
+            int hashKey = hashFunction(tuple[indexR], 401);
             ArrayList<Datum[]> list = build.get(hashKey);
-            if(list == null){
+            if (list == null) {
                 list = new ArrayList<Datum[]>();
             }
             list.add(tuple);
@@ -40,20 +40,20 @@ public class InMemoryHashJoin implements Operator {
         }
 
         //probe phase
-        while((tuple = S.readOneTuple())!=null){
-            int hashKey = hashFunction(tuple[indexS],401);
+        while ((tuple = S.readOneTuple()) != null) {
+            int hashKey = hashFunction(tuple[indexS], 401);
             ArrayList<Datum[]> list = build.get(hashKey);
-            if(list == null)
+            if (list == null)
                 continue;
-            for(Datum[] tplR : list){
-                if(tplR[indexR].equals(tuple[indexS])){
+            for (Datum[] tplR : list) {
+                if (tplR[indexR].equals(tuple[indexS])) {
                     int counter = 0;
                     outTpl = new Datum[R.getSchema().length + S.getSchema().length];
-                    for(Datum val : tplR){
+                    for (Datum val : tplR) {
                         outTpl[counter] = val;
                         counter++;
                     }
-                    for(Datum val : tuple){
+                    for (Datum val : tuple) {
                         outTpl[counter] = val;
                         counter++;
                     }
@@ -67,29 +67,27 @@ public class InMemoryHashJoin implements Operator {
 
     }
 
-    public void updateSchema(){
+    public void updateSchema() {
         outputSchema = new ColumnSchema[R.getSchema().length + S.getSchema().length];
         int i = 0;
-        for(ColumnSchema schema : R.getSchema()){
+        for (ColumnSchema schema : R.getSchema()) {
             outputSchema[i] = schema;
             i++;
         }
-        for(ColumnSchema schema : S.getSchema()){
+        for (ColumnSchema schema : S.getSchema()) {
             outputSchema[i] = schema;
             i++;
         }
     }
 
-    public int hashFunction(Datum value, int size){
+    public int hashFunction(Datum value, int size) {
         try {
-            if(value.getType() == Datum.type.LONG){
+            if (value.getType() == Datum.type.LONG) {
                 return value.toLONG().intValue() % size;
-            }
-            else if(value.getType() == Datum.type.DOUBLE){
+            } else if (value.getType() == Datum.type.DOUBLE) {
                 return value.toDOUBLE().intValue() % size;
-            }
-            else if(value.getType() == Datum.type.STRING ||
-                    value.getType() == Datum.type.DATE){
+            } else if (value.getType() == Datum.type.STRING ||
+                    value.getType() == Datum.type.DATE) {
                 return value.toSTRING().toString().length() % size;
             }
         } catch (CastException e) {
@@ -98,9 +96,10 @@ public class InMemoryHashJoin implements Operator {
 
         return 0;
     }
+
     @Override
     public Datum[] readOneTuple() {
-        if(iter.hasNext()){
+        if (iter.hasNext()) {
             return iter.next();
         }
         return null;

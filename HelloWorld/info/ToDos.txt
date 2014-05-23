@@ -1,6 +1,7 @@
-- support range lookup in IndexDataMapVisitor
-- push range lookup conditions inside
+- push (multiple inequalities inside index scan)
+- Refactor inMemoryHashJoin
 - INLJ
+-delay IndexScan tuple read until the tuple is actually read
 
 
 
