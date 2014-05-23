@@ -21,9 +21,10 @@ public class InMemoryHashJoinOperator extends JoinOperator {
         this.indexR = indexR;
         this.indexS = indexS;
 
-        result = new ArrayList<Datum[]>();
+        result = new ArrayList<>();
+        updateSchema();
 
-        HashMap<Integer, ArrayList<Datum[]>> build = new HashMap<Integer, ArrayList<Datum[]>>(401);
+        HashMap<Integer, ArrayList<Datum[]>> build = new HashMap<>(401);
 
         Datum[] outTpl;
 
@@ -33,7 +34,7 @@ public class InMemoryHashJoinOperator extends JoinOperator {
             int hashKey = hashFunction(tuple[indexR], 401);
             ArrayList<Datum[]> list = build.get(hashKey);
             if (list == null) {
-                list = new ArrayList<Datum[]>();
+                list = new ArrayList<>();
             }
             list.add(tuple);
             build.put(hashKey, list);
@@ -47,37 +48,21 @@ public class InMemoryHashJoinOperator extends JoinOperator {
                 continue;
             for (Datum[] tplR : list) {
                 if (tplR[indexR].equals(tuple[indexS])) {
-                    int counter = 0;
-                    outTpl = new Datum[R.getSchema().length + S.getSchema().length];
-                    for (Datum val : tplR) {
-                        outTpl[counter] = val;
-                        counter++;
-                    }
-                    for (Datum val : tuple) {
-                        outTpl[counter] = val;
-                        counter++;
-                    }
+                    outTpl = new Datum[outputSchema.length];
+                    System.arraycopy(tplR, 0, outTpl, 0, tplR.length);
+                    System.arraycopy(tuple, 0, outTpl, tplR.length, tuple.length);
                     result.add(outTpl);
                 }
             }
         }
-
-        updateSchema();
         reset();
 
     }
 
     public void updateSchema() {
         outputSchema = new ColumnSchema[R.getSchema().length + S.getSchema().length];
-        int i = 0;
-        for (ColumnSchema schema : R.getSchema()) {
-            outputSchema[i] = schema;
-            i++;
-        }
-        for (ColumnSchema schema : S.getSchema()) {
-            outputSchema[i] = schema;
-            i++;
-        }
+        System.arraycopy(R.getSchema(), 0, outputSchema, 0, R.getSchema().length);
+        System.arraycopy(S.getSchema(), 0, outputSchema, R.getSchema().length, S.getSchema().length);
     }
 
     public int hashFunction(Datum value, int size) {
