@@ -1,5 +1,4 @@
 - push (multiple inequalities inside index scan)
-- Refactor inMemoryHashJoin
 - INLJ
 -delay IndexScan tuple read until the tuple is actually read
 

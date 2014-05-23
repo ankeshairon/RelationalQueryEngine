@@ -11,10 +11,7 @@ import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
 import net.sf.jsqlparser.expression.operators.relational.*;
 import net.sf.jsqlparser.schema.Column;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.SortedMap;
+import java.util.*;
 
 public class IndexDataMapVisitor extends AbstractExpressionVisitor {
 
@@ -28,6 +25,7 @@ public class IndexDataMapVisitor extends AbstractExpressionVisitor {
     private Boolean isRangeLookup;
     private Boolean isInclusive1;
     private Boolean isInclusive2;
+    private Boolean isInequality;
 
     private int currentVariable;
 
@@ -77,25 +75,31 @@ public class IndexDataMapVisitor extends AbstractExpressionVisitor {
         currentVariable = 2;
         arg0.getRightExpression().accept(this);
 
-        if (key2.compareTo(key1) < 0) {
-            Boolean tempIsInclusive;
-            Datum tempKey;
+        if (isInequality != null && isInequality) {
+            isRangeLookup = false;
+            arg0.getLeftExpression().accept(this);
 
-            tempKey = key2;
-            key2 = key1;
-            key1 = tempKey;
+        } else {
+            if (key2.compareTo(key1) < 0) {
+                Boolean tempIsInclusive;
+                Datum tempKey;
 
-            tempIsInclusive = isInclusive2;
-            isInclusive2 = isInclusive1;
-            isInclusive1 = tempIsInclusive;
+                tempKey = key2;
+                key2 = key1;
+                key1 = tempKey;
+
+                tempIsInclusive = isInclusive2;
+                isInclusive2 = isInclusive1;
+                isInclusive1 = tempIsInclusive;
+            }
+
+            final SortedMap<Datum, Iterable<Long>> submap = secondaryMap.subMap(key1, key2); //key1 inclusive key2 exclusive
+            final Iterator<Datum> iterator = submap.keySet().iterator();
+
+            skipFirstElementIfNotInclusive(isInclusive1, iterator);
+            addAllElementsFromSubmap(submap, iterator);
+            addLastElementIfIsInclusive(isInclusive2, key2);
         }
-
-        final SortedMap<Datum, Iterable<Long>> submap = secondaryMap.subMap(key1, key2); //key1 inclusive key2 exclusive
-        final Iterator<Datum> iterator = submap.keySet().iterator();
-
-        skipFirstElementIfNotInclusive(isInclusive1, iterator);
-        addAllElementsFromSubmap(submap, iterator);
-        addLastElementIfIsInclusive(isInclusive2, key2);
     }
 
     @Override
@@ -132,16 +136,21 @@ public class IndexDataMapVisitor extends AbstractExpressionVisitor {
     @Override
     public void visit(NotEqualsTo arg0) {
         populateColumnAndKey(arg0);
+        if (isRangeLookup) {
+            isInequality = true;
+            return;
+        }
 
-        Iterator<Datum> iterator = secondaryMap.keySet().iterator();
+        final Set<Datum> keySet = new HashSet<>(secondaryMap.keySet());
+        keySet.remove(key1);
+        if (key2 != null) {
+            keySet.remove(key2);
+        }
+
+        Iterator<Datum> iterator = keySet.iterator();
         rowIds = new ArrayList<>();
-        Datum iteratorKey;
-
         while (iterator.hasNext()) {
-            iteratorKey = iterator.next();
-            if (!iteratorKey.equals(key1)) {
-                rowIds.addAll((List<Long>) secondaryMap.get(iteratorKey));
-            }
+            rowIds.addAll((List<Long>) secondaryMap.get(iterator.next()));
         }
     }
 

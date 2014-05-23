@@ -24,7 +24,7 @@ public class RangeConditionOptimizer {
         if (expressions.size() < 2) {
             return;
         }
-        Pair<Integer, Integer> conditionPair = getRangeConditionsPositions(expressions);
+        Pair<Integer, Integer> conditionPair = getPositionsOfConditionsToBeMerged(expressions);
         if (conditionPair == null) {
             return;
         }
@@ -48,13 +48,13 @@ public class RangeConditionOptimizer {
         }
     }
 
-    private Pair<Integer, Integer> getRangeConditionsPositions(ArrayList<Expression> expressions) {
+    private Pair<Integer, Integer> getPositionsOfConditionsToBeMerged(ArrayList<Expression> expressions) {
         for (int i = 0; i < expressions.size(); i++) {
-            if (conditionColumnMap.get(expressions.get(i)).size() != 1 || expressions.get(i).toString().contains("<>")) {
+            if (conditionColumnMap.get(expressions.get(i)).size() != 1) {
                 continue;
             }
             for (int j = i + 1; j < expressions.size(); j++) {
-                if (conditionColumnMap.get(expressions.get(j)).size() != 1 || expressions.get(i).toString().contains("<>")) {
+                if (conditionColumnMap.get(expressions.get(j)).size() != 1) {
                     continue;
                 }
 
