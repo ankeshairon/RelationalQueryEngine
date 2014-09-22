@@ -1,0 +1,101 @@
+Execution time for little query01 :2.917 seconds
+Execution time for little query02 :1.176 seconds
+Execution time for little query03 :1.677 seconds
+Execution time for little query04 :2.532 seconds
+Execution time for little query05 :4.176 seconds
+Execution time for little query06 :16.601 seconds
+
+Execution time for little query01 :3.818 seconds
+Execution time for little query02 :1.276 seconds
+Execution time for little query03 :1.444 seconds
+Execution time for little query04 :2.788 seconds
+Execution time for little query05 :4.463 seconds
+Execution time for little query06 :1.556 seconds
+
+Execution time for little query01 :3.692 seconds
+Execution time for little query02 :1.21 seconds
+Execution time for little query03 :1.412 seconds
+Execution time for little query04 :2.465 seconds
+Execution time for little query05 :4.395 seconds
+Execution time for little query06 :1.345 seconds
+
+
+Execution time for little query01 :3.139 seconds
+Execution time for little query02 :1.197 seconds
+Execution time for little query03 :1.6 seconds
+Execution time for little query04 :2.045 seconds
+Execution time for little query05 :4.319 seconds
+Execution time for little query06 :1.3 seconds
+
+
+Execution time for little query01 :3.038 seconds
+Execution time for little query02 :1.333 seconds
+Execution time for little query03 :1.399 seconds
+Execution time for little query04 :2.057 seconds
+Execution time for little query05 :4.608 seconds
+Execution time for little query06 :1.722 seconds
+
+
+Execution time for little query01 :3.379 seconds
+Execution time for little query02 :1.198 seconds
+Execution time for little query03 :1.433 seconds
+Execution time for little query04 :2.313 seconds
+Execution time for little query05 :4.151 seconds
+Execution time for little query06 :1.644 seconds
+
+Execution time for little query01 :3.351 seconds
+Execution time for little query02 :1.401 seconds
+Execution time for little query03 :1.334 seconds
+Execution time for little query04 :2.388 seconds
+Execution time for little query05 :5.053 seconds
+Execution time for little query06 :1.478 seconds
+
+Execution time for little query01 :3.087 seconds
+Execution time for little query02 :1.254 seconds
+Execution time for little query03 :1.403 seconds
+Execution time for little query04 :2.01 seconds
+Execution time for little query05 :4.442 seconds
+Execution time for little query06 :1.435 seconds
+
+Execution time for little query01 :3.035 seconds
+Execution time for little query02 :1.168 seconds
+Execution time for little query03 :1.301 seconds
+Execution time for little query04 :2.632 seconds
+Execution time for little query05 :4.065 seconds
+Execution time for little query06 :1.199 seconds
+
+Execution time for little query01 :3.316 seconds
+Execution time for little query02 :1.232 seconds
+Execution time for little query03 :1.324 seconds
+Execution time for little query04 :3.086 seconds
+Execution time for little query05 :5.407 seconds
+Execution time for little query06 :2.768 seconds
+
+Execution time for little query01 :3.309 seconds
+Execution time for little query02 :1.3 seconds
+Execution time for little query03 :1.545 seconds
+Execution time for little query04 :3.11 seconds
+Execution time for little query05 :5.605 seconds
+Execution time for little query06 :3.008 seconds
+
+Execution time for little query01 :2.926 seconds
+Execution time for little query02 :1.22 seconds
+Execution time for little query03 :1.402 seconds
+Execution time for little query04 :2.343 seconds
+Execution time for little query05 :4.108 seconds
+Execution time for little query06 :1.945 seconds
+
+
+Execution time for little query01 :2.94 seconds
+Execution time for little query02 :1.188 seconds
+Execution time for little query03 :1.411 seconds
+Execution time for little query04 :2.491 seconds
+Execution time for little query05 :4.007 seconds
+Execution time for little query06 :1.389 seconds
+
+Execution time for little query01 :3.317 seconds
+Execution time for little query02 :1.122 seconds
+Execution time for little query03 :1.32 seconds
+Execution time for little query04 :2.357 seconds
+Execution time for little query05 :4.219 seconds
+Execution time for little query06 :1.21 seconds
